@@ -160,4 +160,4 @@ cython_debug/
 #.idea/
 
 
-/Step 4 - Prepare VASP runs/vasp_input/PP/
+/prepareVASPRuns/vasp_input/PP/
