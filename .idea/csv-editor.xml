@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/calculateEnthalpy/data/output_data/tertiary_bcc_bokas_out.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/calculateEnthalpy/data/quartenary_bcc_bokas_out.csv">
           <value>
             <Attribute>

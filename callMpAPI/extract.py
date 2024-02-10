@@ -4,29 +4,15 @@ from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 from pymatgen.core.structure import Structure
 from tqdm import tqdm
 
+from utils import *
+
 """Goal of this script is to take in a set of elements, a specific spacegroup and return the structure,
 mpid and other useful information"""
 
 """First let us define a few helper functions. We will move these functions to an utils file when finished with
 project."""
 
-def getAPIKey(api_key_file: str='api_key.txt') -> str:
-    """
-    Gets API key for MP from a text file to be filled by user.
-    :param api_key_file: str to file path, usually in same directory
-    :return: str of APIkey
-    """
-    with open(api_key_file, 'r') as f:
-        return f.read()
 
-def convert_to_conventional(structure: Structure) -> Structure:
-    """
-    Given a primitive structure it converts to conventional setting
-    :param structure: Pymatgen primitive structure
-    :return: Pymatgen conventional structure
-    """
-    SGA = SpacegroupAnalyzer(structure)
-    return SGA.get_conventional_standard_structure()
 
 
 """
