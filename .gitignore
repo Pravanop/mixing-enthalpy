@@ -160,4 +160,5 @@ cython_debug/
 #.idea/
 
 
-/prepareVASPRuns/vasp_input/PP/
+/PP/
+/Outputs/

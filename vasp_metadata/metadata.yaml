@@ -1,0 +1,19 @@
+file: Metadata
+incar:
+  path : "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/vasp_metadata/INCAR.json"
+  update: "None" #Can change this line to a dict format, as shown for static dict in __init__.py
+potcar:
+  path: "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/PP" #FOR INTERNAL USE ONLY. DO NOT SHARE THIS FOLDER
+  functional: "PBE.54" # LDA, PBE, PBE.54. Preferred to use PBE.54
+  base_path: "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/vasp_metadata/base.yaml"
+kpoint:
+  static_mult: 2 #Increasing the kpoint grid by an int value. For ex, ionic step: (4, 4 ,4) -> static step: (8, 8, 8)
+  grid: [2, 1, 1] #Should be a list
+  type: "Gamma" # Gamma and Monkhorst options available
+runjob:
+  supercomputer: "stampede" #expanse, RIS, stampede. Only expanse available as of now.
+  comp_name: "shared" #depends on supercomputer, shared is best
+  nodes: 1
+  cores: 96
+  hours: 3
+published: True
