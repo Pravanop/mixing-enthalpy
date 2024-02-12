@@ -1,0 +1,42 @@
+#Run all jobs in a directory
+
+for i in *;do cd $i; sbatch runjob; cd ..;done #can change * to a specific set of directories too
+
+#Check which jobs have converged in a directory
+
+grep "reached accuracy" */stdout
+
+#re-run jobs that have not converged in a directory
+
+for i in *;do cd $i; cp CONTCAR POSCAR; sbatch runjob; cd ..; done
+
+#Once relaxation is done, run static step
+
+for i in *; do cd $i; cp CONTCAR static/POSCAR; cd static; sbatch runjob; cd ..; cd ..; done
+
+#once everything is done, take the final OUTCAR into a post-processing step
+
+mkdir results
+for i in *;do cp $i/static/OUTCAR results/$i.outcar;done
+
+General Tips:
+- The fastest way to do high-throughput calculations with a good manual hold is to run all the jobs first.
+- Then check which jobs have converged.
+- Move the converged jobs to another folder for later processing (call this folder relaxed, call the previous folder
+unrelaxed)
+- Then re-run whatever needs to be rerun. You should check if the reason is because EDIFF is too high, and cp CONTCAR
+POSCAR is the solution.
+- in the relaxed folder, run all the static calculations, and you can collect everything for post-processing.
+- Do this in batches, and things should move smoothly.
+
+- A general folder structure should be:
+
+- Project_name
+    |_ Sub-project1_name
+        |_ relaxed (initially empty)
+        |_ unrelaxed (contains all vaspruns)
+    |_ Sub-project2_name
+        |_ ....
+
+
+

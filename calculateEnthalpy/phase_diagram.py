@@ -10,8 +10,14 @@ from tqdm import tqdm
 
 from thermo_math import gibbs_energy
 
-def make_PD_per_comp(comp , dump_dict, temperature = 1000) :
-	
+def make_PD_per_comp(comp , dump_dict , temperature = 1000) :
+	"""
+	This should be an user-facing function in the future.
+	:param comp:
+	:param dump_dict:
+	:param temperature:
+	:return:
+	"""
 	# comp is "El1-El2-EL3"
 	ele_list = comp.split('-')
 	n_alloy = len(ele_list)
@@ -26,8 +32,10 @@ def make_PD_per_comp(comp , dump_dict, temperature = 1000) :
 			
 			# equimolar
 			name = Composition(subset_comp.replace('-' , ''))
-			pd_entry_input[name] = gibbs_energy(temp_subset['mix_enthalpy'], temp_subset['config_entropy'],
-			                                    temperature) * name.num_atoms
+			pd_entry_input[name] = gibbs_energy(
+					temp_subset['mix_enthalpy'] , temp_subset['config_entropy'] ,
+					temperature
+					) * name.num_atoms
 			
 			# intermetallics
 			if "intermetallic" in temp_subset :
@@ -49,12 +57,14 @@ def make_PD_per_comp(comp , dump_dict, temperature = 1000) :
 
 def make_phaseDiagram(out_file_name: str = "bokas" , lattice: str = "bcc") :
 	"""
-	the main function which finishes this step. Creates and stores all the phase diagrams. TODO async multiple processes
+	the main function which finishes this step. Creates and stores all the phase diagrams. TODO async multiple
+	processes
 	:param out_file_name:
 	:param lattice:
 	"""
 	with open(
-			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/dump_20240209-164939_intermetallic.json" ,
+			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data"
+			"/dump_20240209-164939_intermetallic.json" ,
 			'r'
 			) as f :
 		dump_dict = json.load(f)
