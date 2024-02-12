@@ -42,6 +42,7 @@ def runjob(metadata, named_output_folder_path, name):
 		runjob_lines += f"#SBATCH --nodes={runjob_meta['nodes']}\n"
 		runjob_lines += f"#SBATCH --ntasks-per-node={runjob_meta['cores']}\n"
 		runjob_lines += f"#SBATCH --account=tg-dmr160007\n"
+		runjob_lines += f"#SBATCH --mem=0\n"
 		runjob_lines += f"module purge\nmodule load cpu/0.15.4\n"
 		runjob_lines += f"module load  intel/19.1.1.217\nmodule load slurm\n"
 		runjob_lines += f"module load intel-mkl/2019.1.144\n"
