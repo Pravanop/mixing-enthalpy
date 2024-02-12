@@ -1,3 +1,5 @@
+from typing import Literal
+
 import numpy as np
 import pymatgen.core.structure
 from pymatgen.core.structure import Structure
@@ -9,32 +11,33 @@ Contributor : Pravan Omprakash
 
 def load_structure(path: str = "") :
 	"""
-	
+
 	:param path:
 	:return:
 	"""
 	return Structure.from_file(path)
 
-def get_parameters(s : pymatgen.core.structure.Structure) :
+def get_parameters(s: pymatgen.core.structure.Structure) -> (np.array , np.array) :
 	"""
-	
+
 	:param s:
 	:return:
 	"""
 	positions = s.frac_coords
 	lattice = s.lattice.matrix
 	elements = s.sites
-	return lattice , positions , elements
+	return lattice , elements
 
 def write_rndstr(
 		structure: pymatgen.core.structure.Structure ,
 		output_path: str ,
 		doping_percent: float ,
 		doping_ele: str ,
-		doping_site: str
+		doping_site: str,
+		coord_type: Literal['frac', 'cart'] = 'cart'
 		) :
 	"""
-	
+
 	:param structure:
 	:param supercell:
 	:param output_path:
@@ -45,7 +48,6 @@ def write_rndstr(
 	"""
 	
 	params = get_parameters(structure)
-	
 	# lattice lines
 	lines = ""
 	for i in params[0] :
@@ -57,19 +59,23 @@ def write_rndstr(
 	lines += f"0.0 0.0 1\n"
 	
 	# coordinates lines
-	for i in params[2] :
-		if str(i.specie) == doping_site :
+	for site in params[1] :
+		if coord_type == 'cart':
+			coords = [site.x, site.y, site.x] #cartesian coords
+		else:
+			coords = site.frac_coords #it seems to depend on the system
+			
+		if str(site.specie) == doping_site :
 			lines += (
-					f"{np.round(i.x , 3)} {np.round(i.y , 3)} {np.round(i.z , 3)} {i.specie}="
+					f"{np.round(coords[0] , 3)} {np.round(coords[1] , 3)} {np.round(coords[2] , 3)} {site.specie}="
 					f"{1 - doping_percent / 100}"
 					f",{doping_ele}"
 					f"={doping_percent / 100}\n")
 		else :
-			lines += f"{np.round(i.x , 3)} {np.round(i.y , 3)} {np.round(i.z , 3)} {i.specie}\n"
+			lines += f"{np.round(coords[0] , 3)} {np.round(coords[1] , 3)} {np.round(coords[2] , 3)} {site.specie}\n"
 	
 	with open(f'{output_path}/rndstr.in' , 'w') as file :
 		file.write(lines)
-
 
 def write_sqscellout(
 		supercell: list[int , int , int] ,

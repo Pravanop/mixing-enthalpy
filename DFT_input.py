@@ -79,7 +79,8 @@ if benchmark['3']:
 				output_path = out_file_path ,
 				doping_percent = main_input['sqs']['doping_percent'] ,
 				doping_site = first_ele ,
-				doping_ele = second_ele
+				doping_ele = second_ele,
+				coord_type = main_input['sqs']['coord_type']
 				)
 		
 		write_sqscellout(

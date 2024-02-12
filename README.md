@@ -18,12 +18,14 @@ The important tags to update are:
 - element_list : A list of strings that contain the element space you are interested in.
 - lattice : The crystal system the binaries will be created for. Options: 'BCC', 'FCC', 'HCP', 'SC'
 - doping_percent: The mole fraction in the binary. Set to 50 for most purposes.
+- coord_type: The creation of rndstr.in with fractional or cartesian coords seems to change the convergence of the 
+  effect. Incase, the sqs doesn't retrieve fast outputs, please change the type and try again.
 - supercell: Depending on the crystal system, different sizes needed to be provided. Recommended : BCC: [3, 2, 2], 
   FCC: [3, 2, 1]
 - corrdump_path and mcsqs_path: This code works alongwith the ATAT code for creating SQS alloys. You can download 
   ATAT from here: . Follow the instructions to install ATAT. Then update the executable files for 'corrdump' and 
   'mcsqs' for these tags.
-- run_vasp : **For Internal Group Use**  Set to true and it will create vaspruns based on the metadata in .
+- run_vasp : **For Internal Group Use**  Set to true, and it will create vaspruns based on the metadata in .
   /vasp_metadata
 <br> <br>
 

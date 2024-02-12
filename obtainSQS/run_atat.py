@@ -12,8 +12,8 @@ import time
 import re
 
 def run_corrdump(
-		corrdump_path: str,
-		path_dir: str,
+		corrdump_path: str ,
+		path_dir: str ,
 		pair_interaction: float = 2.4 ,
 		triplet_interaction: float = 3.0
 		) :
@@ -31,8 +31,8 @@ def run_corrdump(
 	return stdout
 
 def run_mcsqs(
-		mcsqs_path: str,
-		path_dir: str, ) -> subprocess.Popen :
+		mcsqs_path: str ,
+		path_dir: str , ) -> subprocess.Popen :
 	"""
 	
 	:param mcsqs_path:
@@ -43,18 +43,21 @@ def run_mcsqs(
 	command = f"{mcsqs} -rc"
 	process = subprocess.Popen(command , shell = True , stdout = subprocess.PIPE)
 	time.sleep(5)
+	check_mcsqs(path_dir)
 	check = True
 	start = time.time()
 	while check :
+		obj_check = check_mcsqs(path_dir = path_dir)
 		stop = time.time()
-		if stop - start >= 60 :
+		if stop - start >= 40 :
 			check = False
-			if process.poll() is None :
-				os.killpg(os.getpgid(process.pid) , signal.SIGTERM)
-		if check_mcsqs(path_dir = path_dir) :
+			process.kill()
+			process.communicate()
+		if obj_check :
 			check = False
-			if process.poll() is None :
-				os.killpg(os.getpgid(process.pid) , signal.SIGTERM)
+			process.kill()
+			process.communicate()
+		time.sleep(1)
 	
 	return process
 
@@ -72,9 +75,14 @@ def check_mcsqs(path_dir: str) :
 		return True
 	
 	else :
-		best_obj = lines[-1]
-		obj = re.search(pattern = '.*(-[0-9]\.[0-9]+)' , string = best_obj).group(1)
-		if obj < -1 :
+		best_obj = lines[-2]
+		try :
+			obj = re.search(pattern = '.*(-[0-9]\.[0-9]+)' , string = best_obj).group(1)  # if the objective function
+		# has not been reached yet
+		except :
+			obj = 0
+		
+		if float(obj) < -1 :
 			return True
 		else :
 			return False
@@ -93,17 +101,17 @@ def runsqs(
 	:return:
 	"""
 	stdout_corrdump = run_corrdump(
-		path_dir = path_dir,
-		corrdump_path = corrdump_path ,
-		pair_interaction = pair_interaction ,
-		triplet_interaction = triplet_interaction
-		)
+			path_dir = path_dir ,
+			corrdump_path = corrdump_path ,
+			pair_interaction = pair_interaction ,
+			triplet_interaction = triplet_interaction
+			)
 	
 	assert stdout_corrdump.returncode == 0
 	stdout_mcsqs = run_mcsqs(
-		mcsqs_path = mcsqs_path ,
-		path_dir = path_dir
-		)
+			mcsqs_path = mcsqs_path ,
+			path_dir = path_dir
+			)
 	assert stdout_mcsqs.returncode == 0
 	
 	return True
