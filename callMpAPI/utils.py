@@ -1,6 +1,6 @@
 from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 from pymatgen.core.structure import Structure
-def getAPIKey(api_key_file: str='/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/callMpAPI/api_key.txt') -> str:
+def getAPIKey(api_key_file: str='callMpAPI/api_key.txt') -> str:
     """
     Gets API key for MP from a text file to be filled by user.
     :param api_key_file: str to file path, usually in same directory

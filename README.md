@@ -8,6 +8,10 @@ To pull this repository:
 git@github.com/Pravanop/mixing-enthalpy.git
 cd mixing-enthalpy
 ```
+Create a virtual environment, and then run
+```commandline
+pip install -r ./requirements.txt
+```
 ## Step 1
 
 Modifying input.yaml  <br> <br>

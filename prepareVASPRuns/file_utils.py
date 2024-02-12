@@ -2,8 +2,14 @@ import os
 import json
 import yaml
 import shutil
+import numpy as np
 
 def load_yaml_to_dict(yaml_file_path) :
+	"""
+	
+	:param yaml_file_path:
+	:return:
+	"""
 	try :
 		with open(yaml_file_path , 'r') as file :
 			data = yaml.safe_load(file)
@@ -16,6 +22,11 @@ def load_yaml_to_dict(yaml_file_path) :
 		print(f"An error occurred: {e}")
 
 def load_json_to_dict(json_file_path) :
+	"""
+
+	:param json_file_path:
+	:return:
+	"""
 	try :
 		with open(json_file_path , 'r') as file :
 			data = json.load(file)
@@ -28,6 +39,11 @@ def load_json_to_dict(json_file_path) :
 		print(f"An error occurred: {e}")
 
 def concatenate_files(file_paths , output_file_path) :
+	"""
+
+	:param file_paths:
+	:param output_file_path:
+	"""
 	try :
 		with open(output_file_path , 'w') as output_file :
 			for file_path in file_paths :
@@ -38,9 +54,15 @@ def concatenate_files(file_paths , output_file_path) :
 	except Exception as e :
 		print(f"An unexpected error occurred: {e}")
 
-def get_element_symbols(structure) :
-	element_symbols = [site.specie.symbol for site in structure]
-	return list(set(element_symbols))
+def get_element_symbols(structure):
+    """
+
+    :param structure:
+    :return:
+    """
+    element_symbols = np.array([site.specie.symbol for site in structure])
+    _, idx = np.unique(element_symbols, return_index=True)
+    return element_symbols[np.sort(idx)]
 
 def get_filename_without_extension(file_path) :
 	base_name = os.path.basename(file_path)

@@ -15,7 +15,7 @@ from obtainSQS.run_atat import runsqs
 from obtainSQS.sqs2poscar import sqs2POSCAR
 from prepareVASPRuns.main import create_vasprun
 from prepareVASPRuns.file_utils import load_yaml_to_dict
-# Let us take in the input as an yaml file, but for now put everything together here.
+
 
 main_input = load_yaml_to_dict("input.yaml")
 
@@ -37,7 +37,7 @@ if os.path.exists(out_file_path):
 	benchmark['1'] = False
 	
 if benchmark['1']:
-	mpr = MPRester(api_key = getAPIKey() , mute_progress_bars = True)
+	mpr = MPRester(api_key = getAPIKey(f"{main_input['abs_path']}/callMpAPI/api_key.txt") , mute_progress_bars = True)
 	ele_dict = eleList_to_POSCAR(
 			mpr = mpr ,
 			element_list = main_input['element_list'] ,
