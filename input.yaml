@@ -1,5 +1,5 @@
 file : main_input
-element_list : ['Al' , 'Co' , 'Cr' , 'Cu']
+element_list : ['Al' , 'Ta' , 'Mo' , 'Cr']
 abs_path : "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy"
 mp-api:
   lattice : 'BCC' # BCC, FCC, HCP, SC

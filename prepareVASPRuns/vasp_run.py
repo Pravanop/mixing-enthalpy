@@ -13,7 +13,7 @@ def KPOINTS(metadata, named_output_folder_path, name):
 	lines += f"Comment: {metadata['kpoint']['type']} grid for {name}\n"
 	lines += "0           Automatic generation of k-points\n"
 	lines += f"{metadata['kpoint']['type']}\n"
-	lines += f"{grid[0]} {grid[1]} {grid[0]}\n"
+	lines += f"{grid[0]} {grid[1]} {grid[2]}\n"
 	kpoints_file_path = f"{named_output_folder_path}KPOINTS"
 	string_to_file(lines , kpoints_file_path)
 	

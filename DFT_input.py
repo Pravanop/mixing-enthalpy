@@ -26,7 +26,7 @@ benchmark = {
 		'4': True,
 		'5': True
 		}
-main_output_folder = f"{main_input['abs_path']}/Outputs/"
+main_output_folder = f"{main_input['abs_path']}/Outputs_{main_input['lattice']}/"
 if not os.path.exists(main_output_folder) :
 	os.mkdir(main_output_folder)
 """
