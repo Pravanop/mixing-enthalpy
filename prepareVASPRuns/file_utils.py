@@ -1,15 +1,11 @@
 import os
 import json
+
+import numpy as np
 import yaml
 import shutil
-import numpy as np
 
 def load_yaml_to_dict(yaml_file_path) :
-	"""
-
-	:param yaml_file_path:
-	:return:
-	"""
 	try :
 		with open(yaml_file_path , 'r') as file :
 			data = yaml.safe_load(file)
@@ -22,11 +18,6 @@ def load_yaml_to_dict(yaml_file_path) :
 		print(f"An error occurred: {e}")
 
 def load_json_to_dict(json_file_path) :
-	"""
-
-	:param json_file_path:
-	:return:
-	"""
 	try :
 		with open(json_file_path , 'r') as file :
 			data = json.load(file)
@@ -39,11 +30,6 @@ def load_json_to_dict(json_file_path) :
 		print(f"An error occurred: {e}")
 
 def concatenate_files(file_paths , output_file_path) :
-	"""
-
-	:param file_paths:
-	:param output_file_path:
-	"""
 	try :
 		with open(output_file_path , 'w') as output_file :
 			for file_path in file_paths :
@@ -55,16 +41,19 @@ def concatenate_files(file_paths , output_file_path) :
 		print(f"An unexpected error occurred: {e}")
 
 def get_element_symbols(structure) :
-	"""
-
-	:param structure:
-	:return:
-	"""
-	element_symbols = np.array([site.specie.symbol for site in structure])
-	_ , idx = np.unique(element_symbols , return_index = True)
-	return element_symbols[np.sort(idx)]
+	element_symbols = [site.specie.symbol for site in structure]
+	my_dict = {i : element_symbols.count(i) for i in element_symbols}
+	_ , idx = np.unique(np.array(element_symbols) , return_index = True)
+	species = np.array(element_symbols)[np.sort(idx)]
+	species_count = {i : element_symbols.count(i) for i in species}
+	return species , species_count
 
 def get_filename_without_extension(file_path) :
+	"""
+
+	:param file_path:
+	:return:
+	"""
 	base_name = os.path.basename(file_path)
 	file_name , _ = os.path.splitext(base_name)
 	return file_name
@@ -72,6 +61,8 @@ def get_filename_without_extension(file_path) :
 def create_directory(directory_path) :
 	if not os.path.exists(directory_path) :
 		os.makedirs(directory_path)
+	else :
+		print(f"Directory already exists: {directory_path}")
 
 def string_to_file(text , file_path) :
 	with open(file_path , 'w') as file :

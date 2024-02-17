@@ -10,12 +10,13 @@ potcar:
   base_path: "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/vasp_metadata/base.yaml"
 kpoint:
   static_mult: 1 #Increasing the kpoint grid by an int value. For ex, ionic step: (4, 4 ,4) -> static step: (8, 8, 8)
-  grid: [6, 4, 4] #Should be a list
-  type: "Monkhorst" # Gamma and Monkhorst options available
+  grid: [6, 6, 6] #Should be a list
+  type: "Gamma" # Gamma and Monkhorst options available
 runjob:
   supercomputer: "expanse" #expanse, RIS, stampede. Only expanse available as of now.
   comp_name: "shared" #depends on supercomputer, shared is best
   nodes: 1
   cores: 96
   hours: 3
+  vasp_type: std
 published: True

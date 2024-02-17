@@ -10,8 +10,11 @@ cd mixing-enthalpy
 ```
 Create a virtual environment, and then run
 ```commandline
+python3.9 -m venv env
+source env/bin/activate
 pip install -r ./requirements.txt
 ```
+You might have to configure your interpreter settings in the IDE to point to the right env location
 ## Step 1
 
 Modifying input.yaml  <br> <br>

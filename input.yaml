@@ -1,13 +1,14 @@
 file : main_input
-element_list : ['Al' , 'Ta' , 'Mo' , 'Cr']
+element_list : ['Cr', 'Ti', 'V', 'Mn', 'Fe', 'Ta', 'W', 'Hf']
 abs_path : "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy"
 mp-api:
-  lattice : 'BCC' # BCC, FCC, HCP, SC
+  lattice : 'FCC' # BCC, FCC, HCP, SC
   xc_functional: "GGA_GGA+U"
 sqs:
   doping_percent : 50 # in percentage
-  supercell : [3, 2, 2]
-  coord_type: 'cart' #options are 'cart' or 'frac'
+  supercell : [2, 2, 2]
+  coord_type: 'frac' #options are 'cart' or 'frac'. 'cart' works for BCC, 'frac' works for FCC. the actual reason is
+  #unknown
   pair_interaction : 2.4 # should ideally be calculated
   triplet_interaction : 3.0 # should ideally be calculated
   corrdump_path : "/Users/pravanomprakash/Documents/Projects/atat/corrdump"
