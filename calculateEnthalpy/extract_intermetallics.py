@@ -19,7 +19,7 @@ def intermetallic_sorter(n_nary_dict , docs) :
 	for idx , doc in enumerate(docs) :
 		
 		temp_dict = {
-				'formula_pretty'            : doc.formula_pretty ,
+				'formula_pretty'            : str(doc.composition.fractional_composition) ,
 				'formation_energy_per_atom' : doc.formation_energy_per_atom ,
 				'energy_above_hull'         : doc.energy_above_hull
 				}
@@ -56,8 +56,8 @@ def extract_intermetallics():
 	:return:
 	"""
 	
-	mpr = MPRester(api_key = getAPIKey())
-	fields = ['formula_pretty' , 'formation_energy_per_atom' , 'energy_above_hull' , 'chemsys']
+	mpr = MPRester(api_key = getAPIKey("/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/callMpAPI/api_key.txt"))
+	fields = ['composition' , 'formation_energy_per_atom' , 'energy_above_hull' , 'chemsys']
 	
 	with open(
 			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/dump_20240209"
@@ -91,3 +91,6 @@ def extract_intermetallics():
 	
 	with open(f'data/output_data/dump_{time.strftime("%Y%m%d-%H%M%S")}_intermetallic.json' , 'w') as f :
 		json.dump(dump_dict , f , ensure_ascii = False , indent = 4)
+
+
+extract_intermetallics()
