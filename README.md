@@ -59,3 +59,18 @@ python DFT_input.py
 ```
 
 For further steps, the energies from VASP runs have to be added manually. **[WIP]**
+
+## PART 2
+Scripts to create phase diagrams, intermetallics, higher order enthalpy values have been created in calcEnthalpy. 
+They need a mixing enthalpy dataset got from Part 1 and DFT calculations of this project.
+
+A UI is now ready!
+To run the UI, ensure that streamlit is installed in python (Check requirements.txt)
+```commandline
+streamlit run app.py
+```
+This will open up in your browser, and you can play around with it. 
+This script is not bug free, especially in terms of absolute paths. It is recommended to check if any of my paths 
+are laying dormant in the code, and you can change it. The UX as of itself, is quite robust with error handling 
+taken care of. <br>
+THE UI IS A **WIP**.

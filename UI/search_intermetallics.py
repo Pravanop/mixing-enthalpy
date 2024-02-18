@@ -18,6 +18,7 @@ class search() :
 			path: str = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data"
 			            "/dump_20240217"
 			            "-165153_intermetallic.json" ,
+			element_list_path : str = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/input_data/element_list_bcc_bokas.txt",
 			**kwargs
 			) :
 		inp.sort()
@@ -27,16 +28,21 @@ class search() :
 		self.n_nary_map = {
 				'binary'     : 2 ,
 				'ternary'    : 3 ,
-				'quartenary' : 4 ,
+				'quaternary' : 4 ,
 				'quinary'    : 5
 				}
 		
-		if kwargs['combinations'] :
-			self.combinations = kwargs['combinations']
-		
 		with open(path , 'r') as f :
 			self.intermetallic_dict = json.load(f)
-	
+		with open(element_list_path, 'r') as f:
+			self.element_total_list = f.read()
+		
+		self.element_total_list = self.element_total_list.split(',')
+		check = set(self.ele_list) <= set(self.element_total_list)
+		if not check:
+			raise ValueError(f"Element(s) "
+			                 f"{', '.join(list(set(self.ele_list).difference(set(self.element_total_list))))} not in "
+			                 f"database.")
 	def search_comp(self , ele_list) :
 		primary_key = str(len(ele_list))
 		secondary_key = "-".join(ele_list)
@@ -52,14 +58,19 @@ class search() :
 		"""
 
 		"""
+		if len(self.ele_list) > 5:
+			return "Sorry! We currently do not have compositions greater than quinary!"
 		answer = self.search_comp(self.ele_list)
 		are = ''
 		for key , value in answer.items() :
-			are += str(key) + ': ' + str(value) + ","
+			are += str(key) + ' : ' + str(value) + " , "
 		return are
 	
 	@property
 	def search_all_intermetallics(self) -> Union[pd.DataFrame , str] :
+		
+		if len(self.ele_list) > 5:
+			return "Sorry! We currently do not have compositions greater than quinary!"
 		try :
 			result = self.intermetallic_dict[self.primary_key][self.secondary_key]['intermetallic']
 			result_df = pd.DataFrame.from_dict(result , orient = 'columns')
@@ -67,39 +78,43 @@ class search() :
 		except KeyError as e :
 			return "There are no intermetallics from materials project database"
 	
-	def search_combinations(self) -> Union[str , DataFrame] :
+	def search_combinations(self, combinations: list[str]) -> Union[str , DataFrame] :
 		"""
 
 		:return:
 		"""
-		if self.combinations is str :
-			no_combs = [self.combinations]
+		self.combinations = combinations
+		while None in self.combinations:
+			self.combinations.remove(None)
+		
+		if self.combinations:
+			if self.combinations is str :
+				no_combs = [self.combinations]
+			else:
+				no_combs = [self.n_nary_map[i] for i in self.combinations]
+			
+			if any(y > int(self.primary_key) for y in no_combs) :
+				greater = [i for i in no_combs if i > int(self.primary_key)]
+				[no_combs.remove(i) for i in greater]
+				if not no_combs:
+					return "You have asked for an illegal combination. Please try again."
+			
+			combs = create_multinary(self.ele_list , no_comb = no_combs)
+			total_combs = list(itertools.chain.from_iterable(combs))
+			ele_lists = [i.split('-') for i in total_combs]
+			answer = []
+			for ele_list in ele_lists :
+				answer.append(self.search_comp(ele_list))
+			
+			df = pd.DataFrame(answer)
+			if df.empty :
+				return "Could not find the combination(s) you were looking for."
+			else :
+				return df
 		else:
-			no_combs = [self.n_nary_map[i] for i in self.combinations]
-		
-		if any(y > int(self.primary_key) for y in no_combs) :
-			greater = [i for i in no_combs if i > int(self.primary_key)]
-			[no_combs.remove(i) for i in greater]
-			print("You have asked for an illegal combination. Please try again.")
-		
-		combs = create_multinary(self.ele_list , no_comb = no_combs)
-		total_combs = list(itertools.chain.from_iterable(combs))
-		ele_lists = [i.split('-') for i in total_combs]
-		answer = []
-		for ele_list in ele_lists :
-			answer.append(self.search_comp(ele_list))
-		
-		df = pd.DataFrame(answer)
-		if df.empty :
-			return "Could not find the combination(s) you were looking for."
-		else :
-			return df
+			return "Please pick a combination!"
 	
 	def get_phase_diagram(self, temperature):
 		
 		answer = make_PD_per_comp(self.secondary_key, self.intermetallic_dict, temperature)
 		return answer
-
-search_inst = search(inp = ['Cr' , 'Mo' , 'Ta' , 'Pd'] , combinations = ['binary' , 'ternary'])
-
-print(search_inst.get_phase_diagram(temperature = 1000))

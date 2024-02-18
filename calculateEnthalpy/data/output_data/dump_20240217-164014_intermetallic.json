@@ -1,0 +1,8 @@
+{
+    "3": {
+        "Ag-Al-Au": {
+            "mix_enthalpy": -0.1688889,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": 
