@@ -2,8 +2,8 @@ from prepareVASPRuns.main import create_vasprun
 import os
 from tqdm import tqdm
 
-sqs_results_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Outputs_off_equimolar/TaW"
-vasp_runs_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Outputs_off_equimolar/TaW_vasp"
+sqs_results_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Outputs_off_equimolar/CrTa"
+vasp_runs_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Outputs_off_equimolar/CrTa_vasp"
 
 lsqs_poscar = os.listdir(sqs_results_path)
 

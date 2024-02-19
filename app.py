@@ -48,6 +48,7 @@ if user_inp and check:
 	
 	with col2:
 		if st.session_state.clicked[2] :
+			print(st.session_state.clicked[2])
 			invalid = False
 			try :
 				search_inst = search_composition(inp = ele_list_user_inp)
@@ -66,8 +67,8 @@ if user_inp and check:
 					while None in find :
 						find.remove(None)
 					try :
-						search_inst = search_any(inp = ele_list_user_inp , find = find)
-						answer = search_inst.search_all_contains
+						search_inst_any = search_any(inp = ele_list_user_inp , find = find)
+						answer = search_inst_any.search_all_contains
 						if isinstance(answer, str):
 							st.write(answer)
 						else:
