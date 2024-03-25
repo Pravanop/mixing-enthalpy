@@ -14,7 +14,7 @@
     "ISYM":0,
     "ISMEAR": -5,
     "SIGMA":0.01,
-    "ALGO":"Fast",
+    "ALGO":"Normal",
     "LREAL":"auto",
     "NCORE": "16"
 }

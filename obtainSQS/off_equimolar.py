@@ -3,6 +3,8 @@ from obtainSQS.main import write_rndstr , write_sqscellout
 from obtainSQS.sqs2poscar import sqs2POSCAR
 from obtainSQS.run_atat import runsqs
 import os
+from tqdm import tqdm
+import shutil
 
 def obtainSQS_off_equimolar(
 		file_path: str ,
@@ -53,13 +55,30 @@ def obtainSQS_off_equimolar(
 				output_file_path = f"{out_file_path}/{project_name}"
 				)
 
-file_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Outputs_BCC/ele_POSCARs/Ta_BCC.vasp"
-out_file_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Outputs_off_equimolar/"
-system = "TaW"
-element_list = ['Ta' , 'W']
+
+start = "Ti"
+end = "Hf"
+lattice = "BCC"
+file_path = f"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Outputs_BCC/ele_POSCARs/{start}_{lattice}.vasp"
+out_file_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Outputs_off_equimolar_BCC/"
+system = f"{start}{end}"
+os.mkdir(f"{out_file_path}{system}")
+element_list = [start , end]
 obtainSQS_off_equimolar(
-	file_path = file_path ,
-	out_folder_path = out_file_path ,
-	system = system ,
-	elements = element_list
-	)
+		file_path = file_path ,
+		out_folder_path = f"{out_file_path}{system}/" ,
+		system = system ,
+		elements = element_list
+		)
+
+lsqs = os.listdir(f"{out_file_path}{system}")
+if not os.path.exists(f"{out_file_path}{system}_poscar/") :
+	os.mkdir(f"{out_file_path}/{system}_poscar")
+for idx , dir in enumerate(tqdm(lsqs , desc = "Copying SQS POSCARs")) :
+	
+	if ".DS" in dir :
+		continue
+	shutil.copy(
+			src = f"{out_file_path}{system}/{dir}/{dir}.vasp" ,
+			dst = f"{out_file_path}{system}_poscar/{dir}.vasp"
+			)

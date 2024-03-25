@@ -41,7 +41,8 @@ def make_PD_per_comp(comp , dump_dict , temperature = 1000) :
 			if "intermetallic" in temp_subset :
 				for idx3 , intermetallic in enumerate(temp_subset['intermetallic']) :
 					name = Composition(intermetallic['formula_pretty'])
-					pd_entry_input[name] = intermetallic['formation_energy_per_atom'] * name.num_atoms
+					pd_entry_input[name] = intermetallic['formation_energy_per_atom'] * name.num_atoms #Intermetallic
+				# energy does not change with temp!!
 			
 			# elements
 			for ele in ele_list :
