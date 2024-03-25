@@ -3,7 +3,7 @@ from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 from pymatgen.core.structure import Structure
 from tqdm import tqdm
 
-from callMpAPI.utils import convert_to_conventional
+from callMpAPI.utils import convert_to_conventional, convert_to_primitive
 
 """Goal of this script is to take in a set of elements, a specific spacegroup and return the structure,
 mpid and other useful information"""
@@ -29,8 +29,8 @@ def search_mp_with_EleSG(mpr,
         )
     s = docs[0].structure
     mp_id = docs[0].material_id
-    conv_s = convert_to_conventional(s)
-    return {element : conv_s}
+    conv_s = convert_to_primitive(s)
+    return {element : s}
 
 def search_mp_with_hullE(mpr,
                          element: str) -> dict:

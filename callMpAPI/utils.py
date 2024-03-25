@@ -17,3 +17,12 @@ def convert_to_conventional(structure: Structure) -> Structure:
     """
     SGA = SpacegroupAnalyzer(structure)
     return SGA.get_conventional_standard_structure()
+
+def convert_to_primitive(structure: Structure) -> Structure:
+    """
+    Given a structure it converts to primitive setting
+    :param structure: Pymatgen structure
+    :return: Pymatgen conventional structure
+    """
+    SGA = SpacegroupAnalyzer(structure)
+    return SGA.get_primitive_standard_structure()

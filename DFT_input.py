@@ -48,7 +48,7 @@ if benchmark['1'] :
 			extract_style = "sym" ,
 			out_file_path = out_file_path
 			)
-
+# raise ValueError("Stopping here")
 """
 Step 2 - Get all binary pairs for the element list
 """

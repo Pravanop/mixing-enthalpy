@@ -23,7 +23,7 @@ def get_parameters(s: pymatgen.core.structure.Structure) -> (np.array , np.array
 	:param s:
 	:return:
 	"""
-	positions = s.frac_coords
+
 	lattice = s.lattice.matrix
 	elements = s.sites
 	return lattice , elements
@@ -38,6 +38,7 @@ def write_rndstr(
 		) :
 	"""
 
+	:param coord_type:
 	:param structure:
 	:param supercell:
 	:param output_path:
