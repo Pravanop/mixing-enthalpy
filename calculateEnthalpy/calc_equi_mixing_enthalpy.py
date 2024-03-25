@@ -65,7 +65,7 @@ def calc_mixEnthalpy_dataset(
 	
 	binary_dict = load_json(folder_path = folder_path , lattice = lattice , source = source)
 	# access the element list
-	ele_list = extract_ele_list()
+	ele_list = extract_ele_list(folder_path=folder_path, lattice=lattice, source=source) # fixed bug
 	
 	# Step 2
 	print("==========")
@@ -132,4 +132,4 @@ def calc_mixEnthalpy_dataset(
 	return results_dict
 
 
-calc_mixEnthalpy_dataset()
+calc_mixEnthalpy_dataset(source="Cr2")

@@ -1,1 +1,0 @@
-Al,Co,Cr,Cu,Fe,Hf,Mn,Mo,Nb,Ni,Ta,Ti,W,Zr,V,Mg,Re,Os,Rh,Ir,Pd,Pt,Ag,Au,Zn,Cd
