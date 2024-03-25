@@ -1,36 +1,43 @@
 from pymatgen.core.structure import Structure
 from tqdm import tqdm
+from prepareVASPRuns.file_utils import *
 from prepareVASPRuns.vasp_run import *
 
 def create_vasprun(
 		inp_file_path: str ,
 		output_folder_path: str ,
-		metadata_path: str = "./metadata/metadata.yaml"
+		metadata_path: str = "./metadata/metadata.yaml" ,
+		incar_update: dict = None ,
+		**kwargs
 		) :
 	"""
 	Main Function to create a vasp_run folder. Makes a main folder for ionic steps with name provided by the input
 	structure and a "static" subdirectory for the electronic calculations.
 
+	:param incar_update:
 	:param inp_file_path: File or folder path. If file path, should be .vasp or .cif file. NO GENERIC NAMES! If
 	folder path, then must contain set of .vasp/.cif files only.
 	:param output_folder_path: Folder path where output folder is stored
 	:param metadata_path: Contains all information needing to create a run. Template is included as default value.
 	"""
+	
 	metadata = load_yaml_to_dict(metadata_path)
+	if incar_update :
+		metadata["incar"]["update"] = incar_update
+	
 	if identify_file(inp_file_path) :
 		loop = [inp_file_path]  # if file
 	else :
 		loop = os.listdir(inp_file_path)
 		loop = [inp_file_path + i for i in loop]  # if folder containing many files
 	
-	for i in loop:
+	for i in loop :
 		
 		name = get_filename_without_extension(i)  # name taken from file, hence no generic names.
 		named_output_folder_path = f"{output_folder_path}/{name}/"
 		create_directory(named_output_folder_path)
 		# POSCAR
-		species = POSCAR(i , named_output_folder_path)
-		
+		species , species_count = POSCAR(i , named_output_folder_path)
 		# KPOINTS
 		KPOINTS(metadata , named_output_folder_path , name)
 		
@@ -66,4 +73,3 @@ def create_vasprun(
 		# Update INCAR settings. Can add more tags for special calculations.
 		metadata["incar"]["update"] = {"ISIF" : "2" , "NSW" : "0" , "EDIFF" : "1E-7"}
 		INCAR(metadata , static_folder_path)
-

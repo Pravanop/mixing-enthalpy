@@ -3,12 +3,12 @@ Creates Phase Diagrams for 325 binaries, 2600 ternaries, 14950 quarternaries, 65
 """
 import json
 import pickle
-from create_alloy_comp import create_multinary
+from calculateEnthalpy.create_alloy_comp import create_multinary
 from pymatgen.core import Composition
 from pymatgen.analysis.phase_diagram import PhaseDiagram , PDEntry
 from tqdm import tqdm
 
-from thermo_math import gibbs_energy
+from calculateEnthalpy.thermo_math import gibbs_energy
 
 def make_PD_per_comp(comp , dump_dict , temperature = 1000) :
 	"""
@@ -63,8 +63,7 @@ def make_phaseDiagram(out_file_name: str = "bokas" , lattice: str = "bcc") :
 	:param lattice:
 	"""
 	with open(
-			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data"
-			"/dump_20240209-164939_intermetallic.json" ,
+			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/dump_20240217-164122_intermetallic.json" ,
 			'r'
 			) as f :
 		dump_dict = json.load(f)
@@ -93,4 +92,4 @@ def make_phaseDiagram(out_file_name: str = "bokas" , lattice: str = "bcc") :
 	
 	print("All phase diagrams have been stored")
 
-make_phaseDiagram()
+# make_phaseDiagram()

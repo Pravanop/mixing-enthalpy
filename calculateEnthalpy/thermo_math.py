@@ -1,8 +1,8 @@
 """This is from Zhang et al., A Fast and Robust Method for Predicting the Phase Stability of Refractory Complex
 Concentrated Alloys Using Pairwise Mixing Enthalpy http://dx.doi.org/10.2139/ssrn.4081906 """
 import numpy as np
-from create_alloy_comp import create_multinary
-from data_utils import extract_binaryEnthalpy
+from calculateEnthalpy.create_alloy_comp import create_multinary
+from calculateEnthalpy.data_utils import extract_binaryEnthalpy
 def calc_pairwiseInteractionParameter(mix_enthalpy: float , mol_i: float , mol_j: float) -> float :
 	"""
 	Function for the Eq. 1 in Zhang et al. A Fast and Robust Method for Predicting the Phase Stability of Refractory

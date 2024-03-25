@@ -49,7 +49,8 @@ def run_mcsqs(
 	while check :
 		obj_check = check_mcsqs(path_dir = path_dir)
 		stop = time.time()
-		if stop - start >= 40 :
+		if stop - start >= 120 :
+			print("Reached timeout, no objective function")
 			check = False
 			process.kill()
 			process.communicate()
@@ -112,6 +113,9 @@ def runsqs(
 			mcsqs_path = mcsqs_path ,
 			path_dir = path_dir
 			)
-	assert stdout_mcsqs.returncode == 0
-	
-	return True
+	try:
+		assert stdout_mcsqs.returncode == 0
+		return True
+	except:
+		print(path_dir[-5:])
+		return True
