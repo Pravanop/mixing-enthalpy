@@ -3,6 +3,8 @@ Concentrated Alloys Using Pairwise Mixing Enthalpy http://dx.doi.org/10.2139/ssr
 import numpy as np
 from calculateEnthalpy.create_alloy_comp import create_multinary
 from calculateEnthalpy.data_utils import extract_binaryEnthalpy
+from scipy.integrate import quad
+
 def calc_pairwiseInteractionParameter(mix_enthalpy: float , mol_i: float , mol_j: float) -> float :
 	"""
 	Function for the Eq. 1 in Zhang et al. A Fast and Robust Method for Predicting the Phase Stability of Refractory
@@ -17,9 +19,11 @@ def calc_pairwiseInteractionParameter(mix_enthalpy: float , mol_i: float , mol_j
 	"""
 	return np.round(mix_enthalpy / (mol_i * mol_j) , 7)
 
-def gibbs_energy(enthalpy: float,
-                 entropy: float,
-                 temperature: float) -> float:
+def gibbs_energy(
+		enthalpy: float ,
+		entropy: float ,
+		temperature: float
+		) -> float :
 	"""
 	Function to implement G = H - TS
 	:param enthalpy: the mixing enthalpy
@@ -27,7 +31,45 @@ def gibbs_energy(enthalpy: float,
 	:param temperature: the desired temperature
 	:return: gibbs free energy
 	"""
-	return np.round(enthalpy - temperature*entropy, 7)
+	return np.round(enthalpy - temperature * entropy , 7)
+
+def vib_gibbs_energy():
+	pass
+
+def debye_function(x: float = 0) -> float :
+	"""
+	
+	:param x: upper limit for function integrand
+	:return:
+	"""
+	debye = 3 / (x ** 3)
+	
+	def integrand(t) -> float :
+		"""
+
+		:param t:
+		:return:
+		"""
+		return (t ** 3) / (np.exp(t) - 1)
+	
+	integral = quad(integrand , 0 , x)[0]
+	return debye * integral
+
+def vibrational_energy(
+		debye_temp: float ,
+		temp: float
+		) -> float :
+	"""
+
+	:param debye_temp:
+	:param temp:
+	:return:
+	"""
+	k_b = 8.617333262e-05
+	x = debye_temp / temp
+	energy = (9 / 8) * k_b * debye_temp
+	energy = energy + k_b * temp * (3 * np.log(1 - np.exp(-x)) - debye_function(x))
+	return energy
 
 def calc_multinary_mixEnthalpy(
 		alloy_comp: str ,
@@ -60,7 +102,8 @@ def calc_multinary_mixEnthalpy(
 				mol_j = 1 - binary_mole_ratio
 				)
 		two_el = binary.split("-")
-		mix_enthalpy += omega_ij * mol_ratio[two_el[0]] * mol_ratio[two_el[1]]  # the implementation of the main formula
+		mix_enthalpy += omega_ij * mol_ratio[two_el[0]] * mol_ratio[two_el[1]]  # the implementation of the main
+	# formula
 	
 	return np.round(mix_enthalpy , 7)
 
@@ -73,7 +116,9 @@ def calc_configEntropy(mol_ratio: dict) -> float :
 	:param mol_ratio: list of floats of mole fraction
 	:return: boltzmann configurational entropy
 	"""
-	assert sum(list(mol_ratio.values())) == 1  # just in case, should be handled internally, but if non-equimolar is used
+	assert sum(
+			list(mol_ratio.values())
+			) == 1  # just in case, should be handled internally, but if non-equimolar is used
 	k_b = 8.617333262e-05
 	return np.round(-k_b * sum([value * np.log(value) for key , value in mol_ratio.items()]) , 7)  # implementation of
 # main formula

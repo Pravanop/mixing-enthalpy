@@ -1,0 +1,1157 @@
+{
+    "3": {
+        "Cr-Fe-Hf": {
+            "mix_enthalpy": 0.1686157,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-Fe-Mn": {
+            "mix_enthalpy": 0.0477682,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Mn2CrFe",
+                    "formation_energy_per_atom": 3.0866152660344834,
+                    "energy_above_hull": 3.0866152660344834
+                }
+            ]
+        },
+        "Cr-Fe-Ta": {
+            "mix_enthalpy": 0.0999404,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ta2CrFe",
+                    "formation_energy_per_atom": -0.12578130366666684,
+                    "energy_above_hull": 0.012144368347222212
+                }
+            ]
+        },
+        "Cr-Fe-Ti": {
+            "mix_enthalpy": 0.0329005,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-Fe-V": {
+            "mix_enthalpy": -0.0045814,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "V2Cr2Fe",
+                    "formation_energy_per_atom": -0.023213007999999036,
+                    "energy_above_hull": 0.10557190600000332
+                },
+                {
+                    "formula_pretty": "V2CrFe",
+                    "formation_energy_per_atom": -0.16098114250000073,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "VCrFe2",
+                    "formation_energy_per_atom": -0.027683692500000134,
+                    "energy_above_hull": 0.08149657250000075
+                }
+            ]
+        },
+        "Cr-Fe-W": {
+            "mix_enthalpy": 0.160053,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-Hf-Ta": {
+            "mix_enthalpy": 0.2032466,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-Hf-V": {
+            "mix_enthalpy": 0.1606936,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-Hf-W": {
+            "mix_enthalpy": 0.2120537,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-Mn-Ti": {
+            "mix_enthalpy": -0.0146944,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "TiMn2Cr",
+                    "formation_energy_per_atom": 3.09751082770115,
+                    "energy_above_hull": 3.3016296568750008
+                },
+                {
+                    "formula_pretty": "TiMnCr",
+                    "formation_energy_per_atom": -0.18996333958812292,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Cr-Mn-V": {
+            "mix_enthalpy": -0.1220106,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "MnV2Cr",
+                    "formation_energy_per_atom": -0.1454200861206889,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Cr-Ta-Ti": {
+            "mix_enthalpy": 0.1256633,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-Ta-V": {
+            "mix_enthalpy": 0.0534104,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-Ta-W": {
+            "mix_enthalpy": 0.0690281,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ta2CrW",
+                    "formation_energy_per_atom": 4.921186739458328,
+                    "energy_above_hull": 4.948133321874998
+                }
+            ]
+        },
+        "Cr-Ti-V": {
+            "mix_enthalpy": 0.0560362,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-Ti-W": {
+            "mix_enthalpy": 0.0939042,
+            "config_entropy": 9.47e-05
+        },
+        "Cr-V-W": {
+            "mix_enthalpy": -0.0055086,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "V2CrW",
+                    "formation_energy_per_atom": 4.182963372499998,
+                    "energy_above_hull": 4.213689437499998
+                },
+                {
+                    "formula_pretty": "VCr2W",
+                    "formation_energy_per_atom": 4.48455982416667,
+                    "energy_above_hull": 4.51528588916667
+                },
+                {
+                    "formula_pretty": "VCrW2",
+                    "formation_energy_per_atom": 4.899216297083338,
+                    "energy_above_hull": 4.953657623333331
+                }
+            ]
+        },
+        "Fe-Hf-Ta": {
+            "mix_enthalpy": 0.0812549,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Hf3TaFe8",
+                    "formation_energy_per_atom": -0.2879806847777762,
+                    "energy_above_hull": 0.01984791416666809
+                },
+                {
+                    "formula_pretty": "HfTaFe2",
+                    "formation_energy_per_atom": 3.783463635666666,
+                    "energy_above_hull": 4.043057830666666
+                },
+                {
+                    "formula_pretty": "HfTaFe4",
+                    "formation_energy_per_atom": -0.2532446545555551,
+                    "energy_above_hull": 0.01628695000000313
+                }
+            ]
+        },
+        "Fe-Hf-V": {
+            "mix_enthalpy": 0.0779528,
+            "config_entropy": 9.47e-05
+        },
+        "Fe-Hf-W": {
+            "mix_enthalpy": 0.1503382,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Hf9FeW4",
+                    "formation_energy_per_atom": -0.11119820249999789,
+                    "energy_above_hull": 0.001988943660716558
+                }
+            ]
+        },
+        "Fe-Mn-Ti": {
+            "mix_enthalpy": -0.1047053,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ti2MnFe",
+                    "formation_energy_per_atom": -0.3384483286494273,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Fe-Mn-V": {
+            "mix_enthalpy": -0.1034773,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "MnV2Fe",
+                    "formation_energy_per_atom": 3.856443880517242,
+                    "energy_above_hull": 4.0733458109375
+                },
+                {
+                    "formula_pretty": "MnV2Fe",
+                    "formation_energy_per_atom": -0.19157807448275932,
+                    "energy_above_hull": 0.025323855937498863
+                }
+            ]
+        },
+        "Fe-Ta-Ti": {
+            "mix_enthalpy": -0.0113147,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "TaTiFe2",
+                    "formation_energy_per_atom": -0.2850818401666668,
+                    "energy_above_hull": 0.018464070384615283
+                },
+                {
+                    "formula_pretty": "TaTiFe4",
+                    "formation_energy_per_atom": -0.22759468844444442,
+                    "energy_above_hull": 0.010566738333336545
+                }
+            ]
+        },
+        "Fe-Ta-V": {
+            "mix_enthalpy": 0.0249765,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ta2VFe",
+                    "formation_energy_per_atom": 4.325165798833334,
+                    "energy_above_hull": 4.459403785222223
+                }
+            ]
+        },
+        "Fe-Ta-W": {
+            "mix_enthalpy": 0.0616196,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ta2FeW",
+                    "formation_energy_per_atom": 4.727732056333335,
+                    "energy_above_hull": 4.854948200000007
+                },
+                {
+                    "formula_pretty": "TaFe4W",
+                    "formation_energy_per_atom": -0.10904160288889031,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Fe-Ti-V": {
+            "mix_enthalpy": -0.041691,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "TiVFe",
+                    "formation_energy_per_atom": 0.08099915388888945,
+                    "energy_above_hull": 0.3615525883333319
+                },
+                {
+                    "formula_pretty": "TiVFe2",
+                    "formation_energy_per_atom": 3.4781434916666667,
+                    "energy_above_hull": 3.7634194709375004
+                }
+            ]
+        },
+        "Fe-Ti-W": {
+            "mix_enthalpy": 0.0172024,
+            "config_entropy": 9.47e-05
+        },
+        "Fe-V-W": {
+            "mix_enthalpy": 0.0263337,
+            "config_entropy": 9.47e-05
+        },
+        "Hf-Ta-V": {
+            "mix_enthalpy": 0.1488746,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "HfTaV4",
+                    "formation_energy_per_atom": -0.028202971222228257,
+                    "energy_above_hull": 0.027264051666666234
+                }
+            ]
+        },
+        "Hf-Ta-W": {
+            "mix_enthalpy": 0.0722433,
+            "config_entropy": 9.47e-05
+        },
+        "Hf-V-W": {
+            "mix_enthalpy": 0.0989262,
+            "config_entropy": 9.47e-05
+        },
+        "Mn-Ti-V": {
+            "mix_enthalpy": -0.1292767,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ti2Mn3V",
+                    "formation_energy_per_atom": -0.23992056590996333,
+                    "energy_above_hull": 0.022869821244443145
+                },
+                {
+                    "formula_pretty": "Ti4Mn5V3",
+                    "formation_energy_per_atom": -0.23214369858237424,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "TiMn2V",
+                    "formation_energy_per_atom": -0.2769295622988519,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "TiMnV",
+                    "formation_energy_per_atom": -0.05238701042145758,
+                    "energy_above_hull": 0.1370010255555556
+                },
+                {
+                    "formula_pretty": "TiMnV2",
+                    "formation_energy_per_atom": -0.028943962816091684,
+                    "energy_above_hull": 0.11535902041666546
+                }
+            ]
+        },
+        "Ta-Ti-V": {
+            "mix_enthalpy": 0.0873627,
+            "config_entropy": 9.47e-05
+        },
+        "Ta-Ti-W": {
+            "mix_enthalpy": -0.0027606,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ta2TiW",
+                    "formation_energy_per_atom": 4.90566821174999,
+                    "energy_above_hull": 4.932614794166668
+                },
+                {
+                    "formula_pretty": "Ta2TiW",
+                    "formation_energy_per_atom": -0.0010444703333405414,
+                    "energy_above_hull": 0.025902112083336704
+                },
+                {
+                    "formula_pretty": "TaTiW2",
+                    "formation_energy_per_atom": 4.984157571083323,
+                    "energy_above_hull": 5.035081761666667
+                }
+            ]
+        },
+        "Ta-V-W": {
+            "mix_enthalpy": -0.0284003,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "TaVW2",
+                    "formation_energy_per_atom": 5.093668965944431,
+                    "energy_above_hull": 5.181492966944447
+                }
+            ]
+        },
+        "Ti-V-W": {
+            "mix_enthalpy": -0.0031518,
+            "config_entropy": 9.47e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "TiV2W",
+                    "formation_energy_per_atom": 4.320266909166666,
+                    "energy_above_hull": 4.350992974166665
+                },
+                {
+                    "formula_pretty": "TiVW",
+                    "formation_energy_per_atom": 1.1228971188888863,
+                    "energy_above_hull": 1.1638652055555525
+                },
+                {
+                    "formula_pretty": "TiVW2",
+                    "formation_energy_per_atom": 4.6554680166666635,
+                    "energy_above_hull": 4.709909342916664
+                }
+            ]
+        }
+    },
+    "4": {
+        "Cr-Fe-Hf-Ta": {
+            "mix_enthalpy": 0.1555475,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-Hf-V": {
+            "mix_enthalpy": 0.113254,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-Hf-W": {
+            "mix_enthalpy": 0.1943608,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-Mn-Ti": {
+            "mix_enthalpy": -0.0108931,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-Mn-V": {
+            "mix_enthalpy": -0.0512722,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-Ta-Ti": {
+            "mix_enthalpy": 0.0695221,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-Ta-V": {
+            "mix_enthalpy": 0.048866,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-Ta-W": {
+            "mix_enthalpy": 0.1098678,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-Ti-V": {
+            "mix_enthalpy": 0.0119994,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-Ti-W": {
+            "mix_enthalpy": 0.0855169,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Fe-V-W": {
+            "mix_enthalpy": 0.0495835,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Hf-Ta-V": {
+            "mix_enthalpy": 0.1592508,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Hf-Ta-W": {
+            "mix_enthalpy": 0.1565358,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Hf-V-W": {
+            "mix_enthalpy": 0.1311089,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Mn-Ti-V": {
+            "mix_enthalpy": -0.0590472,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Ta-Ti-V": {
+            "mix_enthalpy": 0.0906954,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Ta-Ti-W": {
+            "mix_enthalpy": 0.0803911,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Ta-V-W": {
+            "mix_enthalpy": 0.0248989,
+            "config_entropy": 0.0001195
+        },
+        "Cr-Ti-V-W": {
+            "mix_enthalpy": 0.039735,
+            "config_entropy": 0.0001195
+        },
+        "Fe-Hf-Ta-V": {
+            "mix_enthalpy": 0.0936728,
+            "config_entropy": 0.0001195
+        },
+        "Fe-Hf-Ta-W": {
+            "mix_enthalpy": 0.1027845,
+            "config_entropy": 0.0001195
+        },
+        "Fe-Hf-V-W": {
+            "mix_enthalpy": 0.0994362,
+            "config_entropy": 0.0001195
+        },
+        "Fe-Mn-Ti-V": {
+            "mix_enthalpy": -0.106636,
+            "config_entropy": 0.0001195
+        },
+        "Fe-Ta-Ti-V": {
+            "mix_enthalpy": 0.0166876,
+            "config_entropy": 0.0001195
+        },
+        "Fe-Ta-Ti-W": {
+            "mix_enthalpy": 0.01821,
+            "config_entropy": 0.0001195
+        },
+        "Fe-Ta-V-W": {
+            "mix_enthalpy": 0.0237739,
+            "config_entropy": 0.0001195
+        },
+        "Fe-Ti-V-W": {
+            "mix_enthalpy": -0.0003675,
+            "config_entropy": 0.0001195
+        },
+        "Hf-Ta-V-W": {
+            "mix_enthalpy": 0.0820248,
+            "config_entropy": 0.0001195
+        },
+        "Ta-Ti-V-W": {
+            "mix_enthalpy": 0.0149203,
+            "config_entropy": 0.0001195
+        }
+    },
+    "5": {
+        "Cr-Fe-Hf-Ta-V": {
+            "mix_enthalpy": 0.1217261,
+            "config_entropy": 0.0001387
+        },
+        "Cr-Fe-Hf-Ta-W": {
+            "mix_enthalpy": 0.1534072,
+            "config_entropy": 0.0001387
+        },
+        "Cr-Fe-Hf-V-W": {
+            "mix_enthalpy": 0.1253852,
+            "config_entropy": 0.0001387
+        },
+        "Cr-Fe-Mn-Ti-V": {
+            "mix_enthalpy": -0.0460478,
+            "config_entropy": 0.0001387
+        },
+        "Cr-Fe-Ta-Ti-V": {
+            "mix_enthalpy": 0.0507244,
+            "config_entropy": 0.0001387
+        },
+        "Cr-Fe-Ta-Ti-W": {
+            "mix_enthalpy": 0.0775483,
+            "config_entropy": 0.0001387
+        },
+        "Cr-Fe-Ta-V-W": {
+            "mix_enthalpy": 0.0548246,
+            "config_entropy": 0.0001387
+        },
+        "Cr-Fe-Ti-V-W": {
+            "mix_enthalpy": 0.0397797,
+            "config_entropy": 0.0001387
+        },
+        "Cr-Hf-Ta-V-W": {
+            "mix_enthalpy": 0.1181481,
+            "config_entropy": 0.0001387
+        },
+        "Cr-Ta-Ti-V-W": {
+            "mix_enthalpy": 0.05347,
+            "config_entropy": 0.0001387
+        },
+        "Fe-Hf-Ta-V-W": {
+            "mix_enthalpy": 0.0856943,
+            "config_entropy": 0.0001387
+        },
+        "Fe-Ta-Ti-V-W": {
+            "mix_enthalpy": 0.0156212,
+            "config_entropy": 0.0001387
+        }
+    },
+    "2": {
+        "Cr-Fe": {
+            "mix_enthalpy": 0.084061442,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Cr2Fe",
+                    "formation_energy_per_atom": 0.2892434399999999,
+                    "energy_above_hull": 0.2892434399999999
+                },
+                {
+                    "formula_pretty": "Cr3Fe",
+                    "formation_energy_per_atom": 0.1267918125000005,
+                    "energy_above_hull": 0.1267918125000005
+                },
+                {
+                    "formula_pretty": "Cr3Fe",
+                    "formation_energy_per_atom": 0.25941064000000047,
+                    "energy_above_hull": 0.25941064000000047
+                },
+                {
+                    "formula_pretty": "Cr3Fe",
+                    "formation_energy_per_atom": 0.27022528750000063,
+                    "energy_above_hull": 0.27022528750000063
+                },
+                {
+                    "formula_pretty": "CrFe",
+                    "formation_energy_per_atom": 0.09283367000000098,
+                    "energy_above_hull": 0.09283367000000098
+                },
+                {
+                    "formula_pretty": "CrFe3",
+                    "formation_energy_per_atom": 0.06367412500000036,
+                    "energy_above_hull": 0.06367412500000036
+                },
+                {
+                    "formula_pretty": "CrFe3",
+                    "formation_energy_per_atom": 0.050002915000000314,
+                    "energy_above_hull": 0.050002915000000314
+                },
+                {
+                    "formula_pretty": "CrFe4",
+                    "formation_energy_per_atom": 0.02797140800000051,
+                    "energy_above_hull": 0.027971407999999087
+                }
+            ]
+        },
+        "Cr-Hf": {
+            "mix_enthalpy": 0.246829985,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Hf4Cr",
+                    "formation_energy_per_atom": 0.9384342334999985,
+                    "energy_above_hull": 0.9384342334999971
+                },
+                {
+                    "formula_pretty": "HfCr2",
+                    "formation_energy_per_atom": 0.10305479333333285,
+                    "energy_above_hull": 0.10305479333333167
+                },
+                {
+                    "formula_pretty": "HfCr2",
+                    "formation_energy_per_atom": 0.08468114333333195,
+                    "energy_above_hull": 0.08468114333333077
+                },
+                {
+                    "formula_pretty": "HfCr2",
+                    "formation_energy_per_atom": 0.09299565374999948,
+                    "energy_above_hull": 0.0929956537499983
+                }
+            ]
+        },
+        "Cr-Mn": {
+            "mix_enthalpy": -0.003056828,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "MnCr",
+                    "formation_energy_per_atom": 0.23488761275862302,
+                    "energy_above_hull": 0.23488761275862302
+                }
+            ]
+        },
+        "Cr-Ta": {
+            "mix_enthalpy": 0.108474861,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ta4Cr",
+                    "formation_energy_per_atom": 1.4138491784999985,
+                    "energy_above_hull": 1.4138491785000014
+                },
+                {
+                    "formula_pretty": "TaCr2",
+                    "formation_energy_per_atom": 0.05987628922222162,
+                    "energy_above_hull": 0.05987628922222399
+                },
+                {
+                    "formula_pretty": "TaCr2",
+                    "formation_energy_per_atom": 0.07452002505555318,
+                    "energy_above_hull": 0.07452002505555555
+                }
+            ]
+        },
+        "Cr-Ti": {
+            "mix_enthalpy": 0.111009983,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ti4Cr",
+                    "formation_energy_per_atom": 0.8080028121666629,
+                    "energy_above_hull": 0.8080028121666665
+                },
+                {
+                    "formula_pretty": "Ti4Cr",
+                    "formation_energy_per_atom": 0.12342621216666316,
+                    "energy_above_hull": 0.12342621216666672
+                },
+                {
+                    "formula_pretty": "TiCr",
+                    "formation_energy_per_atom": 0.22222063541666692,
+                    "energy_above_hull": 0.22222063541666692
+                },
+                {
+                    "formula_pretty": "TiCr2",
+                    "formation_energy_per_atom": 0.08397102277777672,
+                    "energy_above_hull": 0.08397102277777613
+                },
+                {
+                    "formula_pretty": "TiCr2",
+                    "formation_energy_per_atom": 0.10190197944444417,
+                    "energy_above_hull": 0.10190197944444357
+                },
+                {
+                    "formula_pretty": "TiCr2",
+                    "formation_energy_per_atom": 0.0913164519444436,
+                    "energy_above_hull": 0.0913164519444436
+                }
+            ]
+        },
+        "Cr-V": {
+            "mix_enthalpy": -0.053269281,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "V3Cr",
+                    "formation_energy_per_atom": 0.04518707499999941,
+                    "energy_above_hull": 0.04518707499999941
+                },
+                {
+                    "formula_pretty": "VCr",
+                    "formation_energy_per_atom": 0.09076384000000104,
+                    "energy_above_hull": 0.09076384000000104
+                },
+                {
+                    "formula_pretty": "VCr3",
+                    "formation_energy_per_atom": 0.13437065250000124,
+                    "energy_above_hull": 0.13437065250000124
+                }
+            ]
+        },
+        "Cr-W": {
+            "mix_enthalpy": 0.108290856,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "CrW",
+                    "formation_energy_per_atom": 0.12119496999999768,
+                    "energy_above_hull": 0.12119496999999768
+                }
+            ]
+        },
+        "Fe-Hf": {
+            "mix_enthalpy": 0.048493947,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Hf2Fe",
+                    "formation_energy_per_atom": -0.18248093541665847,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "Hf4Fe",
+                    "formation_energy_per_atom": 0.6159664730000017,
+                    "energy_above_hull": 0.7254550342499968
+                },
+                {
+                    "formula_pretty": "HfFe2",
+                    "formation_energy_per_atom": -0.33751683166666285,
+                    "energy_above_hull": 0.008608761666669906
+                },
+                {
+                    "formula_pretty": "HfFe2",
+                    "formation_energy_per_atom": -0.3461255933333322,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "HfFe2",
+                    "formation_energy_per_atom": -0.33308265749999677,
+                    "energy_above_hull": 0.013042935833334823
+                }
+            ]
+        },
+        "Fe-Mn": {
+            "mix_enthalpy": 0.026473923,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Mn3Fe",
+                    "formation_energy_per_atom": 0.02130371905172268,
+                    "energy_above_hull": 0.02130371905172268
+                },
+                {
+                    "formula_pretty": "Mn7Fe3",
+                    "formation_energy_per_atom": 0.08750120594827564,
+                    "energy_above_hull": 0.08750120594827493
+                },
+                {
+                    "formula_pretty": "MnFe",
+                    "formation_energy_per_atom": 0.09255887603448265,
+                    "energy_above_hull": 0.09255887603448265
+                },
+                {
+                    "formula_pretty": "MnFe3",
+                    "formation_energy_per_atom": 0.06564907301724254,
+                    "energy_above_hull": 0.06564907301724254
+                },
+                {
+                    "formula_pretty": "MnFe3",
+                    "formation_energy_per_atom": 0.05122086301724238,
+                    "energy_above_hull": 0.05122086301724238
+                },
+                {
+                    "formula_pretty": "MnFe4",
+                    "formation_energy_per_atom": 0.035551132413793596,
+                    "energy_above_hull": 0.035551132413793596
+                }
+            ]
+        },
+        "Fe-Ta": {
+            "mix_enthalpy": 0.03232962,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ta2Fe",
+                    "formation_energy_per_atom": 0.28954423844444577,
+                    "energy_above_hull": 0.41791407240740774
+                },
+                {
+                    "formula_pretty": "Ta6Fe7",
+                    "formation_energy_per_atom": -0.18939963338461588,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "Ta7Fe6",
+                    "formation_energy_per_atom": -0.17774284702563994,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "TaFe",
+                    "formation_energy_per_atom": -0.18626166943589448,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "TaFe2",
+                    "formation_energy_per_atom": -0.19293761577777957,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Fe-Ti": {
+            "mix_enthalpy": -0.121045208,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ti2Fe",
+                    "formation_energy_per_atom": -0.21487025930555603,
+                    "energy_above_hull": 0.06568317513888644
+                },
+                {
+                    "formula_pretty": "Ti3Fe",
+                    "formation_energy_per_atom": 0.04143311750000045,
+                    "energy_above_hull": 0.2518481933333323
+                },
+                {
+                    "formula_pretty": "Ti4Fe",
+                    "formation_energy_per_atom": -0.0036140086666662796,
+                    "energy_above_hull": 0.16471805199999778
+                },
+                {
+                    "formula_pretty": "TiFe",
+                    "formation_energy_per_atom": -0.11364881666666626,
+                    "energy_above_hull": 0.3071813349999992
+                },
+                {
+                    "formula_pretty": "TiFe",
+                    "formation_energy_per_atom": -0.4208301516666655,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "TiFe2",
+                    "formation_energy_per_atom": -0.28338523777777763,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "TiFe4",
+                    "formation_energy_per_atom": 0.12586791333333308,
+                    "energy_above_hull": 0.29589905599999966
+                }
+            ]
+        },
+        "Fe-V": {
+            "mix_enthalpy": -0.041100261,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "V3Fe",
+                    "formation_energy_per_atom": -0.17113688625000023,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "V3Fe",
+                    "formation_energy_per_atom": -0.14539534000000032,
+                    "energy_above_hull": 0.025741546249999914
+                },
+                {
+                    "formula_pretty": "VFe",
+                    "formation_energy_per_atom": -0.10360527499999961,
+                    "energy_above_hull": 0.04611653187500231
+                },
+                {
+                    "formula_pretty": "VFe",
+                    "formation_energy_per_atom": -0.1281409,
+                    "energy_above_hull": 0.021580906875001915
+                },
+                {
+                    "formula_pretty": "VFe3",
+                    "formation_energy_per_atom": -0.05553385249999998,
+                    "energy_above_hull": 0.07277287500000007
+                },
+                {
+                    "formula_pretty": "VFe3",
+                    "formation_energy_per_atom": -0.12830672750000005,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "VFe4",
+                    "formation_energy_per_atom": -0.04446673799999985,
+                    "energy_above_hull": 0.058178643999999835
+                }
+            ]
+        },
+        "Fe-W": {
+            "mix_enthalpy": 0.167767037,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Fe2W",
+                    "formation_energy_per_atom": -0.0232689924999967,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "Fe3W",
+                    "formation_energy_per_atom": 0.06485656250000105,
+                    "energy_above_hull": 0.08230830687499768
+                },
+                {
+                    "formula_pretty": "Fe3W",
+                    "formation_energy_per_atom": 0.06943955750000086,
+                    "energy_above_hull": 0.0868913018749975
+                },
+                {
+                    "formula_pretty": "Fe74W13",
+                    "formation_energy_per_atom": 0.1875847983908051,
+                    "energy_above_hull": 0.1980157260632165
+                },
+                {
+                    "formula_pretty": "Fe7W6",
+                    "formation_energy_per_atom": -0.01612964999999961,
+                    "energy_above_hull": 0.0026645362499966296
+                }
+            ]
+        },
+        "Mn-Ti": {
+            "mix_enthalpy": -0.141015632,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ti21Mn25",
+                    "formation_energy_per_atom": -0.2549043878973024,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "Ti5Mn3",
+                    "formation_energy_per_atom": -0.05153574318247145,
+                    "energy_above_hull": 0.12434828446666657
+                },
+                {
+                    "formula_pretty": "Ti5Mn7",
+                    "formation_energy_per_atom": -0.24095383184865682,
+                    "energy_above_hull": 0.019532749019608886
+                },
+                {
+                    "formula_pretty": "TiMn2",
+                    "formation_energy_per_atom": -0.27215843889846764,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Mn-V": {
+            "mix_enthalpy": -0.21819771,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "MnV",
+                    "formation_energy_per_atom": -0.04916635724137919,
+                    "energy_above_hull": 0.14897287999999875
+                },
+                {
+                    "formula_pretty": "MnV",
+                    "formation_energy_per_atom": -0.19813923724137794,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "MnV3",
+                    "formation_energy_per_atom": -0.08009572362068873,
+                    "energy_above_hull": 0.01897389500000024
+                }
+            ]
+        },
+        "Ta-Ti": {
+            "mix_enthalpy": 0.063257547,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "TaTi",
+                    "formation_energy_per_atom": 0.08432236299999829,
+                    "energy_above_hull": 0.08432236299999829
+                },
+                {
+                    "formula_pretty": "TaTi3",
+                    "formation_energy_per_atom": 0.09496721249999851,
+                    "energy_above_hull": 0.09496721249999851
+                },
+                {
+                    "formula_pretty": "TaTi3",
+                    "formation_energy_per_atom": 0.09749539499999926,
+                    "energy_above_hull": 0.09749539499999926
+                },
+                {
+                    "formula_pretty": "TaTi3",
+                    "formation_energy_per_atom": 0.09748567999999835,
+                    "energy_above_hull": 0.09748567999999835
+                }
+            ]
+        },
+        "Ta-V": {
+            "mix_enthalpy": 0.06496776,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ta4V",
+                    "formation_energy_per_atom": 1.439091422266665,
+                    "energy_above_hull": 1.4723716359999983
+                },
+                {
+                    "formula_pretty": "TaV",
+                    "formation_energy_per_atom": 0.08026754566666483,
+                    "energy_above_hull": 0.16346808000000124
+                },
+                {
+                    "formula_pretty": "TaV2",
+                    "formation_energy_per_atom": -0.11093404577778188,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Ta-W": {
+            "mix_enthalpy": -0.061452574,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ta3W",
+                    "formation_energy_per_atom": -0.027936240500004317,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "TaW",
+                    "formation_energy_per_atom": -0.049321198666667954,
+                    "energy_above_hull": 0.002592650000003971
+                },
+                {
+                    "formula_pretty": "TaW3",
+                    "formation_energy_per_atom": -0.07589145683333243,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Ti-V": {
+            "mix_enthalpy": 0.068340752,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Ti4V",
+                    "formation_energy_per_atom": 0.09324100733333296,
+                    "energy_above_hull": 0.09324100733333296
+                },
+                {
+                    "formula_pretty": "TiV",
+                    "formation_energy_per_atom": 0.11860718333333331,
+                    "energy_above_hull": 0.11860718333333331
+                }
+            ]
+        },
+        "Ti-W": {
+            "mix_enthalpy": -0.00801642,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "TiW",
+                    "formation_energy_per_atom": 0.022547341666665943,
+                    "energy_above_hull": 0.022547341666665943
+                }
+            ]
+        },
+        "V-W": {
+            "mix_enthalpy": -0.067415954,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "VW",
+                    "formation_energy_per_atom": -0.06145212999999927,
+                    "energy_above_hull": 0.0
+                },
+                {
+                    "formula_pretty": "VW3",
+                    "formation_energy_per_atom": -0.07815658749999699,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Hf-V": {
+            "mix_enthalpy": 0.168,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Hf4V",
+                    "formation_energy_per_atom": 0.941038068000006,
+                    "energy_above_hull": 0.9410380680000046
+                },
+                {
+                    "formula_pretty": "HfV2",
+                    "formation_energy_per_atom": 0.06383660500000114,
+                    "energy_above_hull": 0.06383660500000232
+                },
+                {
+                    "formula_pretty": "HfV2",
+                    "formation_energy_per_atom": 0.03422608833333148,
+                    "energy_above_hull": 0.03422608833333385
+                },
+                {
+                    "formula_pretty": "HfV2",
+                    "formation_energy_per_atom": 0.03837142499999876,
+                    "energy_above_hull": 0.038371425000001125
+                }
+            ]
+        },
+        "Hf-W": {
+            "mix_enthalpy": 0.122,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Hf4W",
+                    "formation_energy_per_atom": 1.1742923565000012,
+                    "energy_above_hull": 1.2249271120000031
+                },
+                {
+                    "formula_pretty": "HfW2",
+                    "formation_energy_per_atom": 0.10028667166667067,
+                    "energy_above_hull": 0.2690691899999962
+                },
+                {
+                    "formula_pretty": "HfW2",
+                    "formation_energy_per_atom": -0.16878251833333024,
+                    "energy_above_hull": 0.0
+                }
+            ]
+        },
+        "Hf-Ta": {
+            "mix_enthalpy": 0.102,
+            "config_entropy": 5.97e-05,
+            "intermetallic": [
+                {
+                    "formula_pretty": "Hf3Ta",
+                    "formation_energy_per_atom": 0.14822774999999666,
+                    "energy_above_hull": 0.14822774999999666
+                },
+                {
+                    "formula_pretty": "HfTa",
+                    "formation_energy_per_atom": 0.15713482999999684,
+                    "energy_above_hull": 0.15713482999999684
+                }
+            ]
+        }
+    }
+}

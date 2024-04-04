@@ -90,12 +90,14 @@ def calc_mixEnthalpy_dataset(
 			ele_list = alloy.split('-')
 			equimol_ratio = [1 / n_alloy] * n_alloy
 			mol_ratio = dict(zip(ele_list, equimol_ratio))
-			
-			mix_enthalpy = calc_multinary_mixEnthalpy(
-					alloy_comp = alloy ,
-					binary_dict = binary_dict ,
-					mol_ratio = mol_ratio
-					)
+			try:
+				mix_enthalpy = calc_multinary_mixEnthalpy(
+						alloy_comp = alloy ,
+						binary_dict = binary_dict ,
+						mol_ratio = mol_ratio
+						)
+			except KeyError as e:
+				continue
 			
 			entropy = calc_configEntropy(mol_ratio = mol_ratio)
 			multinary_dict[alloy] = {
@@ -132,4 +134,4 @@ def calc_mixEnthalpy_dataset(
 	return results_dict
 
 
-calc_mixEnthalpy_dataset(source="Cr2")
+calc_mixEnthalpy_dataset(lattice = "bcc", source = "Cr_W")

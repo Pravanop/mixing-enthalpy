@@ -29,8 +29,8 @@ def search_mp_with_EleSG(mpr,
         )
     s = docs[0].structure
     mp_id = docs[0].material_id
-    conv_s = convert_to_primitive(s)
-    return {element : s}
+    conv_s = convert_to_conventional(s)
+    return {element : conv_s}
 
 def search_mp_with_hullE(mpr,
                          element: str) -> dict:
