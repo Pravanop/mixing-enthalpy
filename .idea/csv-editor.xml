@@ -17,6 +17,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="/calculateEnthalpy/data/output_data/binary_bcc_Cr_W_equiOut.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/calculateEnthalpy/data/output_data/quaternary_bcc_Cr_W_equiOut.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="/calculateEnthalpy/data/output_data/quaternary_bcc_Cr_W_equiOut_processed.csv">
           <value>
             <Attribute>
@@ -25,6 +39,13 @@
           </value>
         </entry>
         <entry key="/calculateEnthalpy/data/output_data/quaternary_bcc_bokas_equiOut.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="/calculateEnthalpy/data/output_data/quinary_bcc_Cr_W_equiOut.csv">
           <value>
             <Attribute>
               <option name="separator" value="," />

@@ -12,7 +12,7 @@ import pandas as pd
 import time
 
 from typing import Union , Any
-from itertools import combinations
+from itertools import combinations, permutations
 from tqdm import tqdm
 
 from data_utils import *
@@ -21,15 +21,6 @@ from create_alloy_comp import *
 
 """
 I really liked your error handling, but I think we can make it very clean now, and then you can add those parts later.
-"""
-
-"""
-The main functionality is: taking a data point(s), then performing some maths on it (this is my
-naive thinking). I need to sit down with you to understand the maths, and we need to clearly document it and store it
-away, never to be touched again.
-The other part which seems to take a lot of your code up is the screening of good alloys (I don't know what this
-means), and creation of phase diagrams (this should be some other step). So, I will leave it for later.
-I am going to copy/modify your code for the first part herein.
 """
 
 
@@ -79,7 +70,7 @@ def calc_mixEnthalpy_dataset(
 	print("==========")
 	print("Status Update")
 	print("==========")
-	
+	non_equi_binary_dict = load_json(folder_path = folder_path , lattice = lattice , source = source + "_offEqui")
 	results_dict = {}
 	for idx , multinary in enumerate(multinaries) :
 		# take each alloy in this now
@@ -91,17 +82,40 @@ def calc_mixEnthalpy_dataset(
 			equimol_ratio = [1 / n_alloy] * n_alloy
 			mol_ratio = dict(zip(ele_list, equimol_ratio))
 			try:
-				mix_enthalpy = calc_multinary_mixEnthalpy(
+				equi_mix_enthalpy = calc_multinary_mixEnthalpy(
 						alloy_comp = alloy ,
 						binary_dict = binary_dict ,
 						mol_ratio = mol_ratio
 						)
 			except KeyError as e:
 				continue
-			
 			entropy = calc_configEntropy(mol_ratio = mol_ratio)
+
+			x_mol = np.linspace(0, 1, 10)[1:]
+			comb_mol = np.array(list(permutations(x_mol , n_alloy)))
+			off_equi = {}
+			for mol_idx, mol in enumerate(comb_mol):
+				
+				if np.sum(mol) == 1:
+					mol_ratio = dict(zip(ele_list , mol))
+					
+					try :
+						non_equi_mix_enthalpy = calc_multinary_mixEnthalpy_offEqui(
+								alloy_comp = alloy ,
+								binary_dict = non_equi_binary_dict ,
+								mol_ratio = mol_ratio
+								)
+						
+					except KeyError as e :
+						break
+					off_equi[','.join(np.array(mol).astype(str))] = non_equi_mix_enthalpy
+					
+				else:
+					continue
+				
 			multinary_dict[alloy] = {
-					'mix_enthalpy'   : mix_enthalpy ,
+					'off_equi' : off_equi,
+					'mix_enthalpy'   : equi_mix_enthalpy ,
 					'config_entropy' : entropy
 					}
 		

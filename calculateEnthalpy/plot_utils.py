@@ -19,12 +19,13 @@ def plot_tempDiagram(comp , ax , color) :
 	:param comp:
 	"""
 	with open(
-			"data/output_data/TD_bokas_bcc.pickle" ,
+			"data/output_data/TD_bokas_bcc_offequi.pickle" ,
 			'rb'
 			) as f :
 		dump_dict = pickle.load(f)
 	data_old = dump_dict[comp]
 	data = {}
+	print(data_old)
 	for key , value in data_old.items() :
 		data[key] = value[0] * 1000
 	decomp = {}
@@ -85,31 +86,17 @@ def plot_tempDiagram(comp , ax , color) :
 		plt.savefig('phase_diagram.png' , dpi = 300)  # Save plot as image
 
 
-ele_list = ["Cr" , "Fe" , "Ta" , "Hf" , "Mn" , "Ti" , "V" , "W"]
+ele_list = ["Cr" , "Ta" , "V" , "W", "Ti"]
 
-compositions = create_multinary(element_list = ele_list , no_comb = [3])[0]
-print(compositions)
-# compositions = ["Cr-Fe-Hf-Ta-V", "Cr-Fe-Hf-Ta-W", "Cr-Fe-Mn-Ti-V", "Cr-Fe-Ta-Ti-V", "Cr-Fe-Ta-Ti-W"]
-# compositions = [ "Cr-Fe-Ta-V-W", "Cr-Fe-Ti-V-W", "Cr-Hf-Ta-V-W", "Cr-Ta-Ti-V-W", "Fe-Hf-Ta-V-W", "Fe-Ta-Ti-V-W",]
-# compositions = ["Cr-Fe-Hf-Ta" , "Cr-Fe-Mn-Ti" , "Cr-Fe-Mn-V" ,"Cr-Fe-Ta-Ti","Cr-Fe-Ta-V"]
-# compositions =               ["Cr-Fe-V-W" , "Cr-Hf-Ta-W", "Cr-Fe-Ta-W" , "Cr-Fe-Ti-V" , "Cr-Fe-Ti-W" ,]
-# compositions =               ["Cr-Hf-Ta-V"   , "Cr-Hf-V-W" , "Cr-Mn-Ti-V" ,"Cr-Ta-Ti-V","Cr-Ta-Ti-W"]
-# compositions =               ["Cr-Ta-V-W" , "Cr-Ti-V-W" , "Fe-Hf-Ta-V" ,"Fe-Hf-Ta-W","Fe-Hf-V-W" ]
-# compositions =               [ "Fe-Ti-V-W", "Fe-Ta-V-W", "Fe-Mn-Ti-V" , "Fe-Ta-Ti-V" , "Fe-Ta-Ti-W" ,]
-# compositions =                ["Hf-Ta-V-W" , "Ta-Ti-V-W"]
-fig , axs = plt.subplots(len(compositions) , 1 , sharey = True , sharex = True , figsize = (10 , 8))
+compositions = create_multinary(element_list = ele_list , no_comb = [4])[0]
+fig , axs = plt.subplots(len(compositions)+1 , 1 , sharey = True , sharex = True , figsize = (10 , 8))
 plt.subplots_adjust(wspace = 0 , hspace = 0 , left = 0.09 , bottom = 0.095 , top = 0.92 , right = 0.948)
 fig.supylabel("Energy above Hull (meV/atom)")
 fig.supxlabel("Temperature (K)")
 color_scheme = ["#6699CC" , "#004488" , "#EECC66" , "#994455" , "#997700" , "#EE99AA"]
-color_scheme += color_scheme
-color_scheme += color_scheme
-color_scheme += color_scheme
-color_scheme += color_scheme
-color_scheme += color_scheme
 for idx , ax in enumerate(axs) :
 	try :
 		plot_tempDiagram(compositions[idx] , ax , color_scheme[idx])
 	except :
 		continue
-plt.show()
+# plt.show()

@@ -1,8 +1,8 @@
 file : main_input
-element_list : ['Cr', 'Ti', 'V', 'Mn', 'Fe', 'Ta', 'W', 'Hf']
+element_list : ['Ru', 'Ir', 'Mn', 'Co', 'Fe', 'Ni', 'Cu', 'Cr']
 abs_path : "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy"
 mp-api:
-  lattice : 'BCC' # BCC, FCC, HCP, SC
+  lattice : 'HCP' # BCC, FCC, HCP, SC
   xc_functional: "GGA_GGA+U"
 sqs:
   doping_percent : 50 # in percentage
