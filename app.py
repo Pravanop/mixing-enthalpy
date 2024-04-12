@@ -18,7 +18,7 @@ check = True
 user_inp = st.text_input(label = 'Input',placeholder = "Provide a list of elements in form Al-Cu-Ni")
 ele_list_user_inp = user_inp.split('-')
 element_list_path = ("/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/input_data"
-                          "/element_list_bcc_bokas.txt")
+                          "/element_list_bcc_bokas_old.txt")
 
 with open(element_list_path) as f :
 	element_total_list = f.read()

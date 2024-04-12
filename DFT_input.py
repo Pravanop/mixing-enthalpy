@@ -13,6 +13,7 @@ from getBinaryPairs.get_binary_pairs import get_binary_pairs
 from obtainSQS.main import write_rndstr , write_sqscellout
 from obtainSQS.run_atat import runsqs
 from obtainSQS.sqs2poscar import sqs2POSCAR
+from obtainSQS.sqs_pymat import obtainSQS
 from prepareVASPRuns.main import create_vasprun
 from prepareVASPRuns.file_utils import load_yaml_to_dict
 
@@ -73,61 +74,43 @@ if benchmark['3'] :
 		ele_list = ele_pair.split('-')
 		first_ele = ele_list[0]
 		second_ele = ele_list[1]
-		out_file_path = f"{sqs_folder_path}/{first_ele}{second_ele}/"
-		if not os.path.exists(out_file_path) :
-			os.mkdir(out_file_path)
-		
-		structure = ele_dict[first_ele]
-		write_rndstr(
-				structure = structure ,
-				output_path = out_file_path ,
-				doping_percent = main_input['sqs']['doping_percent'] ,
-				doping_site = first_ele ,
-				doping_ele = second_ele ,
-				coord_type = main_input['sqs']['coord_type']
-				)
-		
-		write_sqscellout(
-				supercell = main_input['sqs']['supercell'] ,
-				output_path = out_file_path
-				)
-		
-		sqs_status = runsqs(
-				corrdump_path = main_input['sqs']['corrdump_path'] ,
-				mcsqs_path = main_input['sqs']['mcsqs_path'] ,
-				path_dir = out_file_path ,
-				pair_interaction = main_input['sqs']['pair_interaction'] ,
-				triplet_interaction = main_input['sqs']['triplet_interaction']
-				)  # TODO make nn_dist functions
-		
-		if sqs_status :
-			sqs2POSCAR(
-					input_file_path = f"{out_file_path}/bestsqs.out" ,
-					output_file_path = f"{out_file_path}/{first_ele}{second_ele}"
+		out_file_path2 = f"{sqs_folder_path}/{first_ele}{second_ele}"
+		# if not os.path.exists(out_file_path2) :
+		# 	os.mkdir(out_file_path2)
+		inp_file_path = f"{out_file_path}/{first_ele}_{main_input['mp-api']['lattice']}.vasp"
+		try:
+			obtainSQS(
+					supercell =  main_input['sqs']['supercell'],
+					inp_file_path = inp_file_path ,
+					output_path = out_file_path2 ,
+					dopant_percentage = main_input['sqs']['doping_percent'] ,
+					dopant = second_ele ,
+					doping_site = first_ele ,
 					)
-		
-		else :
-			print("Error")  # TODO raise exceptions
+		except:
+			benchmark['3'] = False
+			raise Exception("Something went wrong")
+			
 
-"""
-Step 4 Copying created POSCAR files to a new directory (I have a penchant for creating backups)
-"""
-
-sqs_results_path = f"{main_output_folder}/SQS_results"
-if os.path.exists(sqs_results_path) :
-	benchmark['4'] = False
-
-if benchmark['4'] :
-	lsqs = os.listdir(sqs_folder_path)
-	
-	if not os.path.exists(sqs_results_path) :
-		os.mkdir(sqs_results_path)
-	for idx , dir in enumerate(tqdm(lsqs , desc = "Copying SQS POSCARs")) :
-		
-		shutil.copy(
-				src = f"{sqs_folder_path}/{dir}/{dir}.vasp" ,
-				dst = f"{sqs_results_path}/{dir}.vasp"
-				)
+# """
+# Step 4 Copying created POSCAR files to a new directory (I have a penchant for creating backups)
+# """
+#
+# sqs_results_path = f"{main_output_folder}/SQS_results"
+# if os.path.exists(sqs_results_path) :
+# 	benchmark['4'] = False
+#
+# if benchmark['4'] :
+# 	lsqs = os.listdir(sqs_folder_path)
+#
+# 	if not os.path.exists(sqs_results_path) :
+# 		os.mkdir(sqs_results_path)
+# 	for idx , dir in enumerate(tqdm(lsqs , desc = "Copying SQS POSCARs")) :
+#
+# 		shutil.copy(
+# 				src = f"{sqs_folder_path}/{dir}.vasp" ,
+# 				dst = f"{sqs_results_path}/{dir}.vasp"
+# 				)
 
 """
 Step 5 The final step of this half. Creating Vaspjob files.
@@ -138,7 +121,7 @@ if os.path.exists(vasp_runs_path) :
 	benchmark['5'] = False
 
 if benchmark['5'] and main_input['run_vasp'] :
-	lsqs_poscar = os.listdir(sqs_results_path)
+	lsqs_poscar = os.listdir(sqs_folder_path)
 	
 	if not os.path.exists(vasp_runs_path) :
 		os.mkdir(vasp_runs_path)
@@ -146,7 +129,7 @@ if benchmark['5'] and main_input['run_vasp'] :
 	for idx , poscar in enumerate(tqdm(lsqs_poscar , desc = "Creating VASP runs")) :
 		
 		create_vasprun(
-				inp_file_path = f"{sqs_results_path}/{poscar}" ,
+				inp_file_path = f"{sqs_folder_path}/{poscar}" ,
 				output_folder_path = f"{vasp_runs_path}" ,
 				metadata_path = f"{main_input['abs_path']}/vasp_metadata/metadata.yaml"
 				)

@@ -19,7 +19,7 @@ def intermetallic_sorter(n_nary_dict , docs) :
 	for idx , doc in enumerate(docs) :
 		
 		temp_dict = {
-				'formula_pretty'            : str(doc.composition.fractional_composition) ,
+				'formula_pretty'            : str(doc.composition.reduced_formula) ,
 				'formation_energy_per_atom' : doc.formation_energy_per_atom ,
 				'energy_above_hull'         : doc.energy_above_hull
 				}
@@ -60,8 +60,8 @@ def extract_intermetallics():
 	fields = ['composition' , 'formation_energy_per_atom' , 'energy_above_hull' , 'chemsys']
 	
 	with open(
-			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/dump_20240209"
-			"-124804.json" , 'r'
+			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data"
+			"/dump_20240404-213329.json" , 'r'
 			) as f :
 		dump_dict = json.load(f)
 	
@@ -70,7 +70,7 @@ def extract_intermetallics():
 	quinary = dump_dict['5']
 	
 	# load binary
-	binary = load_json()  # taking default values for now. #BCC, bokas, input_data/
+	binary = load_json(source = "Cr_W", lattice = "bcc")  # taking default values for now. #BCC, bokas, input_data/
 	
 	binary_new = {}
 	for key , value in binary.items() :

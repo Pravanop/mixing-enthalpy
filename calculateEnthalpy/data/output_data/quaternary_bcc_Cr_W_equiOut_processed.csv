@@ -1,0 +1,30 @@
+,Comp,mix_enthalpy(meV/atom),Tm,Misc_T,Decomposition
+0,Cr-Fe-Hf-Ta,156,2448,2600,TaCr + Hf2Fe + HfFe2
+1,Cr-Fe-Hf-V,113,2170,2600,HfVCr + Hf2Fe + VCrFe
+2,Cr-Fe-Hf-W,194,2548,3000,HfW2 + HfFe2 + Cr
+3,Cr-Fe-Mn-Ti,-11,1863,2000,TiMn2 + MnCrFe + Cr + TiFe
+4,Cr-Fe-Mn-V,-51,1923,1000,VFe3 + MnVCr + MnCrFe
+5,Cr-Fe-Ta-Ti,70,2306,2600,TaCr + TiFe
+6,Cr-Fe-Ta-V,49,2367,1800,Ta2CrFe + V2CrFe
+7,Cr-Fe-Ta-W,110,2745,2000,TaCrW + TaFe2 + W + Cr
+8,Cr-Fe-Ti-V,12,2029,2200,TiVCr + VCrFe + TiFe
+9,Cr-Fe-Ti-W,86,2407,2600,TiFe + W + Cr
+10,Cr-Fe-V-W,50,2467,1400,VCrW + VFe3 + W + Cr
+11,Cr-Hf-Ta-V,159,2540,2600,TaVCr + Hf
+12,Cr-Hf-Ta-W,157,2918,2200,TaCrW + Hf
+13,Cr-Hf-V-W,131,2641,2800,VCrW + Hf
+14,Cr-Mn-Ti-V,-59,1956,800,MnV2Cr + TiMnCr + Ti
+15,Cr-Ta-Ti-V,91,2399,1200,TaV2 + Ta + Cr + Ti
+16,Cr-Ta-Ti-W,80,2777,1800,TaTiW + Cr
+17,Cr-Ta-V-W,25,2838,1000,TaVW + Cr
+18,Cr-Ti-V-W,40,2500,1000,VCrW + Ti
+19,Fe-Hf-Ta-V,94,2448,2400,Hf2Fe + TaV2 + HfFe2 + Ta
+20,Fe-Hf-Ta-W,103,2826,2800,TaFeW + HfTaW + HfFe2
+21,Fe-Hf-V-W,99,2549,2800,VFeW + HfVW + HfFe2
+22,Fe-Mn-Ti-V,-107,1864,1800,MnV + TiFe
+23,Fe-Ta-Ti-V,17,2307,2400,TiFe + Ta + TaV2
+24,Fe-Ta-Ti-W,18,2685,2200,Ta7Fe6 + TaW3 + TaTiW + TiFe
+25,Fe-Ta-V-W,24,2746,1800,TaVW + VFeW + TaFe2
+26,Fe-Ti-V-W,0,2408,2200,VW + TiFe
+27,Hf-Ta-V-W,82,2919,2200,Hf + TaVW
+28,Ta-Ti-V-W,15,2778,800,TaTiW + VW3 + TaV2 + Ti

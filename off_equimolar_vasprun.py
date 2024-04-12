@@ -2,10 +2,10 @@ from prepareVASPRuns.main import create_vasprun
 import os
 from tqdm import tqdm
 
-system = "TaTi"
-lattice = "hcp"
-sqs_results_path = f"Outputs_off_equimolar_HCP/{system}_poscar"
-vasp_runs_path = f"Outputs_off_equimolar_HCP/{system}/{system}_{lattice}_vasp"
+system = "TiHf"
+lattice = "BCC"
+sqs_results_path = f"Outputs_off_equimolar_{lattice}/{system}"
+vasp_runs_path = f"Outputs_off_equimolar_{lattice}/{system}/{system}_{lattice}_vasp"
 
 lsqs_poscar = os.listdir(sqs_results_path)
 
