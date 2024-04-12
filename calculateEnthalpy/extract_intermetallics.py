@@ -60,7 +60,7 @@ def extract_intermetallics():
 	fields = ['composition' , 'formation_energy_per_atom' , 'energy_above_hull' , 'chemsys']
 	
 	with open(
-            "/calculateEnthalpy/data/output_data/old_data/dump_20240404-213329.json", 'r'
+            "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/dump_20240412-143013.json", 'r'
 			) as f :
 		dump_dict = json.load(f)
 	
@@ -69,7 +69,8 @@ def extract_intermetallics():
 	quinary = dump_dict['5']
 	
 	# load binary
-	binary = load_json(source = "Cr_W", lattice = "bcc")  # taking default values for now. #BCC, bokas, input_data/
+	binary = load_json(source = "bokas_corrected", lattice = "bcc")  # taking default values for now. #BCC, bokas,
+	# input_data/
 	
 	binary_new = {}
 	for key , value in binary.items() :
@@ -93,3 +94,5 @@ def extract_intermetallics():
 
 
 extract_intermetallics()
+
+#TODO make a recent timestamp viewer

@@ -4,13 +4,16 @@ Contributor: Joshua Cheng, Pravan Omprakash
 """
 import json
 import pickle
+
+import numpy as np
+
 from calculateEnthalpy.create_alloy_comp import create_multinary
 from pymatgen.core import Composition
 from pymatgen.analysis.phase_diagram import PhaseDiagram , PDEntry
 from tqdm import tqdm
 import pandas as pd
 from prepareVASPRuns.file_utils import load_json_to_dict
-from calculateEnthalpy.thermo_math import gibbs_energy
+from calculateEnthalpy.thermo_math import gibbs_energy, calc_configEntropy
 
 
 def make_PD_per_comp(comp, dump_dict, temperature=1000):
@@ -42,8 +45,6 @@ def make_PD_per_comp(comp, dump_dict, temperature=1000):
 						mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
 
 						name = Composition(Composition(mol_ratio).get_integer_formula_and_factor()[0])
-						print(name)
-						# print(name.num_atoms)
 						config_entropy = calc_configEntropy(mol_ratio=mol_ratio)
 						pd_entry_input[name] = gibbs_energy(
 							value, config_entropy,
@@ -52,7 +53,6 @@ def make_PD_per_comp(comp, dump_dict, temperature=1000):
 
 			# equimolar
 			name = Composition(subset_comp.replace('-', ''))
-			print(name)
 			pd_entry_input[name] = gibbs_energy(
 				temp_subset['mix_enthalpy'], temp_subset['config_entropy'],
 				temperature
@@ -69,7 +69,6 @@ def make_PD_per_comp(comp, dump_dict, temperature=1000):
 				for idx3, intermetallic in enumerate(temp_subset['intermetallic']):
 					name = Composition(intermetallic['formula_pretty'])
 					pd_entry_input[name] = intermetallic['formation_energy_per_atom'] * name.num_atoms
-					print(name)
 
 			# elements
 			for ele in ele_list:
@@ -94,7 +93,7 @@ def make_phaseDiagram(out_file_name: str = "bokas", lattice: str = "bcc"):
 	:param lattice:
 	"""
 	with open(
-			"data/output_data/dump_20240401-213515_intermetallic.json",
+			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/dump_20240412-143649_intermetallic.json",
 			'r'
 	) as f:
 		dump_dict = json.load(f)
@@ -131,7 +130,7 @@ def make_tempDiagram(out_file_name: str = "bokas", lattice: str = "bcc"):
 	:param lattice:
 	"""
 	with open(
-			"data/output_data/old_data/dump_20240404-211630_intermetallic.json",
+			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/dump_20240412-143649_intermetallic.json",
 			'r'
 	) as f:
 		dump_dict = json.load(f)
@@ -165,6 +164,7 @@ def make_tempDiagram(out_file_name: str = "bokas", lattice: str = "bcc"):
 			phase_diagram_dict[key] = temp_dict
 		temp_dict = {}
 
-	with open(f'data/output_data/TD_{out_file_name}_{lattice}_offequi.pickle', 'wb') as f:
+	with open(f'data/output_data/TD_{out_file_name}_{lattice}.pickle', 'wb') as f:
 		pickle.dump(phase_diagram_dict, f)
-# make_phaseDiagram()
+
+make_phaseDiagram()
