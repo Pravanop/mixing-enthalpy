@@ -12,10 +12,10 @@ font = {
 		'size'   : 16
 		}
 matplotlib.rc('font' , **font)
-file_path = "./data/output_data/binary_bcc_Cr_W_equiOut.csv"
+file_path = "../data/output_data/old_data/binary_bcc_Cr_W_equiOut.csv"
 df = pd.read_csv(file_path)
 # df['mix_enthalpy (meV/atom)'] = round(df['mix_enthalpy (meV/atom)']*1000,0)
-single_energy = load_json_to_dict("./data/input_data/single_energy.json")
+single_energy = load_json_to_dict("../data/input_data/single_energy.json")
 
 comp_list = np.array(df["Comp"])
 avg_tm = []

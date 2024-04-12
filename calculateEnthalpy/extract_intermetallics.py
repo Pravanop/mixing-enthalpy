@@ -60,8 +60,7 @@ def extract_intermetallics():
 	fields = ['composition' , 'formation_energy_per_atom' , 'energy_above_hull' , 'chemsys']
 	
 	with open(
-			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data"
-			"/dump_20240404-213329.json" , 'r'
+            "/calculateEnthalpy/data/output_data/old_data/dump_20240404-213329.json", 'r'
 			) as f :
 		dump_dict = json.load(f)
 	

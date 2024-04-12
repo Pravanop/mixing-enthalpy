@@ -6,7 +6,7 @@ import seaborn as sns
 sns.set_theme(style = 'dark')
 lattice = "bcc"
 source = "Cr_W"
-binary = load_json(folder_path = "./data/input_data/",
+binary = load_json(folder_path ="../data/input_data/",
                    source = source,
                    lattice = lattice)
 keys = list(binary.keys())

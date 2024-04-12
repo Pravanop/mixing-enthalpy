@@ -19,7 +19,7 @@ def plot_tempDiagram(comp , ax , color) :
 	:param comp:
 	"""
 	with open(
-			"data/output_data/TD_bokas_bcc_offequi.pickle" ,
+			"../data/output_data/old_data/TD_bokas_bcc_offequi.pickle",
 			'rb'
 			) as f :
 		dump_dict = pickle.load(f)
