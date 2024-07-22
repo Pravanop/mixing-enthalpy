@@ -1,6 +1,6 @@
 import json
 import pickle
-from create_alloy_comp import create_multinary
+from calculateEnthalpy.create_alloy_comp import create_multinary
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
@@ -9,17 +9,17 @@ from pymatgen.core import Composition
 
 font = {
 		'family' : 'Helvetica' ,
-		'size'   : 16
+		'size'   : 20
 		}
 matplotlib.rc('font' , **font)
 
-def plot_tempDiagram(comp , ax , color) :
+def plot_tempDiagram(comp , ax , color, save) :
 	"""
 
 	:param comp:
 	"""
 	with open(
-			"../data/output_data/old_data/TD_bokas_bcc_offequi.pickle",
+			"../data/output_data/old_data/TD_bokas_bcc.pickle",
 			'rb'
 			) as f :
 		dump_dict = pickle.load(f)
@@ -54,10 +54,10 @@ def plot_tempDiagram(comp , ax , color) :
 				).to_latex_string() + " + \n"
 	
 	decomp_latex_name = decomp_latex_name[:-3]
-	size = 15
+	size = 50
 	ax.plot(
 			temperatures , energy_above_hull , linestyle = '-' , color = color , alpha = 0.5 ,
-			markeredgecolor = "black" , linewidth = 3.5 , label = "_nolegend_" , zorder = 0
+			markeredgecolor = "black" , linewidth = 5.5 , label = "_nolegend_" , zorder = 0
 			)
 	ax.scatter(
 			temperatures , energy_above_hull , marker = 'o' , linestyle = '-' , color = color , s = size * 9 ,
@@ -69,34 +69,36 @@ def plot_tempDiagram(comp , ax , color) :
 	ax.axvspan(0 , temperatures[transition] , alpha = 0.1 , color = color)
 	ax.text(
 			x = temperatures[transition] - 50 , y = 50 , verticalalignment = "bottom" , horizontalalignment = "right" ,
-			s = decomp_latex_name , fontsize = 15
+			s = decomp_latex_name
 			)
 	comp_new = comp.split('-')
 	frac = str(round(1 / len(comp_new) , 2))
 	print(comp , temperatures[transition])
 	join_str = "_" + "{" + frac + "}"
 	comp_new_str = "".join(comp_new)
-	ax.text(x = temperatures[transition] + 50 , y = 80 , s = comp_new_str , fontsize = 14)
-	save = False
-	ax.set_xlim([0 , 3000])
-	ax.set_ylim([-10 , 250])
+	ax.text(x = temperatures[transition] + 50 , y = 80 , s = comp_new_str)
+	ax.set_xlim([0 , 2000])
+	ax.set_ylim([-10 , 150])
 	if save :
 		# Save or show the plot
-		plt.tight_layout()  # Adjust layout to prevent clipping of labels
-		plt.savefig('phase_diagram.png' , dpi = 300)  # Save plot as image
+		# plt.tight_layout()  # Adjust layout to prevent clipping of labels
+		plt.savefig('/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/plotting/phase_diagram.png' , dpi = 300)  # Save plot as image
 
 
 ele_list = ["Cr" , "Ta" , "V" , "W", "Ti"]
 
-compositions = create_multinary(element_list = ele_list , no_comb = [4])[0]
-fig , axs = plt.subplots(len(compositions)+1 , 1 , sharey = True , sharex = True , figsize = (10 , 8))
-plt.subplots_adjust(wspace = 0 , hspace = 0 , left = 0.09 , bottom = 0.095 , top = 0.92 , right = 0.948)
+compositions = create_multinary(element_list = ele_list , no_comb = [5])[0]
+
+fig , axs = plt.subplots(len(compositions) , 1 , sharey = True , sharex = True , figsize = (10 , 8))
+if len(compositions) == 1:
+	axs = [axs]
+plt.subplots_adjust(wspace = 0 , hspace = 0 , left = 0.12 , bottom = 0.095 , top = 0.92 , right = 0.948)
 fig.supylabel("Energy above Hull (meV/atom)")
 fig.supxlabel("Temperature (K)")
 color_scheme = ["#6699CC" , "#004488" , "#EECC66" , "#994455" , "#997700" , "#EE99AA"]
 for idx , ax in enumerate(axs) :
-	try :
-		plot_tempDiagram(compositions[idx] , ax , color_scheme[idx])
-	except :
-		continue
+	# try :
+	plot_tempDiagram(compositions[idx] , ax , color_scheme[idx], save = True)
+	# except :
+	# 	continue
 # plt.show()

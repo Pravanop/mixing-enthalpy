@@ -17,8 +17,7 @@ st.title('High Entropy Alloy Analysis from First-Principles (HEA-AFP)')
 check = True
 user_inp = st.text_input(label = 'Input',placeholder = "Provide a list of elements in form Al-Cu-Ni")
 ele_list_user_inp = user_inp.split('-')
-element_list_path = ("/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/input_data"
-                          "/element_list_bcc_bokas_old.txt")
+element_list_path = ("/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/input_data/element_list_bcc_bokas_corrected.txt")
 
 with open(element_list_path) as f :
 	element_total_list = f.read()
@@ -51,7 +50,7 @@ if user_inp and check:
 			print(st.session_state.clicked[2])
 			invalid = False
 			try :
-				search_inst = search_composition(inp = ele_list_user_inp)
+				search_inst = search_composition(inp = ele_list_user_inp,)
 			except ValueError as e :
 				invalid = True
 				st.write(str(e))

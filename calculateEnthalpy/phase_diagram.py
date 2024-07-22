@@ -16,7 +16,7 @@ from prepareVASPRuns.file_utils import load_json_to_dict
 from calculateEnthalpy.thermo_math import gibbs_energy, calc_configEntropy
 
 
-def make_PD_per_comp(comp, dump_dict, temperature=1000):
+def make_PD_per_comp(comp, dump_dict, temperature):
 	"""
 	This should be a user-facing function in the future.
 	:param comp:
@@ -27,7 +27,7 @@ def make_PD_per_comp(comp, dump_dict, temperature=1000):
 	# comp is "El1-El2-EL3"
 	ele_list = comp.split('-')
 	n_alloy = len(ele_list)
-	single_energy = load_json_to_dict("./data/input_data/single_energy.json")
+	# single_energy = load_json_to_dict("./data/input_data/single_energy.json")
 	all_combs = create_multinary(element_list=ele_list, no_comb=list(range(2, n_alloy + 1)))
 	# this is a list of lists
 	pd_entry_input = {}
@@ -82,7 +82,7 @@ def make_PD_per_comp(comp, dump_dict, temperature=1000):
 	phase_diagram = PhaseDiagram(pd_entries_list)
 	decomp, e_hull = phase_diagram.get_decomp_and_e_above_hull(target_pd_entry, allow_negative=True)
 	enthalpy = target_pd_entry.energy_per_atom
-	return e_hull, decomp, enthalpy
+	return phase_diagram
 
 
 def make_phaseDiagram(out_file_name: str = "bokas", lattice: str = "bcc"):
@@ -167,4 +167,4 @@ def make_tempDiagram(out_file_name: str = "bokas", lattice: str = "bcc"):
 	with open(f'data/output_data/TD_{out_file_name}_{lattice}.pickle', 'wb') as f:
 		pickle.dump(phase_diagram_dict, f)
 
-make_phaseDiagram()
+# make_phaseDiagram()

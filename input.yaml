@@ -2,11 +2,11 @@ file : main_input
 element_list : ['Ru', 'Ir', 'Mn', 'Co', 'Fe', 'Ni', 'Cu', 'Cr']
 abs_path : "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy"
 mp-api:
-  lattice : 'HCP' # BCC, FCC, HCP, SC
+  lattice : 'FCC' # BCC, FCC, HCP, SC
   xc_functional: "GGA_GGA+U"
 sqs:
   doping_percent : 50 # in percentage
-  supercell : [3, 2, 2]
+  supercell : [3, 2, 1]
   coord_type: 'cart' #options are 'cart' or 'frac'. 'cart' works for BCC, 'frac' works for FCC. the actual reason is
   #unknown
   pair_interaction : 2.4 # should ideally be calculated

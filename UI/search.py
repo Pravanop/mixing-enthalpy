@@ -16,9 +16,7 @@ from calculateEnthalpy.create_alloy_comp import create_multinary
 class search_composition :
 	def __init__(
 			self , inp: list ,
-			path: str = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data"
-			            "/dump_20240217"
-			            "-165153_intermetallic.json" ,
+			path: str = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/dump_20240412-143649_intermetallic.json" ,
 			) :
 		inp.sort()
 		self.ele_list = inp
@@ -116,11 +114,8 @@ class search_any :
 			self ,
 			inp: Union[list , str] ,
 			find: list[str] ,
-			path: str = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data"
-			            "/dump_20240217"
-			            "-165153_intermetallic.json" ,
-			element_list_path: str = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data"
-			                         "/input_data/element_list_bcc_bokas.txt" ,
+			path: str = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/dump_20240412-143649_intermetallic.json" ,
+			element_list_path: str = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/input_data/element_list_bcc_bokas_corrected.txt" ,
 			) :
 		
 		with open(path , 'r') as f :

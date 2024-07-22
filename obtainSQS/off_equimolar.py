@@ -30,7 +30,7 @@ def obtainSQS_off_equimolar(
 		# 	os.mkdir(out_file_path)
 		
 		obtainSQS(
-			supercell = [3 , 2 , 2] ,
+			supercell = [1 , 1 , 1] ,
 			input_path = file_path ,
 			output_path = out_file_path ,
 			dopant_percentage = doping_percent ,
