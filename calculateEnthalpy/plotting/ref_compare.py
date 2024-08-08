@@ -14,7 +14,7 @@ font = {
 		}
 matplotlib.rc('font' , **font)
 
-df = pd.read_csv("../data/input_data/ternary_tan.csv")
+df = pd.read_csv("../data/input_data/archive/ternary_tan.csv")
 start = -180
 stop = 180
 distance = 30

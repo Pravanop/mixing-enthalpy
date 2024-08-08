@@ -1,0 +1,158 @@
+"""This is from Zhang et al., A Fast and Robust Method for Predicting the Phase Stability of Refractory Complex
+Concentrated Alloys Using Pairwise Mixing Enthalpy http://dx.doi.org/10.2139/ssrn.4081906 """
+import numpy as np
+from calculateEnthalpy.helper_functions.grid_code import create_multinary
+from calculateEnthalpy.helper_functions.data_utils import extract_binaryEnthalpy
+from scipy.integrate import quad
+
+
+class thermo_maths:
+
+    def __init__(self, binary_dict):
+        self.binary_dict = binary_dict
+
+    def calc_pairwiseInteractionParameter(self,
+                                          mix_enthalpy: float,
+                                          mol_i: float,
+                                          mol_j: float) -> float:
+        """
+        Function for the Eq. 1 in Zhang et al. A Fast and Robust Method for Predicting the Phase Stability of Refractory
+        Complex Concentrated Alloys Using Pairwise Mixing Enthalpy. http://dx.doi.org/10.2139/ssrn.4081906
+
+                                    omega_ij = delta_H_ij/(x_i*x_j)
+
+        :param mix_enthalpy: binary equimolar mixing enthalpy of elements i, j
+        :param mol_i: mole fraction of element i
+        :param mol_j: mole fraction of element j
+        :return: pairwise interaction parameter
+        """
+        return np.round(mix_enthalpy / (mol_i * mol_j), 7)
+
+    def calc_subregular_model_enthalpy(
+            self,
+            mol_fraction: list[float],
+            omega1: float,
+            omega2: float,
+    ) -> np.array:
+        """
+        Basic function to calculate a subregular model with cubic fit. Taken from John Cavin's thesis Eq 3.3.
+        :param omega1, omega2: pairwise-interaction parameters
+        :param mol_fraction: array of mole fractions
+        :return: mixing enthalpy value for mole fraction
+        """
+        x_i, x_j = mol_fraction
+        return x_i * x_j * (omega1 * x_i + omega2 * x_j)
+
+    def calc_regular_model_enthalpy(
+            self,
+            mol_fraction: list[float],
+            omega: float,
+    ) -> np.array:
+        """
+        Basic function to calculate a subregular model with cubic fit. Taken from John Cavin's thesis Eq 3.3.
+        :param omega: array of pairwise-interaction parameters for each mole fraction
+        :param mol_fraction: array of mole fractions
+        :return: mixing enthalpy value for mole fraction
+        """
+        x_i, x_j = mol_fraction
+        return x_i * x_j * omega
+
+    def calc_configEntropy(self,
+                           mol_ratio: dict[str:float]) -> float:
+        """
+        A simple function to calculate boltzmann configurational entropy.
+
+                        delta_S = -k_b*sum_i=1_n(x_i*ln(x_i))
+
+        :param mol_ratio: list of floats of mole fraction
+        :return: boltzmann configurational entropy
+        """
+        assert sum(
+            list(mol_ratio.values())
+        ) == 1  # just in case, should be handled internally, but if non-equimolar is used
+        k_b = 8.617333262e-05
+        return np.round(-k_b * sum([value * np.log(value) for key, value in mol_ratio.items()]), 7)
+
+    def calc_gibbs_energy(
+            self,
+            enthalpy: float,
+            entropy: float,
+            temperature: float
+    ) -> float:
+        """
+        Function to implement G = H - TS
+        :param enthalpy: the mixing enthalpy
+        :param entropy: the configurational entropy
+        :param temperature: the desired temperature
+        :return: gibbs free energy
+        """
+        return np.round(enthalpy - temperature * entropy, 7)
+
+    def calc_vib_gibbs_energy(self):
+        pass
+
+    def calc_debye_function(self,
+                            x: float = 0) -> float:
+        """
+
+        :param x: upper limit for function integrand
+        :return:
+        """
+        debye = 3 / (x ** 3)
+
+        def integrand(t) -> float:
+            """
+
+            :param t:
+            :return:
+            """
+            return (t ** 3) / (np.exp(t) - 1)
+
+        integral = quad(integrand, 0, x)[0]
+        return debye * integral
+
+    def calc_vibrational_energy(self,
+                                debye_temp: float,
+                                temp: float
+                                ) -> float:
+        """
+
+        :param debye_temp:
+        :param temp:
+        :return:
+        """
+        k_b = 8.617333262e-05
+        x = debye_temp / temp
+        energy = (9 / 8) * k_b * debye_temp
+        energy = energy + k_b * temp * (3 * np.log(1 - np.exp(-x)) - self.calc_debye_function(x))
+        return energy
+
+    def calc_multinary_mixEnthalpy(self,
+                                   alloy_comp: str,
+                                   mol_ratio: dict[str:float],
+                                   ) -> float:
+        """
+        Generalizing to off equimolar compositions with regular model
+
+        :param alloy_comp: str of the form 'ele1-ele2-ele3'
+        :param mol_ratio: mole fraction for each element in composition in order!
+        :return: enthalpy of mixing for multinary compound in ev/atom
+        """
+        ele_list = alloy_comp.split('-')
+        binaries = create_multinary(element_list=ele_list, no_comb=[2])
+        mix_enthalpy = 0
+        for idx, binary in binaries.items():
+            for idx2, ele in enumerate(binary):
+                two_el = ele.split("-")
+                mix_enthalpy_data = extract_binaryEnthalpy(
+                    binary_dict=self.binary_dict,
+                    ele_pair=ele
+                )
+                omega_ij = self.calc_pairwiseInteractionParameter(mix_enthalpy=mix_enthalpy_data,
+                                                                  mol_i=0.5,
+                                                                  mol_j=0.5)
+                mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
+                H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction,
+                                                         omega=omega_ij)
+                mix_enthalpy += H_mix
+        return np.round(mix_enthalpy, 6)

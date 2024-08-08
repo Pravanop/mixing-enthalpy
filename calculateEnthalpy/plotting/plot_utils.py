@@ -1,10 +1,8 @@
-import json
 import pickle
-from calculateEnthalpy.create_alloy_comp import create_multinary
+from calculateEnthalpy.helper_functions.grid_code import create_multinary
 import matplotlib.pyplot as plt
 import matplotlib
 import numpy as np
-from pymatgen.analysis.phase_diagram import PDEntry
 from pymatgen.core import Composition
 
 font = {
@@ -19,14 +17,19 @@ def plot_tempDiagram(comp , ax , color, save) :
 	:param comp:
 	"""
 	with open(
-			"../data/output_data/old_data/TD_bokas_bcc.pickle",
+
+			"../data/output_data/old_data/TD_john_from_bokas_bcc.pickle",
+			# "../data/output_data/old_data/TD_bokas_bcc.pickle",
 			'rb'
 			) as f :
 		dump_dict = pickle.load(f)
 	data_old = dump_dict[comp]
 	data = {}
-	print(data_old)
+	decomp = {}
+	# print(data_old)
 	for key , value in data_old.items() :
+		# decomp[key] = value
+		print(value)
 		data[key] = value[0] * 1000
 	decomp = {}
 	enthalpy = {}
@@ -35,15 +38,21 @@ def plot_tempDiagram(comp , ax , color, save) :
 		enthalpy[key] = value[2]
 	
 	decomp_temp = list(decomp.values())
+	# decomp_temp = decomp
 	temperatures = np.array(list(data.keys())).astype(int)
 	energy_above_hull = list(data.values())
 	try :
 		transition = energy_above_hull.index(0)
 	except :
 		transition = -1
+
+	print(temperatures[transition])
+	# print("decomp_tmep", decomp_temp)
 	decomp_transition = decomp_temp[transition - 1]
+	# print(decomp_transition)
 	decomp_latex_name = ""
-	for key in list(decomp_transition.keys()) :
+	# for key in list(decomp_transition.keys()) :
+	for i in decomp_transition:
 		decomp_latex_name += Composition(
 				''.join(
 						str(key).split(": ")[1].split(" w")[0].split(

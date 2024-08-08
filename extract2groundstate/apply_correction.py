@@ -63,9 +63,9 @@ for phase in ["BCC", "FCC", "HCP"]:
         mixing_enthalpies[phase][pair] = mixing_enthalpies[phase][pair] / 4 \
                                          - 0.5 * (elements[groundstate_dict[a]][a] + elements[groundstate_dict[b]][b]
                                                   - elements[phase][a] - elements[phase][b])
-with open('../calculateEnthalpy/data/input_data/bcc_bokas_corrected.json', 'w') as json_file:
+with open('../calculateEnthalpy/data/input_data/bokas/bcc_bokas.json', 'w') as json_file:
     json.dump(mixing_enthalpies['BCC'], json_file)
-with open('../calculateEnthalpy/data/input_data/fcc_bokas_corrected.json', 'w') as json_file:
+with open('../calculateEnthalpy/data/input_data/bokas/fcc_bokas.json', 'w') as json_file:
     json.dump(mixing_enthalpies['FCC'], json_file)
-with open('../calculateEnthalpy/data/input_data/hcp_bokas_corrected.json', 'w') as json_file:
+with open('../calculateEnthalpy/data/input_data/bokas/hcp_bokas.json', 'w') as json_file:
     json.dump(mixing_enthalpies['HCP'], json_file)

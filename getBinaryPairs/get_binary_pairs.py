@@ -1,7 +1,7 @@
 """
 Gets binary pairs for SQS creation
 """
-from calculateEnthalpy.create_alloy_comp import create_multinary_unsorted, create_multinary
+from calculateEnthalpy.helper_functions.grid_code import create_multinary
 
 def get_binary_pairs(ele_list: list) -> list[str]:
 	"""
