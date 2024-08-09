@@ -10,20 +10,13 @@ import plotly.express as px
 import matplotlib.pyplot as plt
 import numpy as np
 
-def array_plotter(arr, temp):
+def array_plotter(arr, temp, ele_assign):
     z, x, y = arr.nonzero()
 
     # Extract non-zero elements
     ele = arr[x, y, z].astype(str)
 
-    ele_assign = {
-        'Cr': 1,
-        'W': 2,
-        'V': 3,
-        'Ta': 4,
-        'Ti': 5,
-        'Hf': 6,
-    }
+    ele_assign = ele_assign
     inv_eleassign = {str(v): k for k, v in ele_assign.items()}
 
     color_scheme = {

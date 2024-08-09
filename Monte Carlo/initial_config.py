@@ -2,7 +2,7 @@ import numpy as np
 
 
 class InitialConfig:
-    def __init__(self, rep_unit, ele_dict, lookup_dict):
+    def __init__(self, rep_unit, ele_dict, lookup_dict, ele_assign):
         self.bcclattice = None
         self.rep_unit = rep_unit
         self.ele_dict = ele_dict
@@ -14,14 +14,7 @@ class InitialConfig:
         self.lattice_points = np.where(self.bcclattice == 1)
         self.atoms = np.count_nonzero(self.bcclattice)
         self.ele_list = list(self.ele_dict.keys())
-        self.ele_assign = {
-            'Cr': 1,
-            'W': 2,
-            'V': 3,
-            'Ta': 4,
-            'Ti': 5,
-            'Hf': 6,
-        }
+        self.ele_assign = ele_assign
         self.inv_ele_assign = {v: k for k, v in self.ele_assign.items()}
         self.ele_no_list = [self.ele_assign[i] for i in self.ele_list]
         self.ele_lattice()

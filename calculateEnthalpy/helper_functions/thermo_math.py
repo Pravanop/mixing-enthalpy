@@ -67,9 +67,9 @@ class thermo_maths:
         :param mol_ratio: list of floats of mole fraction
         :return: boltzmann configurational entropy
         """
-        assert sum(
+        assert round(sum(
             list(mol_ratio.values())
-        ) == 1  # just in case, should be handled internally, but if non-equimolar is used
+        ),3) == 1  # just in case, should be handled internally, but if non-equimolar is used
         k_b = 8.617333262e-05
         return np.round(-k_b * sum([value * np.log(value) for key, value in mol_ratio.items()]), 7)
 

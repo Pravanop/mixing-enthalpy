@@ -53,12 +53,16 @@ class Link:
 
 class PlotReactionPathways:
 
-    def __init__(self, rP):
+    def __init__(self, rP, constraint: str = 'all'):
         self.rP = rP
         #color
         self._init_colordata()
-        self.xlo = 5
-        self.xhi = 5
+        self.xlo = 15
+        self.xhi = 15
+        if constraint != 'all':
+            self.constraint = [tuple(i.split('-')) for i in constraint]
+        else:
+            self.constraint = constraint
         #plotdata
         self.fontsize = 14
         self.linewidth = 1.5
@@ -72,21 +76,21 @@ class PlotReactionPathways:
 
     def level(self, x, color, y, label):
         return plt.plot([x - self.xlo+1, x + self.xhi-1], [y, y], color=color, linestyle='-', linewidth=self.linewidth + 2,
-                        label=label)
+                        label=label, zorder=25)
 
     def sub_level(self, x, color, y):
-        return plt.scatter(x, y, color=color, marker='o', s= 5)
+        return plt.scatter(x, y, color=color, marker='o', s= 5, zorder=25)
 
     def level_texts(self, x, y, label):
-        return plt.text(s=label, x=x - 2*self.xlo, y=y, fontsize=self.fontsize - 6, fontweight='bold')
+        return plt.text(s=label, x=x - self.xlo, y=y, fontsize=self.fontsize - 6, fontweight='bold', zorder=25)
 
     def link(self, x1, x2, y1, y2, color, best, zorder):
         if best:
-            return plt.plot([x1 + self.xhi, x2 - self.xlo], [y1, y2], color=color, linestyle='-',
+            return plt.plot([x1, x2], [y1, y2], color=color, linestyle='-',
                             linewidth=self.linewidth + 0.5,
                             zorder=zorder)
         else:
-            return plt.plot([x1 + self.xhi, x2 - self.xlo], [y1, y2], color=color, linestyle='--',
+            return plt.plot([x1, x2], [y1, y2], color=color, linestyle='--',
                             linewidth=self.linewidth,
                             alpha=0.5, zorder=zorder)
 
@@ -106,17 +110,21 @@ class PlotReactionPathways:
         return nodes
     def _process_pathways(self):
         all_pathways = []
-        for i in self.rP["all_pathways"]:
-            temp = []
-            for j in range(len(i)):
-                temp.append('-'.join(i[:j + 1]))
+        print(self.constraint)
+        if self.constraint == 'all':
+            self.constraint = self.rP["all_pathways"]
 
-            all_pathways.append(temp)
+        for i in self.rP["all_pathways"]:
+            if i in self.constraint:
+                temp = []
+                for j in range(len(i)):
+                    temp.append('-'.join(i[:j + 1]))
+
+                all_pathways.append(temp)
 
         return all_pathways
 
-    @staticmethod
-    def _create_pathways(all_pathways, subnodes, nodes):
+    def _create_pathways(self, all_pathways, subnodes, nodes):
         Pathways = []
         for i in all_pathways:
             temp = []
@@ -130,6 +138,7 @@ class PlotReactionPathways:
                     sorted_j = '-'.join((sorted(j.split('-'))))
                     if sorted_j == k.alloy:
                         temp.append(k)
+
             temp = sorted(temp, key=lambda y: y.x)
             Pathways.append(temp)
 
@@ -148,7 +157,6 @@ class PlotReactionPathways:
 
     def _create_links(self, pathways, order):
         links = []
-        print(self.rP['all_pathways'][18])
         for idx in range(len(pathways)):
             best = False
             pathway = pathways[order[idx]]
@@ -170,22 +178,22 @@ class PlotReactionPathways:
         all_pathways = self._process_pathways()
 
         pathways = self._create_pathways(all_pathways, subnodes, nodes)
-
         self.scores, order = self._rank_pathways(pathways)
 
         links = self._create_links(pathways, order)
 
         for idx, node in enumerate(nodes):
-            self.level(x=node.x,
-                       color=self.color_dict[node.alloy],
-                       y=node.temperature,
-                       label=node.name)
-            self.level_texts(node.x, node.temperature+10, node.alloy)
+                self.level(x=node.x,
+                           color=self.color_dict[node.alloy],
+                           y=node.temperature,
+                           label=node.name)
+                self.level_texts(node.x, node.temperature+10, node.alloy)
 
         for subnode in subnodes:
-            self.sub_level(x=subnode.x,
-                           y=subnode.temperature,
-                           color="black")
+                self.sub_level(x=subnode.x,
+                               y=subnode.temperature,
+                               color="black")
+
         for link_o in links:
             self.link(x1=link_o.x1,
                       x2=link_o.x2,
@@ -203,7 +211,7 @@ class PlotReactionPathways:
         self.display_pathways(self.rP["all_pathways"], order)
 
         if self.save:
-            plt.savefig(self.plot_save_path + f"/{'-'.join(self.rP['ele_list_main'])}_V.png", dpi=300)
+            plt.savefig(self.plot_save_path + f"/{'-'.join(self.rP['ele_list_main'])}.png", dpi=300)
 
 
 
@@ -212,5 +220,6 @@ with open(
         'rb') as f:
     rP, pathway_energies_temp, pathway_scores = pickle.load(f)
 
-plot_pathways = PlotReactionPathways(rP)
+# plot_pathways = PlotReactionPathways(rP, constraint=['V-Ti-Zr-Nb', 'V-Ti-Nb-Zr', 'V-Nb-Zr-Ti'])
+plot_pathways = PlotReactionPathways(rP, constraint="all")
 plot_pathways.main_plot()

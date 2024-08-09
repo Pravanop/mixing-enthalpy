@@ -5,14 +5,27 @@ import numpy as np
 
 
 def create_mol_grid(n, grid_size):
-    mol_grid = np.round(np.linspace(0.1, 0.9, grid_size), 2)
-    # print(list(itertools.product([mol_grid, mol_grid], repeat = n - 1)))
+    mol_grid = np.round(np.linspace(0.01, 0.99, grid_size), 3)
     mol_combs = [list(i) for i in list(itertools.permutations(mol_grid, n - 1)) if sum(list(i)) <= 1]
-    total_mol_combs = [i + [abs(1 - sum(i))] for i in mol_combs] + [[1/n]*n]
-    check_mol_combs = [sum(i) for i in total_mol_combs]
-    assert sum(check_mol_combs) == len(total_mol_combs)
 
-    return total_mol_combs
+    total_mol_combs = [i + [abs(1 - sum(i))] for i in mol_combs] + [[1/n]*n]
+    tot = []
+    for i in total_mol_combs:
+        tot.append(i)
+        for j in list(itertools.permutations(i, len(i))):
+            tot.append(list(j))
+    counter_dict = {}
+    renew_tot = []
+    for i in tot:
+        if str(i) in counter_dict:
+            continue
+        else:
+            renew_tot.append(i)
+            counter_dict[str(i)] = 1
+    check_mol_combs = [sum(i) for i in renew_tot]
+    assert sum(check_mol_combs) == len(renew_tot)
+
+    return renew_tot
 
 def create_multinary(
         element_list: list[str],

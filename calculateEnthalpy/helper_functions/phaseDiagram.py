@@ -3,6 +3,7 @@ import json
 import numpy as np
 from pymatgen.analysis.phase_diagram import PDEntry, PhaseDiagram
 from pymatgen.core import Composition
+from tqdm import tqdm
 
 from calculateEnthalpy.helper_functions.data_utils import load_json
 from calculateEnthalpy.helper_functions.grid_code import create_multinary
@@ -29,7 +30,7 @@ class phaseDiagram:
 
         self.binary_dict = load_json(folder_path=f"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/input_data/", lattice=lattice, source=source)
         self.tm = thermo_maths(self.binary_dict)
-        self.temp_grid = np.arange(0, 3200, 100)
+        self.temp_grid = np.arange(0, 3200, 200)
 
     def make_PD_composition(self, temperature: float, composition: str):
         """
@@ -85,7 +86,7 @@ class phaseDiagram:
     def make_PD_comp_temp(self,
                           composition: str) -> dict[float:PhaseDiagram]:
         PD_temp_comp_dict = {}
-        for idx, temp in enumerate(self.temp_grid):
+        for idx, temp in enumerate(tqdm(self.temp_grid, desc="Running Temperature")):
             PD_temp_comp_dict[temp] = self.make_PD_composition(temperature=temp,
                                                                composition=composition)
 
