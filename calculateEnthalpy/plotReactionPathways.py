@@ -1,23 +1,64 @@
 import pickle
-import random
-from random import randint
+import re
 
 import matplotlib.pyplot as plt
 import numpy as np
 
 
+class Node:
+
+    def __init__(self, name, value):
+        self.name = name
+        self.alloy = name
+        self.temperature = value
+        self.node_class = len(name.split('-'))
+        self.x = self.node_class * 100
+        self.node_type = 0
+        self.comp = [1 / self.node_class] * self.node_class
+
+    def __str__(self):
+        return self.name
+
+
+class subNode:
+
+    def __init__(self, name, value):
+        self.name = name
+        self.temperature = value
+        self.comp = re.findall(r"\d+\.\d+", name)
+        self.alloy = ''.join([i for i in name if not i.isdigit() and i != '.' and i != ','])
+        self.node_type = 1
+        self.node_class = len(self.comp)
+        self.x = (self.node_class - 1 + float(self.comp[-1]) * self.node_class) * 100
+
+    def __str__(self):
+        return self.name
+
+
+class Link:
+    def __init__(self, node1, node2, rank, color, best):
+        self.node1 = node1
+        self.node2 = node2
+        self.x1 = node1.x
+        self.x2 = node2.x
+        self.y1 = node1.temperature
+        self.y2 = node2.temperature
+        self.rank = rank
+        self.color = color
+        self.best = best
+
+    def __str__(self):
+        return f'{self.node1.alloy} -> {self.node2.alloy}'
+
+
 class PlotReactionPathways:
 
-    def __init__(self, rP, pathway_energies_temp, pathway_scores):
-        self.all_pathways = None
+    def __init__(self, rP):
         self.rP = rP
-        self.pathway_energies_temp = pathway_energies_temp
-        self.pathway_scores = pathway_scores
-
-        self.x = {1: 1, 2: 4, 3: 7, 4: 10}
         #color
         self._init_colordata()
-
+        self.xlo = 5
+        self.xhi = 5
         #plotdata
         self.fontsize = 14
         self.linewidth = 1.5
@@ -29,111 +70,147 @@ class PlotReactionPathways:
         self.link_color = plt.cm.seismic(np.linspace(0.0, 1, len(self.rP['all_pathways'])))
         self.color_dict = dict(zip(list(self.rP['enthalpy_dict'].keys()), self.color))
 
-    @staticmethod
-    def _check_length(key: str):
-        return len(key.split('-'))
-
     def level(self, x, color, y, label):
-        xlo = 0.5
-        xhi = 0.5
-        return plt.plot([x - xlo, x + xhi], [y, y], color=color, linestyle='-', linewidth=self.linewidth-1)
+        return plt.plot([x - self.xlo+1, x + self.xhi-1], [y, y], color=color, linestyle='-', linewidth=self.linewidth + 2,
+                        label=label)
+
+    def sub_level(self, x, color, y):
+        return plt.scatter(x, y, color=color, marker='o', s= 5)
 
     def level_texts(self, x, y, label):
-        xlo = 0.5
-        xhi = 0.5
-        return plt.text(s=label, x=x-xlo, y=y, fontsize=self.fontsize-8, fontweight='bold')
+        return plt.text(s=label, x=x - 2*self.xlo, y=y, fontsize=self.fontsize - 6, fontweight='bold')
 
     def link(self, x1, x2, y1, y2, color, best, zorder):
-        xlo = 0.5
-        xhi = 0.5
         if best:
-            return plt.plot([x1 + xhi, x2 - xlo], [y1, y2], color=color, linestyle='-', linewidth=self.linewidth + 0.5,
+            return plt.plot([x1 + self.xhi, x2 - self.xlo], [y1, y2], color=color, linestyle='-',
+                            linewidth=self.linewidth + 0.5,
                             zorder=zorder)
         else:
-            return plt.plot([x1 + xhi, x2 - xlo], [y1, y2], color=color, linestyle='--', linewidth=self.linewidth,
+            return plt.plot([x1 + self.xhi, x2 - self.xlo], [y1, y2], color=color, linestyle='--',
+                            linewidth=self.linewidth,
                             alpha=0.5, zorder=zorder)
 
-    def plot_texts(self):
-        texts = []
-        keys = list(self.rP['misc_temp_dict'].keys())
-        values = list(self.rP['misc_temp_dict'].values())
-        counter_list = []
-        for idx, key in enumerate(keys):
+    def _create_subnodes(self):
+        subnodes = []
+        for i in self.rP["sub_misc_temp_dict"].keys():
+            subnodes.append((subNode(name=i, value=rP["sub_misc_temp_dict"][i])))
 
-            if key not in counter_list:
-                close_to = [keys[i] for i in range(len(keys)) if abs(values[i] - values[idx]) <= 150 and self.x[self._check_length(keys[i])] == self.x[self._check_length(key)]]
-                for id, i in enumerate(close_to):
-                    if i not in counter_list:
-                        idx2 = keys.index(i)
-                        texts.append(self.level_texts(x=self.x[self._check_length(key)] + id*0.5,
-                                                      y=values[idx2]+10,
-                                                      label=keys[idx2]))
+        return subnodes
 
-                        counter_list.append(i)
+    def _create_nodes(self):
+        nodes = []
 
-        return texts
+        for i in self.rP["misc_temp_dict"].keys():
+            nodes.append(Node(name=i, value=rP["misc_temp_dict"][i]))
 
-    def plot_levels(self):
-        levels = []
+        return nodes
+    def _process_pathways(self):
+        all_pathways = []
+        for i in self.rP["all_pathways"]:
+            temp = []
+            for j in range(len(i)):
+                temp.append('-'.join(i[:j + 1]))
 
-        for key, value in self.rP['misc_temp_dict'].items():
-            levels.append(self.level(self.x[self._check_length(key)], y=value, color=self.color_dict[key], label=key))
+            all_pathways.append(temp)
 
-        return levels
+        return all_pathways
 
-    def plot_links(self):
+    @staticmethod
+    def _create_pathways(all_pathways, subnodes, nodes):
+        Pathways = []
+        for i in all_pathways:
+            temp = []
+            for j in i:
+                for k in nodes:
+                    sorted_j = '-'.join((sorted(j.split('-'))))
+                    if sorted_j == k.alloy:
+                        temp.append(k)
 
+                for k in subnodes:
+                    sorted_j = '-'.join((sorted(j.split('-'))))
+                    if sorted_j == k.alloy:
+                        temp.append(k)
+            temp = sorted(temp, key=lambda y: y.x)
+            Pathways.append(temp)
+
+        return Pathways
+
+    def _rank_pathways(self, pathways):
+        pathway_scores = []
+        for i in pathways:
+            temp_score = 0
+            for node in i:
+                temp_score += node.temperature
+
+            pathway_scores.append(temp_score/len(i))
+
+        return pathway_scores, np.argsort(pathway_scores)
+
+    def _create_links(self, pathways, order):
         links = []
-        all_paths = list(np.array(list(self.pathway_energies_temp.keys()))[self.pathway_scores[1]])
-        self.all_pathways = all_paths
-        for idx_path, path in enumerate(all_paths):
-            keys = list(self.pathway_energies_temp[path].keys())
-            values = list(self.pathway_energies_temp[path].values())
-            for idx, link_value in enumerate(values):
-                if idx + 1 == len(keys):
-                    continue
-                if idx_path == 0:
-                    best = True
-                else:
-                    best = False
-                links.append(self.link(
-                    x1=self.x[self._check_length(keys[idx])],
-                    y1=link_value['misc_T'],
-                    x2=self.x[self._check_length(keys[idx + 1])],
-                    y2=values[idx + 1]['misc_T'],
-                    color=self.link_color[idx_path],
-                    best=best,
-                    zorder=idx_path))
-
-            # count += 1
+        print(self.rP['all_pathways'][18])
+        for idx in range(len(pathways)):
+            best = False
+            pathway = pathways[order[idx]]
+            if idx == 0:
+                best = True
+            color = self.link_color[idx]
+            for first, second in zip(pathway, pathway[1:]):
+                links.append(Link(first, second, idx, color, best))
 
         return links
 
-    def plot_reaction_pathways(self):
+    def display_pathways(self, all_pathways, order):
+        for ind, idx in enumerate(order):
+            print(f"{ind}  {all_pathways[idx]}  {self.scores[idx]}")
+    def main_plot(self):
 
-        levels = self.plot_levels()
-        links = self.plot_links()
-        texts = self.plot_texts()
+        subnodes = self._create_subnodes()
+        nodes = self._create_nodes()
+        all_pathways = self._process_pathways()
 
-        for i in range(len(levels)):
-            levels[i]
-            texts[i]
+        pathways = self._create_pathways(all_pathways, subnodes, nodes)
 
-        for i in range(len(links)):
-            links[i]
+        self.scores, order = self._rank_pathways(pathways)
 
+        links = self._create_links(pathways, order)
+
+        for idx, node in enumerate(nodes):
+            self.level(x=node.x,
+                       color=self.color_dict[node.alloy],
+                       y=node.temperature,
+                       label=node.name)
+            self.level_texts(node.x, node.temperature+10, node.alloy)
+
+        for subnode in subnodes:
+            self.sub_level(x=subnode.x,
+                           y=subnode.temperature,
+                           color="black")
+        for link_o in links:
+            self.link(x1=link_o.x1,
+                      x2=link_o.x2,
+                      y1=link_o.y1,
+                      y2=link_o.y2,
+                      color=link_o.color,
+                      best=link_o.best,
+                      zorder=link_o.rank)
+
+        plt.ylim([200, 3000])
         plt.xlabel("Reaction Coordinate")
         plt.ylabel("Temperature (K)")
         plt.title(f"Deposition Pathways for {'-'.join(self.rP['ele_list_main'])}")
 
+        self.display_pathways(self.rP["all_pathways"], order)
+
         if self.save:
-            plt.savefig(self.plot_save_path + f"/{'-'.join(self.rP['ele_list_main'])}.png", dpi=300)
+            plt.savefig(self.plot_save_path + f"/{'-'.join(self.rP['ele_list_main'])}_V.png", dpi=300)
 
 
-with open("/calculateEnthalpy/data/output_data/aziz_bcc_2/pathway_energies_temp.p",
-          'rb') as f:
+
+with open(
+        "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/aziz_bcc_2/pathway_energies_temp.p",
+        'rb') as f:
     rP, pathway_energies_temp, pathway_scores = pickle.load(f)
-plots = PlotReactionPathways(rP, pathway_energies_temp, pathway_scores)
-plots.plot_reaction_pathways()
-for idx, paths in enumerate(plots.all_pathways):
-    print(idx, ' ', paths)
+
+plot_pathways = PlotReactionPathways(rP)
+plot_pathways.main_plot()

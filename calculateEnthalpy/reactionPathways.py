@@ -4,39 +4,10 @@ from typing import Tuple
 
 import numpy as np
 from calculateEnthalpy.helper_functions.data_utils import load_json
-from calculateEnthalpy.helper_functions.grid_code import create_multinary
+from calculateEnthalpy.helper_functions.grid_code import create_multinary, create_mol_grid
 from calculateEnthalpy.helper_functions.thermo_math import thermo_maths
 from calculateEnthalpy.helper_functions.phaseDiagram import phaseDiagram
 import matplotlib.pyplot as plt
-
-inp_dict = {
-    'Nb': {
-        'melting_temp': 2750,
-        'mols': 1,
-        'coords': 0.2,
-        'color': '#004488'
-    },
-    'V': {
-        'melting_temp': 2183,
-        'mols': 1,
-        'coords': 0.4,
-        'color': "#DDAA33"
-    },
-    'Zr': {
-        'melting_temp': 2128,
-        'mols': 1,
-        'coords': 0.6,
-        'color': "#BB5566"
-    },
-    'Ti': {
-        'melting_temp': 1941,
-        'mols': 1,
-        'coords': 0.8,
-        'color': "#EE7733"
-    }
-}
-lattice = "bcc"
-source = "aziz"
 
 
 class reactionPathways:
@@ -53,6 +24,8 @@ class reactionPathways:
         self.tm = thermo_maths(binary_dict=binary_dict)
         self.pD = phaseDiagram(source=source, lattice=lattice, version_no=2)
 
+        self.binary_mol = [[0.8, 0.2], [0.7, 0.3], [0.5, 0.5]]
+        self.ternary_mol = [[0.45, 0.45, 0.1], [0.4, 0.4, 0.2], [0.33, 0.33, 0.34]]
         self.misc_T_scores = None
         self.enthalpy_scores = None
 
@@ -85,20 +58,75 @@ class reactionPathways:
 
         enthalpy_dict = {}
         misc_temp_dict = {}
+        sub_enthalpy_dict = {}
+        sub_misc_temp_dict = {}
+        print(self.all_comps)
         for key, value in self.all_comps.items():
             for idx, alloy in enumerate(value):
+                print(alloy)
                 subset_ele_list = alloy.split("-")
-                mol_ratio = [1 / len(subset_ele_list)] * len(subset_ele_list)
-                misc_temp = self.pD.find_misc_temperature(mol_ratio=mol_ratio,
-                                                          composition=alloy)
-                mol_ratio = dict(zip(subset_ele_list, mol_ratio))
-                enthalpy_dict[alloy] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
-                                                                          mol_ratio=mol_ratio)
+                if len(subset_ele_list) == 2:
+                    for idx, mol in enumerate(self.binary_mol):
 
-                if misc_temp is not None:
-                    misc_temp_dict[alloy] = misc_temp
+                        mol_ratio = mol
+                        misc_temp = self.pD.find_misc_temperature(mol_ratio=mol_ratio,
+                                                                  composition=alloy)
+                        mol_ratio = dict(zip(subset_ele_list, mol_ratio))
+                        alloy_key = '-'.join([f"{key},{value}" for key, value in mol_ratio.items()])
+                        if idx == len(self.binary_mol) - 1:
+                            enthalpy_dict[alloy] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
+                                                                                      mol_ratio=mol_ratio)
+                            print(enthalpy_dict[alloy])
+                            if misc_temp is not None:
+                                misc_temp_dict[alloy] = misc_temp
+                            else:
+                                misc_temp_dict[alloy] = 5000
+                        else:
+                            sub_enthalpy_dict[alloy_key] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
+                                                                                              mol_ratio=mol_ratio)
+
+                            if misc_temp is not None:
+                                sub_misc_temp_dict[alloy_key] = misc_temp
+                            else:
+                                sub_misc_temp_dict[alloy_key] = 5000
+
+                elif len(subset_ele_list) == 3:
+                    for idx, mol in enumerate(self.ternary_mol):
+                        mol_ratio = mol
+                        misc_temp = self.pD.find_misc_temperature(mol_ratio=mol_ratio,
+                                                                  composition=alloy)
+                        mol_ratio = dict(zip(subset_ele_list, mol_ratio))
+                        alloy_key = '-'.join([f"{key},{value}" for key, value in mol_ratio.items()])
+                        if idx == len(self.ternary_mol) - 1:
+
+                            enthalpy_dict[alloy] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
+                                                                                      mol_ratio=mol_ratio)
+                            print(enthalpy_dict[alloy])
+                            if misc_temp is not None:
+                                misc_temp_dict[alloy] = misc_temp
+                            else:
+                                misc_temp_dict[alloy] = 5000
+                        else:
+                            sub_enthalpy_dict[alloy_key] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
+                                                                                              mol_ratio=mol_ratio)
+                            print(sub_enthalpy_dict[alloy_key])
+                            if misc_temp is not None:
+                                sub_misc_temp_dict[alloy_key] = misc_temp
+                            else:
+                                sub_misc_temp_dict[alloy_key] = 5000
+
                 else:
-                    misc_temp_dict[alloy] = 5000
+                    mol_ratio = [1 / len(subset_ele_list)] * len(subset_ele_list)
+                    misc_temp = self.pD.find_misc_temperature(mol_ratio=mol_ratio,
+                                                              composition=alloy)
+                    mol_ratio = dict(zip(subset_ele_list, mol_ratio))
+                    enthalpy_dict[alloy] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
+                                                                              mol_ratio=mol_ratio)
+
+                    if misc_temp is not None:
+                        misc_temp_dict[alloy] = misc_temp
+                    else:
+                        misc_temp_dict[alloy] = 5000
 
         for key, value in self.inp_meta.items():
             misc_temp_dict.update({
@@ -110,6 +138,8 @@ class reactionPathways:
 
         self.enthalpy_dict = enthalpy_dict
         self.misc_temp_dict = misc_temp_dict
+        self.sub_enthalpy_dict = sub_enthalpy_dict
+        self.sub_misc_temp_dict = sub_misc_temp_dict
 
     def _initialize_for_phaseSpace(self):
         self.all_comps = self._compute_all_comps()
@@ -127,6 +157,9 @@ class reactionPathways:
         for paths, values in pathway_energies_temp.items():
             temperatures = [i['misc_T'] for i in list(values.values())]
             enthalpies = [i['enthalpy'] for i in list(values.values())]
+            sub_temperatures = [list(i['subs'].values()) for i in list(values.values()) if i['subs'] != {}]
+            sub_temperatures = list(np.array(sub_temperatures).reshape(-1, 1))
+            temperatures += sub_temperatures
             enthalpy_score = self.compute_pathway_score(pathway=enthalpies)
             misc_T_score = self.compute_pathway_score(pathway=temperatures)
             enthalpy_scores.append(enthalpy_score)
@@ -134,10 +167,26 @@ class reactionPathways:
 
         return np.argsort(enthalpy_scores), np.argsort(misc_T_scores)
 
+    def _sub_match_key(self, keys, match_key):
+        eles = match_key.split('-')
+        indices = []
+        for idx, i in enumerate(keys):
+            flag = 0
+            for j in eles:
+                if j in i:
+                    flag += 1
+                else:
+                    continue
+
+            if flag == len(eles) and len(eles) == len(i.split('-')):
+                indices.append(idx)
+
+        return indices
+
     @property
     def compute_pathway_energies_temp(self) -> dict:
         pathway_energies_temp = {}
-
+        sub_keys = list(self.sub_misc_temp_dict.keys())
         for paths in self.all_pathways:
             alloys = []
             for i in range(len(self.ele_list_main)):
@@ -148,11 +197,18 @@ class reactionPathways:
             pathway_energies_temp['-'.join(paths)] = {}
             for alloy in alloys:
                 sorted_alloy = '-'.join(sorted(alloy.split('-')))
+                indices = self._sub_match_key(keys=sub_keys, match_key=sorted_alloy)
+                sub_dict = {}
+                if indices:
+                    for i in indices:
+                        sub_dict[sub_keys[i]] = self.sub_misc_temp_dict[sub_keys[i]]
+
                 pathway_energies_temp['-'.join(paths)].update({
                     alloy: {
                         'enthalpy': self.enthalpy_dict[sorted_alloy],
-                        'misc_T': self.misc_temp_dict[sorted_alloy]
-                    }
+                        'misc_T': self.misc_temp_dict[sorted_alloy],
+                        'subs': sub_dict
+                    },
                 })
 
         return pathway_energies_temp
@@ -165,15 +221,48 @@ class reactionPathways:
             'all_comps': self.all_comps,
             'enthalpy_dict': self.enthalpy_dict,
             'misc_temp_dict': self.misc_temp_dict,
+            'sub_misc_temp_dict': self.sub_misc_temp_dict,
+            'sub_enthalpy_dict': self.sub_enthalpy_dict,
         }
 
 
-rP = reactionPathways(lattice=lattice, source=source, inp_meta=inp_dict)
-pathway_energies_temp = rP.compute_pathway_energies_temp
-pathway_scores = rP.rank_pathway(pathway_energies_temp)
+if __name__ == '__main__':
+    inp_dict = {
+        'Nb': {
+            'melting_temp': 2750,
+            'mols': 1,
+            'coords': 0.2,
+            'color': '#004488'
+        },
+        'V': {
+            'melting_temp': 2183,
+            'mols': 1,
+            'coords': 0.4,
+            'color': "#DDAA33"
+        },
+        'Zr': {
+            'melting_temp': 2128,
+            'mols': 1,
+            'coords': 0.6,
+            'color': "#BB5566"
+        },
+        'Ti': {
+            'melting_temp': 1941,
+            'mols': 1,
+            'coords': 0.8,
+            'color': "#EE7733"
+        }
+    }
+    lattice = "bcc"
+    source = "aziz"
 
-pickle.dump((
-    rP.pickler,
-    pathway_energies_temp,
-    pathway_scores),
-    open('/calculateEnthalpy/data/output_data/aziz_bcc_2/pathway_energies_temp.p', 'wb'))
+    rP = reactionPathways(lattice=lattice, source=source, inp_meta=inp_dict)
+    pathway_energies_temp = rP.compute_pathway_energies_temp
+    pathway_scores = rP.rank_pathway(pathway_energies_temp)
+
+    pickle.dump((
+        rP.pickler,
+        pathway_energies_temp,
+        pathway_scores),
+        open('/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/aziz_bcc_2'
+             '/pathway_energies_temp.p', 'wb'))
