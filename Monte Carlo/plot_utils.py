@@ -68,47 +68,43 @@ def sro(mol_frac_dict, key, prob):
     return np.round(1 - prob / mol_frac_dict[key[0]], 3)
 
 
-def sro_list(arr, neighbour_list, ele_dict):
+def sro_list(arr, neighbour_list, ele_assign):
+    keys, values = np.unique(arr, return_counts=True)
+    ele_dict = dict(zip(keys,values))
+    del ele_dict[0]
+    total = sum(list(ele_dict.values()))
+    ele_dict = {k:v/total for k, v in ele_dict.items()}
     sro_counter = {}
+    inv_eleassign = {str(v): k for k, v in ele_assign.items()}
     for point in neighbour_list:
         neighbours = [tuple(sorted((arr[point[0]], arr[i]))) for i in point[1]]
         counter = dict(Counter(neighbours))
         total_bonds = sum(list(counter.values()))
         counter = {key: sro(ele_dict, key, value / total_bonds) for key, value in counter.items()}
         for key, value in counter.items():
-            if key not in sro_counter:
-                sro_counter[key] = [value]
+            key_modif = '-'.join([inv_eleassign[str(i)] for i in key])
+            if key_modif not in sro_counter:
+                sro_counter[key_modif] = value
             else:
-                sro_counter[key].append(value)
+                sro_counter[key_modif] += value
 
+    sro_counter = {k:round(v/len(neighbour_list),2) for k, v in sro_counter.items()}
     return sro_counter
 
-
-
-
-
 def line_plot(plot_conf, x, y):
-    x = x
-    y = y
 
     # Create a new figure
-    plt.figure(figsize=plot_conf['fig_size'])
-
+    # plt.figure(figsize=plot_conf['fig_size'])
+    fig, ax = plt.subplots(2, 1, figsize=plot_conf['fig_size'])
     # Plot the line with custom style
-    plt.plot(x, y, color='royalblue', linewidth=2.5, linestyle='-', marker='o', markersize=7, markerfacecolor='orange',
+    ax[0].plot(x, y, color='royalblue', linewidth=2.5, linestyle='-', marker='o', markersize=7, markerfacecolor='orange',
              markeredgewidth=2, alpha=0.8)
-
+    ax[1].hist(y, bins=30, edgecolor="black", color='royalblue', alpha=0.8)
     # Add titles and labels
-    plt.title(plot_conf['title'], fontsize=plot_conf['fontsize'] + 1, fontweight='bold')
-    plt.xlabel(plot_conf['xlabel'], fontsize=plot_conf['fontsize'])
-    plt.ylabel(plot_conf['ylabel'], fontsize=plot_conf['fontsize'])
-
-    # Customize the grid
-    plt.grid(True, linestyle='--', color='gray', alpha=0.2)
-
-    # Customize ticks
-    # plt.xticks(fonplot_conf['fontsize'])
-    # plt.yticks(plot_conf['fontsize'])
+    ax[0].set_title(plot_conf['title'], fontsize=plot_conf['fontsize'] + 1, fontweight='bold')
+    ax[0].set_xlabel(plot_conf['xlabel'], fontsize=plot_conf['fontsize'])
+    ax[0].set_ylabel(plot_conf['ylabel'], fontsize=plot_conf['fontsize'])
+    ax[1].set_xlabel(plot_conf['ylabel'], fontsize=plot_conf['fontsize'])
 
     plt.savefig(plot_conf['file_path'], dpi=300)
 

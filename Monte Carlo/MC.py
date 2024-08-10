@@ -1,7 +1,12 @@
 import datetime
+import time
 from itertools import combinations
 from initial_config import InitialConfig
 import numpy as np
+import numba as nb
+from numba.typed import Dict
+from numba.core import types
+from numpy.random import rand as rp
 import random
 from tqdm import tqdm
 import pickle
@@ -17,6 +22,7 @@ class MonteCarlo:
     def __init__(self, initial_conf, config_dict):
 
         self.initial_config = initial_conf
+        self.atoms = initial_conf.atoms
         self.lookup = self.initial_config.lookup
         self.config_dict = config_dict
         self.log = config_dict['log']
@@ -28,6 +34,7 @@ class MonteCarlo:
         self.neighbour_list2 = create_neighbor_list(self.initial_config.final_bcclattice, flag=2)
         self.neighbour_dict = {i[0]: i[1] for i in self.neighbour_list}
         self.neighbour_dict2 = {i[0]: i[1] for i in self.neighbour_list2}
+
     def hamiltonian_bonds(self, point, arr):
         """
         Bonds
@@ -35,8 +42,11 @@ class MonteCarlo:
         :param arr:
         :return:
         """
-        site = arr[point[0]]
-        return sum([self.lookup[str(sorted([site, arr[i]]))] for i in point[1]])
+        site, neighbour = arr[point[0]], point[1]
+        answer = 0
+        for i in neighbour:
+            answer += self.lookup[str(sorted([site, arr[i]]))]
+        return answer
 
     def hamiltonian_enthalpy(self, point, arr):
         """
@@ -53,9 +63,12 @@ class MonteCarlo:
 
     def energy_finder_new(self, arr, neighbour_list, flag):
         if flag == "bonds":
-            return sum([self.hamiltonian_bonds(point, arr) for point in neighbour_list]) / 2/2000
+            answer = 0
+            for point in neighbour_list:
+                answer += self.hamiltonian_bonds(point, arr)
+            return answer/2
         if flag == "enthalpy":
-            return sum([self.hamiltonian_enthalpy(point, arr) for point in neighbour_list]) / 8/2000
+            return sum([self.hamiltonian_enthalpy(point, arr) for point in neighbour_list]) / 8
 
     def pair_swapper(self, arr, new=False):
 
@@ -89,6 +102,7 @@ class MonteCarlo:
         if not os.path.isdir(folder_path):
             os.mkdir(folder_path)
             os.mkdir(f'{folder_path}/plots')
+            os.mkdir(f'{folder_path}/dumps')
 
         self.dump_dict = {
             'steps_trajectory': np.array(self.steps),
@@ -105,10 +119,10 @@ class MonteCarlo:
             "fig_size": (8, 6),
             "file_path": f'./{folder_path}/plots/{temp}_energy.png'
         }
-        line_plot(plot_conf=plot_conf, x=np.array(self.steps), y=np.array(self.energy_trajectory))
-        #add bar plot
 
-        with open(f'./{folder_path}/{temp}K_{now}.pickle', 'wb') as handle:
+        line_plot(plot_conf=plot_conf, x=np.array(self.steps), y=np.array(self.energy_trajectory)/self.atoms)
+
+        with open(f'./{folder_path}/dumps/{temp}K_{now}.pickle', 'wb') as handle:
             pickle.dump(self.dump_dict, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
     def mc_single_temp(self, n_trails, temp, lattice, log, nn):
@@ -125,12 +139,16 @@ class MonteCarlo:
         self.steps = []
         self.energy_trajectory = []
         self.structure_trajectory = []
+
         for i in tqdm(range(n_trails), desc=f"Running at {temp} K with {swaps} swap"):
-            x_iplus1, rand = self.n_pair_swapper(n=swaps, arr=x_i.copy(), new=True)
-            try:
-                assert np.array_equal(x_iplus1, x_i) is not True
-            except AssertionError:
-                x_iplus1, rand = self.n_pair_swapper(n=1, arr=x_i.copy(), new=True)
+        # for i in range(n_trails):
+            flag = True
+
+            while flag:
+                x_iplus1, rand = self.n_pair_swapper(n=swaps, arr=x_i.copy(), new=True)
+                if np.array_equal(x_iplus1, x_i) is not True:
+                    flag = False
+
 
             if nn == 1:
                 x_i_neighbour = list(set(
@@ -139,7 +157,6 @@ class MonteCarlo:
                 neighbour = [[tuple(i), self.neighbour_dict[i]] for i in x_i_neighbour]
                 e_iplus1 = e_i - self.energy_finder_new(x_i, neighbour, flag=log["ham"]) + self.energy_finder_new(
                     x_iplus1.copy(), neighbour, flag=log["ham"])
-                e_iplus1 = e_iplus1
             elif nn == 2:
                 x_i_neighbour = list(set(
                     self.neighbour_dict[tuple(rand[0])] + [tuple(rand[0])] + self.neighbour_dict[tuple(rand[1])] + [
@@ -149,30 +166,26 @@ class MonteCarlo:
                     self.neighbour_dict2[tuple(rand[0])] + [tuple(rand[0])] + self.neighbour_dict2[tuple(rand[1])] + [
                         tuple(rand[1])]))
                 neighbour2 = [[tuple(i), self.neighbour_dict2[i]] for i in x_i_neighbour2]
-
                 e_iplus1 = e_i - self.energy_finder_new(x_i, neighbour, flag=log["ham"]) - (np.sqrt(3) / 2) \
                            * self.energy_finder_new(x_i, neighbour2, flag=log["ham"]) + self.energy_finder_new(
                     x_iplus1.copy(), neighbour, flag=log["ham"]) + (np.sqrt(3) / 2) * self.energy_finder_new(
                     x_iplus1.copy(), neighbour2, flag=log["ham"])
-                e_iplus1 = e_iplus1
 
-            if e_iplus1 < e_i or self.boltzmann_probability(e_iplus1 - e_i, temp) >= random.random():
+            next_step = e_iplus1 < e_i or self.boltzmann_probability(e_iplus1 - e_i, temp) >= rp()
+            if next_step:
                 x_i = x_iplus1
                 e_i = e_iplus1
 
-                if count % 10000 == 0:
+                if count % 1000 == 0:
                     self.steps.append(i)
-                    self.energy_trajectory.append(e_iplus1)
+                    self.energy_trajectory.append(e_i)
                     self.structure_trajectory.append(x_i)
 
                 count += 1
-
         return x_i
 
     @property
     def single_temp_protocol(self) -> np.array:
-        # system = '-'.join(list(self.initial_config.ele_list))
-
         print("Warmup Run:")
         x_warm = self.mc_single_temp(n_trails=self.config_dict["n_warm"],
                                      temp=self.config_dict["warm_T"],
@@ -192,13 +205,15 @@ class MonteCarlo:
 
     @property
     def stage_temp_protocol(self) -> np.array:
-        temp_ranges = np.linspace(start=3000, stop=300, num=9).astype(int)
+        temp_ranges = np.linspace(start=3000, stop=300, num=3).astype(int)
         print("Warmup Run:")
         x_warm = self.mc_single_temp(n_trails=self.config_dict["n_warm"],
                                      temp=self.config_dict["warm_T"],
                                      lattice=self.initial_config.final_bcclattice,
                                      log=self.log,
                                      nn=self.config_dict['nn'])
+
+        self.logger(self.config_dict["warm_T"])
         self.steps.append(100)
         self.energy_trajectory.append(100)
         self.structure_trajectory.append(np.zeros_like(x_warm))
