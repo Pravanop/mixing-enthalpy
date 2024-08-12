@@ -1,27 +1,37 @@
 import itertools
 import pickle
 from typing import Tuple
-
 import numpy as np
-from calculateEnthalpy.helper_functions.data_utils import load_json
-from calculateEnthalpy.helper_functions.grid_code import create_multinary, create_mol_grid
-from calculateEnthalpy.helper_functions.thermo_math import thermo_maths
-from calculateEnthalpy.helper_functions.phaseDiagram import phaseDiagram
-import matplotlib.pyplot as plt
+
+from calculateEnthalpy.helper_functions.data_utils import DataUtils
+from calculateEnthalpy.helper_functions.grid_code import create_multinary
+from calculateEnthalpy.helper_functions.thermo_math import thermoMaths
+from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
 
 
 class reactionPathways:
+    """
+    Calculates deposition sequence for a certain quartenary HEA based on mixing parameter governed by predicted from miscibility temperature
+    """
+    def __init__(self,
+                 lattice: str,
+                 source: str,
+                 inp_meta: dict)-> None:
+        """
 
-    def __init__(self, lattice, source, inp_meta):
-
+        Args:
+            lattice:  lattice currently working on. Accepted values are 'bcc', 'fcc', 'hcp'
+            source: a unique source identifier. The naming conventions for the input data can be read in the read me file for this folder
+            inp_meta: A dictionary containing melting temperature information of the base elements. An example is below
+        """
         self.lattice = lattice
         self.source = source
         self.inp_meta = inp_meta
 
         self.ele_list_main = list(inp_dict.keys())
 
-        binary_dict = load_json(folder_path=f"../../data/input_data/", lattice=lattice, source=source)
-        self.tm = thermo_maths(binary_dict=binary_dict)
+        binary_dict = DataUtils.load_json(folder_path=f"../../data/input_data/", lattice=lattice, source=source)
+        self.tm = thermoMaths(binary_dict=binary_dict)
         self.pD = phaseDiagram(source=source, lattice=lattice, version_no=2)
 
         self.binary_mol = [[0.8, 0.2], [0.7, 0.3], [0.5, 0.5]]
@@ -31,16 +41,45 @@ class reactionPathways:
 
         self._initialize_for_phaseSpace()
 
-    def _update_pathways_dict(self, pathways_dict):
+    def _update_pathways_dict(self,
+                              pathways_dict: dict)-> None:
+        """
+
+        Args:
+            pathways_dict: Sets a pathways dict incase one has been precomputed and stored elsewhere.
+
+        Returns:
+
+        """
+
         self.pathway_energies_temp = pathways_dict
 
-    def _compute_all_comps(self):
+    def _compute_all_comps(self)-> dict:
+        """
+        Creates all subset HEAs within the given composition.
+        Returns: a dictionary of the form
+	{
+	3: ['E1-E2-E3', 'E1-E3-E4'....],
+	2: ....
+	}
+
+        """
         return create_multinary(self.ele_list_main, no_comb=list(range(2, len(self.ele_list_main) + 1)))
 
-    def _compute_all_pathways(self):
+    def _compute_all_pathways(self) -> list:
+        """
+        Computes all the deposition sequences possible for the given composition
+        Returns: List of permutations in the form [(1, 2, 3,4), (1, 3, 2, 4), (2, 3, 1, 4)....]
+
+        """
         return list(itertools.permutations(self.ele_list_main, len(self.ele_list_main)))
 
-    def _compute_x_coord(self):
+    def _compute_x_coord(self) -> None:
+        """
+        Computes the x coordinates for the subset alloys. Assigns increasing x value for higher dim alloys.
+        Returns: None
+
+        """
         coords_dict = {}
         for comp, _ in self.enthalpy_dict.items():
             if '-' in comp:
@@ -50,21 +89,27 @@ class reactionPathways:
 
             coords_dict[comp] = length * 1.5
             for i in comp.split('-'):
-                coords_dict[comp] += self.inp_meta[i]['coords']
+                coords_dict[comp] += self.inp_meta[i]['coords'] # Base coords are present in the input meta dictionary
 
         self.coords_dict = coords_dict
 
-    def _compute_enthalpies_and_temperatures_for_each_sub_alloy(self):
+    def _compute_enthalpies_and_temperatures_for_each_sub_alloy(self) -> None:
+        """
+        The main function that calculates the mixing enthalpies, and gets the miscibility temperature from the created convex hull.
+        Returns: None
+
+        """
 
         enthalpy_dict = {}
         misc_temp_dict = {}
         sub_enthalpy_dict = {}
         sub_misc_temp_dict = {}
-        print(self.all_comps)
         for key, value in self.all_comps.items():
+            # iterates through the various dims
             for idx, alloy in enumerate(value):
-                print(alloy)
+                # iterates through the alloys in a dimensionality
                 subset_ele_list = alloy.split("-")
+                # hardcoded off equimolar ratios for each subset. Can be changed to better code later.
                 if len(subset_ele_list) == 2:
                     for idx, mol in enumerate(self.binary_mol):
 
@@ -76,12 +121,12 @@ class reactionPathways:
                         if idx == len(self.binary_mol) - 1:
                             enthalpy_dict[alloy] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
                                                                                       mol_ratio=mol_ratio)
-                            print(enthalpy_dict[alloy])
                             if misc_temp is not None:
                                 misc_temp_dict[alloy] = misc_temp
                             else:
-                                misc_temp_dict[alloy] = 5000
+                                misc_temp_dict[alloy] = 5000 #a very high temperature so that sorting, and subsequent functions don't get an error.
                         else:
+                            # the offequimolar ratios are kept in a separate function to facilitate easier processing for plotting and visualization
                             sub_enthalpy_dict[alloy_key] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
                                                                                               mol_ratio=mol_ratio)
 
@@ -101,7 +146,6 @@ class reactionPathways:
 
                             enthalpy_dict[alloy] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
                                                                                       mol_ratio=mol_ratio)
-                            print(enthalpy_dict[alloy])
                             if misc_temp is not None:
                                 misc_temp_dict[alloy] = misc_temp
                             else:
@@ -109,13 +153,13 @@ class reactionPathways:
                         else:
                             sub_enthalpy_dict[alloy_key] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
                                                                                               mol_ratio=mol_ratio)
-                            print(sub_enthalpy_dict[alloy_key])
                             if misc_temp is not None:
                                 sub_misc_temp_dict[alloy_key] = misc_temp
                             else:
                                 sub_misc_temp_dict[alloy_key] = 5000
 
                 else:
+                    #hardcoded for quarternary
                     mol_ratio = [1 / len(subset_ele_list)] * len(subset_ele_list)
                     misc_temp = self.pD.find_misc_temperature(mol_ratio=mol_ratio,
                                                               composition=alloy)
@@ -141,17 +185,39 @@ class reactionPathways:
         self.sub_enthalpy_dict = sub_enthalpy_dict
         self.sub_misc_temp_dict = sub_misc_temp_dict
 
-    def _initialize_for_phaseSpace(self):
+    def _initialize_for_phaseSpace(self) -> None:
+        """
+        Wrapper function that computes all the pre-processing code.
+        Returns: None
+
+        """
         self.all_comps = self._compute_all_comps()
         self.all_pathways = self._compute_all_pathways()
         self._compute_enthalpies_and_temperatures_for_each_sub_alloy()
         self._compute_x_coord()
 
     @staticmethod
-    def compute_pathway_score(pathway: list):
+    def compute_pathway_score(pathway: list) -> float:
+        """
+        The pathway score is the average miscible temperature for that path.
+        Args:
+            pathway: list of miscibility temperatures
+
+        Returns: Average miscible temperature.
+
+        """
         return sum(pathway) / len(pathway)
 
-    def rank_pathway(self, pathway_energies_temp) -> Tuple[np.ndarray, np.ndarray]:
+    def rank_pathway(self,
+                     pathway_energies_temp: dict) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Ranks the pathways according to their average miscibility temperature.
+        Args:
+            pathway_energies_temp: The dictionary computed from compute_pathway_energies_temp
+
+        Returns: The argsort for the enthalpy and miscibility temperatures to give rank later on
+
+        """
         enthalpy_scores = []
         misc_T_scores = []
         for paths, values in pathway_energies_temp.items():
@@ -167,7 +233,18 @@ class reactionPathways:
 
         return np.argsort(enthalpy_scores), np.argsort(misc_T_scores)
 
-    def _sub_match_key(self, keys, match_key):
+    def _sub_match_key(self,
+                       keys: list,
+                       match_key: str) -> list:
+        """
+        Helper function to find the indices of the sub nodes in the node dictionary, to match off equimolar compositions with their equimolar counterparts.
+        Args:
+            keys: List of equimolar keys
+            match_key: off-equimolar "sub-key"
+
+        Returns: list of matching indices
+
+        """
         eles = match_key.split('-')
         indices = []
         for idx, i in enumerate(keys):
@@ -185,6 +262,22 @@ class reactionPathways:
 
     @property
     def compute_pathway_energies_temp(self) -> dict:
+        """
+        Computes all the pathways with their node energies, and misc temperatures, along with sub-node information
+        Returns: dictionary of pathway energies and misc temperatures in the form
+        {'pathway1': {
+                        alloy_name: {
+                                    enthalpy:,
+                                    misc_T:,
+                                    sub: {
+                                            sub_alloy1 : misc_T,
+                                            sub_alloy2: ...,
+                                         }
+                                    }
+                        },
+        'pathway2': ...}
+
+        """
         pathway_energies_temp = {}
         sub_keys = list(self.sub_misc_temp_dict.keys())
         for paths in self.all_pathways:
@@ -215,6 +308,11 @@ class reactionPathways:
 
     @property
     def pickler(self) -> dict:
+        """
+        Makes a dictionary object that stores all the information needed for plotting and visulization
+        Returns: dictionary of needed information needed for plotting and visualization by plotReactionPathways
+
+        """
         return {
             'all_pathways': self.all_pathways,
             'ele_list_main': self.ele_list_main,
@@ -225,6 +323,8 @@ class reactionPathways:
             'sub_enthalpy_dict': self.sub_enthalpy_dict,
         }
 
+
+#Example Runs.
 
 if __name__ == '__main__':
     inp_dict = {

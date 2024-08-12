@@ -5,7 +5,11 @@ import matplotlib.pyplot as plt
 import mpltern
 from tqdm import tqdm
 from calculateEnthalpy.helper_functions.grid_code import create_mol_grid
-from calculateEnthalpy.helper_functions.phaseDiagram import phaseDiagram
+from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
+
+"""
+Example script to make a ternary diagram. Left bare for higher customizability. 
+"""
 
 pD = phaseDiagram()
 composition = "Cr-V-Ti"
@@ -19,26 +23,25 @@ folder_path = "/plots/phase_diagrams"
 os.mkdir(f"{folder_path}/{composition}")
 t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
 for temp in tqdm(temps, desc="Creating phase diagrams"):
-    stables = []
-    for idx, mol in enumerate(mol_grid):
-        is_stable = pD.check_stability(mol_ratio=mol,
-                                   temp=temp,
-                                   conv_hull=phase_diag_dict[temp])
-        if is_stable is not None:
-            if np.isclose(is_stable[1], 0.0, atol=1e-3):
-                stable = 0
-            else:
-                stable = 1
-        else:
-            stable = 0
-        stables.append(stable)
+	stables = []
+	for idx, mol in enumerate(mol_grid):
+		is_stable = pD.check_stability(mol_ratio=mol,
+									   temp=temp,
+									   conv_hull=phase_diag_dict[temp])
+		if is_stable is not None:
+			if np.isclose(is_stable[1], 0.0, atol=1e-3):
+				stable = 0
+			else:
+				stable = 1
+		else:
+			stable = 0
+		stables.append(stable)
 
-
-    ax = plt.subplot(projection="ternary")
-    mol_grid = np.array(mol_grid)
-    ax.tricontourf(t, l, r, stables)
-    ax.grid()
-    ax.set_tlabel(f"{ele_list[0]}")
-    ax.set_llabel(f"{ele_list[1]}")
-    ax.set_rlabel(f"{ele_list[2]}")
-    plt.savefig(f"{folder_path}/{composition}/{temp}.png")
+	ax = plt.subplot(projection="ternary")
+	mol_grid = np.array(mol_grid)
+	ax.tricontourf(t, l, r, stables)
+	ax.grid()
+	ax.set_tlabel(f"{ele_list[0]}")
+	ax.set_llabel(f"{ele_list[1]}")
+	ax.set_rlabel(f"{ele_list[2]}")
+	plt.savefig(f"{folder_path}/{composition}/{temp}.png")
