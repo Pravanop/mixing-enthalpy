@@ -4,15 +4,11 @@ Contributors : Joshua Cheng, Pravan Omprakash
 """
 import os
 from tqdm import tqdm
-import shutil
 
 from mp_api.client import MPRester
-from callMpAPI.extract import eleList_to_POSCAR
-from callMpAPI.utils import getAPIKey
+from calculateEnthalpy.callMpAPI import eleList_to_POSCAR
+from calculateEnthalpy.callMpAPI import getAPIKey
 from getBinaryPairs.get_binary_pairs import get_binary_pairs
-from obtainSQS.main import write_rndstr , write_sqscellout
-from obtainSQS.run_atat import runsqs
-from obtainSQS.sqs2poscar import sqs2POSCAR
 from obtainSQS.sqs_pymat import obtainSQS
 from prepareVASPRuns.main import create_vasprun
 from prepareVASPRuns.file_utils import load_yaml_to_dict

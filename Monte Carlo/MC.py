@@ -250,7 +250,7 @@ def main(ele_dict: dict,
 if __name__ == "__main__":
     lookup, ele_assign = enthalpy_model_lookup(source="pravan",
                                                lattice="bcc",
-                                               folder_path="/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/input_data")
+                                               folder_path="/data/input_data")
     rep_unit = 10
     ele_dict = {
         'Cr': 0.5,

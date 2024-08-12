@@ -20,7 +20,7 @@ class reactionPathways:
 
         self.ele_list_main = list(inp_dict.keys())
 
-        binary_dict = load_json(folder_path=f"./data/input_data/", lattice=lattice, source=source)
+        binary_dict = load_json(folder_path=f"../../data/input_data/", lattice=lattice, source=source)
         self.tm = thermo_maths(binary_dict=binary_dict)
         self.pD = phaseDiagram(source=source, lattice=lattice, version_no=2)
 
@@ -264,5 +264,5 @@ if __name__ == '__main__':
         rP.pickler,
         pathway_energies_temp,
         pathway_scores),
-        open('/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/aziz_bcc_2'
-             '/pathway_energies_temp.p', 'wb'))
+        open('/data/output_data/aziz_bcc_2'
+			 '/pathway_energies_temp.p', 'wb'))

@@ -4,7 +4,7 @@ Calls MP-API to get all intermetallics for everything from previous step.
 """
 
 import json
-from callMpAPI.utils import getAPIKey
+from calculateEnthalpy.callMpAPI.utils import getAPIKey
 from mp_api.client import MPRester
 import time
 

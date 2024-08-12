@@ -67,7 +67,7 @@ class PlotReactionPathways:
         self.fontsize = 14
         self.linewidth = 1.5
         self.save = True
-        self.plot_save_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/plots/"
+        self.plot_save_path = "/plots/"
 
     def _init_colordata(self):
         self.color = plt.cm.magma(np.linspace(0.0, 1, len(self.rP['all_pathways'])))
@@ -216,7 +216,7 @@ class PlotReactionPathways:
 
 
 with open(
-        "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/output_data/aziz_bcc_2/pathway_energies_temp.p",
+		"/data/output_data/aziz_bcc_2/pathway_energies_temp.p",
         'rb') as f:
     rP, pathway_energies_temp, pathway_scores = pickle.load(f)
 

@@ -1,11 +1,9 @@
 import os
 
 from pymatgen.core import Element
-from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
-from pymatgen.core.structure import Structure
 from tqdm import tqdm
 
-from callMpAPI.utils import convert_to_conventional , convert_to_primitive
+from calculateEnthalpy.callMpAPI.utils import convert_to_conventional
 
 """Goal of this script is to take in a set of elements, a specific spacegroup and return the structure,
 mpid and other useful information"""

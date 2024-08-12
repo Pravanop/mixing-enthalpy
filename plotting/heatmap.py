@@ -7,8 +7,8 @@ sns.set_theme(style = 'dark')
 lattice = "bcc"
 source = "Cr_W"
 binary = load_json(folder_path ="../data/input_data/",
-                   source = source,
-                   lattice = lattice)
+				   source = source,
+				   lattice = lattice)
 keys = list(binary.keys())
 element_list = ['Cr', 'V', 'Ti', 'W', 'Ta', 'Hf', 'Fe', 'Mn']
 element_list.sort()

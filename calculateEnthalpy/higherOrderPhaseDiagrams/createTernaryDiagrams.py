@@ -15,7 +15,7 @@ grid_size = 30
 mol_grid = create_mol_grid(3, grid_size)
 mol_grid = np.array(mol_grid)
 ele_list = composition.split('-')
-folder_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/plots/phase_diagrams"
+folder_path = "/plots/phase_diagrams"
 os.mkdir(f"{folder_path}/{composition}")
 t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
 for temp in tqdm(temps, desc="Creating phase diagrams"):

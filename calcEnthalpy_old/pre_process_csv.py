@@ -1,12 +1,11 @@
 """
 I feel it is better that we have the binary pairs as json file. Seems a waste to keep .csv files, and it creates so
 many issues while picking pairs. This is just a stopgap to convert other existing datasheets, new ones will be
-created in the json format directly
+created in the json format directly. Example shown below.
 """
 
 import pandas as pd
 from itertools import combinations
-import numpy as np
 import json
 
 df = pd.read_csv("data/input_data/bokas.csv")

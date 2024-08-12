@@ -163,8 +163,8 @@ cython_debug/
 /PP/
 /Outputs_*/
 /env/
-/calculateEnthalpy/data/output_data/
+/data/output_data/
 /Monte Carlo/dump/
 /Monte Carlo/plots/
 /Outputs/
-/calculateEnthalpy/plots/
+/plots/

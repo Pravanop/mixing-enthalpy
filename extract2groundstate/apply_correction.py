@@ -1,7 +1,7 @@
 import json
 from prepareVASPRuns.file_utils import load_json_to_dict
 
-zhaohan_dict = load_json_to_dict('../calculateEnthalpy/data/input_data/bcc_zhaohan.json')
+zhaohan_dict = load_json_to_dict('../data/input_data/bcc_zhaohan.json')
 omegas_dict = load_json_to_dict("omegas.json")
 omegas = omegas_dict["omegas"]
 BCC = omegas["BCC"]
@@ -63,9 +63,9 @@ for phase in ["BCC", "FCC", "HCP"]:
         mixing_enthalpies[phase][pair] = mixing_enthalpies[phase][pair] / 4 \
                                          - 0.5 * (elements[groundstate_dict[a]][a] + elements[groundstate_dict[b]][b]
                                                   - elements[phase][a] - elements[phase][b])
-with open('../calculateEnthalpy/data/input_data/bokas/bcc_bokas.json', 'w') as json_file:
+with open('../data/input_data/bokas/bcc_bokas.json', 'w') as json_file:
     json.dump(mixing_enthalpies['BCC'], json_file)
-with open('../calculateEnthalpy/data/input_data/bokas/fcc_bokas.json', 'w') as json_file:
+with open('../data/input_data/bokas/fcc_bokas.json', 'w') as json_file:
     json.dump(mixing_enthalpies['FCC'], json_file)
-with open('../calculateEnthalpy/data/input_data/bokas/hcp_bokas.json', 'w') as json_file:
+with open('../data/input_data/bokas/hcp_bokas.json', 'w') as json_file:
     json.dump(mixing_enthalpies['HCP'], json_file)
