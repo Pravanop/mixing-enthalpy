@@ -19,7 +19,7 @@ st.title('High Entropy Alloy Analysis from First-Principles (HEA-AFP)')
 check = True
 user_inp = st.text_input(label = 'Input',placeholder = "Provide a list of elements in form Al-Cu-Ni")
 ele_list_user_inp = user_inp.split('-')
-element_list_path = ("/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/input_data/pravan/element_list_bcc_pravan.txt")
+element_list_path = ("/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/input_data/pravan/element_list_bcc_pravan.txt")
 
 with open(element_list_path) as f :
 	element_total_list = f.read()
@@ -129,14 +129,14 @@ with col2:
 		if phase_diagram :
 			T = st.slider(label = "Temperature (K)" , min_value = 0 , max_value = 3000)
 			answer = search_inst.get_phase_diagram(int(T), flag="offequi")
-			answer2 = search_inst2.get_phase_diagram(int(T), flag="equi")
+			# answer2 = search_inst2.get_phase_diagram(int(T), flag="equi")
 			st.write(f"Temperature: {T} K")
 			try :
 				answer_col1, answer_col2 = st.columns([1, 1])
 				with answer_col1 :
 					st.write(PDPlotter(answer , show_unstable = True, ternary_style='3d').get_plot())
-				with answer_col2 :
-					st.write(PDPlotter(answer2 , show_unstable = True).get_plot())
+				# with answer_col2 :
+				# 	st.write(PDPlotter(answer2 , show_unstable = True).get_plot())
 			except ValueError as e :
 				st.write("Cannot Visualize Phase Diagram! " , str(e))
 				st.write("But here are the stable entries at this temperature")

@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 from scipy.integrate import quad
 
 from calculateEnthalpy.helper_functions.grid_code import create_multinary
@@ -10,9 +11,8 @@ class thermoMaths:
     Set of functions to calculate thermodynamic properties.
     This is from Zhang et al., A Fast and Robust Method for Predicting the Phase Stability of Refractory Complex
     Concentrated Alloys Using Pairwise Mixing Enthalpy http://dx.doi.org/10.2139/ssrn.4081906 """
-    def __init__(self,
-                 binary_dict: dict):
-        self.binary_dict = binary_dict
+    def __init__(self,):
+        # self.binary_dict = binary_dict
         self.kb = 8.617333262e-05
 
     @staticmethod
@@ -149,9 +149,53 @@ class thermoMaths:
         energy = energy + self.kb * temp * (3 * np.log(1 - np.exp(-x)) - self.calc_debye_function(x))
         return energy
 
+    def calc_mutinary_multilattice_mix_Enthalpy(self,
+                                                mol_ratio,
+                                                binary_dict,
+                                                model: str = "regular") -> dict:
+        ele_list = list(mol_ratio.keys())
+        binaries = create_multinary(element_list=ele_list, no_comb=[2])
+        mix_enthalpy = {}
+        for idx, binary in binaries.items():
+            for idx2, ele in enumerate(binary):
+                two_el = ele.split("-")
+                mix_enthalpy_values = binary_dict[ele]
+                for lattice, enthalpy in mix_enthalpy_values.items():
+                    if model == "regular":
+                        omega_ij = self.calc_pairwiseInteractionParameter(mix_enthalpy=enthalpy,
+                                                                          mol_i=0.5,
+                                                                          mol_j=0.5)
+
+                    mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
+                    H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction,
+                                                             omega=omega_ij)
+                    if lattice not in mix_enthalpy:
+                        mix_enthalpy[lattice] = H_mix
+                    else:
+                        mix_enthalpy[lattice] += H_mix
+
+        return mix_enthalpy
+    def find_subset_enthalpies(self,
+                               ele_list,
+                               binary_dict,
+                               model: str = "regular") -> pd.DataFrame:
+        # ele_list = list(mol_ratio.keys())
+        binaries = create_multinary(element_list=ele_list, no_comb=list(range(2, len(ele_list) + 1)))
+        mix_enthalpy = {}
+        for idx, dimensionality in binaries.items():
+            for idx2, ele in enumerate(dimensionality):
+                mol_ratio = [1/idx]*idx
+                comp = ele.split('-')
+                composition_dict = dict(zip(comp, mol_ratio))
+                composition_dict = {key: val for key, val in composition_dict.items() if val != 0.0}
+                mix_enthalpy[ele] = self.calc_mutinary_multilattice_mix_Enthalpy(composition_dict, binary_dict, model)
+        df = pd.DataFrame(mix_enthalpy)
+        return df.T
+
     def calc_multinary_mixEnthalpy(self,
                                    alloy_comp: str,
                                    mol_ratio: dict[str:float],
+                                   **kwargs
                                    ) -> float:
         """
         Generalizing to off equimolar compositions with regular model
@@ -169,10 +213,17 @@ class thermoMaths:
         for idx, binary in binaries.items():
             for idx2, ele in enumerate(binary):
                 two_el = ele.split("-")
-                mix_enthalpy_data = DataUtils().extract_binaryEnthalpy(
-                    binary_dict=self.binary_dict,
-                    ele_pair=ele
-                )
+                if self.binary_dict is not None:
+                    mix_enthalpy_data = DataUtils().extract_binaryEnthalpy(
+                        binary_dict=self.binary_dict,
+                        ele_pair=ele
+                    )
+                else:
+                    if kwargs["binary_dict"] is not None:
+                        mix_enthalpy_data = DataUtils().extract_binaryEnthalpy(
+                        binary_dict=kwargs["binary_dict"],
+                        ele_pair=ele
+                    )
                 omega_ij = self.calc_pairwiseInteractionParameter(mix_enthalpy=mix_enthalpy_data,
                                                                   mol_i=0.5,
                                                                   mol_j=0.5)

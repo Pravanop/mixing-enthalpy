@@ -11,8 +11,8 @@ from lookup import enthalpy_model_lookup
 
 composition = 'Cr-W'
 model = 'bonds'
-nn = 2
-atoms = 2000
+nn = 1
+atoms = 3456
 
 folder = f"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Monte Carlo/dump/{composition}_{atoms}_{model}_{nn}nn/dumps"
 # folder = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/Monte Carlo/dump/Cr-W_2000_enthalpy_1nn/dumps"
@@ -32,7 +32,7 @@ i, j = 1, 1
 
 lookup, ele_assign = enthalpy_model_lookup(source="pravan",
                                            lattice="bcc",
-                                           folder_path="/data/input_data")
+                                           folder_path="../data/input_data")
 for file in lfoldr:
 
     if file == "plots":

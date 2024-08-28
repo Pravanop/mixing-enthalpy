@@ -45,7 +45,7 @@ class MonteCarlo:
         site, neighbour = arr[point[0]], point[1]
         answer = 0
         for i in neighbour:
-            answer += self.lookup[str(sorted([site, arr[i]]))]
+            answer += self.lookup[str(sorted([site, arr[i]]))]*4 #get the pairwise interaction
         return answer
 
     def hamiltonian_enthalpy(self, point, arr):
@@ -66,6 +66,7 @@ class MonteCarlo:
             answer = 0
             for point in neighbour_list:
                 answer += self.hamiltonian_bonds(point, arr)
+            # print(answer/2)
             return answer/2
         if flag == "enthalpy":
             return sum([self.hamiltonian_enthalpy(point, arr) for point in neighbour_list]) / 8
@@ -170,8 +171,8 @@ class MonteCarlo:
                            * self.energy_finder_new(x_i, neighbour2, flag=log["ham"]) + self.energy_finder_new(
                     x_iplus1.copy(), neighbour, flag=log["ham"]) + (np.sqrt(3) / 2) * self.energy_finder_new(
                     x_iplus1.copy(), neighbour2, flag=log["ham"])
-
-            next_step = e_iplus1 < e_i or self.boltzmann_probability(e_iplus1 - e_i, temp) >= rp()
+            # print(self.boltzmann_probability(e_iplus1 - e_i, temp), rp())
+            next_step = e_iplus1 < e_i or self.boltzmann_probability(e_iplus1 - e_i, temp) > rp()
             if next_step:
                 x_i = x_iplus1
                 e_i = e_iplus1
@@ -190,7 +191,8 @@ class MonteCarlo:
         x_warm = self.mc_single_temp(n_trails=self.config_dict["n_warm"],
                                      temp=self.config_dict["warm_T"],
                                      lattice=self.initial_config.final_bcclattice,
-                                     log=self.log)
+                                     log=self.log,
+                                     nn=self.config_dict['nn'])
         self.steps.append(100)
         self.energy_trajectory.append(100)
         self.structure_trajectory.append(np.zeros_like(x_warm))
@@ -198,7 +200,8 @@ class MonteCarlo:
         x_final = self.mc_single_temp(n_trails=self.config_dict["n_trails"],
                                       temp=self.config_dict["T"],
                                       lattice=x_warm,
-                                      log=self.log)
+                                      log=self.log,
+                                      nn=self.config_dict['nn'])
         self.logger(self.config_dict["T"])
 
         return x_final
@@ -241,17 +244,19 @@ def main(ele_dict: dict,
     print(f"{initial_config.atoms} Atoms in total")
 
     mc = MonteCarlo(initial_config, config_dict)
-    if flag == " single_temp":
+    if flag == "single_temp":
+        # print(0)
         _ = mc.single_temp_protocol
     elif flag == "stage_temp":
+
         _ = mc.stage_temp_protocol
 
 
 if __name__ == "__main__":
     lookup, ele_assign = enthalpy_model_lookup(source="pravan",
                                                lattice="bcc",
-                                               folder_path="/data/input_data")
-    rep_unit = 10
+                                               folder_path="../data/input_data")
+    rep_unit = 12
     ele_dict = {
         'Cr': 0.5,
         'W': 0.5,
@@ -259,14 +264,14 @@ if __name__ == "__main__":
 
     config_dict = {'n_warm': 250000,
                    'warm_T': 4000,
-                   'T': 0,
+                   'T': 4000,
                    'n_trails': 2000000,
                    'log': {'ham': 'bonds'},
-                   'nn': 2}
+                   'nn': 1}
 
     main(ele_dict=ele_dict,
          config_dict=config_dict,
          lookup=lookup,
          rep_unit=rep_unit,
-         flag="stage_temp",
+         flag="single_temp",
          ele_assign=ele_assign)

@@ -2,6 +2,7 @@ import itertools
 import pickle
 from typing import Tuple
 import numpy as np
+from tqdm import tqdm
 
 from calculateEnthalpy.helper_functions.data_utils import DataUtils
 from calculateEnthalpy.helper_functions.grid_code import create_multinary
@@ -32,7 +33,7 @@ class reactionPathways:
 
         binary_dict = DataUtils.load_json(folder_path=f"../../data/input_data/", lattice=lattice, source=source)
         self.tm = thermoMaths(binary_dict=binary_dict)
-        self.pD = phaseDiagram(source=source, lattice=lattice, version_no=2)
+        self.pD = phaseDiagram(source=source, lattice=lattice, version_no=1, im_flag=False, abs_file_path=f"../../data/output_data", binary_dict_path=f"../../data/input_data")
 
         self.binary_mol = [[0.8, 0.2], [0.7, 0.3], [0.5, 0.5]]
         self.ternary_mol = [[0.45, 0.45, 0.1], [0.4, 0.4, 0.2], [0.33, 0.33, 0.34]]
@@ -104,7 +105,7 @@ class reactionPathways:
         misc_temp_dict = {}
         sub_enthalpy_dict = {}
         sub_misc_temp_dict = {}
-        for key, value in self.all_comps.items():
+        for key, value in tqdm(self.all_comps.items(), desc="Calculating T_m for phase space"):
             # iterates through the various dims
             for idx, alloy in enumerate(value):
                 # iterates through the alloys in a dimensionality
@@ -118,6 +119,7 @@ class reactionPathways:
                                                                   composition=alloy)
                         mol_ratio = dict(zip(subset_ele_list, mol_ratio))
                         alloy_key = '-'.join([f"{key},{value}" for key, value in mol_ratio.items()])
+                        # print(misc_temp, alloy_key)
                         if idx == len(self.binary_mol) - 1:
                             enthalpy_dict[alloy] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
                                                                                       mol_ratio=mol_ratio)
@@ -142,6 +144,7 @@ class reactionPathways:
                                                                   composition=alloy)
                         mol_ratio = dict(zip(subset_ele_list, mol_ratio))
                         alloy_key = '-'.join([f"{key},{value}" for key, value in mol_ratio.items()])
+                        # print(misc_temp, alloy_key)
                         if idx == len(self.ternary_mol) - 1:
 
                             enthalpy_dict[alloy] = self.tm.calc_multinary_mixEnthalpy(alloy_comp=alloy,
@@ -328,33 +331,35 @@ class reactionPathways:
 
 if __name__ == '__main__':
     inp_dict = {
-        'Nb': {
-            'melting_temp': 2750,
+        'Ti': {
+            # 'melting_temp': 2750,
+            'melting_temp': 1950,
             'mols': 1,
             'coords': 0.2,
             'color': '#004488'
         },
-        'V': {
-            'melting_temp': 2183,
+        'Cr': {
+            # 'melting_temp': 2183,
+            'melting_temp': 2750,
             'mols': 1,
             'coords': 0.4,
             'color': "#DDAA33"
         },
-        'Zr': {
+        'W': {
             'melting_temp': 2128,
             'mols': 1,
             'coords': 0.6,
             'color': "#BB5566"
         },
-        'Ti': {
-            'melting_temp': 1941,
+        'Ta': {
+            'melting_temp': 3293,
             'mols': 1,
             'coords': 0.8,
             'color': "#EE7733"
         }
     }
     lattice = "bcc"
-    source = "aziz"
+    source = "pravan"
 
     rP = reactionPathways(lattice=lattice, source=source, inp_meta=inp_dict)
     pathway_energies_temp = rP.compute_pathway_energies_temp
@@ -364,5 +369,5 @@ if __name__ == '__main__':
         rP.pickler,
         pathway_energies_temp,
         pathway_scores),
-        open('/data/output_data/aziz_bcc_2'
-			 '/pathway_energies_temp.p', 'wb'))
+        open(f'../../data/output_data/{source}_{lattice}_1'
+			 f'/pathway_energies_temp_{"-".join(inp_dict.keys())}.p', 'wb'))

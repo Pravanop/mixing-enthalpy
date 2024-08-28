@@ -1,9 +1,9 @@
-from calculateEnthalpy.helper_functions.data_utils import load_json, extract_ele_list
+from calculateEnthalpy.helper_functions.data_utils import DataUtils
 
 
 def enthalpy_model_lookup(source, lattice, folder_path):
-    binary_dict = load_json(folder_path=folder_path, lattice=lattice, source=source)
-    extract_ele_lists = extract_ele_list(folder_path=folder_path, lattice=lattice, source=source)
+    binary_dict = DataUtils.load_json(folder_path=folder_path, lattice=lattice, source=source)
+    extract_ele_lists = DataUtils.extract_ele_list(folder_path=folder_path, lattice=lattice, source=source)
     ele_dict = {}
     for idx, i in enumerate(extract_ele_lists):
         binary_dict.update({

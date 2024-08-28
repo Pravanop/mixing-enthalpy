@@ -1,7 +1,9 @@
 import json
 import os
-from typing import Union
+import time
+from typing import Union, Tuple
 
+import numpy as np
 from tqdm import tqdm
 
 from mp_api.client import MPRester
@@ -20,16 +22,17 @@ class calculateEnthalpyDataset:
     Concentrated Alloys Using Pairwise Mixing Enthalpy http://dx.doi.org/10.2139/ssrn.4081906 with additional functionality added for off-equimolar compositions
     """
     def __init__(self,
-                 folder_path: str,
+                 input_folder_path: str,
                  lattice: str,
                  source: str,
                  max_alloy_n: int = 5,
-                 im_flag: bool = False
+                 im_flag: bool = False,
+                 ele_list : Union[list, None] = None
                  ):
         """
 
         Args:
-            folder_path: The folder path for the data folder. Recommended to create a Data/input data folder.
+            input_folder_path: The folder path for the data folder. Recommended to create a Data/input data folder.
             lattice: lattice currently working on. Accepted values are 'bcc', 'fcc', 'hcp'
             source: a unique source identifier. The naming conventions for the input data can be read in the read me file for this folder.
             max_alloy_n: maximum alloy dimensionality to compute enthalpy for. Default is 5 (quinary)
@@ -40,22 +43,24 @@ class calculateEnthalpyDataset:
         self.source = source
         self.lattice = lattice
         self.im_flag = im_flag
-        self.binary_dict = DataUtils().load_json(folder_path=folder_path, lattice=lattice, source=source)
-        self.ele_list = DataUtils().extract_ele_list(folder_path=folder_path, lattice=lattice, source=source)
+        self.input_folder_path = input_folder_path
+        # self.binary_dict = DataUtils().load_json(folder_path=folder_path, lattice=lattice, source=source)
+        if ele_list is None:
+            self.ele_list = DataUtils().extract_ele_list(folder_path=input_folder_path, lattice=lattice, source=source)
+        else:
+            self.ele_list = ele_list
 
         self.max_alloy_n = max_alloy_n
-        self.min_alloy_n = 2
+        self.min_alloy_n = 5
         self.grid_size = 20
 
-        self.tm = thermoMaths(binary_dict=self.binary_dict)
+        # self.tm = thermoMaths(binary_dict=self.binary_dict)
         self.output_folder_path = f"../../data/output_data/"
         self.result_dict = {}
 
-        self.mpr = MPRester(
-            api_key=getAPIKey("/callMpAPI/api_key.txt"))
-        self.fields = ['composition', 'formation_energy_per_atom', 'energy_above_hull', 'chemsys']
-
-        self._create_output_folder()
+        # self.mpr = MPRester(
+        #     api_key=getAPIKey("../callMpAPI/api_key.txt"))
+        # self.fields = ['composition', 'formation_energy_per_atom', 'energy_above_hull', 'chemsys']
 
     def _create_output_folder(self) -> None:
         """
@@ -143,6 +148,47 @@ class calculateEnthalpyDataset:
 
         return n_nary_dict
 
+    def process_binaries(self) -> Tuple[dict, list]:
+        source_data_path = f"{self.input_folder_path}/{self.source}"
+        lfolder = os.listdir(source_data_path)
+        pairs = create_multinary(self.ele_list, no_comb=[2])
+        master_binary = {}
+        for file in lfolder:
+            if file.endswith(".json"):
+                lattice, source = file.split("_")
+                master_binary[lattice] = DataUtils.load_json(folder_path=f"{self.input_folder_path}",
+                                                  lattice=lattice,
+                                                  source=self.source)
+
+        result_dict = {}
+        error_list = []
+        lattice_value_pair = []
+        for dimension, pair_list in pairs.items():
+            for idx, pair in enumerate(tqdm(pair_list,  desc="Processing pairs created from element_list")):
+                try:
+                    lattice_value_pair = np.array([[key, master_binary[key][pair]] for key in master_binary.keys()])
+                except KeyError:
+                    error_list.append(pair)
+                if len(lattice_value_pair) > 0:
+                    result_dict[pair] = dict(zip(lattice_value_pair[:,0], np.round(lattice_value_pair[:,1].astype(float), 5)))
+
+        return result_dict, error_list
+
+    def store_outputs(self, results_dict) -> None:
+
+        with open(f'{self.out_file_path}/all_lattices_binaries.json', 'w') as f:
+            json.dump(results_dict, f, ensure_ascii=False, indent=4)
+
+        print(f"All lattices binaries stored in {self.out_file_path}")
+
+    @property
+    def process_input_main(self):
+        self._create_output_folder()
+        results_dict, error_list = self.process_binaries()
+        print("Certain pairs are not present in the input file: ", error_list)
+        self.store_outputs(results_dict)
+        return 1
+
     @property
     def compute_mixing_enthalpies(self) -> int:
         """
@@ -155,36 +201,55 @@ class calculateEnthalpyDataset:
         for dim, alloys in self.multinaries.items():
             mol_grid = create_mol_grid(dim, self.grid_size)
             dim_alloy_dict = {}
+            alloy_dict_values = []
             for alloy_idx, alloy in enumerate(tqdm(alloys, desc=f"Accessing {dim}-nary")):
                 ele_list = alloy.split('-')
-                dim_alloy_dict[alloy] = {}
+                alloy_mol_dict_values = []
                 for mol_idx, mol_frac in enumerate(mol_grid):
                     mol_ratio = dict(zip(ele_list, mol_frac))
                     mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
+                    if len(mol_ratio) == 1:
+                        continue
+
                     try:
+                        # start = time.time()
                         mix_enthalpy = self.tm.calc_multinary_mixEnthalpy(
                             alloy_comp=alloy,
                             mol_ratio=mol_ratio
                         )
+                        # stop = time.time()
+
                     except KeyError as e:
                         continue  #except statement in case the binary is not in the dataset, ideally the input data should be complete
 
-                    entropy = self.tm.calc_configEntropy(mol_ratio=mol_ratio)
-                    dim_alloy_dict[alloy]['-'.join([str(round(i, 2)) for i in mol_frac])] = {
-                        'mix_enthalpy': mix_enthalpy,
-                        'config_entropy': entropy
-                    } #sorted strings for the alloy composition is important to mantain homogeneity.
+                    # print(stop-start)
+                    alloy_mol_dict_values.append(['-'.join([str(round(i, 2)) for i in mol_frac]),mix_enthalpy])
+
+                if len(alloy_mol_dict_values) > 0:
+                    alloy_dict_values.append([alloy, alloy_mol_dict_values])
+
+            for j in alloy_dict_values:
+                dim_alloy_dict[j[0]] = j[1]
 
             if self.im_flag:
-                self.result_dict[dim] = self.find_n_nary_intermetallic(n_nary_dict=dim_alloy_dict)
+                dim_alloy_dict = self.find_n_nary_intermetallic(n_nary_dict=dim_alloy_dict)
 
                 with open(f'{self.out_file_path}/multinaries_im.json', 'w') as f:
-                    json.dump(self.result_dict, f, ensure_ascii=False, indent=4)
+                    json.dump(dim_alloy_dict, f, ensure_ascii=False, indent=4)
 
             else:
-                self.result_dict[dim] = dim_alloy_dict
-                with open(f'{self.out_file_path}/multinaries_wo_im.json', 'w') as f:
-                    json.dump(self.result_dict, f, ensure_ascii=False, indent=4)
+                with open(f'{self.out_file_path}/multinaries_wo_im_{dim}.json', 'w') as f:
+                    json.dump(dim_alloy_dict, f, ensure_ascii=False, indent=4)
+
+            # for n in range(self.min_alloy_n, self.max_alloy_n+1):
+            #
 
         return 1
 
+
+ced = calculateEnthalpyDataset(input_folder_path="../../data/input_data/",
+                               lattice="bcc",
+                               source="pravan",
+                               # ele_list=['Cr', 'Fe','Mn','Ta','Ti','W','V','Mo','Nb','Zr']
+                               )
+print(ced.process_input_main)

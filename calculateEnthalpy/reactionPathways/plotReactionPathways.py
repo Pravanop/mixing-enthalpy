@@ -152,7 +152,7 @@ class PlotReactionPathways:
         self.fontsize = 14
         self.linewidth = 1.5
         self.save = True
-        self.plot_save_path = "/plots/"
+        self.plot_save_path = "../../plots/"
 
     def _init_colordata(self) -> None:
         """
@@ -422,7 +422,7 @@ class PlotReactionPathways:
                       best=link_o.best,
                       zorder=link_o.rank)
 
-        plt.ylim([200, 3000])
+        plt.ylim([0, 4000])
         plt.xlabel("Reaction Coordinate")
         plt.ylabel("Temperature (K)")
         plt.title(f"Deposition Pathways for {'-'.join(self.rP['ele_list_main'])}")
@@ -435,10 +435,12 @@ class PlotReactionPathways:
 #example usage
 if __name__ == "__main__":
     with open(
-            "/data/output_data/aziz_bcc_2/pathway_energies_temp.p",
+            "../../data/output_data/pravan_bcc_1/pathway_energies_temp_Ti-Cr-W-Ta.p",
             'rb') as f: #loading the previous computed pickle file.
         rP, pathway_energies_temp, pathway_scores = pickle.load(f)
 
     # plot_pathways = PlotReactionPathways(rP, constraint=['V-Ti-Zr-Nb', 'V-Ti-Nb-Zr', 'V-Nb-Zr-Ti'])
     plot_pathways = PlotReactionPathways(rP, constraint="all")
     plot_pathways.main_plot()
+
+# Cr-V-W-Ta-Ti :

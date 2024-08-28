@@ -5,14 +5,14 @@ from typing import Union
 import pandas as pd
 from pandas import DataFrame
 from calculateEnthalpy.helper_functions.grid_code import create_multinary
-from calculateEnthalpy.helper_functions.phaseDiagram import phaseDiagram
+from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
 
 # open intermetallics file
 
 
 # We need to define standard input format. Best is to say ['Al', 'W', 'Ni']
 
-im_path = "calculateEnthalpy/data/output_data/pravan_bcc_1/multinaries_wo_im.json"
+im_path = "calculateEnthalpy/data/output_data/pravan_bcc_3/multinaries_wo_im.json"
 
 
 class search_composition:
@@ -31,9 +31,9 @@ class search_composition:
             'quaternary': 4,
             'quinary': 5
         }
-
-        with open(path, 'r') as f:
-            self.intermetallic_dict = json.load(f)
+        self.pD  = phaseDiagram(processed_file_path="/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/output_data/pravan_bcc_4/all_lattices_binaries.json")
+        # with open(path, 'r') as f:
+        #     self.intermetallic_dict = json.load(f)
 
     def search_comp(self, ele_list):
         primary_key = str(len(ele_list))
@@ -107,11 +107,9 @@ class search_composition:
             return "Please pick a combination!"
 
     def get_phase_diagram(self, temperature, flag="offequi"):
-        # print(self.secondary_key)
-        if flag == "equi":
-            answer = phaseDiagram(composition=self.secondary_key).make_PD_composition(temperature)
         if flag == "offequi":
-            answer = phaseDiagram(composition=self.secondary_key).make_PD_composition(temperature)
+            composition = self.secondary_key.split('-')
+            answer = self.pD.make_convex_hull(temperature=temperature, composition=composition)
         return answer
 
 
