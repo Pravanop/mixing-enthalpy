@@ -1,7 +1,8 @@
 import json
 import time
 from typing import Union
-
+from mp_api.client import MPRester
+from emmet.core.thermo import ThermoType
 import numpy as np
 import pandas as pd
 from pymatgen.analysis.phase_diagram import PDEntry, PhaseDiagram
@@ -72,7 +73,6 @@ class phaseDiagram:
 					# print(mol_idx)
 					mol_ratio = dict(zip(alloy_list, mol_frac))
 					mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
-					print(mol_ratio)
 					mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(
 						mol_ratio=mol_ratio,
 						binary_dict=self.data
@@ -93,13 +93,23 @@ class phaseDiagram:
 					name = Composition(ele)
 					pd_entries_list.append(PDEntry(composition=name, energy = 0 * name.num_atoms))
 
-				# if im_flag:
-				# 	for idx3, intermetallic in enumerate(temp_subset['intermetallic']):
-				# 		name = Composition(intermetallic['formula_pretty'])
-				# 		pd_entry_input[name] = intermetallic['formation_energy_per_atom'] * name.num_atoms
+				im_flag = True
+
+				if im_flag:
+					with MPRester("u1TjwfwfTnpF8IolXF9PBY9RT9YauL84") as mpr:
+						# -- GGA/GGA+U/R2SCAN mixed phase diagram
+						gga = mpr.materials.thermo.search(chemsys=[alloy],
+														  fields=['composition', 'formation_energy_per_atom'],
+														  thermo_types=[ThermoType.GGA_GGA_U])
+						for i in gga:
+							energy = i.formation_energy_per_atom
+							name = Composition(i.composition)
+							pd_entries_list.append(PDEntry(composition=name,
+														   energy=energy * name.num_atoms,
+														   name=f'{name.alphabetical_formula}_MP'))
 				# print(pd_entry_input)
-				# for pd_key, value in pd_entry_input.items():
-				# 	pd_entries_list.append(PDEntry(composition=pd_key, energy=value))
+				for pd_key, value in pd_entry_input.items():
+					pd_entries_list.append(PDEntry(composition=pd_key, energy=value))
 
 		phase_diagram = PhaseDiagram(pd_entries_list)
 		return phase_diagram
