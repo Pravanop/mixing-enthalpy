@@ -12,15 +12,20 @@ from pymatgen.analysis.phase_diagram import PDPlotter
 Example script to make a ternary diagram. Left bare for higher customizability. 
 """
 
-pD = phaseDiagram(source="pravan", lattice="bcc", version_no=3, im_flag=False, abs_file_path="../../data/output_data", binary_dict_path="../../data/input_data")
-composition = "Cr-V-Fe"
-equi = False
+processed_file_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/output_data/Pravan_bcc_4/all_lattices_binaries.json"
+pD = phaseDiagram(
+	processed_file_path=processed_file_path,
+grid_size=20)
+composition = ['Cr', 'V', 'Ti']
+equi = 'off_equi'
+
 phase_diag_dict = pD.make_PD_comp_temp(composition=composition, equi_flag=equi)
+
 temps = list(phase_diag_dict.keys())[::2]
 grid_size = 30
 mol_grid = create_mol_grid(3, grid_size)
 mol_grid = np.array(mol_grid)
-ele_list = composition.split('-')
+ele_list = '-'.join(composition)
 folder_path = "../../plots/phase_diagrams"
 if not os.path.exists(f"{folder_path}/{composition}"):
 	os.mkdir(f"{folder_path}/{composition}")
@@ -30,11 +35,14 @@ for temp in tqdm(temps, desc="Creating phase diagrams"):
 	stables = []
 	# PDPlotter(phase_diag_dict[temp]).show()
 	for idx, mol in enumerate(mol_grid):
+		enthalpy, entropy, mol_ratio = pD.find_enthalpy_entropy_composition(composition=composition,
+																   mol_ratio=mol)
 
-
-		is_stable = pD.check_stability(mol_ratio=mol,
+		is_stable = pD.check_stability(mol_ratio=mol_ratio,
 									   temp=temp,
-									   conv_hull=phase_diag_dict[temp])
+									   conv_hull=phase_diag_dict[temp],
+									   entropy=entropy,
+									   mix_enthalpy=enthalpy)
 		if is_stable is not None:
 			if np.isclose(is_stable[1], 0.0, atol=1e-2):
 				stable = 0
@@ -53,7 +61,7 @@ for temp in tqdm(temps, desc="Creating phase diagrams"):
 	ax.set_tlabel(f"{ele_list[0]}")
 	ax.set_llabel(f"{ele_list[1]}")
 	ax.set_rlabel(f"{ele_list[2]}")
-	if equi:
-		plt.savefig(f"{folder_path}/{composition}/{temp}_equi.png")
+	if equi == "equi":
+		plt.savefig(f"{folder_path}/{ele_list}/{temp}_equi.png")
 	else:
-		plt.savefig(f"{folder_path}/{composition}/{temp}.png")
+		plt.savefig(f"{folder_path}/{ele_list}/{temp}.png")

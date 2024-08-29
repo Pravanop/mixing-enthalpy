@@ -160,6 +160,7 @@ class thermoMaths:
             for idx2, ele in enumerate(binary):
                 two_el = ele.split("-")
                 mix_enthalpy_values = binary_dict[ele]
+                # print(mix_enthalpy_values)
                 for lattice, enthalpy in mix_enthalpy_values.items():
                     if model == "regular":
                         omega_ij = self.calc_pairwiseInteractionParameter(mix_enthalpy=enthalpy,
@@ -169,10 +170,13 @@ class thermoMaths:
                     mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
                     H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction,
                                                              omega=omega_ij)
+
                     if lattice not in mix_enthalpy:
                         mix_enthalpy[lattice] = H_mix
                     else:
                         mix_enthalpy[lattice] += H_mix
+
+        # print('bla-bla',mix_enthalpy)
 
         return mix_enthalpy
     def find_subset_enthalpies(self,

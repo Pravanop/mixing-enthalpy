@@ -11,7 +11,7 @@ from calculateEnthalpy.callMpAPI.utils import getAPIKey
 from calculateEnthalpy.helper_functions.thermo_math import thermoMaths
 from calculateEnthalpy.helper_functions.grid_code import create_multinary, create_mol_grid
 from calculateEnthalpy.helper_functions.data_utils import DataUtils
-
+from emmet.core.thermo import ThermoType
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -57,10 +57,10 @@ class calculateEnthalpyDataset:
         # self.tm = thermoMaths(binary_dict=self.binary_dict)
         self.output_folder_path = f"../../data/output_data/"
         self.result_dict = {}
-
-        # self.mpr = MPRester(
-        #     api_key=getAPIKey("../callMpAPI/api_key.txt"))
-        # self.fields = ['composition', 'formation_energy_per_atom', 'energy_above_hull', 'chemsys']
+        self.tm = thermoMaths()
+        self.mpr = MPRester(
+            api_key=getAPIKey("../callMpAPI/api_key.txt"))
+        self.fields = ['composition', 'formation_energy_per_atom', 'energy_above_hull', 'chemsys']
 
     def _create_output_folder(self) -> None:
         """
@@ -249,7 +249,8 @@ class calculateEnthalpyDataset:
 
 ced = calculateEnthalpyDataset(input_folder_path="../../data/input_data/",
                                lattice="bcc",
-                               source="pravan",
+                               source="bokas2",
+                               im_flag=True
                                # ele_list=['Cr', 'Fe','Mn','Ta','Ti','W','V','Mo','Nb','Zr']
                                )
-print(ced.process_input_main)
+print(ced.compute_mixing_enthalpies)

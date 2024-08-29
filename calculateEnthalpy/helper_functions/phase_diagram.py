@@ -69,9 +69,10 @@ class phaseDiagram:
 				alloy_list = alloy.split('-')
 
 				for mol_idx, mol_frac in enumerate(mol_grid):
+					# print(mol_idx)
 					mol_ratio = dict(zip(alloy_list, mol_frac))
 					mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
-
+					print(mol_ratio)
 					mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(
 						mol_ratio=mol_ratio,
 						binary_dict=self.data
@@ -234,8 +235,8 @@ class phaseDiagram:
 		return phase_diagram
 
 	def make_PD_comp_temp(self,
-						  composition: str,
-						  equi_flag: bool) -> dict[float:PhaseDiagram]:
+						  composition: list,
+						  equi_flag: str) -> dict[float:PhaseDiagram]:
 		"""
 		Creates a Phase Diagram object for a temperature grid and composition.
 		Args:
@@ -246,12 +247,9 @@ class phaseDiagram:
 		"""
 		PD_temp_comp_dict = {}
 		for idx, temp in enumerate(tqdm(self.temp_grid, desc="Running Temperature")):
-			if equi_flag:
-				PD_temp_comp_dict[temp] = self.make_PD_composition_equi(temperature=temp,
-																		composition=composition)
-			else:
-				PD_temp_comp_dict[temp] = self.make_PD_composition(temperature=temp,
-																   composition=composition)
+			PD_temp_comp_dict[temp] = self.make_convex_hull(temperature=temp,
+															composition=composition,
+															flag=equi_flag)
 
 		return PD_temp_comp_dict
 
@@ -315,6 +313,20 @@ class phaseDiagram:
 			return df, np.round(is_stable[1],4)
 		else:
 			return None,0
+	def find_enthalpy_entropy_composition(self,
+										  composition,
+										  mol_ratio:list):
+		mol_ratio = dict(zip(composition, mol_ratio))
+		# print(mol_ratio)
+		mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
+
+		if len(mol_ratio.keys()) == 1:
+			mix_enthalpy = 0
+		else:
+			mix_enthalpy = min(self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
+																			   binary_dict=self.data).values())
+		entropy = self.tm.calc_configEntropy(mol_ratio)
+		return mix_enthalpy, entropy, mol_ratio
 
 	def find_misc_temperature(self,
 

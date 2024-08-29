@@ -15,36 +15,36 @@ pD = phaseDiagram(
 	processed_file_path=processed_file_path,
 grid_size=20)
 
-composition = ['Ti', 'V', 'Nb']
-equi = True
-if equi:
-	mol_ratio = [1/len(composition)]*len(composition)
-
-# #Find Miscibility temperature
-print(pD.find_misc_temperature(composition=composition, mol_ratio=mol_ratio))
-
-
-#Find decomposition products at a particular temperature
-decomp_products, e_above_hull = pD.find_decomp_products(composition=composition,
-							  mol_ratio=mol_ratio,
-							  temperature=1100)
-print(decomp_products)
-print('E_above_hull: ', e_above_hull, " eV/atom")
-
-#Find mixing enthalpy of a multinary
-tm = thermoMaths()
-composition_dict =  dict(zip(composition, mol_ratio))
-composition_dict = {key: val for key, val in composition_dict.items() if val != 0.0}
-with open(processed_file_path, "r") as f:
-	data = json.load(f)
-print(tm.calc_mutinary_multilattice_mix_Enthalpy(composition_dict, data))
-
-#Find mixing enthalpies of all subsets in a composition
-print(tm.find_subset_enthalpies(composition, data))
+# composition = ['Mo', 'Ta', 'Nb']
+# equi = True
+# if equi:
+# 	mol_ratio = [1/len(composition)]*len(composition)
+#
+# # #Find Miscibility temperature
+# print(pD.find_misc_temperature(composition=composition, mol_ratio=mol_ratio))
+#
+#
+# #Find decomposition products at a particular temperature
+# decomp_products, e_above_hull = pD.find_decomp_products(composition=composition,
+# 							  mol_ratio=mol_ratio,
+# 							  temperature=1100)
+# print(decomp_products)
+# print('E_above_hull: ', e_above_hull, " eV/atom")
+#
+# #Find mixing enthalpy of a multinary
+# tm = thermoMaths()
+# composition_dict =  dict(zip(composition, mol_ratio))
+# composition_dict = {key: val for key, val in composition_dict.items() if val != 0.0}
+# with open(processed_file_path, "r") as f:
+# 	data = json.load(f)
+# print(tm.calc_mutinary_multilattice_mix_Enthalpy(composition_dict, data))
+#
+# #Find mixing enthalpies of all subsets in a composition
+# print(tm.find_subset_enthalpies(composition, data))
 
 #plot heatmaps like Zhaohan with one added element
-composition = ['Nb', 'V']
-add_el = 'Ti'
+composition = ['Mo','Nb', 'Ta','Ti']
+add_el = 'W'
 
 temp_space = 10
 mol_space = 10
