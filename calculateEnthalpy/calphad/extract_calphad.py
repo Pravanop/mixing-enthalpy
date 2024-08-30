@@ -50,7 +50,7 @@ for ind, k in enumerate(master_idx):
 		mol_ratio = [1 / len(composition)] * len(composition)
 		# results.append(f'{i}K : {"-".join(phases)}')
 	misc_T = pD.find_misc_temperature(composition=composition, mol_ratio=mol_ratio)
-	misc_temp = max(misc_temp) if misc_temp else None
+	misc_temp = min(misc_temp) if misc_temp else None
 	calphad.append(misc_temp)
 	model.append(misc_T)
 
