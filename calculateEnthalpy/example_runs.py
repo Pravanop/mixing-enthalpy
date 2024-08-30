@@ -15,7 +15,7 @@ pD = phaseDiagram(
 	processed_file_path=processed_file_path,
 grid_size=20)
 
-composition = ['Cr', 'Ti']
+composition = ['Cr', 'Fe', 'Mn']
 equi = True
 if equi:
 	mol_ratio = [1/len(composition)]*len(composition)
