@@ -28,7 +28,8 @@ class phaseDiagram:
 	"""
 
 	def __init__(self,
-				 processed_file_path: str,
+				 processed_binary_file_path: str,
+				 end_member_file_path:str,
 				 grid_size: int
 				 ) -> None:
 		"""
@@ -46,8 +47,11 @@ class phaseDiagram:
 		# else:
 		# 	self.file_path = f"{abs_file_path}/{source}_{lattice}_{version_no}/multinaries_im.json"
 
-		with open(processed_file_path, "r") as f:
+		with open(processed_binary_file_path, "r") as f:
 			self.data = json.load(f)
+
+		with open(end_member_file_path, "r") as f:
+			self.end_member = json.load(f)
 
 		# self.binary_dict = DataUtils.load_json(folder_path=f"{binary_dict_path}", lattice=lattice, source=source)
 		self.tm = thermoMaths()
@@ -55,7 +59,7 @@ class phaseDiagram:
 		self.ele_list = None
 		self.grid_size = grid_size
 
-	def make_convex_hull(self, composition, temperature, flag = 'off_equi'):
+	def make_convex_hull(self, composition, temperature, flag = 'off_equi', correction=True):
 		n_alloy = len(composition)
 		all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
 		pd_entry_input = {}
@@ -75,7 +79,9 @@ class phaseDiagram:
 					mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
 					mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(
 						mol_ratio=mol_ratio,
-						binary_dict=self.data
+						binary_dict=self.data,
+						end_member_dict = self.end_member,
+						correction=correction,
 					)
 
 					config_entropy = self.tm.calc_configEntropy(mol_ratio)
@@ -90,8 +96,11 @@ class phaseDiagram:
 													   name=f'{name.alphabetical_formula}_{key}'))
 
 				for ele in composition:
-					name = Composition(ele)
-					pd_entries_list.append(PDEntry(composition=name, energy = 0 * name.num_atoms))
+					for key, value in self.end_member[ele].items():
+						name = Composition(ele)
+
+						pd_entries_list.append(PDEntry(composition=name, energy = value * name.num_atoms,
+													   name=f'{name.alphabetical_formula}_{key}'))
 
 				im_flag = True
 
@@ -107,142 +116,12 @@ class phaseDiagram:
 							pd_entries_list.append(PDEntry(composition=name,
 														   energy=energy * name.num_atoms,
 														   name=f'{name.alphabetical_formula}_MP'))
-				# print(pd_entry_input)
 				for pd_key, value in pd_entry_input.items():
 					pd_entries_list.append(PDEntry(composition=pd_key, energy=value))
 
 		phase_diagram = PhaseDiagram(pd_entries_list)
 		return phase_diagram
 
-	def make_PD_composition(self,
-							temperature: float,
-							composition: str) -> PhaseDiagram:
-
-		"""
-		Creates a Phase Diagram object for a given temperature and composition.
-		Args:
-			temperature: The temperature in K
-			composition: The composition like so - "El1-El2-EL3"
-
-		Returns: A pymatgen phase diagram object
-
-		"""
-
-		pd_entries_list = []
-		self.ele_list = composition.split('-')
-		n_alloy = len(self.ele_list)
-		all_combs = create_multinary(element_list=self.ele_list, no_comb=list(range(2, n_alloy + 1)))
-		pd_entry_input = {}
-		for key, n_nary in all_combs.items():
-			#iterating through the various subset dimensionalities present within the alloy starting from 2
-			for idx2, subset_comp in enumerate(n_nary):
-				#iterating through alloys within that dimension
-				temp_subset = self.data[str(key)][subset_comp]
-				subset_list = subset_comp.split('-')
-
-				for mol_ratio, value in temp_subset.items():
-					#iterating through the mole fraction grid
-					if mol_ratio == "intermetallic":
-						continue
-
-					#processing mol ratio to get the gibbs energy
-					mol_ratio = mol_ratio.split('-')
-					mol_ratio = np.array(mol_ratio).astype(float)
-					mol_ratio = dict(zip(subset_list, mol_ratio))
-					mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
-
-					name = Composition(Composition(mol_ratio).get_integer_formula_and_factor()[0])
-					config_entropy = value['config_entropy']
-					pd_entry_input[name] = self.tm.calc_gibbs_energy(
-						value['mix_enthalpy'],
-						config_entropy,
-						temperature
-					) * name.num_atoms
-
-				# intermetallics
-				if "intermetallic" in temp_subset:
-					for idx3, intermetallic in enumerate(temp_subset['intermetallic']):
-						name = Composition(intermetallic['formula_pretty'])
-						pd_entry_input[name] = intermetallic['formation_energy_per_atom'] * name.num_atoms
-
-				# elements
-				for ele in self.ele_list:
-					name = Composition(ele)
-					pd_entry_input[name] = 0 * name.num_atoms
-
-			pd_entries_list = []
-			for pd_key, value in pd_entry_input.items():
-				pd_entries_list.append(PDEntry(composition=pd_key, energy=value))
-
-		phase_diagram = PhaseDiagram(pd_entries_list)
-		return phase_diagram
-
-	def make_PD_composition_equi(self,
-								 temperature: float,
-								 composition: str) -> PhaseDiagram:
-
-		"""
-		Creates a Phase Diagram object for a given temperature and composition.
-		Args:
-			temperature: The temperature in K
-			composition: The composition like so - "El1-El2-EL3"
-
-		Returns: A pymatgen phase diagram object
-
-		"""
-
-		pd_entries_list = []
-		self.ele_list = composition.split('-')
-		n_alloy = len(self.ele_list)
-		all_combs = create_multinary(element_list=self.ele_list, no_comb=list(range(2, n_alloy + 1)))
-		pd_entry_input = {}
-		for key, n_nary in all_combs.items():
-			#iterating through the various subset dimensionalities present within the alloy starting from 2
-			for idx2, subset_comp in enumerate(n_nary):
-				#iterating through alloys within that dimension
-				temp_subset = self.data[str(key)][subset_comp]
-				subset_list = subset_comp.split('-')
-				# print(key)
-				equi_mol_ratio = np.round(np.array([1 / int(key)] * int(key)), 2).astype(str)
-				# print(equi_mol_ratio)
-				equi_mol_ratio_str = '-'.join(equi_mol_ratio)
-				for mol_ratio, value in temp_subset.items():
-
-					#iterating through the mole fraction grid
-					if mol_ratio == "intermetallic":
-						continue
-					if mol_ratio == equi_mol_ratio_str:
-						#processing mol ratio to get the gibbs energy
-						mol_ratio = mol_ratio.split('-')
-						mol_ratio = np.array(mol_ratio).astype(float)
-						mol_ratio = dict(zip(subset_list, mol_ratio))
-						mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
-
-						name = Composition(Composition(mol_ratio).get_integer_formula_and_factor()[0])
-						config_entropy = value['config_entropy']
-						pd_entry_input[name] = self.tm.calc_gibbs_energy(
-							value['mix_enthalpy'],
-							config_entropy,
-							temperature
-						) * name.num_atoms
-
-				# intermetallics
-				if "intermetallic" in temp_subset:
-					for idx3, intermetallic in enumerate(temp_subset['intermetallic']):
-						name = Composition(intermetallic['formula_pretty'])
-						pd_entry_input[name] = intermetallic['formation_energy_per_atom'] * name.num_atoms
-
-				# elements
-				for ele in self.ele_list:
-					name = Composition(ele)
-					pd_entry_input[name] = 0 * name.num_atoms
-
-			pd_entries_list = []
-			for pd_key, value in pd_entry_input.items():
-				pd_entries_list.append(PDEntry(composition=pd_key, energy=value))
-
-		phase_diagram = PhaseDiagram(pd_entries_list)
-		return phase_diagram
 
 	def make_PD_comp_temp(self,
 						  composition: list,
@@ -325,7 +204,10 @@ class phaseDiagram:
 			return None,0
 	def find_enthalpy_entropy_composition(self,
 										  composition,
-										  mol_ratio:list):
+										  lattice,
+										  correction,
+										  mol_ratio:list,
+										  ):
 		mol_ratio = dict(zip(composition, mol_ratio))
 		# print(mol_ratio)
 		mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
@@ -333,8 +215,10 @@ class phaseDiagram:
 		if len(mol_ratio.keys()) == 1:
 			mix_enthalpy = 0
 		else:
-			mix_enthalpy = min(self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
-																			   binary_dict=self.data).values())
+			mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
+																			   binary_dict=self.data,
+																			   end_member_dict=self.end_member,
+																		   correction=correction)[lattice]
 		entropy = self.tm.calc_configEntropy(mol_ratio)
 		return mix_enthalpy, entropy, mol_ratio
 
@@ -342,7 +226,9 @@ class phaseDiagram:
 
 							  mol_ratio: list,
 							  composition: list[str],
-							  flag = "off_equi") -> Union[float, None]:
+							  lattice:str,
+							  flag = "equi",
+							  correction=True) -> Union[float, None]:
 		"""
 		Finds miscibility temperature for a given composition
 		Args:
@@ -355,13 +241,16 @@ class phaseDiagram:
 
 		mol_ratio = dict(zip(composition, mol_ratio))
 		mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
-		mix_enthalpy = min(self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
-																	   binary_dict=self.data).values())
+		mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
+																	   binary_dict=self.data,
+																		   end_member_dict=self.end_member,
+																		   correction=correction)[lattice]
 		entropy = self.tm.calc_configEntropy(mol_ratio)
 		for idx, temperature in enumerate(self.temp_grid):
 			conv_hull = self.make_convex_hull(temperature=float(temperature),
 												 composition=composition,
-											  flag = flag)
+											  flag = flag,
+											  correction=correction)
 
 			is_stable = self.check_stability(mol_ratio=mol_ratio,
 											 temp=float(temperature),
@@ -371,6 +260,7 @@ class phaseDiagram:
 
 			if is_stable is not None:
 				# Using a tolerance of 1 meV/atom for computing energy above the hull
+				# print(is_stable[1])
 				if np.isclose(is_stable[1], 0.0, atol=1e-3):
 					return float(temperature)
 				else:

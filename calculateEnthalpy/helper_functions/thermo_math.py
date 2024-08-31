@@ -152,7 +152,9 @@ class thermoMaths:
     def calc_mutinary_multilattice_mix_Enthalpy(self,
                                                 mol_ratio,
                                                 binary_dict,
-                                                model: str = "regular") -> dict:
+                                                end_member_dict,
+                                                model: str = "regular",
+                                                correction: bool = True) -> dict:
         ele_list = list(mol_ratio.keys())
         binaries = create_multinary(element_list=ele_list, no_comb=[2])
         mix_enthalpy = {}
@@ -162,15 +164,18 @@ class thermoMaths:
                 mix_enthalpy_values = binary_dict[ele]
                 # print(mix_enthalpy_values)
                 for lattice, enthalpy in mix_enthalpy_values.items():
-                    if model == "regular":
-                        omega_ij = self.calc_pairwiseInteractionParameter(mix_enthalpy=enthalpy,
-                                                                          mol_i=0.5,
-                                                                          mol_j=0.5)
+                    # if model == "regular":
+                    #     omega_ij = self.calc_pairwiseInteractionParameter(mix_enthalpy=enthalpy,
+                    #                                                       mol_i=0.5,
+                    #                                                       mol_j=0.5)
 
                     mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
+                    end_member_info = [end_member_dict[two_el[0]], end_member_dict[two_el[1]]]
                     H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction,
-                                                             omega=omega_ij)
-
+                                                             omega=enthalpy)
+                    if correction:
+                        H_mix +=  end_member_info[0][lattice]
+                        H_mix += (end_member_info[1][lattice] - end_member_info[0][lattice])*mol_fraction[0]
                     if lattice not in mix_enthalpy:
                         mix_enthalpy[lattice] = H_mix
                     else:
