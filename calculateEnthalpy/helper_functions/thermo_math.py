@@ -1,3 +1,5 @@
+from typing import Union
+
 import numpy as np
 import pandas as pd
 from scipy.integrate import quad
@@ -149,41 +151,51 @@ class thermoMaths:
         energy = energy + self.kb * temp * (3 * np.log(1 - np.exp(-x)) - self.calc_debye_function(x))
         return energy
 
+    def avg_T_melt(self, composition, mol_ratio):
+        meltT = pd.read_csv("/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/input_data/PubChemElements_all.csv").to_numpy()
+        meltT = dict(zip(meltT[:, 0], meltT[:, 1]))
+        tm = [meltT[ind] * mol_ratio[i] for i, ind in enumerate(composition)]
+        return int(sum(tm))
     def calc_mutinary_multilattice_mix_Enthalpy(self,
                                                 mol_ratio,
                                                 binary_dict,
                                                 end_member_dict,
                                                 model: str = "regular",
-                                                correction: bool = True) -> dict:
+                                                correction: bool = True) -> Union[dict, int]:
         ele_list = list(mol_ratio.keys())
+        if len(ele_list) <= 1:
+            return 0
         binaries = create_multinary(element_list=ele_list, no_comb=[2])
         mix_enthalpy = {}
-        for idx, binary in binaries.items():
-            for idx2, ele in enumerate(binary):
-                two_el = ele.split("-")
-                mix_enthalpy_values = binary_dict[ele]
-                # print(mix_enthalpy_values)
-                for lattice, enthalpy in mix_enthalpy_values.items():
-                    # if model == "regular":
-                    #     omega_ij = self.calc_pairwiseInteractionParameter(mix_enthalpy=enthalpy,
-                    #                                                       mol_i=0.5,
-                    #                                                       mol_j=0.5)
+        if binaries:
+            for idx, binary in binaries.items():
+                for idx2, ele in enumerate(binary):
+                    two_el = ele.split("-")
+                    mix_enthalpy_values = binary_dict[ele]
+                    # print(mix_enthalpy_values)
+                    for lattice, enthalpy in mix_enthalpy_values.items():
+                        if not correction:
+                            if model == "regular":
+                                omega_ij = self.calc_pairwiseInteractionParameter(mix_enthalpy=enthalpy,
+                                                                                  mol_i=0.5,
+                                                                                  mol_j=0.5)
 
-                    mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
-                    end_member_info = [end_member_dict[two_el[0]], end_member_dict[two_el[1]]]
-                    H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction,
-                                                             omega=enthalpy)
-                    if correction:
-                        H_mix +=  end_member_info[0][lattice]
-                        H_mix += (end_member_info[1][lattice] - end_member_info[0][lattice])*mol_fraction[0]
-                    if lattice not in mix_enthalpy:
-                        mix_enthalpy[lattice] = H_mix
-                    else:
-                        mix_enthalpy[lattice] += H_mix
+                        else:
+                            omega_ij = enthalpy
 
-        # print('bla-bla',mix_enthalpy)
+                        mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
+                        end_member_info = [end_member_dict[two_el[0]], end_member_dict[two_el[1]]]
+                        H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction,
+                                                                 omega=omega_ij)
+                        if correction:
+                            H_mix +=  end_member_info[0][lattice]
+                            H_mix += (end_member_info[1][lattice] - end_member_info[0][lattice])*mol_fraction[0]
+                        if lattice not in mix_enthalpy:
+                            mix_enthalpy[lattice] = H_mix
+                        else:
+                            mix_enthalpy[lattice] += H_mix
 
-        return mix_enthalpy
+            return mix_enthalpy
     def find_subset_enthalpies(self,
                                ele_list,
                                binary_dict,

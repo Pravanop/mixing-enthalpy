@@ -65,7 +65,7 @@ for phase in ["BCC", "FCC", "HCP"]:
                                                   - elements[phase][a] - elements[phase][b])
 with open('../data/input_data/bokas2/bcc_bokas.json', 'w') as json_file:
     json.dump(mixing_enthalpies['BCC'], json_file)
-with open('../data/input_data/bokas/fcc_bokas.json', 'w') as json_file:
+with open('../data/input_data/bokasCorrected/fcc_bokas.json', 'w') as json_file:
     json.dump(mixing_enthalpies['FCC'], json_file)
-with open('../data/input_data/bokas/hcp_bokas.json', 'w') as json_file:
+with open('../data/input_data/bokasCorrected/hcp_bokas.json', 'w') as json_file:
     json.dump(mixing_enthalpies['HCP'], json_file)

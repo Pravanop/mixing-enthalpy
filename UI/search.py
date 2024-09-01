@@ -19,7 +19,7 @@ class search_composition:
     def __init__(
             self,
             inp: list,
-            path: str = im_path,
+            pD,
     ):
         inp.sort()
         self.ele_list = inp
@@ -31,9 +31,7 @@ class search_composition:
             'quaternary': 4,
             'quinary': 5
         }
-        self.pD  = phaseDiagram(processed_file_path="/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/output_data/pravan_bcc_4/all_lattices_binaries.json")
-        # with open(path, 'r') as f:
-        #     self.intermetallic_dict = json.load(f)
+        self.pD  = pD
 
     def search_comp(self, ele_list):
         primary_key = str(len(ele_list))
@@ -113,57 +111,55 @@ class search_composition:
         return answer
 
 
-class search_any:
-    def __init__(
-            self,
-            inp: Union[list, str],
-            find: list[str],
-            path: str = im_path,
-            element_list_path: str = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/data/input_data/pravan/element_list_bcc_pravan.txt",
-    ):
+# class search_any:
+#     def __init__(
+#             self,
+#             inp: Union[list, str],
+#             find: list[str],
+#             main_dict: dict,
+#             ele_list: list):
+#
+#
+#         self.intermetallic_dict = main_dict
+#
+#         self.element_total_list = ele_list
+#
+#         if isinstance(inp, str):
+#             self.ele = inp
+#             inp = [inp]
+#
+#         if isinstance(inp, list):
+#             inp.sort()
+#             self.ele = '-'.join(inp)
+#
+#         self.n_nary_map = {
+#             'binaries': 2,
+#             'ternaries': 3,
+#             'quaternaries': 4,
+#             'quinaries': 5
+#         }
+#
+#         self.find = find
+#         self.process_find()
+#
+#     def process_find(self):
+#         self.find_processed = [self.n_nary_map[i] for i in self.find]
+#
+#     @property
+#     def search_all_contains(self) -> Union[list, str]:
+#         """
+#
+# 		:return:
+# 		"""
+#         if len(self.ele.split('-')) > 5:
+#             return "Sorry! We currently do not have compositions greater than quinary!"
+#         values = []
+#         for primary_key in self.find_processed:
+#             temp_dict = self.intermetallic_dict[str(primary_key)]
+#
+#             for key, value in temp_dict.items():
+#                 if self.ele in key:
+#                     values.append({'Composition': key, 'Enthalpy': value['mix_enthalpy']})
+#
+#         return values
 
-        with open(path, 'r') as f:
-            self.intermetallic_dict = json.load(f)
-        with open(element_list_path, 'r') as f:
-            self.element_total_list = f.read()
-
-        if isinstance(inp, str):
-            self.ele = inp
-            inp = [inp]
-
-        if isinstance(inp, list):
-            inp.sort()
-            self.ele = '-'.join(inp)
-
-        self.n_nary_map = {
-            'binaries': 2,
-            'ternaries': 3,
-            'quaternaries': 4,
-            'quinaries': 5
-        }
-
-        self.find = find
-        self.process_find()
-
-    def process_find(self):
-        self.find_processed = [self.n_nary_map[i] for i in self.find]
-
-    @property
-    def search_all_contains(self) -> Union[list, str]:
-        """
-
-		:return:
-		"""
-        if len(self.ele.split('-')) > 5:
-            return "Sorry! We currently do not have compositions greater than quinary!"
-        values = []
-        for primary_key in self.find_processed:
-            temp_dict = self.intermetallic_dict[str(primary_key)]
-
-            for key, value in temp_dict.items():
-                if self.ele in key:
-                    values.append({'Composition': key, 'Enthalpy': value['mix_enthalpy']})
-
-        return values
-
-# search_inst = search_any(inp = ['Al', 'Ni', 'Fe'], find = ['binary', 'ternary', 'quaternary'])
