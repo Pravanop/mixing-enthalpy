@@ -6,7 +6,6 @@ import mpltern
 from tqdm import tqdm
 from calculateEnthalpy.helper_functions.grid_code import create_mol_grid
 from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
-from pymatgen.analysis.phase_diagram import PDPlotter
 
 """
 Example script to make a ternary diagram. Left bare for higher customizability. 

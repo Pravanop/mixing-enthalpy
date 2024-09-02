@@ -9,6 +9,7 @@ import pandas as pd
 from calculateEnthalpy.UMAPS.use_umaps import use_umaps_Tmisc
 from calculateEnthalpy.heatmap_plots import add_ele
 from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
+from calculateEnthalpy.reactionPathways.new_rP import new_rP
 
 
 def convert_df(df):
@@ -161,4 +162,8 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 				st.pyplot(use_umaps_Tmisc(composition=ele_list_user_inp,
 										 pD=pD,
 										 n=len(ele_list_user_inp))[1])
+
+		if find_reaction_pathway:
+			ax, fig = new_rP(composition=ele_list_user_inp,pD=pD)
+			st.pyplot(fig)
 

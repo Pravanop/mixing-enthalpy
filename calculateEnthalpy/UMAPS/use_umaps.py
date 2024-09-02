@@ -51,7 +51,7 @@ def use_umaps_Tmisc(n, pD, composition):
 	color_list = [colors.rgb2hex(segment_colors[i]) for i in range(number_of_segments)]
 	i = 0
 	for key, value in composition_points.items():
-		ax.scatter(value[0], value[1], s=20, c=color_list[i], label=key)
+		ax.scatter(value[0], value[1], s=100, c=color_list[i], label=key)
 		# ax.text(value[0], value[1], key, ha='center', va='center')
 		i += 1
 
