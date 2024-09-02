@@ -81,9 +81,12 @@ class phaseDiagram:
 			'label': 'Binary Mixing Enthalpy (meV/atom)'}, linewidths=2, linecolor='white')
 		return fig
 
-	def upper_limit(self, composition, mol_ratio) -> None:
+	def upper_limit(self, composition, mol_ratio, phase_flag) -> None:
 		avg_tm = self.tm.avg_T_melt(composition, mol_ratio)
-		self.temp_grid = np.arange(0, avg_tm + 200, 200, dtype=np.float64)
+		if phase_flag:
+			self.temp_grid = np.arange(0, avg_tm + 200, 5, dtype=np.float64)
+		else:
+			self.temp_grid = np.arange(0, avg_tm + 200, 200, dtype=np.float64)
 
 	def make_convex_hull(self,
 						 composition: list,
@@ -253,7 +256,8 @@ class phaseDiagram:
 	def find_misc_temperature(self,
 							  mol_ratio: list,
 							  composition: list[str],
-							  lattice: str) -> Union[float, None]:
+							  lattice: str,
+							  phase_flag: bool = False) -> Union[float, None]:
 		"""
 		Finds miscibility temperature for a given composition
 		Args:
@@ -263,7 +267,7 @@ class phaseDiagram:
 		Returns: temperature in K
 
 		"""
-		self.upper_limit(composition, mol_ratio)
+		self.upper_limit(composition, mol_ratio, phase_flag)
 		mol_ratio = dict(zip(composition, mol_ratio))
 		mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
 		mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
