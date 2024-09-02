@@ -9,7 +9,7 @@ import matplotlib
 from scipy.interpolate import CubicSpline, splrep, BSpline, UnivariateSpline
 
 matplotlib.rcParams.update({'font.size': 18})
-correction = False
+correction = True
 if correction:
 	binary_file_path = "new_phase_diagram/bokas_omegas_processed.json"
 else:
@@ -18,13 +18,13 @@ else:
 end_member_path = "new_phase_diagram/bokas_end_members_dict.json"
 
 misc_T = []
-composition = ['Cr', 'Ta']
+composition = ['Ti', 'Ta']
 mol_grid = create_mol_grid(n=2, grid_size=30)
 pD = phaseDiagram(
 	processed_binary_file_path=binary_file_path,
 	end_member_file_path=end_member_path,
 	grid_size=30,
-	im_flag=True,
+	im_flag=False,
 	correction=correction,
 	equi_flag=False)
 
@@ -34,7 +34,7 @@ mol_grid = mol_grid.sort_values(by=[0])
 mol_grid = mol_grid.to_numpy()
 
 for i in tqdm(mol_grid):
-	misc_T = pD.find_misc_temperature(composition=composition, mol_ratio=i, lattice='BCC', phase_flag=False)
+	misc_T = pD.find_misc_temperature(composition=composition, mol_ratio=i, lattice='HCP', phase_flag=True)
 	if isinstance(misc_T, float):
 		misc_T_list.append(misc_T)
 	else:
