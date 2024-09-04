@@ -1,5 +1,5 @@
 {
-    "data_points": 463,
+    "data_points": 211,
     "data_columns": [
         "1",
         "2",
@@ -8,13 +8,13 @@
     "umap_params": {
         "n_jobs": 1,
         "random_state": 210181310,
-        "n_epochs": 450,
+        "n_epochs": 500,
         "n_components": 2,
         "n_neighbors": 100,
         "min_dist": 1.0,
-        "metric": "manhattan",
+        "metric": "euclidean",
         "learning_rate": 1.0
     },
-    "time_to_generate_coordinates_sec": 4,
+    "time_to_generate_coordinates_sec": 0,
     "time_to_generate_coordinates_min": 0
 }

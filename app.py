@@ -90,7 +90,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 	with col2:
 
 		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or UMAP_viz or decomposition_products or make_phase_diagram:
-			sys_opts = ["Biasing", "Include_IM", "Include_only_equimolar"]
+			sys_opts = ["Unbiasing", "disable_IM", "Include_only_equimolar"]
 			# lattice_opts = ['FCC', 'HCP', 'BCC', 'min']
 			col_checkbox = st.columns([1, 1, 1.5])
 			col_checkbox2 = st.columns([1, 1, 1, 1])
@@ -109,7 +109,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			if UMAP_viz:
 				find[2] = True
 
-			if find[0]:
+			if not find[0]:
 				binary_file_path = "calculateEnthalpy/new_phase_diagram/bokas_omegas_processed.json"
 			else:
 				binary_file_path = "data/output_data/bokasCorrected_bcc_1/all_lattices_binaries.json"
@@ -120,14 +120,14 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 				processed_binary_file_path=binary_file_path,
 				end_member_file_path=end_member_path,
 				grid_size=10,
-				im_flag=find[1],
-				correction=find[0],
+				im_flag= not find[1],
+				correction=not find[0],
 				equi_flag=find[2])
 
 		if find_comp:
 			T = st.slider(label="Temperature (K)", min_value=0, max_value=3000)
 			conv_hull = pD.make_convex_hull(composition=ele_list_user_inp, temperature=T)
-			st.write(PDPlotter(conv_hull).get_plot(process_attributes=True))
+			st.write(PDPlotter(conv_hull, show_unstable=1.0).get_plot(process_attributes=True))
 			series1  = []
 			series2 = []
 			for i in conv_hull.stable_entries:
@@ -186,7 +186,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			st.write(pD.heatmap(ele_list_user_inp).get_figure())
 
 		if UMAP_viz:
-			if len(ele_list_user_inp) == 3:
+			if len(ele_list_user_inp) < 5:
 				st.pyplot(use_umaps_Tmisc(composition=ele_list_user_inp,
 										 pD=pD,
 										 n=len(ele_list_user_inp))[1])

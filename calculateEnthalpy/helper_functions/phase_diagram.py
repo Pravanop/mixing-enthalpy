@@ -154,7 +154,7 @@ class phaseDiagram:
 														   name=f'{name.alphabetical_formula}_{key}'))
 
 				for ele in composition:
-					if ele in ['Fe', 'Ti', 'Mn', 'Hf', 'Zr']:
+					if ele in ['Fe', 'Ti', 'Mn', 'Hf', 'Zr'] and self.correction:
 						transition_temperatures = {
 							'Fe': ['BCC', 'FCC', 1180],
 							'Ti': ['HCP', 'BCC', 1155],

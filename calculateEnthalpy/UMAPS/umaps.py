@@ -19,6 +19,8 @@ import time
 import umap.umap_ as umap
 import json
 
+from calculateEnthalpy.helper_functions.grid_code import create_mol_grid
+
 
 def change_directory_to_current_py_file():
 	try:
@@ -50,12 +52,22 @@ def get_random_state(umap_params: dict) -> int:
 		random_state = int(np.random.default_rng().integers(0, 1e9))
 	return random_state
 
-
-def umap_coordinate_generator(data: pd.DataFrame, elements: list[str], umap_params: dict) -> tuple:
+def umap_model(data: pd.DataFrame, elements: list[str], umap_params: dict):
 	print('\nGenerating umap coordinates...')
 	tic = time.time()
 	manifold = np.array(data[elements])
 	umap_model = umap.UMAP(**umap_params).fit(manifold)
+	toc = time.time()
+	time_taken = int(round(toc - tic, 0))
+	print(f'\nLearnt Umap in {time_taken} seconds')
+	return umap_model
+
+
+def umap_coordinate_generator(data: pd.DataFrame, elements: list[str], umap_params: dict, umap_model) -> tuple:
+	print('\nGenerating umap coordinates...')
+	tic = time.time()
+	manifold = np.array(data[elements])
+	# umap_model = umap.UMAP(**umap_params).fit(manifold)
 	coordinates = umap_model.transform(manifold)
 	coordinates = pd.DataFrame(coordinates, columns=['umap_x_coordinate', 'umap_y_coordinate'])
 	data_with_dra = pd.concat([data, coordinates], axis=1)
@@ -154,7 +166,8 @@ def export_metadata_to_json(data: pd.DataFrame, umap_params: dict,
 
 
 if __name__ == "__main__":
-	file_name = '0_3space'
+	n = 4
+	file_name = f'0_{n}space'
 	save_image = True
 	save_data = True
 	graph_title = 'UMAP'
@@ -162,12 +175,12 @@ if __name__ == "__main__":
 	umap_params = {
 		'n_jobs': 1,
 		'random_state': 210181310,
-		'n_epochs': 450,  # 400 good
+		'n_epochs': 500,  # 400 good
 		'n_components': 2,
-		'n_neighbors': 100,  # 50 good
+		'n_neighbors': 150,  # 50 good
 		'min_dist': 1.0,
 		# 'spread': 1.0,
-		'metric': 'manhattan',
+		'metric': 'euclidean',
 		'learning_rate': 1.0
 	}
 
@@ -179,10 +192,19 @@ if __name__ == "__main__":
 
 	random_state = get_random_state(umap_params)
 	umap_params.update({'random_state': random_state})
+	umap_m = umap_model(data, elements, umap_params)
 
-	data_with_dra, time_taken = umap_coordinate_generator(data, elements, umap_params)
+	data_with_dra, time_taken = umap_coordinate_generator(data, elements, umap_params, umap_m)
+
+	#reduced system
+	mol_grid = create_mol_grid(grid_size=20, n=n)
+	df = pd.DataFrame(mol_grid, columns=[str(i) for i in range(1, n + 1)])
+	manifold = np.array(df[elements])
+	coordinates = umap_m.transform(manifold)
+	coordinates = pd.DataFrame(coordinates, columns=['umap_x_coordinate', 'umap_y_coordinate'])
+	data_with_dra = pd.concat([df, coordinates], axis=1)
 	plot_umap_data(data_with_dra, elements, color_list, umap_params, time_taken,
 				   graph_title, file_name, save_image)
-
 	export_umap_data(data_with_dra, file_name, save_data)
-	export_metadata_to_json(data, umap_params, time_taken, file_name, save_data)
+	export_metadata_to_json(df, umap_params, time_taken, file_name, save_data)
+	# print(data_with_dra)

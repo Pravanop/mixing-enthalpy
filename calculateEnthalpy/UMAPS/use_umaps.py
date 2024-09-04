@@ -4,6 +4,8 @@ import pandas as pd
 from matplotlib import colors
 from tqdm import tqdm
 
+from calculateEnthalpy.helper_functions.grid_code import create_multinary
+
 
 def find_corners(umaps, composition):
 	coords = umaps.iloc[:,:-2]
@@ -21,11 +23,16 @@ def use_umaps_Tmisc(n, pD, composition):
 	x, y = umaps['umap_x_coordinate'], umaps['umap_y_coordinate']
 	tm = []
 	composition_points = find_corners(umaps, composition)
-	print(composition_points)
+	n_alloy = len(composition)
+	all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
+	im_list = []
+	for dimensionality, alloy_list in all_combs.items():
+		if pD.im_flag:
+			im_list += pD.get_intermetallic(alloy_list)
 	for ind, i in tqdm(umaps.iterrows(), desc = "Iterating through phase space"):
-		mol_ratio = [i['1'], i['2'], i['3']]
-		for lattice in ['BCC']:
-			misc_T = pD.find_misc_temperature(composition=composition, lattice=lattice, mol_ratio=mol_ratio)
+		mol_ratio = [i[str(j)] for j in range(1, n+1)]
+		for lattice in ['min']:
+			misc_T = pD.find_misc_temperature(composition=composition, lattice=lattice, mol_ratio=mol_ratio, batch_tag=True, im=im_list)
 			if isinstance(misc_T, float):
 				tm.append(misc_T)
 			else:
@@ -45,16 +52,16 @@ def use_umaps_Tmisc(n, pD, composition):
 	ax.scatter(melt_x, melt_y, c = 'black', label="_no_legend_")
 	fig.colorbar(s, ax=ax, label="T_misc (K)")
 
-	cmap = plt.get_cmap('gist_rainbow')
-	number_of_segments = len(composition)
-	segment_colors = cmap(np.linspace(0, 1, number_of_segments))
-	color_list = [colors.rgb2hex(segment_colors[i]) for i in range(number_of_segments)]
-	i = 0
-	for key, value in composition_points.items():
-		ax.scatter(value[0], value[1], s=100, c=color_list[i], label=key)
-		# ax.text(value[0], value[1], key, ha='center', va='center')
-		i += 1
+	# cmap = plt.get_cmap('gist_rainbow')
+	# number_of_segments = len(composition)
+	# segment_colors = cmap(np.linspace(0, 1, number_of_segments))
+	# color_list = [colors.rgb2hex(segment_colors[i]) for i in range(number_of_segments)]
+	# # i = 0
+	# # for key, value in composition_points.items():
+	# # 	ax.scatter(value[0], value[1], s=20, c=color_list[i], label=key)
+	# # 	# ax.text(value[0], value[1], key, ha='center', va='center')
+	# # 	i += 1
 
-	ax.legend()
+	# ax.legend()
 
 	return ax, fig
