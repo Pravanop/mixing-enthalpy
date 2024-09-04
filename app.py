@@ -7,8 +7,10 @@ from pymatgen.analysis.phase_diagram import PDPlotter
 import pandas as pd
 
 from calculateEnthalpy.UMAPS.use_umaps import use_umaps_Tmisc
+from calculateEnthalpy.binary_phase_diagram import binary_diagram
 from calculateEnthalpy.heatmap_plots import add_ele
 from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
+from calculateEnthalpy.higherOrderPhaseDiagrams.createTernaryDiagrams_function import ternary_diagram
 from calculateEnthalpy.reactionPathways.new_rP import new_rP
 
 
@@ -76,23 +78,33 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 	with col1:
 		# find_comp = st.button('Convex Hulls for this Composition', on_click=clicked, args=[2])
 		find_heatmap = st.toggle('Pairwise Mixing Enthalpy', args=[3])
-
+		make_phase_diagram = st.toggle('Make Phase Diagram', args=[9])
 		find_comp = st.toggle('Convex Hulls', args=[2])
 		find_misc_T = st.toggle('Miscibility Temperature', args=[4])
-
+		decomposition_products = st.toggle('Decomp Products', args=[8])
 		addition_ele = st.toggle('Add an element', args=[6])
 		find_reaction_pathway = st.toggle('Deposition Pathways', args=[5])
 		UMAP_viz = st.toggle('Visualize UMAP', args=[7])
-		decomposition_products = st.toggle('Decomp Products', args=[8])
+
 
 	with col2:
 
-		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or UMAP_viz or decomposition_products:
+		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or UMAP_viz or decomposition_products or make_phase_diagram:
 			sys_opts = ["Biasing", "Include_IM", "Include_only_equimolar"]
-
+			# lattice_opts = ['FCC', 'HCP', 'BCC', 'min']
 			col_checkbox = st.columns([1, 1, 1.5])
+			col_checkbox2 = st.columns([1, 1, 1, 1])
 			alloy_sys = {symbol: col_checkbox[i].checkbox(symbol) for i, symbol in enumerate(sys_opts)}
+			# lattice_sys = {symbol: col_checkbox2[i].checkbox(symbol) for i, symbol in enumerate(lattice_opts)}
+			genre = st.radio(
+				"Which lattice are you interested in?",
+				["FCC", "BCC", "HCP", "min"],
+				index=3,
+				horizontal=True,
+
+			)
 			find = list(alloy_sys.values())
+			# lattice_find = list(lattice_sys.values())
 
 			if UMAP_viz:
 				find[2] = True
@@ -145,7 +157,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			else:
 				misc_T = pD.find_misc_temperature(composition=ele_list_user_inp,
 												  mol_ratio=mol_user_inp_list,
-												  lattice='min')
+												  lattice=genre)
 				if isinstance(misc_T, float):
 					st.write(f"Miscible Temperature: {misc_T} K")
 					if misc_T > 200:
@@ -153,7 +165,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 						st.write(pD.find_decomp_products(composition=ele_list_user_inp,
 														 mol_ratio=mol_user_inp_list,
 														 temperature=misc_T-200,
-														 lattice='min')[0])
+														 lattice=genre)[0])
 
 				else:
 					st.write(misc_T + "K")
@@ -165,7 +177,8 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			if add_el_user_inp != '':
 				ax = add_ele(composition=ele_list_user_inp,
 						add_el=add_el_user_inp,
-						pD=pD)
+						pD=pD,
+							 genre=genre,)
 
 				st.write(ax.get_figure())
 
@@ -209,6 +222,21 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			st.write(pD.find_decomp_products(composition=ele_list_user_inp,
 											 mol_ratio=mol_user_inp_list,
 											 temperature=add_temp_user_inp,
-											 lattice='min')[0])
+											 lattice=genre)[0])
+
+		if make_phase_diagram:
+
+			if len(ele_list_user_inp) == 2:
+				st.pyplot(binary_diagram(composition=ele_list_user_inp,pD=pD,genre=genre)[1])
+
+			if len(ele_list_user_inp) == 3:
+				T = st.slider(label="Temperature (K)", min_value=0, max_value=3000)
+				st.pyplot(ternary_diagram(composition=ele_list_user_inp,
+								T=T,
+								pD=pD,
+								genre=genre)[1])
+
+			if len(ele_list_user_inp) >= 4:
+				st.write(':red[Not possible to make phase diagram. Check UMAPs visualisation]')
 
 

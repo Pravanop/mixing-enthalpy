@@ -5,7 +5,10 @@ import pandas as pd
 from tqdm import tqdm
 from matplotlib.patches import Rectangle, Arrow
 
-def add_ele(composition, add_el, pD):
+from calculateEnthalpy.helper_functions.grid_code import create_multinary
+
+
+def add_ele(composition, add_el, pD, genre):
 	temp_space = 11
 	mol_space = 10
 	mol_grid = np.round(np.linspace(0.0, 1 / (len(composition) + 1), mol_space), 2)
@@ -13,6 +16,12 @@ def add_ele(composition, add_el, pD):
 	misc_temp = {}
 	temp_grid = np.linspace(200, 3200, temp_space)
 	normalized_mol = np.round((mol_grid - np.min(mol_grid)) / (np.max(mol_grid) - np.min(mol_grid)), 2)
+	n_alloy = len(composition)
+	all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
+	im_list = []
+	for dimensionality, alloy_list in all_combs.items():
+		if pD.im_flag:
+			im_list += pD.get_intermetallic(alloy_list)
 	for idx, mol in enumerate(tqdm(mol_grid, desc='Calculating miscibility temperature')):
 		temp_list = []
 		for temp in temp_grid:
@@ -20,24 +29,45 @@ def add_ele(composition, add_el, pD):
 			mol_ratio = [mol_1 / len(composition)] * len(composition) + [mol]
 			temp_list.append(
 				pD.find_decomp_products(composition=temp_composition, mol_ratio=mol_ratio, temperature=temp,
-										lattice='BCC')[1])
+										lattice=genre, batch_tag=True, im=im_list)[1])
 
 		misc_temp[normalized_mol[idx]] = temp_list
+
 	df = pd.DataFrame().from_dict(misc_temp)
 	df = df.T
 	df.columns = temp_grid
 	df = df.T
+	positions = []
+	for col in df.columns:
+		try:
+			first_zero_index = df[df[col] == 0].index[0]
+		except IndexError:
+			first_zero_index = df.index[-1]
 
-	df = df.iloc[::-1]
+		positions.append(first_zero_index)
+
+	# print(positions)
+	# df = df.iloc[::-1]
 	cmap = sns.cubehelix_palette(start=.5, rot=-.61, light=.98, dark=.35, hue=1, as_cmap=True)
 	sns.set_theme(rc={'figure.figsize': (11.7, 8.27)})
 	sns.set(font_scale=1.4, )
-	ax = sns.heatmap(df, yticklabels=temp_grid[::-1].astype(int), xticklabels=normalized_mol, cmap=cmap, square=True,
-					 cbar_kws={'label': '$E_{hull}$ eV/atom', "shrink": 0.8})
-	plt.text(s='-'.join(composition), y=len(temp_grid) + 0.6, x=-2)
-	plt.text(s='-'.join(temp_composition), y=len(temp_grid) + 0.6, x=len(mol_grid) + 0.1)
+	fig, ax = plt.subplots()
+	sns.heatmap(df, yticklabels=temp_grid.astype(int), cmap=cmap, square=True,
+					 cbar_kws={'label': '$E_{hull}$ eV/atom', "shrink": 0.8}, ax=ax)
+	ax.axes.invert_yaxis()
+	# for i, idx in enumerate(positions):
+	# 	ax.plot(i + 0.5, idx + 0.5, 'bo')
+	count_prev = np.where(temp_grid == positions[0])[0][0] + 1
+	for idx, i in enumerate(positions):
+		idx2 = np.where(temp_grid == i)[0][0] + 1
+		if idx2 != count_prev:
+			ax.plot([idx, idx], [count_prev, idx2], color='black', linestyle='--')
+			count_prev = idx2
+		ax.plot([idx, idx+1],[idx2, idx2], color='black', linestyle='--')
+	ax.text(s='-'.join(composition), y=0, x=-2)
+	ax.text(s='-'.join(temp_composition), y=0, x=len(mol_grid) + 0.1)
 	ax.set_xlabel(f"${add_el}_x$")
 	ax.set_ylabel("T (K)")
 	plt.subplots_adjust(bottom=0.2, top=0.9)
-	return ax
+	return fig
 	# plt.savefig(f'heatmap_{"-".join(temp_composition)}.png')
