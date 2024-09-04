@@ -11,12 +11,21 @@ from matplotlib import tri
 from scipy.interpolate import CubicSpline
 import matplotlib.tri as mtri
 from scipy.ndimage import gaussian_filter
+from matplotlib import colormaps
+from matplotlib.cm import ScalarMappable
+from matplotlib.colors import Normalize
+from matplotlib import use
+use('Qt5agg')
+plt.close('all')
 """
 Example script to make a ternary diagram. Left bare for higher customizability. 
 """
 
-correction = True
-equi = False
+correction = False
+equi = True
+im_flag = True
+isShow = False
+cmap = plt.get_cmap('viridis')
 
 if correction:
 	binary_file_path = "../new_phase_diagram/bokas_omegas_processed.json"
@@ -29,17 +38,17 @@ pD = phaseDiagram(
 	processed_binary_file_path=binary_file_path,
 	end_member_file_path=end_member_path,
 	grid_size=20,
-	im_flag=False,
+	im_flag=im_flag,
 	correction=correction,
 	equi_flag=equi)
 
-composition = ['Cr', 'Fe', 'W']
-
+composition = ['Cr', 'V', 'Ti']
+composition.sort()
 temp_grid = np.linspace(200, 3000, 15).astype(int)
 phase_diag_dict = pD.make_PD_comp_temp(composition=composition, temp_grid=temp_grid)
 
 temps = list(phase_diag_dict.keys())
-grid_size = 30
+grid_size = 20
 N_i = 100
 skip = 1
 sigma = 1
@@ -64,20 +73,24 @@ t_i, l_i, r_i = mol_grid_i[:, 0], mol_grid_i[:, 1], mol_grid_i[:, 2]
 print(len(t),len(l),len(r))
 triangulation = tri.Triangulation(t,l)
 triangulation_i = tri.Triangulation(t_i,l_i)
+contour_xys = []
+contour_temps = []
 for temp in tqdm(temps, desc="Creating phase diagrams"):
 	stables = []
 	for idx, mol in enumerate(mol_grid):
 		enthalpy, entropy, mol_ratio = pD.find_enthalpy_entropy_composition(composition=composition,
 																   mol_ratio=mol,
-																	lattice = 'min')
-
+																	lattice = 'BCC')
+		print(mol_ratio)
 		is_stable = pD.check_stability(mol_ratio=mol_ratio,
 									   temp=temp,
 									   conv_hull=phase_diag_dict[temp],
 									   entropy=entropy,
 									   mix_enthalpy=enthalpy)
+
 		if is_stable is not None:
-			if np.isclose(is_stable[1], 0.0, atol=1e-2):
+			print(is_stable[1])
+			if np.isclose(is_stable[1], 0.0, atol=1e-3):
 				stable = 0
 			else:
 				stable = 1
@@ -98,6 +111,7 @@ for temp in tqdm(temps, desc="Creating phase diagrams"):
 	print('check')
 	print(stables_i[4960])
 	tricon = ax.tricontour(t, l, r, stables, levels=levels, alpha=0)
+	ax.scatter(t,l,r,c=stables)
 	# tricon = ax.tricontourf(t_i,l_i,r_i,stables_i,levels=levels)
 	contour_data = []
 	i = 0
@@ -124,6 +138,8 @@ for temp in tqdm(temps, desc="Creating phase diagrams"):
 		y = contour_data[path_i][1]
 		x_g = gaussian_filter(x, sigma=sigma)
 		y_g = gaussian_filter(y, sigma=sigma)
+		contour_xys.append((x_g, y_g))
+		contour_temps.append(temp)
 		# mask = np.arange(0,len(x),skip)
 		# x = x[mask]
 		# y = y[mask]
@@ -149,3 +165,23 @@ for temp in tqdm(temps, desc="Creating phase diagrams"):
 	# 	plt.savefig(f"{folder_path}/{ele_list}/{temp}_equi.png")
 	# else:
 	# 	plt.savefig(f"{folder_path}/{ele_list}/{temp}.png")
+fig = plt.figure(figsize=(3,3))
+ax = plt.subplot(projection="ternary")
+ax.grid()
+ax.set_tlabel(f"{composition[0]}")
+ax.set_llabel(f"{composition[1]}")
+ax.set_rlabel(f"{composition[2]}")
+Tmax = contour_temps[-1]
+Tmin = contour_temps[0]
+Trange = Tmax - Tmin
+for (x_g,y_g), temp in zip(contour_xys, contour_temps):
+	i_T = (temp-Tmin)/Trange
+	c = cmap(i_T)
+	ax.plot(x_g, y_g, 1 - x_g - y_g,c=c)
+norm = Normalize(vmin=Tmin, vmax=Tmax)
+fig.colorbar(ScalarMappable(norm=norm, cmap=cmap),ax=ax,pad=0.3,shrink=0.6)
+plt.tight_layout()
+plt.subplots_adjust(left=0.2, right=0.8, top=0.9, bottom=0.1)
+plt.savefig(f"{plot_path}/full.png")
+if isShow:
+	plt.show()

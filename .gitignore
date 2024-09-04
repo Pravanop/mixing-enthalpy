@@ -168,3 +168,5 @@ cython_debug/
 /Monte Carlo/plots/
 /Outputs/
 /plots/
+!/.venv/
+!/calculateEnthalpy/higherOrderPhaseDiagrams/my_createTernaryDiagrams.py
