@@ -127,7 +127,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		if find_comp:
 			T = st.slider(label="Temperature (K)", min_value=0, max_value=3000)
 			conv_hull = pD.make_convex_hull(composition=ele_list_user_inp, temperature=T)
-			st.write(PDPlotter(conv_hull, show_unstable=1.0).get_plot(process_attributes=True))
+			st.write(PDPlotter(conv_hull, show_unstable=1.0, ternary_style='3d').get_plot())
 			series1  = []
 			series2 = []
 			for i in conv_hull.stable_entries:

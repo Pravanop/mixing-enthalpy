@@ -311,6 +311,7 @@ class phaseDiagram:
 										  composition,
 										  lattice,
 										  mol_ratio: list,
+										  temperature: float,
 										  ):
 		mol_ratio = dict(zip(composition, mol_ratio))
 		mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
@@ -322,7 +323,8 @@ class phaseDiagram:
 			mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
 																		   binary_dict=self.data,
 																		   end_member_dict=self.end_member,
-																		   correction=self.correction)
+																		   correction=self.correction,
+																		   temperature=temperature)
 			print(mix_enthalpy)
 			if lattice == 'min':
 				mix_enthalpy = min(list(mix_enthalpy.values()))

@@ -21,8 +21,8 @@ plt.close('all')
 Example script to make a ternary diagram. Left bare for higher customizability. 
 """
 
-correction = False
-equi = True
+correction = True
+equi = False
 im_flag = True
 isShow = False
 cmap = plt.get_cmap('viridis')
@@ -80,13 +80,14 @@ for temp in tqdm(temps, desc="Creating phase diagrams"):
 	for idx, mol in enumerate(mol_grid):
 		enthalpy, entropy, mol_ratio = pD.find_enthalpy_entropy_composition(composition=composition,
 																   mol_ratio=mol,
-																	lattice = 'BCC')
+																	lattice = 'BCC',
+																	temperature=temp)
 		print(mol_ratio)
 		is_stable = pD.check_stability(mol_ratio=mol_ratio,
 									   temp=temp,
 									   conv_hull=phase_diag_dict[temp],
 									   entropy=entropy,
-									   mix_enthalpy=enthalpy)
+									   mix_enthalpy=enthalpy,)
 
 		if is_stable is not None:
 			print(is_stable[1])
