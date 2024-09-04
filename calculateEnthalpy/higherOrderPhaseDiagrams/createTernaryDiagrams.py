@@ -15,7 +15,7 @@ from matplotlib import colormaps
 from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
 from matplotlib import use
-use('Qt5agg')
+# use('Qt5agg')
 plt.close('all')
 """
 Example script to make a ternary diagram. Left bare for higher customizability. 
