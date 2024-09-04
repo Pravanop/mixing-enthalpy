@@ -323,6 +323,7 @@ class phaseDiagram:
 																		   binary_dict=self.data,
 																		   end_member_dict=self.end_member,
 																		   correction=self.correction)
+			print(mix_enthalpy)
 			if lattice == 'min':
 				mix_enthalpy = min(list(mix_enthalpy.values()))
 			else:
