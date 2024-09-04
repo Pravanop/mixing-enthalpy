@@ -15,8 +15,8 @@ im_list = []
 mol_grid = create_mol_grid(3, 20)
 mol_grid = np.array(mol_grid)
 
-correction = True
-equi = False
+correction = False
+equi = True
 
 if correction:
 	binary_file_path = "../new_phase_diagram/bokas_omegas_processed.json"
