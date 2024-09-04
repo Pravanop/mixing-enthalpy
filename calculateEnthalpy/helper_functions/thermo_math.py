@@ -161,7 +161,8 @@ class thermoMaths:
                                                 binary_dict,
                                                 end_member_dict,
                                                 model: str = "regular",
-                                                correction: bool = True) -> Union[dict, int]:
+                                                correction: bool = True,
+                                                temperature: float = 0) -> Union[dict, int]:
         ele_list = list(mol_ratio.keys())
         if len(ele_list) <= 1:
             return 0
@@ -172,7 +173,6 @@ class thermoMaths:
                 for idx2, ele in enumerate(binary):
                     two_el = ele.split("-")
                     mix_enthalpy_values = binary_dict[ele]
-                    # print(mix_enthalpy_values)
                     for lattice, enthalpy in mix_enthalpy_values.items():
                         if not correction:
                             if model == "regular":
@@ -184,12 +184,32 @@ class thermoMaths:
                             omega_ij = enthalpy
 
                         mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
-                        end_member_info = [end_member_dict[two_el[0]], end_member_dict[two_el[1]]]
                         H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction,
                                                                  omega=omega_ij)
                         if correction:
-                            H_mix +=  end_member_info[0][lattice]
-                            H_mix += (end_member_info[1][lattice] - end_member_info[0][lattice])*mol_fraction[0]
+                            temp_energies = {}
+                            for end_member in two_el:
+                                if end_member in ['Fe', 'Ti', 'Mn', 'Hf', 'Zr']:
+                                    # print(end_member)
+                                    transition_temperatures = {
+                                        'Fe': ['BCC', 'FCC', 1180],
+                                        'Ti': ['HCP', 'BCC', 1155],
+                                        'Hf': ['HCP', 'BCC', 2016],
+                                        'Zr': ['HCP', 'BCC', 1136],
+                                        'Mn': ['BCC', 'FCC', 1370]
+                                    }
+                                    if lattice == transition_temperatures[end_member][1]:
+                                        temp_energy = end_member_dict[end_member][lattice] - end_member_dict[end_member][lattice] * float(temperature) / transition_temperatures[end_member][2]
+                                        temp_energies[end_member] = temp_energy
+                                    else:
+                                        temp_energy = end_member_dict[end_member][lattice]
+                                        temp_energies[end_member] = temp_energy
+                                else:
+                                    temp_energy = end_member_dict[end_member][lattice]
+                                    temp_energies[end_member] = temp_energy
+                            H_mix +=  temp_energies[two_el[1]]
+                            H_mix += (temp_energies[two_el[0]] - temp_energies[two_el[1]])*mol_fraction[0]
+
                         if lattice not in mix_enthalpy:
                             mix_enthalpy[lattice] = H_mix
                         else:

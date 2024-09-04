@@ -15,34 +15,34 @@ from scipy.ndimage import gaussian_filter
 Example script to make a ternary diagram. Left bare for higher customizability. 
 """
 
-correction = False
+correction = True
 equi = False
 
 if correction:
 	binary_file_path = "../new_phase_diagram/bokas_omegas_processed.json"
 else:
-	binary_file_path = "../../data/output_data/all_lattices_binaries.json"
+	binary_file_path = "../../data/output_data/bokasCorrected_bcc_1/all_lattices_binaries.json"
 
 end_member_path = "../new_phase_diagram/bokas_end_members_dict.json"
 
 pD = phaseDiagram(
 	processed_binary_file_path=binary_file_path,
 	end_member_file_path=end_member_path,
-	grid_size=10,
-	im_flag=True,
+	grid_size=20,
+	im_flag=False,
 	correction=correction,
 	equi_flag=equi)
 
-composition = ['Cr', 'V', 'Ti']
+composition = ['Cr', 'Fe', 'W']
 
-temp_grid = np.linspace(200, 3000, 10).astype(int)
+temp_grid = np.linspace(200, 3000, 15).astype(int)
 phase_diag_dict = pD.make_PD_comp_temp(composition=composition, temp_grid=temp_grid)
 
 temps = list(phase_diag_dict.keys())
 grid_size = 30
 N_i = 100
 skip = 1
-sigma = 2
+sigma = 1
 levels = 5
 
 mol_grid = create_mol_grid(3, grid_size)
@@ -66,11 +66,10 @@ triangulation = tri.Triangulation(t,l)
 triangulation_i = tri.Triangulation(t_i,l_i)
 for temp in tqdm(temps, desc="Creating phase diagrams"):
 	stables = []
-	# PDPlotter(phase_diag_dict[temp]).show()
 	for idx, mol in enumerate(mol_grid):
 		enthalpy, entropy, mol_ratio = pD.find_enthalpy_entropy_composition(composition=composition,
 																   mol_ratio=mol,
-																	lattice = 'BCC')
+																	lattice = 'min')
 
 		is_stable = pD.check_stability(mol_ratio=mol_ratio,
 									   temp=temp,

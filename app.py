@@ -83,10 +83,11 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		addition_ele = st.toggle('Add an element', args=[6])
 		find_reaction_pathway = st.toggle('Deposition Pathways', args=[5])
 		UMAP_viz = st.toggle('Visualize UMAP', args=[7])
+		decomposition_products = st.toggle('Decomp Products', args=[8])
 
 	with col2:
 
-		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or UMAP_viz:
+		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or UMAP_viz or decomposition_products:
 			sys_opts = ["Biasing", "Include_IM", "Include_only_equimolar"]
 
 			col_checkbox = st.columns([1, 1, 1.5])
@@ -114,7 +115,15 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		if find_comp:
 			T = st.slider(label="Temperature (K)", min_value=0, max_value=3000)
 			conv_hull = pD.make_convex_hull(composition=ele_list_user_inp, temperature=T)
-			st.write(PDPlotter(conv_hull).get_plot())
+			st.write(PDPlotter(conv_hull).get_plot(process_attributes=True))
+			series1  = []
+			series2 = []
+			for i in conv_hull.stable_entries:
+				series1.append(i.name)
+				series2.append(i.energy_per_atom)
+			df = pd.DataFrame([series1, series2]).T
+			df.columns = ['Phase', 'Energy/per_atom']
+			st.write(df)
 
 		if find_misc_T:
 
@@ -136,9 +145,15 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			else:
 				misc_T = pD.find_misc_temperature(composition=ele_list_user_inp,
 												  mol_ratio=mol_user_inp_list,
-												  lattice='BCC')
+												  lattice='min')
 				if isinstance(misc_T, float):
 					st.write(f"Miscible Temperature: {misc_T} K")
+					if misc_T > 200:
+						st.write(f"Decomposition products at 200K lesser than {misc_T} K")
+						st.write(pD.find_decomp_products(composition=ele_list_user_inp,
+														 mol_ratio=mol_user_inp_list,
+														 temperature=misc_T-200,
+														 lattice='min')[0])
 
 				else:
 					st.write(misc_T + "K")
@@ -168,4 +183,32 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		if find_reaction_pathway:
 			ax, fig = new_rP(composition=ele_list_user_inp,pD=pD)
 			st.pyplot(fig)
+
+		if decomposition_products:
+			mol_user_inp = st.text_input(label='Enter Mole Fractions decomp',
+										 placeholder="For example: 0.2-0.3-0.5",
+										 label_visibility='visible')
+			if mol_user_inp != '':
+				mol_user_inp_list = np.array(mol_user_inp.split('-')).astype(float)
+			else:
+				mol_user_inp_list = []
+
+			print(mol_user_inp_list)
+			if len(mol_user_inp_list) < len(ele_list_user_inp):
+				st.write(":red[Invalid Input]")
+			elif len(mol_user_inp_list) <= 1:
+				st.write(":red[No Input]")
+			elif sum(mol_user_inp_list) != 1:
+				st.write(":red[mole fractions must always sum upto 1")
+			add_temp_user_inp = st.text_input(label='Enter Temperature',
+											placeholder="For example: 1000",
+											label_visibility='visible')
+
+
+			st.write(f"Decomposition products at {add_temp_user_inp} K")
+			st.write(pD.find_decomp_products(composition=ele_list_user_inp,
+											 mol_ratio=mol_user_inp_list,
+											 temperature=add_temp_user_inp,
+											 lattice='min')[0])
+
 

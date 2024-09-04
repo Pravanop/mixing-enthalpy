@@ -69,7 +69,7 @@ class phaseDiagram:
 			print(pair)
 			pair_list = pair.split('-')
 			if self.correction:
-				value = int(self.data[pair]['BCC'] * 1000/4)
+				value = int(self.data[pair]['BCC'] * 1000 / 4)
 			else:
 				value = int(self.data[pair]['BCC'] * 1000)
 			final_data[element_list.index(pair_list[0])][element_list.index(pair_list[1])] = value
@@ -88,43 +88,57 @@ class phaseDiagram:
 		else:
 			self.temp_grid = np.arange(0, avg_tm + 200, 200, dtype=np.float64)
 
+	def get_intermetallic(self, alloy_list):
+		pd_entries_list = []
+		with MPRester("u1TjwfwfTnpF8IolXF9PBY9RT9YauL84", mute_progress_bars=True) as mpr:
+			gga = mpr.materials.thermo.search(chemsys=alloy_list,
+											  fields=['composition', 'formation_energy_per_atom'],
+											  thermo_types=[ThermoType.GGA_GGA_U])
+			for i in gga:
+				energy = i.formation_energy_per_atom
+				name = Composition(i.composition)
+				pd_entries_list.append(PDEntry(composition=name,
+											   energy=energy * name.num_atoms,
+											   name=f'{name.alphabetical_formula}_MP'))
+
+		return pd_entries_list
+
 	def make_convex_hull(self,
 						 composition: list,
-						 temperature: float):
+						 temperature: float,
+						 batch_tag: bool = False,
+						 **kwargs):
+
+		pd_entries_list = []
+
 		n_alloy = len(composition)
 		all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
 		pd_entry_input = {}
-		pd_entries_list = []
+		# print(len(pd_entries_list))
 		for dimensionality, alloy_list in all_combs.items():
-			if self.im_flag:
-				with MPRester("u1TjwfwfTnpF8IolXF9PBY9RT9YauL84", mute_progress_bars=True) as mpr:
-					gga = mpr.materials.thermo.search(chemsys=alloy_list,
-													  fields=['composition', 'formation_energy_per_atom'],
-													  thermo_types=[ThermoType.GGA_GGA_U])
-					for i in gga:
-						energy = i.formation_energy_per_atom
-						name = Composition(i.composition)
-						pd_entries_list.append(PDEntry(composition=name,
-													   energy=energy * name.num_atoms,
-													   name=f'{name.alphabetical_formula}_MP'))
+			if not batch_tag:
+				print(1)
+				if self.im_flag:
+					pd_entries_list += self.get_intermetallic(alloy_list)
 
 			if self.equi_flag:
 				mol_grid = [[1 / dimensionality] * dimensionality]
 			else:
 				mol_grid = create_mol_grid(int(dimensionality), self.grid_size)
 			for alloy_idx, alloy in enumerate(alloy_list):
-				# print(type(alloy))
 				alloy_list = alloy.split('-')
 
 				for mol_idx, mol_frac in enumerate(mol_grid):
-					# print(mol_idx)
 					mol_ratio = dict(zip(alloy_list, mol_frac))
 					mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
+					if len(mol_ratio.keys()) == 1:
+						continue
 					mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(
 						mol_ratio=mol_ratio,
 						binary_dict=self.data,
 						end_member_dict=self.end_member,
 						correction=self.correction,
+						temperature=temperature
 					)
 
 					config_entropy = self.tm.calc_configEntropy(mol_ratio)
@@ -140,12 +154,39 @@ class phaseDiagram:
 														   name=f'{name.alphabetical_formula}_{key}'))
 
 				for ele in composition:
-					for key, value in self.end_member[ele].items():
-						name = Composition(ele)
+					if ele in ['Fe', 'Ti', 'Mn', 'Hf', 'Zr']:
+						transition_temperatures = {
+							'Fe': ['BCC', 'FCC', 1180],
+							'Ti': ['HCP', 'BCC', 1155],
+							'Hf': ['HCP', 'BCC', 2016],
+							'Zr': ['HCP', 'BCC', 1136],
+							'Mn': ['BCC', 'FCC', 1370]
+						}
 
-						pd_entries_list.append(PDEntry(composition=name, energy=value * name.num_atoms,
-													   name=f'{name.alphabetical_formula}_{key}'))
+						for key, value in self.end_member[ele].items():
+							name = Composition(ele)
+							if key == transition_temperatures[ele][1]:
+								temp_energy = value - value * temperature / transition_temperatures[ele][2]
+							else:
+								temp_energy = value
 
+							pd_entries_list.append(PDEntry(composition=name, energy=temp_energy * name.num_atoms,
+														   name=f'{name.alphabetical_formula}_{key}'))
+					else:
+						for key, value in self.end_member[ele].items():
+							name = Composition(ele)
+
+							pd_entries_list.append(PDEntry(composition=name, energy=value * name.num_atoms,
+														   name=f'{name.alphabetical_formula}_{key}'))
+				# print(len(pd_entries_list))
+				if batch_tag:
+					if self.im_flag:
+						if kwargs['im']:
+							pd_entries_list += kwargs['im']
+						else:
+							raise "Provide intermetallics"
+
+				# print(len(pd_entries_list))
 				for pd_key, value in pd_entry_input.items():
 					pd_entries_list.append(PDEntry(composition=pd_key, energy=value))
 
@@ -164,10 +205,18 @@ class phaseDiagram:
 
 		"""
 		PD_temp_comp_dict = {}
-
+		n_alloy = len(composition)
+		all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
+		im_list = []
+		for dimensionality, alloy_list in all_combs.items():
+			if self.im_flag:
+				im_list += self.get_intermetallic(alloy_list)
 		for idx, temp in enumerate(tqdm(temp_grid, desc="Running Temperature")):
+
 			PD_temp_comp_dict[temp] = self.make_convex_hull(temperature=temp,
-															composition=composition)
+															composition=composition,
+															batch_tag=True,
+															im = im_list)
 
 		return PD_temp_comp_dict
 
@@ -208,10 +257,20 @@ class phaseDiagram:
 							 ) -> Union[tuple, int]:
 		mol_ratio = dict(zip(composition, mol_ratio))
 		mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
+
+
 		mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
 																	   binary_dict=self.data,
 																	   end_member_dict=self.end_member,
-																	   correction=self.correction)[lattice]
+																	   correction=self.correction,
+																	   temperature=temperature)
+		if isinstance(mix_enthalpy, dict):
+			if lattice == 'min':
+				mix_enthalpy = min(list(mix_enthalpy.values()))
+			else:
+				mix_enthalpy = mix_enthalpy[lattice]
+
+
 		entropy = self.tm.calc_configEntropy(mol_ratio)
 
 		conv_hull = self.make_convex_hull(temperature=float(temperature),
@@ -246,10 +305,17 @@ class phaseDiagram:
 		if len(mol_ratio.keys()) == 1:
 			mix_enthalpy = 0
 		else:
+
+
 			mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
 																		   binary_dict=self.data,
 																		   end_member_dict=self.end_member,
-																		   correction=self.correction)[lattice]
+																		   correction=self.correction)
+			if lattice == 'min':
+				mix_enthalpy = min(list(mix_enthalpy.values()))
+			else:
+				mix_enthalpy = mix_enthalpy[lattice]
+
 		entropy = self.tm.calc_configEntropy(mol_ratio)
 		return mix_enthalpy, entropy, mol_ratio
 
@@ -257,7 +323,9 @@ class phaseDiagram:
 							  mol_ratio: list,
 							  composition: list[str],
 							  lattice: str,
-							  phase_flag: bool = False) -> Union[float, None]:
+							  phase_flag: bool = False,
+							  batch_tag: bool = False,
+							  **kwargs) -> Union[float, str]:
 		"""
 		Finds miscibility temperature for a given composition
 		Args:
@@ -270,18 +338,41 @@ class phaseDiagram:
 		self.upper_limit(composition, mol_ratio, phase_flag)
 		mol_ratio = dict(zip(composition, mol_ratio))
 		mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
-		mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
-																	   binary_dict=self.data,
-																	   end_member_dict=self.end_member,
-																	   correction=self.correction)
-		if isinstance(mix_enthalpy, dict):
-			mix_enthalpy = mix_enthalpy[lattice]
 
 		entropy = self.tm.calc_configEntropy(mol_ratio)
-		for idx, temperature in enumerate(self.temp_grid):
-			conv_hull = self.make_convex_hull(temperature=float(temperature),
-											  composition=composition)
+		if not batch_tag:
+			n_alloy = len(composition)
+			all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
 
+			im_list = []
+			for dimensionality, alloy_list in all_combs.items():
+				if self.im_flag:
+					im_list += self.get_intermetallic(alloy_list)
+		else:
+			if kwargs['im']:
+				im_list = kwargs['im']
+			else:
+				raise 'Provide Intermetallics'
+		# print(im_list)
+		for idx, temperature in enumerate(self.temp_grid):
+
+			mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
+																		   binary_dict=self.data,
+																		   end_member_dict=self.end_member,
+																		   correction=self.correction,
+																		   temperature=temperature)
+			if isinstance(mix_enthalpy, dict):
+				if lattice == 'min':
+					mix_enthalpy = min(list(mix_enthalpy.values()))
+				else:
+					mix_enthalpy = mix_enthalpy[lattice]
+
+			# print(len(im_list), temperature)
+			conv_hull = self.make_convex_hull(temperature=float(temperature),
+											  composition=composition,
+											  batch_tag=True,
+											  im=im_list)
+			# print(len(im_list), temperature)
 			is_stable = self.check_stability(mol_ratio=mol_ratio,
 											 temp=float(temperature),
 											 conv_hull=conv_hull,
