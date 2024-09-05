@@ -170,3 +170,4 @@ cython_debug/
 /plots/
 !/.venv/
 !/calculateEnthalpy/higherOrderPhaseDiagrams/my_createTernaryDiagrams.py
+/calculateEnthalpy/UMAPS/

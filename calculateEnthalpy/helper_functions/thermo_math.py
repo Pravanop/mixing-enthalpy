@@ -209,7 +209,6 @@ class thermoMaths:
                                     temp_energies[end_member] = temp_energy
                             H_mix +=  temp_energies[two_el[1]]
                             H_mix += (temp_energies[two_el[0]] - temp_energies[two_el[1]])*mol_fraction[0]
-                            print(mol_ratio,H_mix, lattice, temperature)
                         if lattice not in mix_enthalpy:
                             mix_enthalpy[lattice] = H_mix
                         else:

@@ -1,4 +1,5 @@
 import os
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -15,44 +16,38 @@ from scipy.ndimage import gaussian_filter
 Example script to make a ternary diagram. Left bare for higher customizability. 
 """
 
-# correction = True
-# equi = False
-#
-# if correction:
-# 	binary_file_path = "../new_phase_diagram/bokas_omegas_processed.json"
-# else:
-# 	binary_file_path = "../../data/output_data/bokasCorrected_bcc_1/all_lattices_binaries.json"
-#
-# end_member_path = "../new_phase_diagram/bokas_end_members_dict.json"
-#
-# pD = phaseDiagram(
-# 	processed_binary_file_path=binary_file_path,
-# 	end_member_file_path=end_member_path,
-# 	grid_size=20,
-# 	im_flag=False,
-# 	correction=correction,
-# 	equi_flag=equi)
-#
-# composition = ['Cr', 'Fe', 'W']
-#
-# temp_grid = np.linspace(200, 3000, 15).astype(int)
-# phase_diag_dict = pD.make_PD_comp_temp(composition=composition, temp_grid=temp_grid)
-#
-# temps = list(phase_diag_dict.keys())
-#
-#
-# if equi:
-# 	equi_str = "equi"
-# else:
-# 	equi_str = "off-equi"
-# ele_list = '-'.join(composition)
-# folder_path = "../../plots/phase_diagrams"
-# plot_path = f"{folder_path}/{ele_list}-{equi_str}"
-# if not os.path.exists(plot_path):
-# 	os.mkdir(plot_path)
+
+def check_mol_stability(mol, composition, genre, T, im_list, pD):
+	enthalpy, entropy, mol_ratio = pD.find_enthalpy_entropy_composition(
+		composition=composition,
+		mol_ratio=mol,
+		lattice=genre,
+		temperature=T
+	)
+
+	is_stable = pD.check_stability(
+		mol_ratio=mol_ratio,
+		temp=T,
+		conv_hull=pD.make_convex_hull(
+			composition=composition,
+			temperature=T,
+			batch_tag=True,
+			im=im_list
+		),
+		entropy=entropy,
+		mix_enthalpy=enthalpy
+	)
+
+	if is_stable is not None:
+		if np.isclose(is_stable[1], 0.0, atol=1e-2):
+			return 0
+		else:
+			return 1
+	else:
+		return 0
 
 def ternary_diagram(composition, T, pD, genre):
-	grid_size = 30
+	grid_size = 20
 	N_i = 100
 	skip = 1
 	sigma = 1
@@ -73,27 +68,14 @@ def ternary_diagram(composition, T, pD, genre):
 	for dimensionality, alloy_list in all_combs.items():
 		if pD.im_flag:
 			im_list += pD.get_intermetallic(alloy_list)
-	for idx, mol in enumerate(mol_grid):
-		enthalpy, entropy, mol_ratio = pD.find_enthalpy_entropy_composition(composition=composition,
-																   mol_ratio=mol,
-																	lattice = genre)
+	num_threads = os.cpu_count()  # Example: twice the number of CPU cores for I/O-bound tasks
 
-		is_stable = pD.check_stability(mol_ratio=mol_ratio,
-									   temp=T,
-									   conv_hull=pD.make_convex_hull(composition=composition,
-																	 temperature=T,
-																	 batch_tag=True,
-																	 im=im_list),
-									   entropy=entropy,
-									   mix_enthalpy=enthalpy)
-		if is_stable is not None:
-			if np.isclose(is_stable[1], 0.0, atol=1e-2):
-				stable = 0
-			else:
-				stable = 1
-		else:
-			stable = 0
-		stables.append(stable)
+	# Parallel processing with ThreadPoolExecutor
+	with ThreadPoolExecutor(max_workers=1) as executor:
+		# Use map to parallelize the execution and ensure order is preserved
+		stables = list(
+			tqdm(executor.map(lambda mol: check_mol_stability(mol, composition, genre, T, im_list, pD), mol_grid),
+				 total=len(mol_grid)))
 
 	fig = plt.figure()
 	ax = plt.subplot(projection="ternary")
@@ -102,6 +84,7 @@ def ternary_diagram(composition, T, pD, genre):
 	print('check')
 	print(stables_i[4960])
 	tricon = ax.tricontour(t, l, r, stables, levels=levels, alpha=0)
+	ax.scatter(t,l,r,c=stables)
 	contour_data = []
 	i = 0
 	for collection in tricon.collections:

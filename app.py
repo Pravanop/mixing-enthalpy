@@ -22,8 +22,10 @@ def convert_df(df):
 def clicked(button):
 	st.session_state.clicked[button] = True
 
+
 def on_change():
 	st.session_state.clicked[1] = False
+
 
 if 'clicked' not in st.session_state:
 	st.session_state.clicked = dict(zip(range(-10, 10), [False] * 20))
@@ -86,7 +88,6 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		find_reaction_pathway = st.toggle('Deposition Pathways', args=[5])
 		UMAP_viz = st.toggle('Visualize UMAP', args=[7])
 
-
 	with col2:
 
 		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or UMAP_viz or decomposition_products or make_phase_diagram:
@@ -120,15 +121,15 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 				processed_binary_file_path=binary_file_path,
 				end_member_file_path=end_member_path,
 				grid_size=10,
-				im_flag= not find[1],
+				im_flag=not find[1],
 				correction=not find[0],
 				equi_flag=find[2])
 
 		if find_comp:
-			T = st.slider(label="Temperature (K)", min_value=0, max_value=3000)
+			T = st.slider(label="Temperature (K)", min_value=0, max_value=3000, step=100)
 			conv_hull = pD.make_convex_hull(composition=ele_list_user_inp, temperature=T)
 			st.write(PDPlotter(conv_hull, show_unstable=1.0, ternary_style='3d').get_plot())
-			series1  = []
+			series1 = []
 			series2 = []
 			for i in conv_hull.stable_entries:
 				series1.append(i.name)
@@ -164,7 +165,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 						st.write(f"Decomposition products at 200K lesser than {misc_T} K")
 						st.write(pD.find_decomp_products(composition=ele_list_user_inp,
 														 mol_ratio=mol_user_inp_list,
-														 temperature=misc_T-200,
+														 temperature=misc_T - 200,
 														 lattice=genre)[0])
 
 				else:
@@ -176,9 +177,9 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 											label_visibility='visible')
 			if add_el_user_inp != '':
 				ax = add_ele(composition=ele_list_user_inp,
-						add_el=add_el_user_inp,
-						pD=pD,
-							 genre=genre,)
+							 add_el=add_el_user_inp,
+							 pD=pD,
+							 genre=genre, )
 
 				st.write(ax.get_figure())
 
@@ -188,13 +189,13 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		if UMAP_viz:
 			if len(ele_list_user_inp) < 5:
 				st.pyplot(use_umaps_Tmisc(composition=ele_list_user_inp,
-										 pD=pD,
-										 n=len(ele_list_user_inp))[1])
+										  pD=pD,
+										  n=len(ele_list_user_inp))[1])
 			else:
 				st.write(':red[Currently only works for ternaries. Come back later for higher order visualizations.]')
 
 		if find_reaction_pathway:
-			ax, fig = new_rP(composition=ele_list_user_inp,pD=pD)
+			ax, fig = new_rP(composition=ele_list_user_inp, pD=pD)
 			st.pyplot(fig)
 
 		if decomposition_products:
@@ -214,9 +215,8 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			elif sum(mol_user_inp_list) != 1:
 				st.write(":red[mole fractions must always sum upto 1")
 			add_temp_user_inp = st.text_input(label='Enter Temperature',
-											placeholder="For example: 1000",
-											label_visibility='visible')
-
+											  placeholder="For example: 1000",
+											  label_visibility='visible')
 
 			st.write(f"Decomposition products at {add_temp_user_inp} K")
 			st.write(pD.find_decomp_products(composition=ele_list_user_inp,
@@ -227,16 +227,14 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		if make_phase_diagram:
 
 			if len(ele_list_user_inp) == 2:
-				st.pyplot(binary_diagram(composition=ele_list_user_inp,pD=pD,genre=genre)[1])
+				st.pyplot(binary_diagram(composition=ele_list_user_inp, pD=pD, genre=genre)[1])
 
 			if len(ele_list_user_inp) == 3:
-				T = st.slider(label="Temperature (K)", min_value=0, max_value=3000)
+				T = st.slider(label="Temperature (K)", min_value=0, max_value=3000, step=100)
 				st.pyplot(ternary_diagram(composition=ele_list_user_inp,
-								T=T,
-								pD=pD,
-								genre=genre)[1])
+										  T=T,
+										  pD=pD,
+										  genre=genre)[1])
 
 			if len(ele_list_user_inp) >= 4:
 				st.write(':red[Not possible to make phase diagram. Check UMAPs visualisation]')
-
-

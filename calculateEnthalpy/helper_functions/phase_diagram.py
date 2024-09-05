@@ -114,10 +114,8 @@ class phaseDiagram:
 		n_alloy = len(composition)
 		all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
 		pd_entry_input = {}
-		# print(len(pd_entries_list))
 		for dimensionality, alloy_list in all_combs.items():
 			if not batch_tag:
-				print(1)
 				if self.im_flag:
 					pd_entries_list += self.get_intermetallic(alloy_list)
 
@@ -325,7 +323,6 @@ class phaseDiagram:
 																		   end_member_dict=self.end_member,
 																		   correction=self.correction,
 																		   temperature=temperature)
-			print(mix_enthalpy)
 			if lattice == 'min':
 				mix_enthalpy = min(list(mix_enthalpy.values()))
 			else:

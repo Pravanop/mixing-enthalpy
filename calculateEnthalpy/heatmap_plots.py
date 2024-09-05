@@ -1,3 +1,6 @@
+import os
+from concurrent.futures import ThreadPoolExecutor
+
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -7,13 +10,28 @@ from matplotlib.patches import Rectangle, Arrow
 
 from calculateEnthalpy.helper_functions.grid_code import create_multinary
 
-
+def calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp_composition):
+    temp_list = []
+    for temp in temp_grid:
+        mol_1 = 1 - mol
+        mol_ratio = [mol_1 / len(composition)] * len(composition) + [mol]
+        temp_list.append(
+            pD.find_decomp_products(
+                composition=temp_composition,
+                mol_ratio=mol_ratio,
+                temperature=temp,
+                lattice=genre,
+                batch_tag=True,
+                im=im_list
+            )[1]
+        )
+    return temp_list
 def add_ele(composition, add_el, pD, genre):
 	temp_space = 11
 	mol_space = 10
 	mol_grid = np.round(np.linspace(0.0, 1 / (len(composition) + 1), mol_space), 2)
 	temp_composition = composition + [add_el]
-	misc_temp = {}
+
 	temp_grid = np.linspace(200, 3200, temp_space)
 	normalized_mol = np.round((mol_grid - np.min(mol_grid)) / (np.max(mol_grid) - np.min(mol_grid)), 2)
 	n_alloy = len(composition)
@@ -22,16 +40,18 @@ def add_ele(composition, add_el, pD, genre):
 	for dimensionality, alloy_list in all_combs.items():
 		if pD.im_flag:
 			im_list += pD.get_intermetallic(alloy_list)
-	for idx, mol in enumerate(tqdm(mol_grid, desc='Calculating miscibility temperature')):
-		temp_list = []
-		for temp in temp_grid:
-			mol_1 = 1 - mol
-			mol_ratio = [mol_1 / len(composition)] * len(composition) + [mol]
-			temp_list.append(
-				pD.find_decomp_products(composition=temp_composition, mol_ratio=mol_ratio, temperature=temp,
-										lattice=genre, batch_tag=True, im=im_list)[1])
 
-		misc_temp[normalized_mol[idx]] = temp_list
+	misc_temp = {}
+
+	with ThreadPoolExecutor(max_workers=1) as executor:
+		# Map the compute function to the mol_grid
+		results = list(tqdm(executor.map(
+			lambda mol: calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp_composition),
+			mol_grid), desc='Calculating miscibility temperature', total=len(mol_grid)))
+
+		# Populate the misc_temp dictionary
+		for idx, temp_list in enumerate(results):
+			misc_temp[normalized_mol[idx]] = temp_list
 
 	df = pd.DataFrame().from_dict(misc_temp)
 	df = df.T
