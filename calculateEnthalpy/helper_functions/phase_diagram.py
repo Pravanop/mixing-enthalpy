@@ -61,7 +61,7 @@ class phaseDiagram:
 		self.im_flag = im_flag
 		self.equi_flag = equi_flag
 
-	def heatmap(self, element_list):
+	def heatmap(self, element_list, genre):
 		binaries = list(create_multinary(element_list, no_comb=[2])[2])
 		final_data = np.empty((len(element_list), len(element_list)))
 		final_data[:] = np.nan
@@ -69,9 +69,9 @@ class phaseDiagram:
 			print(pair)
 			pair_list = pair.split('-')
 			if self.correction:
-				value = int(self.data[pair]['BCC'] * 1000 / 4)
+				value = int(self.data[pair][genre] * 1000 / 4)
 			else:
-				value = int(self.data[pair]['BCC'] * 1000)
+				value = int(self.data[pair][genre] * 1000)
 			final_data[element_list.index(pair_list[0])][element_list.index(pair_list[1])] = value
 			final_data[element_list.index(pair_list[1])][element_list.index(pair_list[0])] = value
 

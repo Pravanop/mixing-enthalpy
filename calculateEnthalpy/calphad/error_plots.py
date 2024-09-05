@@ -6,32 +6,33 @@ import matplotlib
 
 matplotlib.rcParams['font.size'] = 16
 
-df = pd.read_csv("/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/calphad/Pravan_bcc_4_calphad.csv")
-df["error"] = abs(df["Calphad"] - df["Model"])
-df = df.sort_values(by = "error", ascending = False)
+# df = pd.read_csv("/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calculateEnthalpy/calphad/Pravan_bcc_4_calphad.csv")
+# df["error"] = abs(df["Calphad"] - df["Model"])
+# df = df.sort_values(by = "error", ascending = False)
+#
+# query = df[(df['error'].isnull())]
+# TT, FT, TF, FF = [], [], [], []
+# for i in df.iterrows():
+# 	if np.isnan(i[1]["Model"]) and np.isnan(i[1]["Calphad"]):
+# 		FF.append(i[1]["Alloy"])
+# 	elif np.isnan(i[1]["Model"]) and not np.isnan(i[1]["Calphad"]):
+# 		FT.append(i[1]["Alloy"])
+# 	elif not np.isnan(i[1]["Model"]) and np.isnan(i[1]["Calphad"]):
+# 		TF.append(i[1]["Alloy"])
+# 	else:
+# 		TT.append(i[1]["Alloy"])
 
-query = df[(df['error'].isnull())]
-TT, FT, TF, FF = [], [], [], []
-for i in df.iterrows():
-	if np.isnan(i[1]["Model"]) and np.isnan(i[1]["Calphad"]):
-		FF.append(i[1]["Alloy"])
-	elif np.isnan(i[1]["Model"]) and not np.isnan(i[1]["Calphad"]):
-		FT.append(i[1]["Alloy"])
-	elif not np.isnan(i[1]["Model"]) and np.isnan(i[1]["Calphad"]):
-		TF.append(i[1]["Alloy"])
-	else:
-		TT.append(i[1]["Alloy"])
-
+TF, TT, FF, FT = 3,18,22,2
 
 # df_tt = pd.DataFrame.from_dict()
-print({"TT": len(TT), "FT": len(FT), "TF": len(TF), "FF": len(FF)})
+# print({"TT": len(TT), "FT": len(FT), "TF": len(TF), "FF": len(FF)})
 
-conf_matrix = np.array([[len(TT), len(FT)], [len(TF), len(FF)]])
+conf_matrix = np.array([[TT, FT], [TF, FF]])
 print(conf_matrix)
 
 sns.heatmap(conf_matrix, annot=True, cmap="YlGn",cbar=False)
-plt.xlabel("Model")
-plt.ylabel("Calphad")
+plt.ylabel("Model")
+plt.xlabel("Experimental")
 plt.xticks([0.5, 1.5],labels = ["Miscible", "Immiscible"])
 plt.yticks([0.5, 1.5], labels = ["Miscible", "Immiscible"])
 plt.subplots_adjust(right=0.6, bottom=0.2)
@@ -46,7 +47,7 @@ plt.text(x = 2.2, y = 1.5, s = f"Precision: {precision:.2f}\n"
 		 f"Accuracy: {accuracy:.2f}\n"
 		 f"Specificity: {specificity:.2f}\n"
 		 f"F1_score: {f1:.2f}")
-plt.savefig("confusion_matrix.png", dpi = 300)
+plt.savefig("confusion_matrix_binary_expt.png", dpi = 300)
 # query = query[(query['Calphad'].isnull()) | (query['Model'].isnull())]
 # print(query.info())
 # fig, ax = plt.subplots(2, 1, figsize=(8, 12))

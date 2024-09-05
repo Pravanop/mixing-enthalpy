@@ -4,19 +4,26 @@ import adjustText
 import numpy as np
 from matplotlib import pyplot as plt
 
-from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
+from calculateEnthalpy.helper_functions.grid_code import create_multinary
 
-def add_ele(composition, add_el, pD):
-	mol_space = 10
+def add_ele(composition, add_el, pD, genre):
+	mol_space = 6
 	mol_grid = np.round(np.linspace(0.0, 1 / (len(composition) + 1), mol_space), 2)
 	temp_composition = composition + [add_el]
 	misc_temp = {}
 	normalized_mol = np.round((mol_grid - np.min(mol_grid)) / (np.max(mol_grid) - np.min(mol_grid)), 2)
+	n_alloy = len(temp_composition)
+	all_combs = create_multinary(element_list=temp_composition, no_comb=list(range(2, n_alloy + 1)))
+	im_list = []
 
+	for dimensionality, alloy_list in all_combs.items():
+		if pD.im_flag:
+			im_list += pD.get_intermetallic(alloy_list)
 	for idx, mol in enumerate(mol_grid):
 		mol_1 = 1 - mol
 		mol_ratio = [mol_1 / len(composition)] * len(composition) + [mol]
-		t_misc = pD.find_misc_temperature(composition=temp_composition, mol_ratio=mol_ratio, lattice='BCC')
+
+		t_misc = pD.find_misc_temperature(composition=temp_composition, mol_ratio=mol_ratio, lattice=genre, batch_tag=True, im=im_list)
 		if isinstance(t_misc, float):
 			misc_temp[normalized_mol[idx]] = t_misc
 		else:
@@ -25,7 +32,7 @@ def add_ele(composition, add_el, pD):
 
 	return misc_temp
 
-def new_rP(composition, pD):
+def new_rP(composition, pD, genre):
 	all_pathways = list(itertools.permutations(composition, len(composition)))
 
 	path_dict = {}
@@ -36,7 +43,7 @@ def new_rP(composition, pD):
 		temp_path = []
 		while count + 1 < len(path):
 
-			temp = add_ele(path[:count+1], path[count+1], pD)
+			temp = add_ele(path[:count+1], path[count+1], pD, genre)
 			if count == 0:
 				temp[0.0] = pD.tm.meltT[path[:count+1][0]]
 			temp_path.append(temp)
@@ -69,12 +76,11 @@ def new_rP(composition, pD):
 	ax.set_xticks([])
 	ax.set_ylabel('Temperature (K)', fontsize=12)
 	ax.set_xlabel('Reaction Coordinate', fontsize=12)
-	adjustText.adjust_text(texts,
-						   lim=500,
-							force_text=0.25,
-						   )
+	# adjustText.adjust_text(texts,
+	# 					   lim=500,
+	# 						force_text=0.25,
+	# 					   )
 	return ax,fig
-# plt.savefig('reaction_pathways.png', dpi=300)
 
 
 

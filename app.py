@@ -9,6 +9,7 @@ import pandas as pd
 from calculateEnthalpy.UMAPS.use_umaps import use_umaps_Tmisc
 from calculateEnthalpy.binary_phase_diagram import binary_diagram
 from calculateEnthalpy.heatmap_plots import add_ele
+from calculateEnthalpy.helper_functions.grid_code import create_multinary
 from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
 from calculateEnthalpy.higherOrderPhaseDiagrams.createTernaryDiagrams_function import ternary_diagram
 from calculateEnthalpy.reactionPathways.new_rP import new_rP
@@ -30,17 +31,21 @@ def on_change():
 if 'clicked' not in st.session_state:
 	st.session_state.clicked = dict(zip(range(-10, 10), [False] * 20))
 
-element_list_path = (
-	"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/input_data/bokasCorrected/element_list_BCC_bokasCorrected.txt")
+@st.cache_data()
+def load_ele_list():
+	element_list_path = (
+		"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/input_data/bokasCorrected/element_list_BCC_bokasCorrected.txt")
 
-with open(element_list_path) as f:
-	element_total_list = f.read()
-element_total_list = element_total_list.split(',')
+	with open(element_list_path) as f:
+		element_total_list = f.read()
+	element_total_list = element_total_list.split(',')
+	return element_total_list
+
 
 st.set_page_config(page_title="FAR-HEAA",
 				   initial_sidebar_state="expanded",
 				   layout="wide")
-
+element_total_list = load_ele_list()
 st.title('Fast and Robust High Entropy Alloy Analysis')
 len_check = True
 rep_check = True
@@ -79,6 +84,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 
 	with col1:
 		# find_comp = st.button('Convex Hulls for this Composition', on_click=clicked, args=[2])
+
 		find_heatmap = st.toggle('Pairwise Mixing Enthalpy', args=[3])
 		make_phase_diagram = st.toggle('Make Phase Diagram', args=[9])
 		find_comp = st.toggle('Convex Hulls', args=[2])
@@ -87,23 +93,29 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		addition_ele = st.toggle('Add an element', args=[6])
 		find_reaction_pathway = st.toggle('Deposition Pathways', args=[5])
 		UMAP_viz = st.toggle('Visualize UMAP', args=[7])
+		combinatorics = st.toggle('Combinatorics', args=[10])
 
 	with col2:
+		sys_opts = ["Unbiasing", "disable_IM", "Include_only_equimolar"]
+		# lattice_opts = ['FCC', 'HCP', 'BCC', 'min']
+		col_checkbox = st.columns([1, 1, 1.5])
+		col_checkbox2 = st.columns([1, 1, 1, 1])
+		alloy_sys = {symbol: col_checkbox[i].checkbox(symbol) for i, symbol in enumerate(sys_opts)}
+		# lattice_sys = {symbol: col_checkbox2[i].checkbox(symbol) for i, symbol in enumerate(lattice_opts)}
+		genre = st.radio(
+			"Which lattice are you interested in?",
+			["FCC", "BCC", "HCP", "min"],
+			index=3,
+			horizontal=True,
 
+		)
+		if combinatorics:
+			n = st.text_input(label='n',placeholder='Either 2 or 3 or..', label_visibility='hidden')
+			if n != '':
+				alloy_dicts = create_multinary(element_list=ele_list_user_inp, no_comb=[int(n)])
+				st.write(pd.DataFrame().from_dict(alloy_dicts[int(n)]))
 		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or UMAP_viz or decomposition_products or make_phase_diagram:
-			sys_opts = ["Unbiasing", "disable_IM", "Include_only_equimolar"]
-			# lattice_opts = ['FCC', 'HCP', 'BCC', 'min']
-			col_checkbox = st.columns([1, 1, 1.5])
-			col_checkbox2 = st.columns([1, 1, 1, 1])
-			alloy_sys = {symbol: col_checkbox[i].checkbox(symbol) for i, symbol in enumerate(sys_opts)}
-			# lattice_sys = {symbol: col_checkbox2[i].checkbox(symbol) for i, symbol in enumerate(lattice_opts)}
-			genre = st.radio(
-				"Which lattice are you interested in?",
-				["FCC", "BCC", "HCP", "min"],
-				index=3,
-				horizontal=True,
 
-			)
 			find = list(alloy_sys.values())
 			# lattice_find = list(lattice_sys.values())
 
@@ -126,17 +138,20 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 				equi_flag=find[2])
 
 		if find_comp:
-			T = st.slider(label="Temperature (K)", min_value=0, max_value=3000, step=100)
-			conv_hull = pD.make_convex_hull(composition=ele_list_user_inp, temperature=T)
-			st.write(PDPlotter(conv_hull, show_unstable=1.0, ternary_style='3d').get_plot())
-			series1 = []
-			series2 = []
-			for i in conv_hull.stable_entries:
-				series1.append(i.name)
-				series2.append(i.energy_per_atom)
-			df = pd.DataFrame([series1, series2]).T
-			df.columns = ['Phase', 'Energy/per_atom']
-			st.write(df)
+
+			T = st.slider(label="Temperature (K)", min_value=0, max_value=3000, step=200)
+			progress_text = "Operation in progress. Please wait."
+			with st.spinner(progress_text):
+				conv_hull = pD.make_convex_hull(composition=ele_list_user_inp, temperature=T)
+				st.write(PDPlotter(conv_hull, show_unstable=0.8, ternary_style='3d').get_plot())
+				series1 = []
+				series2 = []
+				for i in conv_hull.stable_entries:
+					series1.append(i.name)
+					series2.append(i.energy_per_atom)
+				df = pd.DataFrame([series1, series2]).T
+				df.columns = ['Phase', 'Energy/per_atom']
+				st.write(df)
 
 		if find_misc_T:
 
@@ -156,47 +171,56 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			elif sum(mol_user_inp_list) != 1:
 				st.write(":red[mole fractions must always sum upto 1")
 			else:
-				misc_T = pD.find_misc_temperature(composition=ele_list_user_inp,
-												  mol_ratio=mol_user_inp_list,
-												  lattice=genre)
-				if isinstance(misc_T, float):
-					st.write(f"Miscible Temperature: {misc_T} K")
-					if misc_T > 200:
-						st.write(f"Decomposition products at 200K lesser than {misc_T} K")
-						st.write(pD.find_decomp_products(composition=ele_list_user_inp,
-														 mol_ratio=mol_user_inp_list,
-														 temperature=misc_T - 200,
-														 lattice=genre)[0])
+				progress_text = "Operation in progress. Please wait."
+				with st.spinner(progress_text):
+					misc_T = pD.find_misc_temperature(composition=ele_list_user_inp,
+													  mol_ratio=mol_user_inp_list,
+													  lattice=genre)
+					if isinstance(misc_T, float):
+						st.write(f"Miscible Temperature: {misc_T} K")
+						if misc_T > 200:
+							st.write(f"Decomposition products at 200K lesser than {misc_T} K")
+							st.write(pD.find_decomp_products(composition=ele_list_user_inp,
+															 mol_ratio=mol_user_inp_list,
+															 temperature=misc_T - 200,
+															 lattice=genre)[0])
 
-				else:
-					st.write(misc_T + "K")
+					else:
+						st.write(misc_T + "K")
 
 		if addition_ele:
 			add_el_user_inp = st.text_input(label='Enter alloying ele',
 											placeholder="For example: Al",
 											label_visibility='visible')
 			if add_el_user_inp != '':
-				ax = add_ele(composition=ele_list_user_inp,
-							 add_el=add_el_user_inp,
-							 pD=pD,
-							 genre=genre, )
+				progress_text = "Operation in progress. Please wait."
+				with st.spinner(progress_text):
+					ax = add_ele(composition=ele_list_user_inp,
+								 add_el=add_el_user_inp,
+								 pD=pD,
+								 genre=genre, )
 
-				st.write(ax.get_figure())
+					st.write(ax.get_figure())
 
 		if find_heatmap:
-			st.write(pD.heatmap(ele_list_user_inp).get_figure())
+			st.write(pD.heatmap(ele_list_user_inp, genre=genre).get_figure())
 
 		if UMAP_viz:
 			if len(ele_list_user_inp) < 5:
-				st.pyplot(use_umaps_Tmisc(composition=ele_list_user_inp,
-										  pD=pD,
-										  n=len(ele_list_user_inp))[1])
+				progress_text = "Operation in progress. Please wait."
+				with st.spinner(progress_text):
+					st.pyplot(use_umaps_Tmisc(composition=ele_list_user_inp,
+											  pD=pD,
+											  n=len(ele_list_user_inp))[1])
 			else:
 				st.write(':red[Currently only works for ternaries. Come back later for higher order visualizations.]')
 
 		if find_reaction_pathway:
-			ax, fig = new_rP(composition=ele_list_user_inp, pD=pD)
-			st.pyplot(fig)
+			progress_text = "Operation in progress. Please wait."
+			with st.spinner(progress_text):
+				print(pD)
+				ax, fig = new_rP(composition=ele_list_user_inp, pD=pD, genre=genre)
+				st.pyplot(fig)
 
 		if decomposition_products:
 			mol_user_inp = st.text_input(label='Enter Mole Fractions decomp',
@@ -227,14 +251,18 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		if make_phase_diagram:
 
 			if len(ele_list_user_inp) == 2:
-				st.pyplot(binary_diagram(composition=ele_list_user_inp, pD=pD, genre=genre)[1])
+				progress_text = "Operation in progress. Please wait."
+				with st.spinner(progress_text):
+					st.pyplot(binary_diagram(composition=ele_list_user_inp, pD=pD, genre=genre)[1])
 
 			if len(ele_list_user_inp) == 3:
-				T = st.slider(label="Temperature (K)", min_value=0, max_value=3000, step=100)
-				st.pyplot(ternary_diagram(composition=ele_list_user_inp,
-										  T=T,
-										  pD=pD,
-										  genre=genre)[1])
+				progress_text = "Operation in progress. Please wait."
+				with st.spinner(progress_text):
+					T = st.slider(label="Temperature (K)", min_value=0, max_value=3000, step=100)
+					st.pyplot(ternary_diagram(composition=ele_list_user_inp,
+											  T=T,
+											  pD=pD,
+											  genre=genre)[1])
 
 			if len(ele_list_user_inp) >= 4:
 				st.write(':red[Not possible to make phase diagram. Check UMAPs visualisation]')
