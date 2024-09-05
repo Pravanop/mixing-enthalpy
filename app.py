@@ -218,7 +218,6 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		if find_reaction_pathway:
 			progress_text = "Operation in progress. Please wait."
 			with st.spinner(progress_text):
-				print(pD)
 				ax, fig = new_rP(composition=ele_list_user_inp, pD=pD, genre=genre)
 				st.pyplot(fig)
 

@@ -86,7 +86,7 @@ class phaseDiagram:
 		if phase_flag:
 			self.temp_grid = np.arange(0, avg_tm + 200, 20, dtype=np.float64)
 		else:
-			self.temp_grid = np.arange(0, avg_tm + 200, 200, dtype=np.float64)
+			self.temp_grid = np.arange(0, avg_tm + 100, 100, dtype=np.float64)
 
 	def get_intermetallic(self, alloy_list):
 		pd_entries_list = []
@@ -347,10 +347,10 @@ class phaseDiagram:
 		Returns: temperature in K
 
 		"""
+
 		self.upper_limit(composition, mol_ratio, phase_flag)
 		mol_ratio = dict(zip(composition, mol_ratio))
 		mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
-
 		entropy = self.tm.calc_configEntropy(mol_ratio)
 		if not batch_tag:
 			n_alloy = len(composition)
@@ -367,7 +367,6 @@ class phaseDiagram:
 					im_list = kwargs['im']
 				else:
 					raise 'Provide Intermetallics'
-		# print(im_list)
 		for idx, temperature in enumerate(self.temp_grid):
 
 			mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
@@ -381,7 +380,6 @@ class phaseDiagram:
 				else:
 					mix_enthalpy = mix_enthalpy[lattice]
 
-			# print(len(im_list), temperature)
 			conv_hull = self.make_convex_hull(temperature=float(temperature),
 											  composition=composition,
 											  batch_tag=True,
@@ -402,7 +400,7 @@ class phaseDiagram:
 			else:
 				return float(temperature)
 
-		return f"Predicted to melt at {int(self.temp_grid[-1])}"
+		return float(self.temp_grid[-1])
 
 	@staticmethod
 	def _make_PD_entry(mol_ratio: dict,
