@@ -92,7 +92,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		decomposition_products = st.toggle('Decomp Products', args=[8])
 		addition_ele = st.toggle('Add an element', args=[6])
 		find_reaction_pathway = st.toggle('Deposition Pathways', args=[5])
-		UMAP_viz = st.toggle('Visualize UMAP', args=[7])
+		# UMAP_viz = st.toggle('Visualize UMAP', args=[7])
 		combinatorics = st.toggle('Combinatorics', args=[10])
 
 	with col2:
@@ -114,20 +114,20 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			if n != '':
 				alloy_dicts = create_multinary(element_list=ele_list_user_inp, no_comb=[int(n)])
 				st.write(pd.DataFrame().from_dict(alloy_dicts[int(n)]))
-		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or UMAP_viz or decomposition_products or make_phase_diagram:
+		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or decomposition_products or make_phase_diagram:
 
 			find = list(alloy_sys.values())
 			# lattice_find = list(lattice_sys.values())
 
-			if UMAP_viz:
-				find[2] = True
+			# if UMAP_viz:
+			# 	find[2] = True
 
 			if not find[0]:
-				binary_file_path = "calculateEnthalpy/new_phase_diagram/bokas_omegas_processed.json"
+				binary_file_path = "calcEnthalpy_old/new_phase_diagram/bokas_omegas_processed.json"
 			else:
 				binary_file_path = "data/output_data/bokasCorrected_bcc_1/all_lattices_binaries.json"
 
-			end_member_path = "calculateEnthalpy/new_phase_diagram/bokas_end_members_dict.json"
+			end_member_path = "calcEnthalpy_old/new_phase_diagram/bokas_end_members_dict.json"
 
 			pD = phaseDiagram(
 				processed_binary_file_path=binary_file_path,
@@ -186,7 +186,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 															 lattice=genre)[0])
 
 					else:
-						st.write(misc_T + "K")
+						st.write("Predicted to melt at : " + str(misc_T[0]) + "K")
 
 		if addition_ele:
 			add_el_user_inp = st.text_input(label='Enter alloying ele',
@@ -198,22 +198,22 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 					ax = add_ele(composition=ele_list_user_inp,
 								 add_el=add_el_user_inp,
 								 pD=pD,
-								 genre=genre, )
+								 genre=genre)
 
 					st.write(ax.get_figure())
 
 		if find_heatmap:
 			st.write(pD.heatmap(ele_list_user_inp, genre=genre).get_figure())
 
-		if UMAP_viz:
-			if len(ele_list_user_inp) < 5:
-				progress_text = "Operation in progress. Please wait."
-				with st.spinner(progress_text):
-					st.pyplot(use_umaps_Tmisc(composition=ele_list_user_inp,
-											  pD=pD,
-											  n=len(ele_list_user_inp))[1])
-			else:
-				st.write(':red[Currently only works for ternaries. Come back later for higher order visualizations.]')
+		# if UMAP_viz:
+		# 	if len(ele_list_user_inp) < 5:
+		# 		progress_text = "Operation in progress. Please wait."
+		# 		with st.spinner(progress_text):
+		# 			st.pyplot(use_umaps_Tmisc(composition=ele_list_user_inp,
+		# 									  pD=pD,
+		# 									  n=len(ele_list_user_inp))[1])
+		# 	else:
+		# 		st.write(':red[Currently only works for ternaries. Come back later for higher order visualizations.]')
 
 		if find_reaction_pathway:
 			progress_text = "Operation in progress. Please wait."

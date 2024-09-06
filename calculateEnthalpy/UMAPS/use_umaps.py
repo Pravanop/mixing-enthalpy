@@ -19,7 +19,7 @@ def find_corners(umaps, composition):
 
 
 def use_umaps_Tmisc(n, pD, composition):
-	umaps = pd.read_csv(f'calculateEnthalpy/UMAPS/0_{n}space_umap.csv', index_col=0)
+	umaps = pd.read_csv(f'./0_{n}space_umap.csv', index_col=0)
 	x, y = umaps['umap_x_coordinate'], umaps['umap_y_coordinate']
 	tm = []
 	composition_points = find_corners(umaps, composition)
@@ -36,7 +36,7 @@ def use_umaps_Tmisc(n, pD, composition):
 			if isinstance(misc_T, float):
 				tm.append(misc_T)
 			else:
-				tm.append(-1)
+				tm.append(misc_T[0])
 
 	melt_x, melt_y = [],[]
 	for ind, i in enumerate(tm):

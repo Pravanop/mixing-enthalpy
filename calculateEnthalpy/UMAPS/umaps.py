@@ -166,7 +166,7 @@ def export_metadata_to_json(data: pd.DataFrame, umap_params: dict,
 
 
 if __name__ == "__main__":
-	n = 4
+	n = 5
 	file_name = f'0_{n}space'
 	save_image = True
 	save_data = True
@@ -197,7 +197,7 @@ if __name__ == "__main__":
 	data_with_dra, time_taken = umap_coordinate_generator(data, elements, umap_params, umap_m)
 
 	#reduced system
-	mol_grid = create_mol_grid(grid_size=20, n=n)
+	mol_grid = create_mol_grid(grid_size=10, n=n)
 	df = pd.DataFrame(mol_grid, columns=[str(i) for i in range(1, n + 1)])
 	manifold = np.array(df[elements])
 	coordinates = umap_m.transform(manifold)

@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from tqdm import tqdm
 
 from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
 
@@ -14,19 +15,27 @@ for i in total:
 		master_idx.append(i)
 
 master_idx = np.array(master_idx)
-processed_file_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/output_data/Pravan_bcc_4/all_lattices_binaries.json"
+correction = True
+equi = False
+
+if correction:
+	binary_file_path = "../../calcEnthalpy_old/new_phase_diagram/bokas_omegas_processed.json"
+else:
+	binary_file_path = "../../data/output_data/bokasCorrected_bcc_1/all_lattices_binaries.json"
+
+end_member_path = "../../calcEnthalpy_old/new_phase_diagram/bokas_end_members_dict.json"
 pD = phaseDiagram(
-	processed_file_path=processed_file_path,
-grid_size=20)
-
-# composition = ['Cr', 'Fe', 'Mn']
-equi = True
-
+	processed_binary_file_path=binary_file_path,
+	end_member_file_path=end_member_path,
+	grid_size=10,
+	im_flag=True,
+	correction=correction,
+	equi_flag=equi)
 
 # #Find Miscibility temperature
 calphad = []
 model = []
-for ind, k in enumerate(master_idx):
+for ind, k in enumerate(tqdm(master_idx, smoothing=0.8)):
 	df_ind = pd.read_excel(file_path, sheet_name=int(k[0]))
 	phase_info = df_ind.loc[:, 'H':]
 	temps = df_ind['T'].to_numpy()
@@ -46,10 +55,9 @@ for ind, k in enumerate(master_idx):
 				misc_temp.append(i)
 
 	composition = k[1].split('-')
-	if equi:
-		mol_ratio = [1 / len(composition)] * len(composition)
-		# results.append(f'{i}K : {"-".join(phases)}')
-	misc_T = pD.find_misc_temperature(composition=composition, mol_ratio=mol_ratio)
+	mol_ratio = [1 / len(composition)] * len(composition)
+	misc_T = pD.find_misc_temperature(composition=composition, mol_ratio=mol_ratio, lattice='min', phase_flag=True)
+	misc_T = misc_T if isinstance(misc_T, float) else None
 	misc_temp = min(misc_temp) if misc_temp else None
 	calphad.append(misc_temp)
 	model.append(misc_T)
@@ -57,4 +65,4 @@ for ind, k in enumerate(master_idx):
 df_results = pd.DataFrame([master_idx[:, 1], calphad, model]).T
 df_results.columns = ['Alloy', 'Calphad', 'Model']
 print(df_results)
-df_results.to_csv("Pravan_bcc_4_calphad.csv", index=False)
+df_results.to_csv("calphad.csv", index=False)

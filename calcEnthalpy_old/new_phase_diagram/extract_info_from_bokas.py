@@ -2,7 +2,7 @@ import json
 
 import numpy as np
 
-with open("./bokas_omegas.json", 'r') as f:
+with open("bokas_omegas.json", 'r') as f:
 	data = json.load(f)
 
 binary_omegas = data['omegas']
@@ -30,7 +30,7 @@ def calc_delta_H(end_members_dict):
 members_dict = calc_delta_H(end_members)
 
 #storing the processed end_member_file
-with open('./bokas_end_members_dict.json', 'w') as f:
+with open('bokas_end_members_dict.json', 'w') as f:
 	json.dump(members_dict, f, indent=4, ensure_ascii=True)
 
 #processing the omegas too.
@@ -48,5 +48,5 @@ def process_omegas(omegas_dict):
 	return omegas_dict_processed
 
 omegas = process_omegas(binary_omegas)
-with open('./bokas_omegas_processed.json', 'w') as f:
+with open('bokas_omegas_processed.json', 'w') as f:
 	json.dump(omegas, f, indent=4, ensure_ascii=True)

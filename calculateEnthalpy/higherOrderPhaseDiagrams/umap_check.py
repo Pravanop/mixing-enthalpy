@@ -15,7 +15,7 @@ from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
 
 
 if __name__ == '__main__':
-    composition = ['Cr', 'Fe', 'Ni']
+    composition = ['Ti', 'Cr', 'V']
 
     n_alloy = len(composition)
     all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
@@ -28,11 +28,11 @@ if __name__ == '__main__':
     equi = False
 
     if correction:
-        binary_file_path = "../new_phase_diagram/bokas_omegas_processed.json"
+        binary_file_path = "../../calcEnthalpy_old/new_phase_diagram/bokas_omegas_processed.json"
     else:
         binary_file_path = "../../data/output_data/bokasCorrected_bcc_1/all_lattices_binaries.json"
 
-    end_member_path = "../new_phase_diagram/bokas_end_members_dict.json"
+    end_member_path = "../../calcEnthalpy_old/new_phase_diagram/bokas_end_members_dict.json"
     pD = phaseDiagram(
         processed_binary_file_path=binary_file_path,
         end_member_file_path=end_member_path,
@@ -50,7 +50,7 @@ if __name__ == '__main__':
         if isinstance(misc_T, float):
             temp_list.append(misc_T)
         else:
-            temp_list.append(-1)
+            temp_list.append(misc_T[0])
 
     tm = temp_list
 
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     ax = fig.add_subplot(projection="ternary")
     ax.grid()
     cax = ax.inset_axes([1.03, 0.1, 0.05, 0.9], transform=ax.transAxes)
-    # pc = ax.scatter(t, l, r, c = tm, cmap = "coolwarm")
+    pc = ax.scatter(t, l, r, c = tm, cmap = "coolwarm")
     data = np.concatenate([t, l, r, tm], axis = 1)
     # # data = data.reshape((int(data.size/4),4))
     df = pd.DataFrame(data, columns = ["t", "l", "r", "tm"])
@@ -73,8 +73,8 @@ if __name__ == '__main__':
     # sigma=0.15
     # data = gaussian_filter(data, sigma)
     # ps = ax.tricontour(t,l,r,tm, cmap = "coolwarm")
-    ps = ax.tricontour(data[:,0], data[:,1], data[:, 2], data[:,3], cmap = "coolwarm")
-    colorbar = fig.colorbar(ps, cax=cax)
+    # ps = ax.tricontour(data[:,0], data[:,1], data[:, 2], data[:,3], cmap = "coolwarm")
+    colorbar = fig.colorbar(pc, cax=cax)
     colorbar.set_label('T_misc', rotation=270, va='baseline')
     ax.set_tlabel(f"{composition[0]}")
     ax.set_llabel(f"{composition[1]}")

@@ -1,5 +1,5 @@
 import json
-from typing import Union
+from typing import Union, Tuple
 from mp_api.client import MPRester
 from emmet.core.thermo import ThermoType
 import numpy as np
@@ -76,7 +76,6 @@ class phaseDiagram:
 			final_data[element_list.index(pair_list[1])][element_list.index(pair_list[0])] = value
 
 		alloy = pd.DataFrame(final_data, index=element_list, columns=element_list)
-		# sns.set(rc={'figure.figsize': (12, 8)})
 		fig = sns.heatmap(alloy, cmap="coolwarm", annot=True, fmt='g', mask=alloy.isnull(), square=True, cbar_kws={
 			'label': 'Binary Mixing Enthalpy (meV/atom)'}, linewidths=2, linecolor='white')
 		return fig
@@ -113,7 +112,7 @@ class phaseDiagram:
 
 		n_alloy = len(composition)
 		all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
-		pd_entry_input = {}
+
 		for dimensionality, alloy_list in all_combs.items():
 			if not batch_tag:
 				if self.im_flag:
@@ -123,6 +122,7 @@ class phaseDiagram:
 				mol_grid = [[1 / dimensionality] * dimensionality]
 			else:
 				mol_grid = create_mol_grid(int(dimensionality), self.grid_size)
+
 			for alloy_idx, alloy in enumerate(alloy_list):
 				alloy_list = alloy.split('-')
 
@@ -151,42 +151,42 @@ class phaseDiagram:
 														   ) * name.num_atoms,
 														   name=f'{name.alphabetical_formula}_{key}'))
 
-				for ele in composition:
-					if ele in ['Fe', 'Ti', 'Mn', 'Hf', 'Zr'] and self.correction:
-						transition_temperatures = {
-							'Fe': ['BCC', 'FCC', 1180],
-							'Ti': ['HCP', 'BCC', 1155],
-							'Hf': ['HCP', 'BCC', 2016],
-							'Zr': ['HCP', 'BCC', 1136],
-							'Mn': ['BCC', 'FCC', 1370]
-						}
+		for ele in composition:
+			if ele in ['Fe', 'Ti', 'Mn', 'Hf', 'Zr'] and self.correction:
+				transition_temperatures = {
+					'Fe': ['BCC', 'FCC', 1180],
+					'Ti': ['HCP', 'BCC', 1155],
+					'Hf': ['HCP', 'BCC', 2016],
+					'Zr': ['HCP', 'BCC', 1136],
+					'Mn': ['BCC', 'FCC', 1370]
+				}
 
-						for key, value in self.end_member[ele].items():
-							name = Composition(ele)
-							if key == transition_temperatures[ele][1]:
-								temp_energy = value - value * temperature / transition_temperatures[ele][2]
-							else:
-								temp_energy = value
-
-							pd_entries_list.append(PDEntry(composition=name, energy=temp_energy * name.num_atoms,
-														   name=f'{name.alphabetical_formula}_{key}'))
+				for key, value in self.end_member[ele].items():
+					name = Composition(ele)
+					if key == transition_temperatures[ele][1]:
+						temp_energy = value - value * temperature / transition_temperatures[ele][2]
 					else:
-						for key, value in self.end_member[ele].items():
-							name = Composition(ele)
+						temp_energy = value
 
-							pd_entries_list.append(PDEntry(composition=name, energy=value * name.num_atoms,
-														   name=f'{name.alphabetical_formula}_{key}'))
-				# print(len(pd_entries_list))
-				if batch_tag:
-					if self.im_flag:
-						if kwargs['im']:
-							pd_entries_list += kwargs['im']
-						else:
-							raise "Provide intermetallics"
+					pd_entries_list.append(PDEntry(composition=name, energy=temp_energy * name.num_atoms,
+												   name=f'{name.alphabetical_formula}_{key}'))
+			else:
+				for key, value in self.end_member[ele].items():
+					name = Composition(ele)
+
+					pd_entries_list.append(PDEntry(composition=name, energy=value * name.num_atoms,
+												   name=f'{name.alphabetical_formula}_{key}'))
+			# print(len(pd_entries_list))
+		if batch_tag:
+			if self.im_flag:
+				if kwargs['im']:
+					pd_entries_list += kwargs['im']
+				else:
+					raise "Provide intermetallics"
 
 				# print(len(pd_entries_list))
-				for pd_key, value in pd_entry_input.items():
-					pd_entries_list.append(PDEntry(composition=pd_key, energy=value))
+		# for pd_key, value in pd_entry_input.items():
+		# 	pd_entries_list.append(PDEntry(composition=pd_key, energy=value))
 
 		phase_diagram = PhaseDiagram(pd_entries_list)
 		return phase_diagram
@@ -276,7 +276,7 @@ class phaseDiagram:
 				mix_enthalpy = mix_enthalpy[lattice]
 
 		entropy = self.tm.calc_configEntropy(mol_ratio)
-
+		composition = list(mol_ratio.keys())
 		if batch_tag:
 			conv_hull = self.make_convex_hull(temperature=float(temperature),
 											  composition=composition,
@@ -337,7 +337,7 @@ class phaseDiagram:
 							  lattice: str,
 							  phase_flag: bool = False,
 							  batch_tag: bool = False,
-							  **kwargs) -> Union[float, str]:
+							  **kwargs) -> Union[float, tuple[float, int]]:
 		"""
 		Finds miscibility temperature for a given composition
 		Args:
@@ -400,7 +400,7 @@ class phaseDiagram:
 			else:
 				return float(temperature)
 
-		return float(self.temp_grid[-1])
+		return float(self.temp_grid[-1]), 0
 
 	@staticmethod
 	def _make_PD_entry(mol_ratio: dict,

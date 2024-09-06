@@ -4,8 +4,8 @@ import matplotlib.pyplot as plt
 import matplotlib
 import matplotlib.patches as mpatches
 matplotlib.rcParams.update({'font.size': 14})
-omegas_dict = json.load(open('./bokas_omegas_processed.json'))
-end_members_dict = json.load(open('./bokas_end_members_dict.json'))
+omegas_dict = json.load(open('bokas_omegas_processed.json'))
+end_members_dict = json.load(open('bokas_end_members_dict.json'))
 
 binary = 'Cr-Ti'
 lattices = ['BCC', 'HCP']
