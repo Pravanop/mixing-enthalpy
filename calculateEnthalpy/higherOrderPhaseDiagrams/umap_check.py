@@ -15,13 +15,13 @@ from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
 
 
 if __name__ == '__main__':
-    composition = ['Ti', 'Cr', 'V']
+    composition = ['Fe', 'Ta', 'W']
 
     n_alloy = len(composition)
     all_combs = create_multinary(element_list=composition, no_comb=list(range(2, n_alloy + 1)))
     im_list = []
 
-    mol_grid = create_mol_grid(3, 20)
+    mol_grid = create_mol_grid(3, 15)
     mol_grid = np.round(np.array(mol_grid),4)
 
     correction = True

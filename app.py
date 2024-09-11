@@ -13,6 +13,7 @@ from calculateEnthalpy.helper_functions.grid_code import create_multinary
 from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
 from calculateEnthalpy.higherOrderPhaseDiagrams.createTernaryDiagrams_function import ternary_diagram
 from calculateEnthalpy.reactionPathways.new_rP import new_rP
+from calculateEnthalpy.transmutation_plot import transmute_ele
 
 
 def convert_df(df):
@@ -94,6 +95,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		find_reaction_pathway = st.toggle('Deposition Pathways', args=[5])
 		# UMAP_viz = st.toggle('Visualize UMAP', args=[7])
 		combinatorics = st.toggle('Combinatorics', args=[10])
+		transmutate_ele = st.toggle('Transmutate an element', args=[11])
 
 	with col2:
 		sys_opts = ["Unbiasing", "disable_IM", "Include_only_equimolar"]
@@ -114,7 +116,7 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 			if n != '':
 				alloy_dicts = create_multinary(element_list=ele_list_user_inp, no_comb=[int(n)])
 				st.write(pd.DataFrame().from_dict(alloy_dicts[int(n)]))
-		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or decomposition_products or make_phase_diagram:
+		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or decomposition_products or make_phase_diagram or transmutate_ele:
 
 			find = list(alloy_sys.values())
 			# lattice_find = list(lattice_sys.values())
@@ -265,3 +267,20 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 
 			if len(ele_list_user_inp) >= 4:
 				st.write(':red[Not possible to make phase diagram. Check UMAPs visualisation]')
+
+		if transmutate_ele:
+			add_el_user_inp = st.text_input(label='Enter ele to add - ele to replace',
+											placeholder="For example: Cr-Fe",
+											label_visibility='visible')
+			if add_el_user_inp != '':
+				progress_text = "Operation in progress. Please wait."
+				with st.spinner(progress_text):
+					two_el = add_el_user_inp.split("-")
+					print(two_el)
+					ax = transmute_ele(composition=ele_list_user_inp,
+								 el_pre=two_el[0],
+								 el_post= two_el[1],
+								 pD=pD,
+								 genre=genre)
+
+					st.write(ax.get_figure())

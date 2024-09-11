@@ -10,12 +10,12 @@ from matplotlib.patches import Rectangle, Arrow
 
 from calculateEnthalpy.helper_functions.grid_code import create_multinary
 
-def calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp_composition):
+def calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp_composition, ind, equi_mol):
     temp_list = []
     for temp in temp_grid:
-        mol_1 = 1 - mol
-        mol_ratio = [mol_1 / len(composition)] * len(composition) + [mol]
 
+        mol_ratio = [equi_mol]*len(composition) + [mol]
+        mol_ratio[ind] -= mol
         temp_list.append(pD.find_decomp_products(
                 composition=temp_composition,
                 mol_ratio=mol_ratio,
@@ -27,11 +27,16 @@ def calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp
 
     return temp_list
 
-def add_ele(composition, add_el, pD, genre):
+def transmute_ele(composition, el_pre, el_post, pD, genre):
     temp_space = 11
     mol_space = 10
-    mol_grid = np.round(np.linspace(0.0, 1 / (len(composition) + 1), mol_space), 2)
-    temp_composition = composition + [add_el]
+
+    equi_mol = [1/len(composition)]*len(composition)
+    mol_grid = np.round(np.linspace(0.0, equi_mol[0], mol_space), 2)
+
+    # mol_grid = np.round(np.linspace(0.0, 1 / (len(composition) + 1), mol_space), 2)
+    temp_composition = composition + [el_post]
+    ind = temp_composition.index(el_pre)
 
     temp_grid = np.linspace(200, 3200, temp_space)
     normalized_mol = np.round((mol_grid - np.min(mol_grid)) / (np.max(mol_grid) - np.min(mol_grid)), 2)
@@ -44,7 +49,7 @@ def add_ele(composition, add_el, pD, genre):
 
     misc_temp = {}
     for idx, mol in enumerate(tqdm(mol_grid)):
-        misc_temp[normalized_mol[idx]] = calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp_composition)
+        misc_temp[normalized_mol[idx]] = calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp_composition, ind, equi_mol[1])
 
     df = pd.DataFrame().from_dict(misc_temp)
     df = df.T
@@ -71,11 +76,9 @@ def add_ele(composition, add_el, pD, genre):
     g.set_yticklabels(g.get_yticklabels(), rotation=0)
     ax.axes.invert_yaxis()
     ax.axhline(y=0, color='k', linewidth=3)
-    ax.axhline(y=df.shape[1]+1, color='k', linewidth=3)
+    ax.axhline(y=df.shape[1] + 1, color='k', linewidth=3)
     ax.axvline(x=0, color='k', linewidth=3)
     ax.axvline(x=10, color='k', linewidth=3)
-    # for i, idx in enumerate(positions):
-    # 	ax.plot(i + 0.5, idx + 0.5, 'bo')
     count_prev = np.where(temp_grid == positions[0])[0][0] + 1
     for idx, i in enumerate(positions):
         idx2 = np.where(temp_grid == i)[0][0] + 1
@@ -83,11 +86,10 @@ def add_ele(composition, add_el, pD, genre):
             ax.plot([idx, idx], [count_prev, idx2], color='black', linestyle='--')
             count_prev = idx2
         ax.plot([idx, idx+1],[idx2, idx2], color='black', linestyle='--')
-    ax.text(s='-'.join(composition), y=-1, x=-2)
-    ax.text(s='-'.join(temp_composition), y=-1, x=len(mol_grid) + 0.1)
-    f_str = '1-x'
-    # ax.set_xlabel(f"$(" + ''.join(composition) + ")_{1-x}" + f"{add_el}_x$")
-    ax.set_xlabel(f"$" + f"{add_el}_x$")
+
+    composition.remove(composition[ind])
+    # ax.set_yticks(rotation=0)
+    ax.set_xlabel(f"{el_pre}" + "$_{1-x}$" + f"{el_post}" + "$_{x}$" + f"{''.join(composition)}")
     ax.set_ylabel("T (K)")
     plt.subplots_adjust(bottom=0.2, top=0.9)
     return fig

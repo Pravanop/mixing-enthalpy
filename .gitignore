@@ -171,3 +171,4 @@ cython_debug/
 !/.venv/
 !/calculateEnthalpy/higherOrderPhaseDiagrams/my_createTernaryDiagrams.py
 /calculateEnthalpy/UMAPS/
+/opencalphad-master/

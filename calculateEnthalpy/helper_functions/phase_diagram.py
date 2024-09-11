@@ -5,7 +5,7 @@ from emmet.core.thermo import ThermoType
 import numpy as np
 import pandas as pd
 from pymatgen.analysis.phase_diagram import PDEntry, PhaseDiagram
-from pymatgen.core import Composition
+from pymatgen.core import Composition, Element
 from tqdm import tqdm
 import seaborn as sns
 from calculateEnthalpy.helper_functions.grid_code import create_multinary, create_mol_grid
@@ -179,10 +179,9 @@ class phaseDiagram:
 			# print(len(pd_entries_list))
 		if batch_tag:
 			if self.im_flag:
-				if kwargs['im']:
+				if kwargs['im'] != []:
 					pd_entries_list += kwargs['im']
-				else:
-					raise "Provide intermetallics"
+
 
 				# print(len(pd_entries_list))
 		# for pd_key, value in pd_entry_input.items():
@@ -254,8 +253,8 @@ class phaseDiagram:
 							 batch_tag: bool = False,
 							 **kwargs) -> Union[tuple, int]:
 		mol_ratio = dict(zip(composition, mol_ratio))
+		full_comp = composition
 		mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
-
 		mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
 																	   binary_dict=self.data,
 																	   end_member_dict=self.end_member,
@@ -277,6 +276,15 @@ class phaseDiagram:
 
 		entropy = self.tm.calc_configEntropy(mol_ratio)
 		composition = list(mol_ratio.keys())
+		exclude = list(set(full_comp).difference(set(composition)))
+		im_list_exclude = []
+		if exclude:
+			for j in exclude:
+				for idx, i in enumerate(im_list):
+					if Element(j) in i.elements:
+						im_list_exclude.append(i)
+
+		im_list = list(set(im_list).difference(im_list_exclude))
 		if batch_tag:
 			conv_hull = self.make_convex_hull(temperature=float(temperature),
 											  composition=composition,
