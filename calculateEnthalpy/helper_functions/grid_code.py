@@ -109,7 +109,8 @@ def create_mol_grid(n: int,
 			out[i, j] = xj
 	out[:, N - 1] = 1 - np.sum(out[:, 0:(N - 1)], axis=1)
 	out[-1] = np.array([1/N]*N)
-	return out
+	return np.round(out,4)
+	# return out
 
 def create_multinary(
 		element_list: list[str],
@@ -138,6 +139,7 @@ def create_multinary(
 		s = '-'  # To join the element, standard protocol
 		final_joint = sorted(
 			{s.join(sorted(pair)) for pair in temp_joint}
+			# {s.join(pair) for pair in temp_joint}
 		)
 		if final_joint:  # just a measure
 			result[comb] = final_joint

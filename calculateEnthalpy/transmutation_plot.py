@@ -16,14 +16,18 @@ def calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp
 
         mol_ratio = [equi_mol]*len(composition) + [mol]
         mol_ratio[ind] -= mol
-        temp_list.append(pD.find_decomp_products(
+        e_above_hull = pD.find_decomp_products(
                 composition=temp_composition,
                 mol_ratio=mol_ratio,
                 temperature=temp,
                 lattice=genre,
                 batch_tag=True,
                 im=im_list
-            )[1])
+            )[1]
+        if np.isclose(e_above_hull, 0, 0.001):
+            temp_list.append(0)
+        else:
+            temp_list.append(e_above_hull)
 
     return temp_list
 

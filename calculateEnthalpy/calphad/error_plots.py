@@ -49,19 +49,18 @@ plt.text(x = 2.2, y = 1.5, s = f"Precision: {precision:.2f}\n"
 		 f"Accuracy: {accuracy:.2f}\n"
 		 f"Specificity: {specificity:.2f}\n"
 		 f"F1_score: {f1:.2f}")
-plt.savefig(f"confusion_matrix_2_{col1}_{col2}.png", dpi = 300)
-# query = query[(query['Calphad'].isnull()) | (query['Model'].isnull())]
-# print(query.info())
-# fig, ax = plt.subplots(2, 1, figsize=(8, 12))
-# ax[0].scatter(df["Calphad"], df["Model"], label="Misc_T")
-# ax[0].plot(np.linspace(200, 3201, 50), np.linspace(200, 3201, 50),)
-# ax[0].set_xlabel("Calphad")
-# ax[0].set_ylabel("Model")
-# ax[0].set_xlim([200, 3200])
-# ax[0].set_ylim([200, 3200])
-#
-# plt.subplots_adjust(hspace=0.2)
-# error = abs(df["Model"] - df["Calphad"])
-# sns.histplot(error, ax=ax[1], label="Error", kde=True)
-# ax[1].set_xlabel("Error in T (K)")
-# plt.savefig("./error_plot.png", dpi = 300)
+plt.savefig(f"confusion_matrix_2_{col1}_{col2}_high.png", dpi = 300)
+
+fig, ax = plt.subplots(2, 1, figsize=(8, 12))
+ax[0].scatter(df["Calphad"], df["Model"], label="Misc_T")
+ax[0].plot(np.linspace(200, 3201, 50), np.linspace(200, 3201, 50),)
+ax[0].set_xlabel("Calphad")
+ax[0].set_ylabel("Model")
+ax[0].set_xlim([200, 3200])
+ax[0].set_ylim([200, 3200])
+
+plt.subplots_adjust(hspace=0.2)
+error = abs(df["Model"] - df["Calphad"])
+sns.histplot(error, ax=ax[1], label="Error", kde=True)
+ax[1].set_xlabel("Error in T (K)")
+plt.savefig("./error_plot_high.png", dpi = 300)

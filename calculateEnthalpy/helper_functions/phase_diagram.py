@@ -66,7 +66,6 @@ class phaseDiagram:
 		final_data = np.empty((len(element_list), len(element_list)))
 		final_data[:] = np.nan
 		for pair in binaries:
-			print(pair)
 			pair_list = pair.split('-')
 			if self.correction:
 				value = int(self.data[pair][genre] * 1000 / 4)
@@ -122,7 +121,7 @@ class phaseDiagram:
 				mol_grid = [[1 / dimensionality] * dimensionality]
 			else:
 				mol_grid = create_mol_grid(int(dimensionality), self.grid_size)
-
+				
 			for alloy_idx, alloy in enumerate(alloy_list):
 				alloy_list = alloy.split('-')
 
@@ -131,6 +130,7 @@ class phaseDiagram:
 					mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
 					if len(mol_ratio.keys()) == 1:
 						continue
+						
 					mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(
 						mol_ratio=mol_ratio,
 						binary_dict=self.data,
@@ -373,8 +373,7 @@ class phaseDiagram:
 			if self.im_flag:
 				if kwargs['im']:
 					im_list = kwargs['im']
-				else:
-					raise 'Provide Intermetallics'
+
 		for idx, temperature in enumerate(self.temp_grid):
 
 			mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(mol_ratio=mol_ratio,
