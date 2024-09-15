@@ -10,7 +10,6 @@ from tqdm import tqdm
 import mpltern
 from calculateEnthalpy.helper_functions.grid_code import create_multinary, create_mol_grid
 from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
-from calculateEnthalpy.helper_functions.phase_diagram_batch_process import phaseDiagramBatch
 
 
 

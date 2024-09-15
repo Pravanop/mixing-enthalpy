@@ -94,7 +94,8 @@ class thermoMaths:
 		assert round(sum(list(mol_ratio.values())),
 					 3) == 1  # just in case, should be handled internally, but if non-equimolar is used
 		
-		return -self.kb * sum([value * np.log(value) for value in list(mol_ratio.values())])
+		entropy = -self.kb * sum([value * np.log(value) for value in list(mol_ratio.values())])
+		return np.round(entropy, 5)
 	
 	@staticmethod
 	def calc_gibbs_energy(
