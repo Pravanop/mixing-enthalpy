@@ -94,7 +94,7 @@ class thermoMaths:
 		assert round(sum(list(mol_ratio.values())),
 					 3) == 1  # just in case, should be handled internally, but if non-equimolar is used
 		
-		return np.round(-self.kb * sum([value * np.log(value) for key, value in mol_ratio.items()]), 7)
+		return -self.kb * sum([value * np.log(value) for value in list(mol_ratio.values())])
 	
 	@staticmethod
 	def calc_gibbs_energy(
@@ -174,67 +174,68 @@ class thermoMaths:
 		
 		binaries = create_multinary(element_list=ele_list, no_comb=[2])
 		mix_enthalpy = {}
+		
 		if binaries:
-			for idx, binary in binaries.items():
-				for idx2, ele_pair in enumerate(binary):
+			# Precompute transition temperatures once
+			transition_temperatures = {
+				'Fe': ['BCC', 'FCC', 1180],
+				'Ti': ['HCP', 'BCC', 1155],
+				'Hf': ['HCP', 'BCC', 2016],
+				'Zr': ['HCP', 'BCC', 1136],
+				'Mn': ['BCC', 'FCC', 1370]
+			}
+			
+			for binary in binaries.values():
+				for ele_pair in binary:
 					two_el = ele_pair.split("-")
 					mix_enthalpy_values = binary_dict[ele_pair]
+					
+					# Precompute mol_fraction once for the pair
+					mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
+					
 					for lattice, enthalpy in mix_enthalpy_values.items():
+						# Calculate interaction parameter or use pre-biased values
 						if not correction:
 							if model == "regular":
-								omega_ij = self.calc_pairwiseInteractionParameter(mix_enthalpy=enthalpy,
-																				  mol_i=0.5,
-																				  mol_j=0.5)
-						
+								omega_ij = self.calc_pairwiseInteractionParameter(
+									mix_enthalpy=enthalpy, mol_i=0.5, mol_j=0.5
+								)
 						else:
-							omega_ij = enthalpy  #biased values are stored as omegas, needs to be standaradized
+							omega_ij = enthalpy  # biased values
 						
-						mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
-						H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction,
-																 omega=omega_ij)
+						# Calculate enthalpy using the regular model
+						H_mix = self.calc_regular_model_enthalpy(
+							mol_fraction=mol_fraction, omega=omega_ij
+						)
 						
-							# H_mix += (temp_energies[two_el[0]] - temp_energies[two_el[1]]) * mol_fraction[0]
+						if correction:
+							# Biasing correction for transition metals
+							temp_energies = {}
+							for end_member in two_el:
+								if end_member in transition_temperatures:
+									# Apply temperature correction for specific metals
+									transition_data = transition_temperatures[end_member]
+									if lattice == transition_data[1]:  # Phase with T transition
+										temp_energy = end_member_dict[end_member][lattice] - \
+													  (end_member_dict[end_member][lattice] *
+													   float(temperature) / transition_data[2])
+									else:
+										temp_energy = end_member_dict[end_member][lattice]
+								else:
+									temp_energy = end_member_dict[end_member][lattice]
+								
+								# Store temp energy for each element
+								temp_energies[end_member] = temp_energy
 							
+							# Apply the biasing correction to H_mix
+							H_mix += temp_energies[two_el[1]] * mol_fraction[1] + \
+									 temp_energies[two_el[0]] * mol_fraction[0]
+						
+						# Add enthalpy contribution to the mix_enthalpy dictionary
 						if lattice not in mix_enthalpy:
 							mix_enthalpy[lattice] = H_mix
 						else:
 							mix_enthalpy[lattice] += H_mix
-		
-			
-			for lattice, enthalpy in mix_enthalpy.items():
-				if correction:
-					correction_term = 0
-					temp_energies = {}
-					for end_member in ele_list:
-						if end_member in ['Fe', 'Ti', 'Mn', 'Hf', 'Zr']:
-							# print(end_member)
-							transition_temperatures = {
-								'Fe': ['BCC', 'FCC', 1180],
-								'Ti': ['HCP', 'BCC', 1155],
-								'Hf': ['HCP', 'BCC', 2016],
-								'Zr': ['HCP', 'BCC', 1136],
-								'Mn': ['BCC', 'FCC', 1370]
-							}
-							if lattice == transition_temperatures[end_member][1]:  # if the phase has T transition
-								temp_energy = end_member_dict[end_member][lattice] - \
-											  end_member_dict[end_member][lattice] * float(temperature) / \
-											  transition_temperatures[end_member][2]  # T correction is made
-								temp_energies[end_member] = temp_energy
-							else:
-								temp_energy = end_member_dict[end_member][lattice]
-								temp_energies[end_member] = temp_energy
-						else:
-							temp_energy = end_member_dict[end_member][lattice]
-							temp_energies[end_member] = temp_energy
-					# biasing correction
-					for key, value in temp_energies.items():
-						
-						correction_term += value * mol_ratio[key]
-					
-					mix_enthalpy[lattice] += correction_term
-				
-				else:
-					continue
 			
 			return mix_enthalpy
 	

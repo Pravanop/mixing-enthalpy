@@ -10,6 +10,7 @@ from tqdm import tqdm
 import mpltern
 from calculateEnthalpy.helper_functions.grid_code import create_multinary, create_mol_grid
 from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
+from calculateEnthalpy.helper_functions.phase_diagram_batch_process import phaseDiagramBatch
 
 
 
@@ -22,7 +23,6 @@ if __name__ == '__main__':
     im_list = []
 
     mol_grid = create_mol_grid(3, 15)
-    mol_grid = np.round(np.array(mol_grid),4)
 
     correction = True
     equi = False
@@ -45,8 +45,9 @@ if __name__ == '__main__':
             im_list += pD.get_intermetallic(alloy_list)
 
     temp_list = []
+    conv_hull = pD.make_convex_hull(composition=composition, temperature=0)
     for mol in tqdm(mol_grid, desc='Iterating',smoothing=0.8):
-        misc_T = pD.find_misc_temperature(composition=composition, lattice="min", mol_ratio=mol, batch_tag=True, im=im_list, phase_flag=False)
+        misc_T = pD.find_misc_temperature(composition=composition, lattice="min", mol_ratio=mol, batch_tag=True, im=im_list, phase_flag=False, conv_hull=conv_hull)
         if isinstance(misc_T, float):
             temp_list.append(misc_T)
         else:
@@ -67,13 +68,9 @@ if __name__ == '__main__':
     pc = ax.scatter(t, l, r, c = tm, cmap = "coolwarm")
 
     data = np.concatenate([t, l, r, tm], axis = 1)
-    # # data = data.reshape((int(data.size/4),4))
     df = pd.DataFrame(data, columns = ["t", "l", "r", "tm"])
     df.to_csv("extract.csv")
-    # # data = scipy.ndimage.zoom(data, 2)
-    # sigma=0.15
-    # data = gaussian_filter(data, sigma)
-    # ps = ax.tricontour(t,l,r,tm, cmap = "coolwarm")
+    
     ps = ax.tricontourf(data[:,0], data[:,1], data[:, 2], data[:,3], cmap = "coolwarm")
     colorbar = fig.colorbar(pc, cax=cax)
     colorbar.set_label('T$_{misc}$', rotation=270, va='baseline')
@@ -82,5 +79,5 @@ if __name__ == '__main__':
     ax.set_llabel(f"{composition[1]}")
     ax.set_rlabel(f"{composition[2]}")
 
-    plt.savefig(f"../../plots/phase_diagrams/{'-'.join(composition)}")
+    plt.savefig(f"../../plots/phase_diagrams/{'-'.join(composition)}_batch")
 # plt.show()

@@ -35,14 +35,23 @@ if 'clicked' not in st.session_state:
 @st.cache_data()
 def load_ele_list():
 	element_list_path = (
-		"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/input_data/bokasCorrected/element_list_BCC_bokasCorrected.txt")
+		"./app_data/element_list_BCC_bokasCorrected.txt")
 
 	with open(element_list_path) as f:
 		element_total_list = f.read()
 	element_total_list = element_total_list.split(',')
 	return element_total_list
 
-
+@st.cache_data()
+def load_phase_diagram(binary_file_path, end_member_path, im_flag, correction, equi_flag):
+	pD = phaseDiagram(
+		processed_binary_file_path=binary_file_path,
+		end_member_file_path=end_member_path,
+		grid_size=15,
+		im_flag=im_flag,
+		correction=correction,
+		equi_flag=equi_flag)
+	return pD
 st.set_page_config(page_title="FAR-HEAA",
 				   initial_sidebar_state="expanded",
 				   layout="wide")
@@ -84,7 +93,6 @@ col1, col2 = st.columns([1, 1])
 if user_inp and rep_check and len_check and inv_check and one_check:
 
 	with col1:
-		# find_comp = st.button('Convex Hulls for this Composition', on_click=clicked, args=[2])
 
 		find_heatmap = st.toggle('Pairwise Mixing Enthalpy', args=[3])
 		make_phase_diagram = st.toggle('Make Phase Diagram', args=[9])
@@ -93,7 +101,6 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		decomposition_products = st.toggle('Decomp Products', args=[8])
 		addition_ele = st.toggle('Add an element', args=[6])
 		find_reaction_pathway = st.toggle('Deposition Pathways', args=[5])
-		# UMAP_viz = st.toggle('Visualize UMAP', args=[7])
 		combinatorics = st.toggle('Combinatorics', args=[10])
 		transmutate_ele = st.toggle('Transmutate an element', args=[11])
 
@@ -103,7 +110,6 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		col_checkbox = st.columns([1, 1, 1.5])
 		col_checkbox2 = st.columns([1, 1, 1, 1])
 		alloy_sys = {symbol: col_checkbox[i].checkbox(symbol) for i, symbol in enumerate(sys_opts)}
-		# lattice_sys = {symbol: col_checkbox2[i].checkbox(symbol) for i, symbol in enumerate(lattice_opts)}
 		genre = st.radio(
 			"Which lattice are you interested in?",
 			["FCC", "BCC", "HCP", "min"],
@@ -119,25 +125,16 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 		if find_comp or find_misc_T or find_heatmap or find_reaction_pathway or addition_ele or decomposition_products or make_phase_diagram or transmutate_ele:
 
 			find = list(alloy_sys.values())
-			# lattice_find = list(lattice_sys.values())
-
-			# if UMAP_viz:
-			# 	find[2] = True
 
 			if not find[0]:
-				binary_file_path = "calcEnthalpy_old/new_phase_diagram/bokas_omegas_processed.json"
+				binary_file_path = "./app_data/bokas_omegas_processed.json"
 			else:
-				binary_file_path = "data/output_data/bokasCorrected_bcc_1/all_lattices_binaries.json"
+				binary_file_path = "./app_data/all_lattices_binaries.json"
 
-			end_member_path = "calcEnthalpy_old/new_phase_diagram/bokas_end_members_dict.json"
-
-			pD = phaseDiagram(
-				processed_binary_file_path=binary_file_path,
-				end_member_file_path=end_member_path,
-				grid_size=10,
-				im_flag=not find[1],
-				correction=not find[0],
-				equi_flag=find[2])
+			end_member_path = "./app_data/bokas_end_members_dict.json"
+			
+			pD = load_phase_diagram(binary_file_path, end_member_path, im_flag=not find[1], correction=not find[0], equi_flag=find[2])
+			
 
 		if find_comp:
 
@@ -205,7 +202,11 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 					st.write(ax.get_figure())
 
 		if find_heatmap:
-			st.write(pD.heatmap(ele_list_user_inp, genre=genre).get_figure())
+			if genre != 'min':
+				
+				st.write(pD.heatmap(ele_list_user_inp, genre=genre).get_figure())
+			else:
+				st.write("Please select a lattice.")
 
 		# if UMAP_viz:
 		# 	if len(ele_list_user_inp) < 5:
@@ -256,17 +257,17 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 				with st.spinner(progress_text):
 					st.pyplot(binary_diagram(composition=ele_list_user_inp, pD=pD, genre=genre)[1])
 
-			if len(ele_list_user_inp) == 3:
-				progress_text = "Operation in progress. Please wait."
-				with st.spinner(progress_text):
-					T = st.slider(label="Temperature (K)", min_value=0, max_value=3000, step=100)
-					st.pyplot(ternary_diagram(composition=ele_list_user_inp,
-											  T=T,
-											  pD=pD,
-											  genre=genre)[1])
+			# if len(ele_list_user_inp) == 3:
+			# 	progress_text = "Operation in progress. Please wait."
+			# 	with st.spinner(progress_text):
+			# 		T = st.slider(label="Temperature (K)", min_value=0, max_value=3000, step=100)
+			# 		st.pyplot(ternary_diagram(composition=ele_list_user_inp,
+			# 								  T=T,
+			# 								  pD=pD,
+			# 								  genre=genre)[1])
 
-			if len(ele_list_user_inp) >= 4:
-				st.write(':red[Not possible to make phase diagram. Check UMAPs visualisation]')
+			if len(ele_list_user_inp) >= 3:
+				st.write(':red[Not possible to make phase diagram. Come back later]')
 
 		if transmutate_ele:
 			add_el_user_inp = st.text_input(label='Enter ele to add - ele to replace',

@@ -26,7 +26,7 @@ pD = phaseDiagram(
 	equi_flag=equi)
 
 
-dim = 4
+dim = 5
 
 compositions = create_multinary(element_list=['Cr', 'Ta', 'Ti', 'V', 'W', 'Hf', 'Fe', 'Mn'], no_comb=[dim])
 compositions = list(compositions.values())[0]
@@ -56,6 +56,7 @@ df = pd.DataFrame([alloys, temp_list, acg_tm])
 df = df.T
 df.columns = ["Alloys", 'Temp', 'Avg_Tm']
 df_proc = df.loc[df['Temp'] < df['Avg_Tm']]
+df.to_csv(f"./misc_T_{dim}_equi_{lattice}.csv", index=False)
 print(df_proc.shape)
 df_proc = df_proc.sort_values(['Avg_Tm'])
 fig, ax = plt.subplots(figsize = (18, 8))
