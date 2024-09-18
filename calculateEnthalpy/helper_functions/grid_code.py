@@ -49,7 +49,8 @@ def create_mol_grid(n: int, grid_size: int):
 
 def create_multinary(
 		element_list: list[str],
-		no_comb: Union[list[int], str]
+		no_comb: Union[list[int], str],
+		sort : bool =  'True'
 ) -> dict[int: list[str]]:
 	"""
 
@@ -72,10 +73,12 @@ def create_multinary(
 	for idx, comb in enumerate(no_comb):
 		temp_joint = list(combinations(element_list, comb))
 		s = '-'  # To join the element, standard protocol
-		final_joint = sorted(
-			{s.join(sorted(pair)) for pair in temp_joint}
-			# {s.join(pair) for pair in temp_joint}
-		)
+		if sort:
+			final_joint = sorted(
+				{s.join(sorted(pair)) for pair in temp_joint}
+			)
+		else:
+			final_joint = list({s.join(pair) for pair in temp_joint})
 		if final_joint:  # just a measure
 			result[comb] = final_joint
 
