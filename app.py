@@ -245,10 +245,12 @@ if user_inp and rep_check and len_check and inv_check and one_check:
 											  label_visibility='visible')
 
 			st.write(f"Decomposition products at {add_temp_user_inp} K")
-			st.write(pD.find_decomp_products(composition=ele_list_user_inp,
+			decomp = pD.find_decomp_products(composition=ele_list_user_inp,
 											 mol_ratio=mol_user_inp_list,
 											 temperature=add_temp_user_inp,
-											 lattice=genre)[0])
+											 lattice=genre)
+			st.write(decomp[0])
+			st.write(decomp[1])
 
 		if make_phase_diagram:
 

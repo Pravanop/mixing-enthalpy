@@ -95,7 +95,7 @@ class thermoMaths:
 					 3) == 1  # just in case, should be handled internally, but if non-equimolar is used
 		
 		entropy = -self.kb * sum([value * np.log(value) for value in list(mol_ratio.values())])
-		return np.round(entropy, 5)
+		return entropy
 	
 	@staticmethod
 	def calc_gibbs_energy(
@@ -114,7 +114,7 @@ class thermoMaths:
         Returns: gibbs free energy in eV/atom
 
         """
-		return np.round(enthalpy - temperature * entropy, 5)
+		return enthalpy - temperature * entropy
 	
 	def calc_vib_gibbs_energy(self):
 		pass
@@ -296,4 +296,4 @@ class thermoMaths:
 				H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction,
 														 omega=omega_ij)
 				mix_enthalpy += H_mix
-		return np.round(mix_enthalpy, 6)
+		return mix_enthalpy

@@ -79,4 +79,7 @@ if __name__ == '__main__':
     ax.set_rlabel(f"{composition[2]}")
 
     plt.savefig(f"../../plots/phase_diagrams/{'-'.join(composition)}_batch")
-# plt.show()
+
+
+
+

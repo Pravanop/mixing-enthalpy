@@ -43,7 +43,7 @@ for composition in tqdm(compositions, desc='Calculating Misc_T'):
 			im_list += pD.get_intermetallic(alloy_list)
 
 	mol = [1/len(composition)]*len(composition)
-	lattice = "BCC"
+	lattice = "HCP"
 	misc_T = pD.find_misc_temperature(composition=composition, lattice=lattice, mol_ratio=mol, batch_tag=True, im=im_list, phase_flag=False)
 	if isinstance(misc_T, float):
 		temp_list.append(misc_T)
