@@ -27,12 +27,12 @@ tD = TernaryVizualization(
 	lattice='min',
 	meta_data=meta_data,
 save_flag=True,
-contour_flag=True)
+contour_flag=False)
 
 
 """Two options"""
 
 # Plot Miscible Temperatures
-_, _ = tD.plot_misc_temperatures()
+# _, _ = tD.plot_misc_temperatures()
 # Plot Isotherms
 _, _ = tD.plot_isotherm(1273)

@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import mpltern
+from matplotlib.colors import Normalize
 
 from calcEnthalpy_package.io.dir_handler import DirHandler
 from calcEnthalpy_package.math_operations.thermo_calculations import ThermoMaths
@@ -19,8 +20,9 @@ class TernaryVizualization:
 				 meta_data,
 				 save_flag,
 				 contour_flag):
-
+		
 		self.cmap = 'plasma'
+		self.norm = Normalize(vmin=0, vmax=1, clip=False)
 		self.composition = composition
 		if len(self.composition) != 3:
 			raise "Only provide binary compositions!"
@@ -49,6 +51,7 @@ class TernaryVizualization:
 		
 		self.save_flag = save_flag
 		self.contour_flag = contour_flag
+		
 	
 	def find_misc_temperatures(self):
 		mol_grid, misc_temp = self.grid_iterator.misc_temperature_across_grid(composition=self.composition,
@@ -71,6 +74,13 @@ class TernaryVizualization:
 	
 	def plot_isotherm(self, temperature):
 		mol_grid, stables = self.find_isotherm(temperature)
+		
+		for idx, stable in enumerate(stables):
+			if np.isclose(stable, 0.0, atol=1e-3):
+				stables[idx] = 0
+			else:
+				stables[idx] = 1
+		
 		t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
 		t = t.reshape(-1, 1)
 		l = l.reshape(-1, 1)
@@ -80,17 +90,17 @@ class TernaryVizualization:
 		
 		ax = fig.add_subplot(projection="ternary")
 		ax.grid()
-		cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
+		# cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
 		
 		if not self.contour_flag:
-			pc = ax.scatter(t, l, r, c=tm, cmap=self.cmap, marker='h', s=60)
+			pc = ax.scatter(t, l, r, c=tm, cmap=self.cmap, marker='h', s=60, norm=self.norm)
 		
 		else:
 			data = np.concatenate([t, l, r, tm], axis=1)
 			
-			pc = ax.tricontourf(data[:, 0], data[:, 1], data[:, 2], data[:, 3], cmap=self.cmap)
-		colorbar = fig.colorbar(pc, cax=cax)
-		colorbar.set_label('$E_{hull}$ (eV/atom)', rotation=270, va='baseline')
+			pc = ax.tricontourf(data[:, 0], data[:, 1], data[:, 2], data[:, 3], cmap=self.cmap, norm=self.norm)
+		# colorbar = fig.colorbar(pc, cax=cax)
+		# colorbar.set_label('$E_{hull}$ (eV/atom)', rotation=270, va='baseline')
 		ax.grid(False)
 		ax.set_tlabel(f"{self.composition[0]}")
 		ax.set_llabel(f"{self.composition[1]}")
@@ -99,7 +109,8 @@ class TernaryVizualization:
 		if self.save_flag:
 			if self.contour_flag:
 				updated_folder_path = DirHandler.mkdir_recursrive(
-					folders=['ternary_phase_diagram', "isotherms", "contours", f"{'-'.join(sorted(self.composition, reverse=True))}"], folder_path="../plots")
+					folders=['ternary_phase_diagram', "isotherms", "contours",
+							 f"{'-'.join(sorted(self.composition, reverse=True))}"], folder_path="../plots")
 				fig.savefig(fname=f"{updated_folder_path}{temperature}.png",
 							dpi=100)
 			else:
@@ -109,8 +120,7 @@ class TernaryVizualization:
 				fig.savefig(fname=f"{updated_folder_path}{temperature}.png",
 							dpi=100)
 		return ax, fig
-		
-		
+	
 	def plot_misc_temperatures(self):
 		mol_grid, misc_temp = self.find_misc_temperatures()
 		for idx, temp in enumerate(misc_temp):
@@ -129,7 +139,7 @@ class TernaryVizualization:
 		cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
 		
 		if not self.contour_flag:
-			pc = ax.scatter(t, l, r, c=tm, cmap=self.cmap, marker = 'h', s = 60)
+			pc = ax.scatter(t, l, r, c=tm, cmap=self.cmap, marker='h', s=60)
 		
 		else:
 			data = np.concatenate([t, l, r, tm], axis=1)
@@ -148,7 +158,7 @@ class TernaryVizualization:
 				updated_folder_path = DirHandler.mkdir_recursrive(
 					folders=['ternary_phase_diagram', "misc_temp", "contours"], folder_path="../plots")
 				fig.savefig(fname=f"{updated_folder_path}{'-'.join(sorted(self.composition, reverse=True))}.png",
-						dpi=100)
+							dpi=100)
 			else:
 				updated_folder_path = DirHandler.mkdir_recursrive(
 					folders=['ternary_phase_diagram', "misc_temp", "scatter"], folder_path="../plots")
@@ -156,4 +166,3 @@ class TernaryVizualization:
 					fname=f"{updated_folder_path}{'-'.join(sorted(self.composition, reverse=True))}.png",
 					dpi=100)
 		return ax, fig
-
