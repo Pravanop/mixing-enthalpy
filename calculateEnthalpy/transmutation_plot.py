@@ -24,7 +24,7 @@ def calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp
                 batch_tag=True,
                 im=im_list
             )[1]
-        if np.isclose(e_above_hull, 0, 0.001):
+        if np.isclose(e_above_hull, 0, atol=1e-3):
             temp_list.append(0)
         else:
             temp_list.append(e_above_hull)

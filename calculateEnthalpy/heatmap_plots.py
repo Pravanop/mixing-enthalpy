@@ -15,8 +15,8 @@ def calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp
 	temp_list = []
 	for temp in temp_grid:
 		mol_1 = 1 - mol
-		mol_ratio = [mol_1 / len(composition)] * len(composition) + [mol]
-		
+		mol_ratio = np.round([mol_1 / len(composition)] * len(composition) + [mol],4)
+		# print(mol_ratio)
 		e_above_hull = pD.find_decomp_products(
 			composition=temp_composition,
 			mol_ratio=mol_ratio,
@@ -25,7 +25,7 @@ def calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD, temp
 			batch_tag=True,
 			im=im_list
 		)[1]
-		if np.isclose(e_above_hull, 0, atol=0.001):
+		if np.isclose(e_above_hull, 0, atol=1e-3):
 			temp_list.append(0)
 		else:
 			temp_list.append(e_above_hull)
@@ -49,7 +49,8 @@ def add_ele(composition, add_el, pD, genre):
 			im_list += pD.get_intermetallic(alloy_list)
 
 	misc_temp = {}
-	for idx, mol in enumerate(tqdm(mol_grid)):
+	for idx, mol in enumerate(mol_grid):
+		# print(mol)
 		misc_temp[normalized_mol[idx]] = calculate_temp_for_mol(mol, temp_grid, composition, genre, im_list, pD,
 																temp_composition)
 
@@ -66,7 +67,7 @@ def add_ele(composition, add_el, pD, genre):
 			first_zero_index = df.index[-1]
 
 		positions.append(first_zero_index)
-
+	
 	# print(positions)
 	# df = df.iloc[::-1]
 	cmap = sns.cubehelix_palette(start=.5, rot=-.61, light=.98, dark=.35, hue=1, as_cmap=True)

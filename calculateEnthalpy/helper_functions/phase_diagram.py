@@ -129,19 +129,11 @@ class phaseDiagram:
 							temperature
 						) * entry.composition.num_atoms)
 						new_pd_entries.append(entry)
-					# new_pd_entries.append(PDEntry(
-					# 	composition=entry.composition,
-					# 	energy=self.tm.calc_gibbs_energy(
-					# 		mix_enthalpy[lattice],
-					# 		config_entropy,
-					# 		temperature
-					# 	) * entry.composition.num_atoms,
-					# 	name=entry.name))
+					
 		
 		new_pd_entries = self.process_elements_hull(composition, temperature, new_pd_entries)
 		
-		# new_conv_hull = PhaseDiagram(new_pd_entries)
-		new_conv_hull = conv_hull
+		new_conv_hull = PhaseDiagram(new_pd_entries)
 		return new_conv_hull
 	
 	def process_elements_hull(self, composition, temperature, pd_entries_list):
