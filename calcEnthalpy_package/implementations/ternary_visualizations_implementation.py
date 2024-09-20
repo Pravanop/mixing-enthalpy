@@ -4,7 +4,7 @@ from calcEnthalpy_package.visualization_toolkit.ternary_visualizations import Te
 def mock_meta_data():
 	meta_data =  {
 		'grid_size': 15,
-		'folder_path': '/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/app_data',
+		'folder_path': '../database',
 		'file_name': {
 		'unbiased': 'all_lattices_binaries',
 		'biased': 'bokas_omegas_processed'

@@ -2,13 +2,13 @@ from calcEnthalpy_package.visualization_toolkit.heatmap_visualizations import Ma
 
 
 def mock_meta_data():
-	meta_data = {
+	meta_data =  {
 		'grid_size': 15,
-		'folder_path': '/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/app_data',
+		'folder_path': '../database',
 		'file_name': {
-			'unbiased': 'all_lattices_binaries',
-			'biased': 'bokas_omegas_processed'
-		},
+		'unbiased': 'all_lattices_binaries',
+		'biased': 'bokas_omegas_processed'
+	},
 		'end_member': 'bokas_end_members_dict',
 		'api_key': 'u1TjwfwfTnpF8IolXF9PBY9RT9YauL84',
 		'flags': {

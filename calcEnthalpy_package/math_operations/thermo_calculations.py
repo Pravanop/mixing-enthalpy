@@ -20,7 +20,7 @@ class ThermoMaths:
 		"""
 		self.kb = 8.617e-05  # Boltzmann constant in eV/K
 		meltT_path = pd.read_csv(
-			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/input_data/PubChemElements_all.csv").to_numpy()  #TODO change path
+			"../database/PubChemElements_all.csv").to_numpy()
 		self.meltT = dict(zip(meltT_path[:, 0], meltT_path[:, 1]))
 		
 	@staticmethod
