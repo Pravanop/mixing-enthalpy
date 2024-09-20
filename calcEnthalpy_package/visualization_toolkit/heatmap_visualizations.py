@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
+from calcEnthalpy_package.io.dir_handler import DirHandler
 from calcEnthalpy_package.io.json_handler import JSONHandler
 from calcEnthalpy_package.math_operations.thermo_calculations import ThermoMaths
 from calcEnthalpy_package.phase_diagram.grid_iterators import GridIterator
@@ -160,19 +161,19 @@ class MatrixHeatmap:
 		ax.set_xlabel("X")
 		ax.set_ylabel("T (K)")
 		plt.subplots_adjust(bottom=0.15, top=0.9, left=0.14, right=0.98)
-		if not os.path.exists("../plots/heatmap_plots"):
-			os.mkdir("../plots/heatmap_plots")
+
 		if self.save_flag:
 			if self.type == 'transmutate':
-				if not os.path.exists("../plots/heatmap_plots/transmutate"):
-					os.mkdir("../plots/heatmap_plots/transmutate")
+				updated_folder_path = DirHandler.mkdir_recursrive(
+					folders=['heatmap_plots', "transmutate"], folder_path="../plots")
+			
 				fig.savefig(
-					fname=f"../plots/heatmap_plots/transmutate/{''.join(self.composition)}_{''.join(self.end_composition)}.png",
-					dpi=300)
+					fname=f"{updated_folder_path}{''.join(self.composition)}_{''.join(self.end_composition)}.png",
+					dpi=100)
 			elif self.type == 'add':
-				if not os.path.exists("../plots/heatmap_plots/add"):
-					os.mkdir("../plots/heatmap_plots/add")
+				updated_folder_path = DirHandler.mkdir_recursrive(
+					folders=['heatmap_plots', "add"], folder_path="../plots")
 				fig.savefig(
-					fname=f"../plots/heatmap_plots/add/{''.join(self.total_composition)}_{''.join(self.composition)}.png",
-					dpi=300)
+					fname=f"{updated_folder_path}{''.join(self.total_composition)}_{''.join(self.composition)}.png",
+					dpi=100)
 		return ax, fig

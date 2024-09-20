@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 import mpltern
+
+from calcEnthalpy_package.io.dir_handler import DirHandler
 from calcEnthalpy_package.math_operations.thermo_calculations import ThermoMaths
 from calcEnthalpy_package.phase_diagram.grid_iterators import GridIterator
 from calcEnthalpy_package.io.json_handler import JSONHandler
@@ -94,16 +96,17 @@ class TernaryVizualization:
 		ax.set_rlabel(f"{self.composition[2]}")
 		
 		if self.save_flag:
-			if not os.path.exists("../plots/ternary_phase_diagram/isotherms"):
-				os.mkdir("../plots/ternary_phase_diagram/isotherms")
 			if self.contour_flag:
-				fig.savefig(
-					fname=f"../plots/ternary_phase_diagram/isotherms/{'-'.join(sorted(self.composition))}_{temperature}_con.png",
-					dpi=300)
+				updated_folder_path = DirHandler.mkdir_recursrive(
+					folders=['ternary_phase_diagram', "isotherms", "contours", f"{'-'.join(sorted(self.composition, reverse=True))}"], folder_path="../plots")
+				fig.savefig(fname=f"{updated_folder_path}{temperature}.png",
+							dpi=100)
 			else:
-				fig.savefig(
-					fname=f"../plots/ternary_phase_diagram/isotherms/{'-'.join(sorted(self.composition))}_{temperature}.png",
-					dpi=300)
+				updated_folder_path = DirHandler.mkdir_recursrive(
+					folders=['ternary_phase_diagram', "isotherms", "scatters",
+							 f"{'-'.join(sorted(self.composition, reverse=True))}"], folder_path="../plots")
+				fig.savefig(fname=f"{updated_folder_path}{temperature}.png",
+							dpi=100)
 		return ax, fig
 		
 		
@@ -139,14 +142,17 @@ class TernaryVizualization:
 		ax.set_rlabel(f"{self.composition[2]}")
 		
 		if self.save_flag:
-			if not os.path.exists("../plots/ternary_phase_diagram"):
-				os.mkdir("../plots/ternary_phase_diagram")
+			
 			if self.contour_flag:
-				fig.savefig(fname=f"../plots/ternary_phase_diagram/{'-'.join(sorted(self.composition, reverse=True))}_con.png",
-						dpi=300)
+				updated_folder_path = DirHandler.mkdir_recursrive(
+					folders=['ternary_phase_diagram', "misc_temp", "contours"], folder_path="../plots")
+				fig.savefig(fname=f"{updated_folder_path}{'-'.join(sorted(self.composition, reverse=True))}.png",
+						dpi=100)
 			else:
+				updated_folder_path = DirHandler.mkdir_recursrive(
+					folders=['ternary_phase_diagram', "misc_temp", "scatter"], folder_path="../plots")
 				fig.savefig(
-					fname=f"../plots/ternary_phase_diagram/{'-'.join(sorted(self.composition, reverse=True))}.png",
-					dpi=300)
+					fname=f"{updated_folder_path}{'-'.join(sorted(self.composition, reverse=True))}.png",
+					dpi=100)
 		return ax, fig
 

@@ -6,6 +6,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from calcEnthalpy_package.grids_and_combinations import grid_creation
+from calcEnthalpy_package.io.dir_handler import DirHandler
 from calcEnthalpy_package.io.json_handler import JSONHandler
 from calcEnthalpy_package.math_operations.thermo_calculations import ThermoMaths
 from calcEnthalpy_package.phase_diagram.grid_iterators import GridIterator
@@ -183,8 +184,8 @@ class PathwayVisualizations:
 		ax.set_xlabel('Reaction Coordinate', fontsize=12)
 		
 		if self.save_flag:
-			if not os.path.exists("../plots/pathway_plots/"):
-				os.mkdir("../plots/pathway_plots/")
-			fig.savefig(f"../plots/pathway_plots/{'-'.join(sorted(self.composition))}.png", dpi=300)
+			updated_folder_path = DirHandler.mkdir_recursrive(
+				folders=['pathways_plots'], folder_path="../plots")
+			fig.savefig(f"{updated_folder_path}{'-'.join(sorted(self.composition))}.png", dpi=100)
 		
 		return ax, fig

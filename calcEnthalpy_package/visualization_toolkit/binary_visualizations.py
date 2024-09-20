@@ -3,6 +3,7 @@ import os.path
 import numpy as np
 from matplotlib import pyplot as plt
 
+from calcEnthalpy_package.io.dir_handler import DirHandler
 from calcEnthalpy_package.math_operations.thermo_calculations import ThermoMaths
 from calcEnthalpy_package.phase_diagram.grid_iterators import GridIterator
 from calcEnthalpy_package.io.json_handler import JSONHandler
@@ -78,9 +79,12 @@ class binaryVizualization:
 		# ax.set_title('-'.join(sorted(self.composition, reverse=True)) + " Phase Diagram")
 		plt.subplots_adjust(left=0.22, right=0.95, bottom=0.15)
 		ax.legend(['Unstable', 'Average T$_{melt}$'], ncols=2, bbox_to_anchor=(1.1, 1.15), frameon=False)
-		if not os.path.exists("../plots/binary_phase_diagram"):
-			os.mkdir("../plots/binary_phase_diagram")
+
 		if self.save_flag:
-			fig.savefig(fname=f"../plots/binary_phase_diagram/{'-'.join(sorted(self.composition, reverse=True))}.png",
-						dpi=300)
+			updated_folder_path = DirHandler.mkdir_recursrive(
+				folders=['binary_phase_diagram'], folder_path="../plots")
+			fig.savefig(
+				fname=f"{updated_folder_path}{'-'.join(sorted(self.composition, reverse=True))}.png",
+				dpi=100)
+			
 		return ax, fig
