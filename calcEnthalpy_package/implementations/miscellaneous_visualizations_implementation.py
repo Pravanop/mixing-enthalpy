@@ -14,7 +14,7 @@ def mock_meta_data():
 		'flags': {
 			'correction': True,
 			'im_flag': True,
-			'equi_flag': False
+			'equi_flag': True
 		}
 	}
 	return meta_data

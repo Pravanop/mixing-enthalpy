@@ -19,7 +19,8 @@ class TernaryVizualization:
 				 meta_data,
 				 save_flag,
 				 contour_flag):
-		
+
+		self.cmap = 'plasma'
 		self.composition = composition
 		if len(self.composition) != 3:
 			raise "Only provide binary compositions!"
@@ -82,12 +83,12 @@ class TernaryVizualization:
 		cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
 		
 		if not self.contour_flag:
-			pc = ax.scatter(t, l, r, c=tm, cmap="plasma", marker='h', s=60)
+			pc = ax.scatter(t, l, r, c=tm, cmap=self.cmap, marker='h', s=60)
 		
 		else:
 			data = np.concatenate([t, l, r, tm], axis=1)
 			
-			pc = ax.tricontourf(data[:, 0], data[:, 1], data[:, 2], data[:, 3], cmap="plasma")
+			pc = ax.tricontourf(data[:, 0], data[:, 1], data[:, 2], data[:, 3], cmap=self.cmap)
 		colorbar = fig.colorbar(pc, cax=cax)
 		colorbar.set_label('$E_{hull}$ (eV/atom)', rotation=270, va='baseline')
 		ax.grid(False)
@@ -128,12 +129,12 @@ class TernaryVizualization:
 		cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
 		
 		if not self.contour_flag:
-			pc = ax.scatter(t, l, r, c=tm, cmap="coolwarm", marker = 'h', s = 60)
+			pc = ax.scatter(t, l, r, c=tm, cmap=self.cmap, marker = 'h', s = 60)
 		
 		else:
 			data = np.concatenate([t, l, r, tm], axis=1)
 			
-			pc = ax.tricontourf(data[:, 0], data[:, 1], data[:, 2], data[:, 3], cmap="coolwarm")
+			pc = ax.tricontourf(data[:, 0], data[:, 1], data[:, 2], data[:, 3], cmap=self.cmap)
 		colorbar = fig.colorbar(pc, cax=cax)
 		colorbar.set_label('$T_{misc}$ K', rotation=270, va='baseline')
 		ax.grid(False)

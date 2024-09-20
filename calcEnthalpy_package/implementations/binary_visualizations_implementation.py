@@ -23,7 +23,7 @@ def mock_meta_data():
 meta_data = mock_meta_data()
 
 bD = binaryVizualization(
-	composition=['Cr', 'W'],
+	composition=['Hf', 'Ta'],
 	lattice='min',
 	meta_data=meta_data,
 save_flag=True)
