@@ -157,7 +157,10 @@ class MatrixHeatmap:
 				count_prev = idx2
 			ax.plot([idx, idx + 1], [idx2, idx2], color='black', linestyle='--')
 		ax.text(s='-'.join(self.composition), y=-1, x=-1)
-		ax.text(s='-'.join(self.end_composition), y=-1, x=len(mol_grid)-0.3)
+		if self.type == 'transmutate':
+			ax.text(s='-'.join(self.end_composition), y=-1, x=len(mol_grid)-0.3)
+		else:
+			ax.text(s='-'.join(self.total_composition), y=-1, x=len(mol_grid) - 0.3)
 		ax.set_xlabel("X")
 		ax.set_ylabel("T (K)")
 		plt.subplots_adjust(bottom=0.15, top=0.9, left=0.14, right=0.98)

@@ -23,7 +23,7 @@ def mock_meta_data():
 meta_data = mock_meta_data()
 
 pD = PolarVisualizations(
-	composition=['Cr', 'Ta', 'W', 'V'],
+	composition=['Cr', 'Ta', 'W', 'V','Ti'],
 	lattice='min',
 	meta_data=meta_data,
 	save_flag=True)
