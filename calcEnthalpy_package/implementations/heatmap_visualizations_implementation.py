@@ -22,8 +22,8 @@ def mock_meta_data():
 
 meta_data = mock_meta_data()
 
-mH = MatrixHeatmap(composition=['Cr', 'V', 'Ta'],
-				   add_ele=['Ta','W'],
+mH = MatrixHeatmap(composition=['W', 'Cr', 'V'],
+				   add_ele=['W','Ta'],
 				   lattice='min',
 				   meta_data=meta_data,
 				   save_flag=True,

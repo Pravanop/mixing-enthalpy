@@ -24,7 +24,7 @@ meta_data = mock_meta_data()
 rP = PathwayVisualizations(
 	meta_data=meta_data,
 	lattice='BCC',
-	composition=['Cr', 'V', 'Ti', 'Ta'],
+	composition=['Cr', 'V', 'Ti', 'Ta','W'],
 	save_flag=True
 )
 
