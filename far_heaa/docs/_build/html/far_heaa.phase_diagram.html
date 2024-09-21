@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>far_heaa.phase_diagram package &mdash; FAR-HEAA 0.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=d45e8c67"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="far_heaa.visualization_toolkit package" href="far_heaa.visualization_toolkit.html" />
+    <link rel="prev" title="far_heaa.math_operations package" href="far_heaa.math_operations.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            FAR-HEAA
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="far_heaa.html">far_heaa package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="far_heaa.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="far_heaa.data_processing.html">far_heaa.data_processing package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="far_heaa.grids_and_combinations.html">far_heaa.grids_and_combinations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="far_heaa.high_throughput.html">far_heaa.high_throughput package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="far_heaa.implementations.html">far_heaa.implementations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="far_heaa.io.html">far_heaa.io package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="far_heaa.math_operations.html">far_heaa.math_operations package</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">far_heaa.phase_diagram package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="far_heaa.visualization_toolkit.html">far_heaa.visualization_toolkit package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FAR-HEAA</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">src</a></li>
+          <li class="breadcrumb-item"><a href="far_heaa.html">far_heaa package</a></li>
+      <li class="breadcrumb-item active">far_heaa.phase_diagram package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/far_heaa.phase_diagram.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="far-heaa-phase-diagram-package">
+<h1>far_heaa.phase_diagram package<a class="headerlink" href="#far-heaa-phase-diagram-package" title="Link to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-far_heaa.phase_diagram.convex_hull">
+<span id="far-heaa-phase-diagram-convex-hull-module"></span><h2>far_heaa.phase_diagram.convex_hull module<a class="headerlink" href="#module-far_heaa.phase_diagram.convex_hull" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.convex_hull.ConvexHull">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.phase_diagram.convex_hull.</span></span><span class="sig-name descname"><span class="pre">ConvexHull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">end_member</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="far_heaa.math_operations.html#far_heaa.math_operations.thermo_calculations.ThermoMaths" title="far_heaa.math_operations.thermo_calculations.ThermoMaths"><span class="pre">ThermoMaths</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.phase_diagram.convex_hull.ConvexHull" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>A class to construct the convex hull of an alloy system, calculate thermodynamic properties,
+and update the hull with increasing temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>end_member</strong> (<em>dict</em>) – Dictionary containing the end member energies for each element and lattice.</p></li>
+<li><p><strong>data</strong> (<em>dict</em>) – Dictionary containing binary mixing enthalpies.</p></li>
+<li><p><strong>flags</strong> (<em>dict</em>) – Dictionary of flags that determine behavior (e.g., correction, im_flag, equi_flag).</p></li>
+<li><p><strong>tm</strong> (<a class="reference internal" href="far_heaa.math_operations.html#far_heaa.math_operations.thermo_calculations.ThermoMaths" title="far_heaa.math_operations.thermo_calculations.ThermoMaths"><em>ThermoMaths</em></a>) – An instance of the ThermoMaths class for thermodynamic calculations.</p></li>
+<li><p><strong>api_key</strong> (<em>str</em>) – API key for accessing external data sources.</p></li>
+<li><p><strong>grid_size</strong> (<em>int</em>) – The size of the molar grid for grid creation.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.convex_hull.ConvexHull.find_enthalpy_entropy_composition">
+<span class="sig-name descname"><span class="pre">find_enthalpy_entropy_composition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">Any</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.convex_hull.ConvexHull.find_enthalpy_entropy_composition" title="Link to this definition"></a></dt>
+<dd><p>Finds the enthalpy, entropy, and mole ratio for a given composition and lattice at a specific temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy.</p></li>
+<li><p><strong>lattice</strong> (<em>str</em>) – The lattice structure.</p></li>
+<li><p><strong>mol_ratio</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – A list of mole fractions.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – The temperature in Kelvin.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The enthalpy, entropy, and mole ratio for the alloy composition.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[float, float, Dict[str, float]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.convex_hull.ConvexHull.make_PD_entry">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">make_PD_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal" title="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal"><span class="pre">PDEntryLocal</span></a></span></span><a class="headerlink" href="#far_heaa.phase_diagram.convex_hull.ConvexHull.make_PD_entry" title="Link to this definition"></a></dt>
+<dd><p>Creates a phase diagram entry (PDEntryLocal) from the mole ratio and energy.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol_ratio</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – The mole ratio of elements.</p></li>
+<li><p><strong>energy</strong> (<em>float</em>) – The energy value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A PDEntryLocal object representing a phase diagram entry.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal" title="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal">PDEntryLocal</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.convex_hull.ConvexHull.make_convex_hull">
+<span class="sig-name descname"><span class="pre">make_convex_hull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PhaseDiagram</span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.convex_hull.ConvexHull.make_convex_hull" title="Link to this definition"></a></dt>
+<dd><p>Constructs the convex hull of an alloy system based on the provided composition and temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – The temperature in Kelvin for the calculations.</p></li>
+<li><p><strong>batch_tag</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, batch processing of intermetallic phases is enabled. Default is False.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments, such as pre-extracted intermetallic data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A PhaseDiagram object representing the convex hull.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PhaseDiagram</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>convex_hull = ConvexHull.make_convex_hull(composition=[‘Fe’, ‘Ni’], temperature=1200.0)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.convex_hull.ConvexHull.process_elements_hull">
+<span class="sig-name descname"><span class="pre">process_elements_hull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pd_entries_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal" title="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal"><span class="pre">PDEntryLocal</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal" title="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal"><span class="pre">PDEntryLocal</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.convex_hull.ConvexHull.process_elements_hull" title="Link to this definition"></a></dt>
+<dd><p>Processes the elements in the composition to update the phase diagram entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy system.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – The temperature in Kelvin.</p></li>
+<li><p><strong>pd_entries_list</strong> (<em>List</em><em>[</em><a class="reference internal" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal" title="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal"><em>PDEntryLocal</em></a><em>]</em>) – A list of PDEntryLocal objects representing the phase diagram entries.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An updated list of PDEntryLocal objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List[<a class="reference internal" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal" title="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal">PDEntryLocal</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.convex_hull.ConvexHull.update_convex_hull">
+<span class="sig-name descname"><span class="pre">update_convex_hull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv_hull</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PhaseDiagram</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">PhaseDiagram</span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.convex_hull.ConvexHull.update_convex_hull" title="Link to this definition"></a></dt>
+<dd><p>Updates the convex hull by recalculating the energies of the entries based on the current temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy system.</p></li>
+<li><p><strong>conv_hull</strong> (<em>PhaseDiagram</em>) – The current PhaseDiagram object representing the convex hull.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – The temperature in K for the calculations.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The updated PhaseDiagram object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PhaseDiagram</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-far_heaa.phase_diagram.grid_iterators">
+<span id="far-heaa-phase-diagram-grid-iterators-module"></span><h2>far_heaa.phase_diagram.grid_iterators module<a class="headerlink" href="#module-far_heaa.phase_diagram.grid_iterators" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.grid_iterators.GridIterator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.phase_diagram.grid_iterators.</span></span><span class="sig-name descname"><span class="pre">GridIterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="far_heaa.math_operations.html#far_heaa.math_operations.thermo_calculations.ThermoMaths" title="far_heaa.math_operations.thermo_calculations.ThermoMaths"><span class="pre">ThermoMaths</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_member</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.phase_diagram.grid_iterators.GridIterator" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.grid_iterators.GridIterator.e_hull_across_grid">
+<span class="sig-name descname"><span class="pre">e_hull_across_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_grid_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Iterable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">single_temp_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_gradation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">300</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.grid_iterators.GridIterator.e_hull_across_grid" title="Link to this definition"></a></dt>
+<dd><p>Computes the energy above the convex hull (E_hull) across a mole fraction grid for a given alloy composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy.</p></li>
+<li><p><strong>mol_grid_size</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>Iterable</em><em>]</em>) – The size of the mole fraction grid. If not an integer, it is assumed to be the grid itself.</p></li>
+<li><p><strong>lattice</strong> (<em>str</em>) – The lattice structure to consider (e.g., ‘FCC’, ‘BCC’).</p></li>
+<li><p><strong>single_temp_flag</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, computes the energy above the hull at a single temperature. Default is False.</p></li>
+<li><p><strong>temp_gradation</strong> (<em>int</em><em>, </em><em>optional</em>) – The temperature step size for the grid, in Kelvin. Default is 300 K.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>mol_grid (ndarray): The mole fraction grid for the alloy.</p></li>
+<li><p>stables (ndarray): The energy above the convex hull for each composition and temperature.</p></li>
+<li><p>temp_grid (ndarray): The grid of temperatures considered.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[ndarray, ndarray, ndarray]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>mol_grid, e_hull_values, temp_grid = self.e_hull_across_grid(</dt><dd><p>composition=[‘Fe’, ‘Ni’],
+mol_grid_size=20,
+lattice=’FCC’,
+single_temp_flag=False,
+temp_gradation=200</p>
+</dd>
+</dl>
+<p>)
+# Returns the mole fraction grid, energy above the hull values, and the temperature grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.grid_iterators.GridIterator.find_decomp_products">
+<span class="sig-name descname"><span class="pre">find_decomp_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">DataFrame</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">None</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.grid_iterators.GridIterator.find_decomp_products" title="Link to this definition"></a></dt>
+<dd><p>Finds the decomposition products and energy above the convex hull for a given alloy composition
+and mole ratio at a specific temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol_ratio</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – The mole fractions of the elements in the alloy.</p></li>
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – The temperature in Kelvin for the calculations.</p></li>
+<li><p><strong>lattice</strong> (<em>str</em>) – The lattice structure to consider (e.g., ‘FCC’, ‘BCC’).</p></li>
+<li><p><strong>batch_tag</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, uses batch processing of intermetallic phases. Default is False.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments such as ‘im’ (intermetallic data) if precomputed values are provided.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl>
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>pd.DataFrame: A DataFrame with the decomposition products and their fractions.</p></li>
+<li><p>float: The energy above the convex hull.</p></li>
+</ul>
+<p>If no decomposition is found, it returns None and 0.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[Tuple[pd.DataFrame, float], int]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>products, energy_above_hull = self.find_decomp_products(</dt><dd><p>mol_ratio=[0.5, 0.5],
+composition=[‘Fe’, ‘Ni’],
+temperature=1200.0,
+lattice=’FCC’,
+batch_tag=True,
+im=precomputed_im_data</p>
+</dd>
+</dl>
+<p>)
+# Returns a DataFrame with decomposition products and the energy above the hull or None if there is no decomposition products</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.grid_iterators.GridIterator.get_decomp_and_e_hull">
+<span class="sig-name descname"><span class="pre">get_decomp_and_e_hull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conv_hull</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PhaseDiagram</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mix_enthalpy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entropy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.grid_iterators.GridIterator.get_decomp_and_e_hull" title="Link to this definition"></a></dt>
+<dd><p>Calculates the Gibbs free energy and determines the decomposition products and energy above the convex hull.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol_ratio</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>float</em><em>]</em>) – A dictionary of mole ratios for the alloy.</p></li>
+<li><p><strong>temp</strong> (<em>float</em>) – The temperature in Kelvin.</p></li>
+<li><p><strong>conv_hull</strong> (<em>PhaseDiagram</em>) – The convex hull for the given temperature and composition.</p></li>
+<li><p><strong>mix_enthalpy</strong> (<em>float</em>) – The mixing enthalpy for the composition.</p></li>
+<li><p><strong>entropy</strong> (<em>float</em>) – The configurational entropy for the composition.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl>
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>Dict: Decomposition products and their mole fractions.</p></li>
+<li><p>float: Energy above the convex hull.</p></li>
+</ul>
+<p>Returns None if no decomposition is found.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[Tuple[Dict, float], None]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>decomp_products, energy_above_hull = self.get_decomp_and_e_hull(</dt><dd><p>mol_ratio={‘Fe’: 0.5, ‘Ni’: 0.5},
+temp=1200.0,
+conv_hull=convex_hull,
+mix_enthalpy=-0.5,
+entropy=0.1</p>
+</dd>
+</dl>
+<p>)
+# Returns the decomposition products and energy above the convex hull.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.grid_iterators.GridIterator.misc_temperature_across_grid">
+<span class="sig-name descname"><span class="pre">misc_temperature_across_grid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_grid_size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.grid_iterators.GridIterator.misc_temperature_across_grid" title="Link to this definition"></a></dt>
+<dd><p>Computes the miscibility temperature across a mole fraction grid for a given composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy.</p></li>
+<li><p><strong>mol_grid_size</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>ndarray</em><em>]</em>) – The size of the mole fraction grid. If not an integer, it is assumed to be the grid itself.</p></li>
+<li><p><strong>lattice</strong> (<em>str</em>) – The lattice structure to consider (e.g., ‘FCC’, ‘BCC’).</p></li>
+<li><p><strong>phase_flag</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, use finer temperature increments. Default is False.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments such as ‘conv_hull’ and ‘temp_grid’ if precomputed values are provided.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>A tuple containing:</dt><dd><ul class="simple">
+<li><p>mol_grid (ndarray): The mole fraction grid for the alloy.</p></li>
+<li><p>stables (ndarray): The miscibility temperature for each composition in the grid.</p></li>
+</ul>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Tuple[ndarray, ndarray]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>mol_grid, stable_temps = self.misc_temperature_across_grid(</dt><dd><p>composition=[‘Fe’, ‘Ni’],
+mol_grid_size=20,
+lattice=’FCC’,
+phase_flag=True</p>
+</dd>
+</dl>
+<p>)
+# Returns the mole fraction grid and miscibility temperatures across the grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.grid_iterators.GridIterator.temp_iterator">
+<span class="sig-name descname"><span class="pre">temp_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">PhaseDiagram</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.grid_iterators.GridIterator.temp_iterator" title="Link to this definition"></a></dt>
+<dd><p>Iterates over a temperature grid and calculates the convex hull for each temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy system.</p></li>
+<li><p><strong>temp_grid</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – A list of temperatures to iterate over.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A dictionary mapping each temperature to its corresponding PhaseDiagram.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dict[float, PhaseDiagram]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<p>results = self.temp_iterator(composition=[‘Fe’, ‘Ni’], temp_grid=[300, 500, 700])
+# Returns a dictionary with PhaseDiagram objects for each temperature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.grid_iterators.GridIterator.uni_molar_misc_temperature">
+<span class="sig-name descname"><span class="pre">uni_molar_misc_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mol_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.grid_iterators.GridIterator.uni_molar_misc_temperature" title="Link to this definition"></a></dt>
+<dd><p>Calculates the miscibility temperature for a given alloy composition and mole fraction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mol_ratio</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – The mole fractions of the elements in the alloy.</p></li>
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy.</p></li>
+<li><p><strong>lattice</strong> (<em>str</em>) – The lattice structure to consider (e.g., ‘FCC’, ‘BCC’).</p></li>
+<li><p><strong>phase_flag</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, applies a finer temperature increment. Default is False.</p></li>
+<li><p><strong>batch_tag</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, uses batch processing of intermetallic phases. Default is False.</p></li>
+<li><p><strong>**kwargs</strong> – Additional arguments such as ‘conv_hull’ and ‘im’ (intermetallic data) if precomputed values are provided.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>The miscibility temperature for the given composition.</dt><dd><p>If no stable miscibility temperature is found, it returns a tuple (melting point, 0).</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[float, Tuple[float, int]]</p>
+</dd>
+</dl>
+<p class="rubric">Example</p>
+<dl class="simple">
+<dt>misc_temp = self.uni_molar_misc_temperature(</dt><dd><p>mol_ratio=[0.5, 0.5],
+composition=[‘Fe’, ‘Ni’],
+lattice=’FCC’,
+phase_flag=True</p>
+</dd>
+</dl>
+<p>)
+# Returns the miscibility temperature for the alloy ‘Fe-Ni’ with a 50-50 mole ratio.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.grid_iterators.GridIterator.upper_limit">
+<span class="sig-name descname"><span class="pre">upper_limit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mol_ratio</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">phase_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#far_heaa.phase_diagram.grid_iterators.GridIterator.upper_limit" title="Link to this definition"></a></dt>
+<dd><p>Calculates the upper temperature limit for the grid based on the average melting temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>List</em><em>[</em><em>str</em><em>]</em>) – A list of elements in the alloy.</p></li>
+<li><p><strong>mol_ratio</strong> (<em>List</em><em>[</em><em>float</em><em>]</em>) – The mole fractions of the elements.</p></li>
+<li><p><strong>phase_flag</strong> (<em>bool</em>) – A flag indicating whether phase equilibrium should be considered.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Updates the temperature grid (<cite>self.temp_grid</cite>) based on the phase flag and average melting temperature.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-far_heaa.phase_diagram.pdEntry_local">
+<span id="far-heaa-phase-diagram-pdentry-local-module"></span><h2>far_heaa.phase_diagram.pdEntry_local module<a class="headerlink" href="#module-far_heaa.phase_diagram.pdEntry_local" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.phase_diagram.pdEntry_local.</span></span><span class="sig-name descname"><span class="pre">PDEntryLocal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Composition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attribute</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Entry</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Get MSONable dict representation of PDEntry.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal.energy">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">energy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal.energy" title="Link to this definition"></a></dt>
+<dd><p>The entry’s energy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dct</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal.from_dict" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>dct</strong> (<em>dict</em>) – dictionary representation of PDEntry.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>PDEntry</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal.update_energy">
+<span class="sig-name descname"><span class="pre">update_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">energy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal.update_energy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="far_heaa.math_operations.html" class="btn btn-neutral float-left" title="far_heaa.math_operations package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="far_heaa.visualization_toolkit.html" class="btn btn-neutral float-right" title="far_heaa.visualization_toolkit package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Pravan Omprakash.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

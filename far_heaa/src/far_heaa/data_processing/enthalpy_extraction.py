@@ -27,7 +27,8 @@ class EnthalpyExtractions:
         Raises:
             KeyError: If the element pair is not found in the binary dictionary.
 
-        Example:
+        Example::
+        
             binary_dict = {'Fe-Ni': -1.5, 'Ni-Cu': -0.8}
             ele_pair = 'Fe-Ni'
 
