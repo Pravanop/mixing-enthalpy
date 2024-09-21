@@ -112,3 +112,10 @@ validators==0.22.0
 Werkzeug==3.0.1
 XlsxWriter==3.1.9
 zipp==3.17.0
+
+seaborn~=0.13.2
+numba~=0.59.1
+umap~=0.1.1
+adjustText~=1.2.0
+mpltern~=1.0.4
+pytest~=8.3.3
