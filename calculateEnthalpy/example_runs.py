@@ -3,7 +3,7 @@ import json
 from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
 from calculateEnthalpy.helper_functions.thermo_math import thermoMaths
 
-processed_file_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/output_data/Pravan_bcc_4/all_lattices_binaries.json"
+processed_file_path = "/calculateEnthalpy/data/output_data/Pravan_bcc_4/all_lattices_binaries.json"
 pD = phaseDiagram(
 	processed_file_path=processed_file_path,
 grid_size=30)

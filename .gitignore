@@ -163,14 +163,17 @@ cython_debug/
 /PP/
 /Outputs_*/
 /env/
-/data/output_data/
+/calculateEnthalpy/data/output_data/
 /Monte Carlo/dump/
 /Monte Carlo/plots/
-/Outputs/
-/plots/
+/make_dft_calc/Outputs/
+/calculateEnthalpy/plots/
 !/.venv/
 !/calculateEnthalpy/higherOrderPhaseDiagrams/my_createTernaryDiagrams.py
 /calculateEnthalpy/UMAPS/
 /opencalphad-master/
 /calcEnthalpy_package/plots/
 /far_heaa/src/far_heaa/plots/
+/calculateEnthalpy/data/
+/calculateEnthalpy/plotting/
+/make_dft_calc/prepareVASPRuns/vasp_metadata/PP/

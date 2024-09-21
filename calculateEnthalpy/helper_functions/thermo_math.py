@@ -156,7 +156,7 @@ class thermoMaths:
 	
 	def avg_T_melt(self, composition, mol_ratio):
 		self.meltT = pd.read_csv(
-			"/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/input_data/PubChemElements_all.csv").to_numpy()
+			"/calculateEnthalpy/data/input_data/PubChemElements_all.csv").to_numpy()
 		self.meltT = dict(zip(self.meltT[:, 0], self.meltT[:, 1]))
 		tm = [self.meltT[ind] * mol_ratio[i] for i, ind in enumerate(composition)]
 		return int(sum(tm))

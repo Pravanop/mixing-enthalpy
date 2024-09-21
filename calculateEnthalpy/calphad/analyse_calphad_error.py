@@ -3,7 +3,7 @@ from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
 # Top 5 biggest errors
 # Fe-Ta-V, Ta-Ti-W, Ta-Ti-V-W, Cr-Ti-W, Cr-Ta-V
 
-processed_file_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/data/output_data/Pravan_bcc_4/all_lattices_binaries.json"
+processed_file_path = "/calculateEnthalpy/data/output_data/Pravan_bcc_4/all_lattices_binaries.json"
 pD = phaseDiagram(
 	processed_file_path=processed_file_path,
 grid_size=20)

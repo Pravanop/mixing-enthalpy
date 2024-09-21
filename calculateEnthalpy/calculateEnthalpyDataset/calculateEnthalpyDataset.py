@@ -58,7 +58,7 @@ class calculateEnthalpyDataset:
 		self.grid_size = 20
 
 		# self.tm = thermoMaths(binary_dict=self.binary_dict)
-		self.output_folder_path = f"../../data/output_data/"
+		self.output_folder_path = f"../data/output_data/"
 		self.result_dict = {}
 		self.tm = thermoMaths()
 		# self.mpr = MPRester(
@@ -251,7 +251,7 @@ class calculateEnthalpyDataset:
 		return 1
 
 
-ced = calculateEnthalpyDataset(input_folder_path="../../data/input_data/",
+ced = calculateEnthalpyDataset(input_folder_path="../data/input_data/",
 							   lattice="bcc",
 							   source="bokasCorrected",
 							   im_flag=False,

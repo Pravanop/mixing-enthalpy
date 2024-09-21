@@ -31,8 +31,8 @@ i, j = 1, 1
 
 
 lookup, ele_assign = enthalpy_model_lookup(source="pravan",
-                                           lattice="bcc",
-                                           folder_path="../data/input_data")
+										   lattice="bcc",
+										   folder_path="../calculateEnthalpy/data/input_data")
 for file in lfoldr:
 
     if file == "plots":

@@ -353,7 +353,7 @@ if __name__ == '__main__':
     if correction:
         binary_file_path = "../calcEnthalpy_old/new_phase_diagram/bokas_omegas_processed.json"
     else:
-        binary_file_path = "../data/output_data/bokasCorrected_bcc_1/all_lattices_binaries.json"
+        binary_file_path = "data/output_data/bokasCorrected_bcc_1/all_lattices_binaries.json"
     
     end_member_path = "../calcEnthalpy_old/new_phase_diagram/bokas_end_members_dict.json"
     pD = phaseDiagram(

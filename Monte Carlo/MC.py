@@ -254,8 +254,8 @@ def main(ele_dict: dict,
 
 if __name__ == "__main__":
     lookup, ele_assign = enthalpy_model_lookup(source="pravan",
-                                               lattice="bcc",
-                                               folder_path="../data/input_data")
+											   lattice="bcc",
+											   folder_path="../calculateEnthalpy/data/input_data")
     rep_unit = 12
     ele_dict = {
         'Cr': 0.5,
