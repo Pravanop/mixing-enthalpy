@@ -1,14 +1,14 @@
-from typing import Union
-
+from typing import Union, List, Dict
 import numpy as np
 import pandas as pd
 from scipy.integrate import quad
-from calcEnthalpy_package.grids_and_combinations.combination_generation import MultinaryCombinations  # Updated import
+from calcEnthalpy_package.grids_and_combinations.combination_generation import MultinaryCombinations
 
 
 class ThermoMaths:
 	"""
-	A set of functions to calculate thermodynamic properties such as enthalpy, entropy, Gibbs free energy, and vibrational energy.
+	A set of functions to calculate thermodynamic properties such as enthalpy, entropy, Gibbs free energy,
+	and vibrational energy.
 
 	Based on Zhang et al., "A Fast and Robust Method for Predicting the Phase Stability of Refractory Complex
 	Concentrated Alloys Using Pairwise Mixing Enthalpy". http://dx.doi.org/10.2139/ssrn.4081906
@@ -16,185 +16,131 @@ class ThermoMaths:
 	
 	def __init__(self):
 		"""
-		Initializes constants like the Boltzmann constant in eV/K.
+		Initializes the ThermoMaths class, setting the Boltzmann constant and loading the melting temperature
+		database.
 		"""
 		self.kb = 8.617e-05  # Boltzmann constant in eV/K
-		meltT_path = pd.read_csv(
-			"../database/PubChemElements_all.csv").to_numpy()
+		meltT_path = pd.read_csv("../database/PubChemElements_all.csv").to_numpy()
 		self.meltT = dict(zip(meltT_path[:, 0], meltT_path[:, 1]))
-		
+	
 	@staticmethod
-	def calc_pairwiseInteractionParameter(
-			mix_enthalpy: float,
-			mol_i: float,
-			mol_j: float) -> float:
+	def calc_pairwiseInteractionParameter(mix_enthalpy: float, mol_i: float, mol_j: float) -> float:
 		"""
 		Calculates the pairwise interaction parameter (omega_ij) from the binary mixing enthalpy.
 
-		Parameters
-		----------
-		mix_enthalpy : float
-			Binary equimolar mixing enthalpy of elements i and j.
-		mol_i : float
-			Mole fraction of element i.
-		mol_j : float
-			Mole fraction of element j.
+		Args:
+			mix_enthalpy (float): Binary equimolar mixing enthalpy of elements i and j.
+			mol_i (float): Mole fraction of element i.
+			mol_j (float): Mole fraction of element j.
 
-		Returns
-		-------
-		float
-			Pairwise interaction parameter in eV/atom.
+		Returns:
+			float: Pairwise interaction parameter in eV/atom.
 		"""
 		return mix_enthalpy / (mol_i * mol_j)
 	
-	def avg_T_melt(self, composition, mol_ratio):
+	def avg_T_melt(self, composition: Union[str, List[str]], mol_ratio: List[float]) -> float:
+		"""
+		Calculates the average melting temperature for a given alloy composition.
+
+		Args:
+			composition (Union[str, List[str]]): The element composition of the alloy.
+			mol_ratio (List[float]): The mole fractions of the elements.
+
+		Returns:
+			float: The average melting temperature.
+		"""
 		if isinstance(composition, str):
-			tm = self.meltT[composition]
-			return tm
+			return self.meltT[composition]
 		else:
 			tm = [self.meltT[ind] * mol_ratio[i] for i, ind in enumerate(composition)]
 			return int(sum(tm))
 	
 	@staticmethod
-	def calc_subregular_model_enthalpy(
-			mol_fraction: list[float],
-			omega1: float,
-			omega2: float) -> np.array:
+	def calc_subregular_model_enthalpy(mol_fraction: List[float], omega1: float, omega2: float) -> np.array:
 		"""
-		Calculates mixing enthalpy using a binary subregular model with cubic fit.
+		Calculates the enthalpy using the subregular model.
 
-		Parameters
-		----------
-		mol_fraction : list of float
-			List of molar fractions for the composition.
-		omega1 : float
-			Pairwise-interaction parameter 1.
-		omega2 : float
-			Pairwise-interaction parameter 2.
+		Args:
+			mol_fraction (List[float]): Mole fractions of the components.
+			omega1 (float): The first interaction parameter.
+			omega2 (float): The second interaction parameter.
 
-		Returns
-		-------
-		np.array
-			Mixing enthalpy value in eV/atom.
+		Returns:
+			np.array: The calculated enthalpy.
 		"""
 		x_i, x_j = mol_fraction
 		return x_i * x_j * (omega1 * x_i + omega2 * x_j)
 	
 	@staticmethod
-	def calc_regular_model_enthalpy(
-			mol_fraction: list[float],
-			omega: float) -> np.array:
+	def calc_regular_model_enthalpy(mol_fraction: List[float], omega: float) -> np.array:
 		"""
-		Calculates mixing enthalpy using a regular model.
+		Calculates the enthalpy using the regular model.
 
-		Parameters
-		----------
-		mol_fraction : list of float
-			List of molar fractions for the composition.
-		omega : float
-			Pairwise-interaction parameter in eV/atom.
+		Args:
+			mol_fraction (List[float]): Mole fractions of the components.
+			omega (float): The interaction parameter.
 
-		Returns
-		-------
-		np.array
-			Binary regular model enthalpy in eV/atom.
+		Returns:
+			np.array: The calculated enthalpy.
 		"""
 		x_i, x_j = mol_fraction
 		return x_i * x_j * omega
 	
-	def calc_configEntropy(self, mol_ratio: dict[str, float]) -> float:
+	def calc_configEntropy(self, mol_ratio: Dict[str, float]) -> float:
 		"""
-		Calculates Boltzmann configurational entropy.
+		Calculates the configurational entropy for a given mole ratio.
 
-		Parameters
-		----------
-		mol_ratio : dict
-			Dictionary of mole fractions corresponding to each element.
+		Args:
+			mol_ratio (Dict[str, float]): A dictionary of mole fractions for each element.
 
-		Returns
-		-------
-		float
-			Configurational entropy in eV/atom/K.
+		Returns:
+			float: The configurational entropy in eV/K.
+
+		Raises:
+			AssertionError: If the mole fractions do not sum to 1.
 		"""
 		assert round(sum(mol_ratio.values()), 3) == 1, "Mole fractions must sum to 1."
-		
-		entropy = -self.kb * sum([value * np.log(value) for value in mol_ratio.values()])
-		return entropy
+		return -self.kb * sum([value * np.log(value) for value in mol_ratio.values()])
 	
 	@staticmethod
 	def calc_gibbs_energy(enthalpy: float, entropy: float, temperature: float) -> float:
 		"""
-		Calculates Gibbs free energy using G = H - TS.
+		Calculates the Gibbs free energy.
 
-		Parameters
-		----------
-		enthalpy : float
-			Mixing enthalpy in eV/atom.
-		entropy : float
-			Configurational entropy in eV/atom/K.
-		temperature : float
-			Temperature in K.
+		Args:
+			enthalpy (float): The enthalpy value.
+			entropy (float): The entropy value.
+			temperature (float): The temperature in Kelvin.
 
-		Returns
-		-------
-		float
-			Gibbs free energy in eV/atom.
+		Returns:
+			float: The Gibbs free energy.
 		"""
 		return enthalpy - temperature * entropy
 	
-	def calc_debye_function(self, x: float = 0) -> float:
-		"""
-		Calculates the Debye function for vibrational energy calculation.
-
-		Parameters
-		----------
-		x : float
-			Upper limit for function integrand.
-
-		Returns
-		-------
-		float
-			Value of the Debye function.
-		"""
-		debye = 3 / (x ** 3)
-		
-		def integrand(t) -> float:
-			"""Integrand function for Debye integral."""
-			return (t ** 3) / (np.exp(t) - 1)
-		
-		integral = quad(integrand, 0, x)[0]
-		return debye * integral
-	
-	def calc_vibrational_energy(self, debye_temp: float, temp: float) -> float:
-		"""
-		Calculates vibrational energy using the Debye model.
-
-		Parameters
-		----------
-		debye_temp : float
-			Debye temperature in K.
-		temp : float
-			Temperature in K.
-
-		Returns
-		-------
-		float
-			Vibrational energy in eV.
-		"""
-		x = debye_temp / temp
-		energy = (9 / 8) * self.kb * debye_temp
-		energy += self.kb * temp * (3 * np.log(1 - np.exp(-x)) - self.calc_debye_function(x))
-		return energy
-	
 	def calc_mutinary_multilattice_mix_Enthalpy(self,
-												mol_ratio: dict[str:float],
-												binary_dict: dict[str:float],
-												end_member_dict: dict[str:float],
-												transition_temperatures: dict[str, list],
+												mol_ratio: Dict[str, float],
+												binary_dict: Dict[str, Dict[str, float]],
+												end_member_dict: Dict[str, Dict[str, float]],
+												transition_temperatures: Dict[str, List[Union[str, float]]],
 												correction: bool,
 												temperature: float,
-												model: str) -> Union[dict, int]:
-		
+												model: str) -> Union[Dict[str, float], int]:
+		"""
+		Calculates the multinary multilattice mixing enthalpy for an alloy system.
+
+		Args:
+			mol_ratio (Dict[str, float]): Mole ratios of the components.
+			binary_dict (Dict[str, Dict[str, float]]): Dictionary of binary mixing enthalpies.
+			end_member_dict (Dict[str, Dict[str, float]]): Dictionary of end member energies for each phase.
+			transition_temperatures (Dict[str, List[Union[str, float]]]): Transition temperatures and phases.
+			correction (bool): Whether to apply a correction for transition metals.
+			temperature (float): The temperature in Kelvin.
+			model (str): The thermodynamic model to use ("regular" or "subregular").
+
+		Returns:
+			Union[Dict[str, float], int]: A dictionary of mixing enthalpies for each lattice or 0 if
+										  the number of elements is less than 2.
+		"""
 		ele_list = list(mol_ratio.keys())
 		if len(ele_list) <= 1:
 			return 0
@@ -203,42 +149,29 @@ class ThermoMaths:
 		mix_enthalpy = {}
 		
 		if binaries:
-			
 			for binary in binaries.values():
 				for ele_pair in binary:
 					two_el = ele_pair.split("-")
 					mix_enthalpy_values = binary_dict[ele_pair]
 					
-					# Precompute mol_fraction once for the pair
 					mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
 					
 					for lattice, enthalpy in mix_enthalpy_values.items():
-						# Calculate interaction parameter or use pre-biased values
 						if not correction:
-							if model == "regular":
-								omega_ij = self.calc_pairwiseInteractionParameter(
-									mix_enthalpy=enthalpy, mol_i=0.5, mol_j=0.5
-								)
-							else:
-								omega_ij = self.calc_pairwiseInteractionParameter(
-									mix_enthalpy=enthalpy, mol_i=0.5, mol_j=0.5
-								)
+							omega_ij = self.calc_pairwiseInteractionParameter(
+								mix_enthalpy=enthalpy, mol_i=0.5, mol_j=0.5
+							)
 						else:
 							omega_ij = enthalpy  # biased values
 						
-						# Calculate enthalpy using the regular model
-						H_mix = self.calc_regular_model_enthalpy(
-							mol_fraction=mol_fraction, omega=omega_ij
-						)
+						H_mix = self.calc_regular_model_enthalpy(mol_fraction=mol_fraction, omega=omega_ij)
 						
 						if correction:
-							# Biasing correction for transition metals
 							temp_energies = {}
 							for end_member in two_el:
 								if end_member in transition_temperatures:
-									# Apply temperature correction for specific metals
 									transition_data = transition_temperatures[end_member]
-									if lattice == transition_data[1]:  # Phase with T transition
+									if lattice == transition_data[1]:
 										temp_energy = end_member_dict[end_member][lattice] - \
 													  (end_member_dict[end_member][lattice] *
 													   float(temperature) / transition_data[2])
@@ -247,14 +180,11 @@ class ThermoMaths:
 								else:
 									temp_energy = end_member_dict[end_member][lattice]
 								
-								# Store temp energy for each element
 								temp_energies[end_member] = temp_energy
 							
-							# Apply the biasing correction to H_mix
 							H_mix += temp_energies[two_el[1]] * mol_fraction[1] + \
 									 temp_energies[two_el[0]] * mol_fraction[0]
 						
-						# Add enthalpy contribution to the mix_enthalpy dictionary
 						if lattice not in mix_enthalpy:
 							mix_enthalpy[lattice] = H_mix
 						else:

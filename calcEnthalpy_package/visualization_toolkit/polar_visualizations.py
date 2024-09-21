@@ -1,5 +1,3 @@
-import os
-
 import numpy as np
 from matplotlib import pyplot as plt, cm
 from matplotlib.colors import Normalize
@@ -47,15 +45,19 @@ class PolarVisualizations:
                                           flags=meta_data['flags']
                                           )
         
-        self.cmap = cm.get_cmap('coolwarm')
+        self.cmap = cm.get_cmap('plasma')
         
         t_max = max([self.tm.avg_T_melt(i, mol_ratio=[]) for i in self.composition])
-        self.temp_grid = list(np.linspace(0, t_max, 30))
+        self.temp_gradation = 25
+        self.temp_grid = list(np.linspace(0, t_max, self.temp_gradation))
         self.norm = Normalize(vmin=0, vmax=t_max)
         self.conv_hull = self.grid_iterator.temp_iterator(composition=self.composition,
                                                           temp_grid=self.temp_grid)
         
-        self.x = np.linspace(0, 1, 20)
+        self.x = np.linspace(0, 1, 15)
+        self.figsize = (len(self.composition) + 1, len(self.composition) + 1)
+        self.linewidth = 9.5 - (len(self.composition) - 3)
+        
     
     @staticmethod
     def assign_rolling_slice(lst, start, new_values):
@@ -95,31 +97,20 @@ class PolarVisualizations:
         )
         return misc_temp
     
-    def plot_line(self, angle_degrees, x_values, temp_list, ax, cmap, norm, zorder):
-        angle_radians = np.radians(angle_degrees)
-        r_values = np.array(x_values)
-        for i in range(len(r_values)):
-            if i + 1 <= len(r_values):
-                ax.vlines(angle_radians,
-                          0,
-                          r_values[i],
-                          color=cmap(norm(temp_list[i])),
-                          linewidth=7,
-                          zorder=zorder + len(r_values) - i)
-    
     @staticmethod
     def distance_calculator(n, N):
         return 2 * 1 / np.sqrt((n - N))
     
     @staticmethod
     def draw_circle_in_polar(radius, ax):
-        # Create theta values from 0 to 2*pi (full circle)
         theta = np.linspace(0, 2 * np.pi, 100)
         
-        # Plot the circle by setting r constant (equal to the given radius)
-        ax.plot(theta, [radius] * len(theta), label=f'Circle with radius {radius}', linewidth=0.8, zorder=0,
+        ax.plot(theta, [radius] * len(theta),
+                label=f'Circle with radius {radius}',
+                linewidth=0.8, zorder=0,
                 color='black',
-                linestyle='--', alpha=0.1)
+                linestyle='--',
+                alpha=0.1)
     
     @staticmethod
     def find_indices(main_list, subset):
@@ -142,66 +133,38 @@ class PolarVisualizations:
     def total_num(n):
         return 2 ** n - 2
     
-    def total_plot(self):
-        n_alloy = len(self.composition)
-        fig, ax = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=(8, 8))
+    @staticmethod
+    def angle_assigner(length):
+        if length % 2 == 0:
+            angles = pm.divide_circle_degrees(length) / 2
+        else:
+            angles = pm.divide_circle_degrees(length)
         
-        line_colors = self.get_n_colors_from_cmap('Dark2', n_alloy - 1)
-        angles = pm.divide_circle_degrees(self.total_num(n_alloy))
-        count = 0
-        for idx2, N in enumerate(range(1, len(self.composition))):
-            if N == 1:
-                combs = self.composition
-            else:
-                combs = list(MultinaryCombinations.create_multinary(element_list=self.composition,
-                                                                    no_comb=[N]).values())[0]
-            
-            for idx, i in enumerate(combs):
-                angle = angles[count]
-                temp_i = i.split('-')
-                member_pos = self.find_indices(self.composition, temp_i)
-                angle_offset = 0
-                misc_temp_list = self.misc_temp(member_pos=member_pos,
-                                                x=self.x,
-                                                flag='add',
-                                                N=N)
-                self.plot_line(angle_degrees=angle, x_values=self.x * self.distance_calculator(n_alloy, N),
-                               temp_list=misc_temp_list,
-                               ax=ax,
-                               cmap=self.cmap,
-                               norm=self.norm,
-                               zorder=1)
-                angle_radians = np.radians(angle + angle_offset)
-                
-                ax.vlines(angle_radians, 0, (self.x * self.distance_calculator(n_alloy, n_alloy - 1))[-1], linestyles='-',
-                          color=line_colors[idx2], zorder=0, alpha=0.7, linewidth=1.2)
-                
-                rotation = self.text_flipper(angle=angle)
-                
-                ax.text(angle_radians, self.distance_calculator(n_alloy, n_alloy - 1) + N * 0.1, i, ha='center',
-                        va='center',
-                        color='black', rotation=rotation)
-                
-                count += 1
+        return angles
+    
+    @staticmethod
+    def text_flipper(angle):
+        if 90 < angle < 270:
+            rotation = angle + 180
+        else:
+            rotation = angle
         
-        for N in range(1, len(self.composition)):
-            self.draw_circle_in_polar(radius=self.distance_calculator(n_alloy, N), ax=ax)
-        
-        ax.scatter(0, 0, color=self.cmap(self.norm(misc_temp_list[0])), marker='o', s=140, zorder=100, edgecolor='black')
-        
-        ax.set_yticks([])
-        ax.set_xticks([])
-        ax.spines['polar'].set_visible(False)
-        ax.grid(False)
-        sm = plt.cm.ScalarMappable(cmap=self.cmap, norm=self.norm)
-        sm.set_array([])  # We need this for colorbar to work
-        cbar = plt.colorbar(sm, ax=ax, aspect=30, fraction=0.05, orientation='horizontal')  # Unified colorbar
-        cbar.set_label('$T_{misc}$', fontsize=12)
-        if self.save_flag:
-            updated_folder_path = DirHandler.mkdir_recursrive(folders = ['polar_plots', 'total'], folder_path="../plots")
-            plt.savefig(f'{updated_folder_path}{"".join(sorted(self.composition))}.png', dpi=100)
-        
-        return ax, fig
+        return rotation
+    
+    def scatter_center(self, scatter, ax):
+        ax.scatter(0, 0, color=self.cmap(self.norm(scatter)), marker='o', s=140, zorder=100, edgecolor='black')
+    
+    def plot_line(self, angle_degrees, x_values, temp_list, ax, cmap, norm, zorder):
+        angle_radians = np.radians(angle_degrees)
+        r_values = np.array(x_values)
+        for i in range(len(r_values)):
+            if i + 1 <= len(r_values):
+                ax.vlines(angle_radians,
+                          0,
+                          r_values[i],
+                          color=cmap(norm(temp_list[i])),
+                          linewidth=self.linewidth,
+                          zorder=zorder + len(r_values) - i)
     
     def plot_colored_secant(self, ax, radius, angle_start, angle_end, misc_temp_list_sec, cmap, norm, zorder=50):
         n_segments = len(misc_temp_list_sec)
@@ -218,39 +181,93 @@ class PolarVisualizations:
             if idx + 1 < len(misc_temp_list_sec):
                 x_coord = [theta[idx], theta[idx + 1]]
                 y_coord = [radius[idx], radius[idx + 1]]
-                ax.plot(x_coord, y_coord, c=cmap(norm(misc_temp_list_sec[idx])), linewidth=7,
+                ax.plot(x_coord, y_coord, c=cmap(norm(misc_temp_list_sec[idx])), linewidth=self.linewidth,
                         zorder=zorder + len(misc_temp_list_sec) - idx)
     
-    @staticmethod
-    def angle_assigner(length):
-        if length % 2 == 0:
-            angles = pm.divide_circle_degrees(length) / 2
-        else:
-            angles = pm.divide_circle_degrees(length)
-        
-        return angles
+    def set_ax_params(self, ax):
+        ax.set_yticks([])
+        ax.set_xticks([])
+        ax.spines['polar'].set_visible(False)
+        ax.grid(False)
+        sm = plt.cm.ScalarMappable(cmap=self.cmap, norm=self.norm)
+        sm.set_array([])  # We need this for colorbar to work
+        cbar = plt.colorbar(sm, ax=ax, aspect=30, fraction=0.05, orientation='horizontal')  # Unified colorbar
+        cbar.set_label('$T_{misc}$', fontsize=12)
     
-    @staticmethod
-    def text_flipper(angle):
-        if angle > 90 and angle < 270:
-            rotation = angle + 180
-        else:
-            rotation = angle
+    def make_one_bar(self, ax, n_alloy, member_pos, i, N, angle, idx2):
         
-        return rotation
+        line_colors = self.get_n_colors_from_cmap('Dark2', len(self.composition) - 1)
+        misc_temp_list = self.misc_temp(member_pos=member_pos,
+                                        x=self.x,
+                                        flag='add',
+                                        N=N)
+        self.plot_line(angle_degrees=angle, x_values=self.x * self.distance_calculator(n_alloy, N),
+                       temp_list=misc_temp_list,
+                       ax=ax,
+                       cmap=self.cmap,
+                       norm=self.norm,
+                       zorder=1)
+        angle_radians = np.radians(angle)
+        
+        ax.vlines(angle_radians, 0, (self.x * self.distance_calculator(n_alloy, n_alloy - 1))[-1], linestyles='-',
+                  color=line_colors[idx2], zorder=0, alpha=0.7, linewidth=2)
+        
+        rotation = self.text_flipper(angle=angle)
+        
+        ax.text(angle_radians,
+                self.distance_calculator(n_alloy, n_alloy - 1) + N*0.15 - 0.01*(n_alloy),
+                i,
+                ha='center',
+                va='center',
+                color='black',
+                rotation=rotation)
+        
+        return misc_temp_list[0]
+    
+    def total_plot(self):
+        n_alloy = len(self.composition)
+        fig, ax = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=self.figsize)
+        
+        angles = pm.divide_circle_degrees(self.total_num(n_alloy))
+        count = 0
+        scatter = 0
+        for idx2, N in enumerate(range(1, len(self.composition))):
+            if N == 1:
+                combs = self.composition
+            else:
+                combs = list(MultinaryCombinations.create_multinary(element_list=self.composition,
+                                                                    no_comb=[N]).values())[0]
+            
+            for idx, i in enumerate(combs):
+                angle = angles[count]
+                temp_i = i.split('-')
+                member_pos = self.find_indices(self.composition, temp_i)
+                scatter = self.make_one_bar(ax, n_alloy, member_pos, i, N, angle, idx2)
+                
+                count += 1
+        
+        for N in range(1, len(self.composition)):
+            self.draw_circle_in_polar(radius=self.distance_calculator(n_alloy, N), ax=ax)
+        
+        self.scatter_center(scatter, ax)
+        
+        self.set_ax_params(ax)
+        if self.save_flag:
+            updated_folder_path = DirHandler.mkdir_recursrive(folders=['polar_plots', 'total'], folder_path="../plots")
+            plt.savefig(f'{updated_folder_path}{"".join(sorted(self.composition))}.png', dpi=100)
+        
+        return ax, fig
     
     def plot_N(self, N_ind, transmute_indices):
         n_alloy = len(self.composition)
-       
-        fig, ax = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=(10, 10))
+        
+        fig, ax = plt.subplots(subplot_kw={'projection': 'polar'}, figsize=self.figsize)
         
         melt_T = []
         for idx, i in enumerate(self.composition):
             mol_ratio = [1 if idx == i else 0 for i in range(n_alloy)]
             melt_T.append(self.tm.avg_T_melt(composition=[i], mol_ratio=mol_ratio))
-        
-        line_colors = self.get_n_colors_from_cmap('Dark2', n_alloy - 1)
-        
+    
         count = 0
         if N_ind == 1:
             combs = self.composition
@@ -274,29 +291,9 @@ class PolarVisualizations:
                 temp_i = i.split('-')
                 member_pos = self.find_indices(self.composition, temp_i)
                 N = len(temp_i)
-                misc_temp_list = self.misc_temp(member_pos=member_pos,
-                                                x=self.x,
-                                                flag='add',
-                                                N=N)
-                scatter = misc_temp_list[0]
-                self.plot_line(angle_degrees=angle,
-                               x_values=self.x * self.distance_calculator(n_alloy, N),
-                               temp_list=misc_temp_list,
-                               ax=ax,
-                               cmap=self.cmap,
-                               norm=self.norm,
-                               zorder=1)
+                scatter = self.make_one_bar(ax, n_alloy, member_pos, i, N, angle, idx2)
+                
                 angle_radians = np.radians(angle)
-                
-                ax.vlines(angle_radians, 0, (self.x * self.distance_calculator(n_alloy, n_alloy - 1))[-1], linestyles='-',
-                          color=line_colors[idx2], zorder=0, alpha=0.7, linewidth=1.2)
-                
-                rotation = self.text_flipper(angle)
-                ax.text(angle_radians, self.distance_calculator(n_alloy, n_alloy - 1) + N * 0.1, i, ha='center',
-                        va='center',
-                        color='black', rotation=rotation)
-                
-                #
                 if transmute_indices:
                     if idx2 != 0 and idx == min(transmute_indices):
                         misc_temp_list_sec = self.misc_temp(member_pos=transmute_indices,
@@ -311,21 +308,15 @@ class PolarVisualizations:
                                                  misc_temp_list_sec,
                                                  cmap=self.cmap,
                                                  norm=self.norm)
-
+                self.draw_circle_in_polar(radius=self.distance_calculator(n_alloy, N), ax=ax)
                 count += 1
         
-        ax.scatter(0, 0, color=self.cmap(self.norm(scatter)), marker='o', s=140, zorder=100, edgecolor='black')
+        self.scatter_center(scatter, ax)
+        self.set_ax_params(ax)
         
-        ax.set_yticks([])
-        ax.set_xticks([])
-        ax.spines['polar'].set_visible(False)
-        ax.grid(False)
-        sm = plt.cm.ScalarMappable(cmap=self.cmap, norm=self.norm)
-        sm.set_array([])  # We need this for colorbar to work
-        cbar = plt.colorbar(sm, ax=ax, aspect=30, fraction=0.05, orientation='horizontal')  # Unified colorbar
-        cbar.set_label('$T_{misc}$', fontsize=12)
         if self.save_flag:
-            updated_folder_path = DirHandler.mkdir_recursrive(folders=['polar_plots', f'{N_ind}'], folder_path="../plots")
+            updated_folder_path = DirHandler.mkdir_recursrive(folders=['polar_plots', f'{N_ind}'],
+                                                              folder_path="../plots")
             plt.savefig(f'{updated_folder_path}{"".join(sorted(self.composition))}.png', dpi=100)
         
         return ax, fig

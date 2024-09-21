@@ -1,6 +1,5 @@
 import itertools
-import os.path
-from typing import Union
+from typing import List, Dict, Tuple
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -13,19 +12,45 @@ from calcEnthalpy_package.phase_diagram.grid_iterators import GridIterator
 
 
 class PathwayVisualizations:
+	"""
+	A class for visualizing reaction pathways for a given alloy composition and lattice structure.
+
+	Args:
+		composition (list): A list of elements in the alloy system.
+		lattice (str): The lattice structure to consider (e.g., 'FCC', 'BCC').
+		meta_data (dict): A dictionary containing metadata such as grid size, file paths, and flags.
+		save_flag (bool): A flag indicating whether to save the visualizations.
+
+	Attributes:
+		tm (ThermoMaths): An instance of the ThermoMaths class for thermodynamic calculations.
+		grid_iterator (GridIterator): An instance of the GridIterator class for grid-based iteration.
+		temp_grid (list): A list of temperature values for the convex hull calculations.
+		conv_hull (dict): A dictionary containing convex hull data for the alloy system.
+		mol_grid_size (int): The size of the mole fraction grid.
+		save_flag (bool): A flag indicating whether to save the generated plots.
+	"""
 	
 	def __init__(self,
-				 composition: list,
+				 composition: List[str],
 				 lattice: str,
 				 meta_data: dict,
 				 save_flag: bool):
-		
+		"""
+		Initializes the PathwayVisualizations class with the alloy composition, lattice type, and metadata.
+
+		Args:
+			composition (list): A list of elements in the alloy system.
+			lattice (str): The lattice structure (e.g., 'FCC', 'BCC').
+			meta_data (dict): A dictionary containing metadata such as grid size, file paths, and flags.
+			save_flag (bool): A flag indicating whether to save the visualizations.
+		"""
 		self.lattice = lattice
 		self.composition = composition
 		
 		self.tm = ThermoMaths()
 		grid_size = meta_data['grid_size']
 		
+		# Load data based on the correction flag
 		if meta_data['flags']['correction']:
 			data = JSONHandler.load_json(folder_path=meta_data['folder_path'],
 										 file_name=meta_data['file_name']['biased'])
@@ -40,8 +65,8 @@ class PathwayVisualizations:
 										  data=data,
 										  end_member=end_member,
 										  api_key=meta_data['api_key'],
-										  flags=meta_data['flags']
-										  )
+										  flags=meta_data['flags'])
+		
 		t_max = max([self.tm.avg_T_melt(i, mol_ratio=[]) for i in self.composition])
 		self.temp_grid = list(np.linspace(0, t_max, 30))
 		self.conv_hull = self.grid_iterator.temp_iterator(composition=self.composition,
@@ -50,11 +75,22 @@ class PathwayVisualizations:
 		self.mol_grid_size = 5
 		self.save_flag = save_flag
 	
-	def get_rP(self):
+	def get_rP(self) -> Dict[str, List[np.ndarray]]:
+		"""
+		Calculates reaction pathways for the alloy system and returns miscibility temperatures for each pathway.
+
+		Returns:
+			dict: A dictionary where the keys are reaction pathways (e.g., 'Fe-Ni') and the values are lists of
+			miscibility temperatures along each pathway.
+
+		Example:
+			path_dict = self.get_rP()
+		"""
 		all_pathways = list(itertools.permutations(self.composition, len(self.composition)))
 		
 		path_dict = {}
 		self.x = list(np.linspace(0, 1, self.mol_grid_size))
+		
 		for path in all_pathways:
 			path = list(path)
 			count = 0
@@ -84,20 +120,40 @@ class PathwayVisualizations:
 						misc_temp[idx] = 5000
 				
 				if count == 0:
-					misc_temp[0] = self.tm.avg_T_melt(composition=path[:count + 1][0],
-													  mol_ratio=[])
+					misc_temp[0] = self.tm.avg_T_melt(composition=path[:count + 1][0], mol_ratio=[])
+				
 				temp_path.append(misc_temp)
 				count += 1
 			path_dict['-'.join(path)] = temp_path
+		
 		return path_dict
 	
 	@staticmethod
-	def get_n_colors_from_cmap(cmap_name, N):
-		cmap = plt.get_cmap(cmap_name)  # Get the colormap
-		colors = [cmap(i) for i in np.linspace(0, 1, N)]  # Get N evenly spaced colors
+	def get_n_colors_from_cmap(cmap_name: str, N: int) -> List[tuple]:
+		"""
+		Generates N evenly spaced colors from a given colormap.
+
+		Args:
+			cmap_name (str): The name of the colormap to use.
+			N (int): The number of colors to generate.
+
+		Returns:
+			List[tuple]: A list of RGB tuples representing the colors.
+		"""
+		cmap = plt.get_cmap(cmap_name)
+		colors = [cmap(i) for i in np.linspace(0, 1, N)]
 		return colors
 	
-	def text_segregators(self, texts):
+	def text_segregators(self, texts: np.ndarray) -> Dict[str, Tuple[float, float]]:
+		"""
+		Groups text labels by their proximity and returns their adjusted positions for plotting.
+
+		Args:
+			texts (np.ndarray): An array of text labels and their positions.
+
+		Returns:
+			dict: A dictionary where the keys are concatenated text labels and the values are their adjusted positions.
+		"""
 		x_dict = {}
 		for text in texts:
 			if text[1] not in x_dict:
@@ -110,66 +166,73 @@ class PathwayVisualizations:
 			value = np.array(value)
 			y = value[:, -1].astype(float)
 			list_together = self.find_indices_in_range(y, threshold=200)
-			print(list_together)
 			for i in list_together:
-				temp_text = ""
-				for j in i:
-					temp_text += f"{value[j, 0]}"
-					temp_text += ", "
-				temp_text = temp_text[:-2]
-				text_dict[temp_text] = [float(value[j, 1]) - 0.02*len(temp_text), float(value[j, 2])]
+				temp_text = "".join(f"{value[j, 0]}, " for j in i)[:-2]
+				text_dict[temp_text] = [float(value[j, 1]) - 0.02 * len(temp_text), float(value[j, 2])]
 		
 		return text_dict
 	
 	@staticmethod
-	def find_indices_in_range(float_list, threshold=200):
+	def find_indices_in_range(float_list: np.ndarray, threshold: float = 200) -> List[List[int]]:
+		"""
+		Finds groups of indices in the input list where values are within the specified threshold.
+
+		Args:
+			float_list (np.ndarray): A list of float values to compare.
+			threshold (float, optional): The maximum difference between values to group them. Default is 200.
+
+		Returns:
+			List[List[int]]: A list of lists where each inner list contains indices of grouped values.
+		"""
 		indices_groups = []
-		visited = set()  # To track already processed elements
+		visited = set()
 		
 		for i in range(len(float_list)):
 			if i in visited:
-				continue  # Skip elements already part of a group
+				continue
 			
-			current_group = [i]  # Start a new group with the current index
-			
-			# Compare the current element with all subsequent elements
+			current_group = [i]
 			for j in range(i + 1, len(float_list)):
 				if abs(float_list[i] - float_list[j]) <= threshold:
 					current_group.append(j)
-					visited.add(j)  # Mark the index as visited
+					visited.add(j)
 			
-			# if len(current_group) > 1:
-			indices_groups.append(current_group)  # Only keep groups with more than 1 element
+			indices_groups.append(current_group)
 		
 		return indices_groups
 	
-	def plot_rP(self):
-		
+	def plot_rP(self) -> Tuple[plt.Axes, plt.Figure]:
+		"""
+		Plots the reaction pathways for the alloy system and the corresponding miscibility temperatures.
+
+		Returns:
+			Tuple[plt.Axes, plt.Figure]: A tuple containing the matplotlib axes and figure objects for the plot.
+
+		Example:
+			ax, fig = self.plot_rP()
+		"""
 		path_dict = self.get_rP()
-		# print(path_dict)
 		cmap = self.get_n_colors_from_cmap(cmap_name='coolwarm', N=len(self.composition))
 		cmap_dict = dict(zip(self.composition, cmap))
+		
 		texts = []
 		fig, ax = plt.subplots()
+		
 		for key, value in path_dict.items():
 			path = key.split('-')
 			for idx, i in enumerate(value):
-				
 				x = np.array(self.x) + idx
 				y = np.array(i)
-				# ax.scatter(x[0], y[0], s=20, c='black', zorder=1)
 				ax.axvline(x=x[0], color='#BBBBBB', alpha=0.3, linestyle='--', zorder=0)
 				temp = key.split('-')[:idx + 1]
 				texts.append([''.join(sorted(temp)), x[0], y[0]])
 				
 				if idx == len(value) - 1:
-					# ax.scatter(x[-1], y[-1], s=20, c='black', zorder=1)
 					texts.append([''.join(sorted(self.composition)), x[-1], y[-1]])
 				
 				ax.plot(x, y, zorder=0, color=cmap_dict[path[0]])
 		
-		texts = np.array(texts)
-		texts = np.unique(texts, axis=0)
+		texts = np.unique(np.array(texts), axis=0)
 		text_dict = self.text_segregators(texts)
 		
 		for key, value in text_dict.items():
@@ -184,7 +247,7 @@ class PathwayVisualizations:
 		ax.set_xlabel('Reaction Coordinate', fontsize=12)
 		
 		if self.save_flag:
-			updated_folder_path = DirHandler.mkdir_recursrive(
+			updated_folder_path = DirHandler.mkdir_recursive(
 				folders=['pathways_plots'], folder_path="../plots")
 			fig.savefig(f"{updated_folder_path}{'-'.join(sorted(self.composition))}.png", dpi=100)
 		

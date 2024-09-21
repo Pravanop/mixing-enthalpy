@@ -1,5 +1,5 @@
 import os
-from typing import Union
+from typing import Union, List, Tuple, Literal
 import seaborn as sns
 import numpy as np
 import pandas as pd
@@ -13,29 +13,50 @@ from calcEnthalpy_package.grids_and_combinations import grid_creation
 
 
 class MatrixHeatmap:
+	"""
+	A class to create heatmaps for visualizing energy above the convex hull (E_hull) for a given alloy system.
+
+	Args:
+		composition (list): The initial list of elements in the alloy system.
+		add_ele (Union[list, str]): The additional elements to be added or transmuted in the alloy system.
+		lattice (str): The lattice structure (e.g., 'FCC', 'BCC').
+		meta_data (dict): A dictionary containing metadata such as grid size, file paths, and flags.
+		save_flag (bool): A flag indicating whether the heatmap should be saved.
+		type (str, optional): Specifies whether the elements are being 'added' or 'transmutated'. Default is 'add'.
+	"""
 	
 	def __init__(self,
-				 composition: list,
-				 add_ele: Union[list, str],
+				 composition: List[str],
+				 add_ele: Union[List[str], str],
 				 lattice: str,
 				 meta_data: dict,
 				 save_flag: bool,
-				 type: str = 'add'):
+				 type: Literal['add', 'transmutate']):
+		"""
+		Initialize the MatrixHeatmap class with alloy composition, lattice type, and additional elements.
+
+		Args:
+			composition (list): The initial list of elements in the alloy system.
+			add_ele (Union[list, str]): The additional elements to be added or transmuted.
+			lattice (str): The lattice structure (e.g., 'FCC', 'BCC').
+			meta_data (dict): A dictionary containing metadata such as grid size, file paths, and flags.
+			save_flag (bool): A flag indicating whether the heatmap should be saved.
+			type (str, optional): Specifies whether the elements are being 'added' or 'transmutated'. Default is 'add'.
+		"""
+		self.x = None
 		self.composition = composition
 		if isinstance(add_ele, str):
 			self.add_ele = [add_ele]
 		else:
 			self.add_ele = add_ele
 		
-		self.total_composition = self.composition + self.add_ele
-		self.total_composition = list(set(self.total_composition))
+		self.total_composition = list(set(self.composition + self.add_ele))
 		
 		if type == 'add':
 			self.N = len(self.composition)
 			self.n = len(self.total_composition)
 			self.n_alloy = len(self.composition)
 			self.starting_index = self.find_indices(self.total_composition, self.composition)
-			print(self.starting_index)
 		elif type == 'transmutate':
 			assert len(self.add_ele) == 2
 			assert self.add_ele[0] in self.composition
@@ -67,24 +88,41 @@ class MatrixHeatmap:
 										  data=data,
 										  end_member=end_member,
 										  api_key=meta_data['api_key'],
-										  flags=meta_data['flags']
-										  )
+										  flags=meta_data['flags'])
 		
 		self.save_flag = save_flag
 	
 	@staticmethod
-	def find_indices(main_list, subset):
+	def find_indices(main_list: List[str], subset: List[str]) -> List[int]:
+		"""
+		Find the indices of a subset of elements in the main list.
+
+		Args:
+			main_list (List[str]): The main list of elements.
+			subset (List[str]): The subset of elements whose indices are to be found.
+
+		Returns:
+			List[int]: A list of indices where the subset elements appear in the main list.
+		"""
 		indices = []
 		for value in subset:
 			try:
-				index = main_list.index(value)  # Find the index of the value in the main list
+				index = main_list.index(value)
 				indices.append(index)
 			except ValueError:
-				indices.append(None)  # If the value is not found, append None or handle as needed
+				indices.append(None)
 		return indices
 	
-	def get_ehull_matrix(self):
-		
+	def get_ehull_matrix(self) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
+		"""
+		Calculates the energy above the convex hull (E_hull) for the alloy system and returns the data as a matrix.
+
+		Returns:
+			Tuple[np.ndarray, np.ndarray, np.ndarray]: A tuple containing:
+				- mol_grid (np.ndarray): The mole fraction grid.
+				- e_hulls (np.ndarray): The energy above the convex hull values.
+				- temp_grid (np.ndarray): The temperature grid.
+		"""
 		self.x = list(np.linspace(0, 1, self.mol_grid_size))
 		
 		if self.type == 'add':
@@ -96,12 +134,10 @@ class MatrixHeatmap:
 			)
 		elif self.type == 'transmutate':
 			mol_grid = grid_creation.CompositionGrid.create_mol_grid_transmutation(
-				x = self.x,
+				x=self.x,
 				n=self.n,
 				transmutation_indice=self.transmutation_indice
 			)
-		# print(mol_grid)
-		mol_grid = mol_grid[::-1]
 		
 		mol_grid, e_hulls, temp_grid = self.grid_iterator.e_hull_across_grid(
 			composition=self.total_composition,
@@ -112,22 +148,28 @@ class MatrixHeatmap:
 		)
 		return mol_grid, e_hulls, temp_grid
 	
-	def plot_ehull_matrix(self):
-		
+	def plot_ehull_matrix(self) -> Tuple[plt.Axes, plt.Figure]:
+		"""
+		Plots the energy above the convex hull (E_hull) as a heatmap.
+
+		Returns:
+			Tuple[plt.Axes, plt.Figure]: A tuple containing:
+				- ax (plt.Axes): The matplotlib axes object for the plot.
+				- fig (plt.Figure): The matplotlib figure object for the plot.
+		"""
 		mol_grid, e_hulls, temp_grid = self.get_ehull_matrix()
 		
 		df = pd.DataFrame(e_hulls)
 		df.columns = temp_grid
-		
 		df = df.T
 		df = df.apply(lambda x: x * 1000)
+		
 		positions = []
 		for col in df.columns:
 			try:
 				first_zero_index = df[df[col] == 0].index[0]
 			except IndexError:
 				first_zero_index = df.index[-1]
-			
 			positions.append(first_zero_index)
 		
 		cmap = sns.cubehelix_palette(start=.5, rot=-.61, light=.98, dark=.35, hue=1, as_cmap=True)
@@ -137,8 +179,7 @@ class MatrixHeatmap:
 		g = sns.heatmap(df,
 						yticklabels=np.array(temp_grid).astype(int),
 						cmap=cmap,
-						# xticklabels=np.round(mol_grid[:,-1],2),
-						xticklabels=np.round(self.x,2),
+						xticklabels=np.round(self.x, 2),
 						cbar_kws={'label': '$E_{hull}$ (meV/atom)', "shrink": 0.8},
 						ax=ax)
 		g.set_yticklabels(g.get_yticklabels(), rotation=0)
@@ -156,24 +197,23 @@ class MatrixHeatmap:
 				ax.plot([idx, idx], [count_prev, idx2], color='black', linestyle='--')
 				count_prev = idx2
 			ax.plot([idx, idx + 1], [idx2, idx2], color='black', linestyle='--')
+		
 		ax.text(s='-'.join(self.composition), y=-1, x=-1)
-		ax.text(s='-'.join(self.end_composition), y=-1, x=len(mol_grid)-0.3)
+		ax.text(s='-'.join(self.end_composition), y=-1, x=len(mol_grid) - 0.3)
 		ax.set_xlabel("X")
 		ax.set_ylabel("T (K)")
 		plt.subplots_adjust(bottom=0.15, top=0.9, left=0.14, right=0.98)
-
+		
 		if self.save_flag:
 			if self.type == 'transmutate':
-				updated_folder_path = DirHandler.mkdir_recursrive(
+				updated_folder_path = DirHandler.mkdir_recursive(
 					folders=['heatmap_plots', "transmutate"], folder_path="../plots")
-			
-				fig.savefig(
-					fname=f"{updated_folder_path}{''.join(self.composition)}_{''.join(self.end_composition)}.png",
-					dpi=100)
+				fig.savefig(f"{updated_folder_path}{''.join(self.composition)}_{''.join(self.end_composition)}.png",
+							dpi=100)
 			elif self.type == 'add':
-				updated_folder_path = DirHandler.mkdir_recursrive(
+				updated_folder_path = DirHandler.mkdir_recursive(
 					folders=['heatmap_plots', "add"], folder_path="../plots")
-				fig.savefig(
-					fname=f"{updated_folder_path}{''.join(self.total_composition)}_{''.join(self.composition)}.png",
-					dpi=100)
+				fig.savefig(f"{updated_folder_path}{''.join(self.total_composition)}_{''.join(self.composition)}.png",
+							dpi=100)
+		
 		return ax, fig

@@ -1,4 +1,4 @@
-from pymatgen.core import Composition, Element
+from pymatgen.core import Composition
 from pymatgen.entries import Entry
 
 class PDEntryLocal(Entry):

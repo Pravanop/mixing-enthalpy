@@ -3,39 +3,45 @@ import numpy as np
 
 class CompositionGrid:
 	"""
-	A class to generate N-1 dimensional grids for alloy compositions.
+	A class for generating mole fraction grids and handling high-symmetry and transmutation
+	operations for compositions of chemical elements.
 
-	Methods
-	-------
-	create_mol_grid(n: int, grid_size: int) -> np.ndarray:
-		Generates a grid of compositions with a linear edge density of grid_size.
-	generate_points(n: int, linspace: np.ndarray) -> np.ndarray:
-		Generates grid points in N-1 dimensions.
-	filter_valid_points(points: np.ndarray) -> np.ndarray:
-		Filters points where the sum of mole fractions is <= 1.
+	Methods:
+		create_mol_grid(n, grid_size):
+			Creates a grid of mole fractions for an n-component system.
+
+		generate_points(n, linspace):
+			Generates points from the provided linspace for (n-1) components.
+
+		filter_valid_points(points):
+			Filters out points whose component sums exceed 1.
+
+		create_high_sym_mol_grid(change_idx, x, n, N):
+			Creates high-symmetry mole fraction grids based on the provided indices.
+
+		create_mol_grid_transmutation(transmutation_indice, n, x):
+			Creates a mole fraction grid with transmutation between two components.
 	"""
 	
 	@staticmethod
 	def create_mol_grid(n: int, grid_size: int) -> np.ndarray:
 		"""
-		Generate N-1 dimensional grid with a linear edge density of grid_size.
+		Create a grid of mole fractions for an n-component system.
 
-		Parameters
-		----------
-		n : int
-			Number of elements in the alloy system (must be greater than 1).
-		grid_size : int
-			Linear point density on edges of the grid (must be greater than 1).
+		Args:
+			n (int): The number of components in the system.
+			grid_size (int): The number of grid points to generate per component.
 
-		Returns
-		-------
-		np.ndarray
-			A grid of compositions (N points) with valid mole fractions.
+		Returns:
+			np.ndarray: A grid of shape (grid_size, n), where each row represents the mole fractions of
+						the components and all rows sum to 1.
 
-		Raises
-		------
-		ValueError
-			If n is less than 2 or grid_size is less than 2.
+		Raises:
+			ValueError: If `n` or `grid_size` is less than 2.
+
+		Example:
+			grid = CompositionGrid.create_mol_grid(3, 10)
+			# grid is a 2D numpy array of mole fractions for a ternary system.
 		"""
 		if n < 2:
 			raise ValueError("n must be greater than 1")
@@ -59,19 +65,15 @@ class CompositionGrid:
 	@staticmethod
 	def generate_points(n: int, linspace: np.ndarray) -> np.ndarray:
 		"""
-		Generates the grid points in N-1 dimensions.
+		Generate points from the provided linspace for (n-1) components.
 
-		Parameters
-		----------
-		n : int
-			Number of elements in the alloy system.
-		linspace : np.ndarray
-			An array of evenly spaced values between 0 and 1 for grid points.
+		Args:
+			n (int): The number of components in the system.
+			linspace (np.ndarray): A 1D array of grid points for each component.
 
-		Returns
-		-------
-		np.ndarray
-			A reshaped array of grid points in N-1 dimensions.
+		Returns:
+			np.ndarray: A 2D array of shape (grid_size^(n-1), n-1) containing grid points
+						for the first (n-1) components.
 		"""
 		mesh = np.array(np.meshgrid(*[linspace] * (n - 1)))
 		return mesh.T.reshape(-1, n - 1)
@@ -79,27 +81,33 @@ class CompositionGrid:
 	@staticmethod
 	def filter_valid_points(points: np.ndarray) -> np.ndarray:
 		"""
-		Filters points where the sum of mole fractions is <= 1.
+		Filter out points where the sum of the components exceeds 1.
 
-		Parameters
-		----------
-		points : np.ndarray
-			Array of points in N-1 dimensions.
+		Args:
+			points (np.ndarray): A 2D array of points representing the mole fractions of
+								 the first (n-1) components.
 
-		Returns
-		-------
-		np.ndarray
-			Filtered array of valid points where the sum of mole fractions is <= 1.
+		Returns:
+			np.ndarray: A filtered 2D array containing only the points whose sums are less
+						than or equal to 1.
 		"""
 		return points[np.sum(points, axis=1) <= 1]
 	
 	@staticmethod
-	def create_high_sym_mol_grid(
-			change_idx: list[int],
-			x: list,
-			n: int,
-			N: int):
-		
+	def create_high_sym_mol_grid(change_idx: List[int], x: List[float], n: int, N: int) -> np.ndarray:
+		"""
+		Create a high-symmetry mole fraction grid based on the provided indices.
+
+		Args:
+			change_idx (List[int]): Indices of the components to modify in the grid.
+			x (List[float]): List of mole fractions to use for the grid.
+			n (int): The total number of components in the system.
+			N (int): The number of components to symmetrically modify.
+
+		Returns:
+			np.ndarray: A 2D array where each row represents a high-symmetry configuration
+						of the components.
+		"""
 		mol_list = []
 		for mol in x:
 			addition = np.zeros(n)
@@ -111,10 +119,19 @@ class CompositionGrid:
 		return np.array(mol_list)
 	
 	@staticmethod
-	def create_mol_grid_transmutation(transmutation_indice: list,
-									  n: int,
-									  x: list):
-		
+	def create_mol_grid_transmutation(transmutation_indice: List[int], n: int, x: List[float]) -> np.ndarray:
+		"""
+		Create a mole fraction grid with transmutation between two components.
+
+		Args:
+			transmutation_indice (List[int]): Indices of the components undergoing transmutation.
+			n (int): The total number of components in the system.
+			x (List[float]): List of mole fractions for transmutation.
+
+		Returns:
+			np.ndarray: A 2D array where each row represents a configuration with
+						transmuted mole fractions between two components.
+		"""
 		mols = []
 		for i in x:
 			subtract = np.zeros(n)
