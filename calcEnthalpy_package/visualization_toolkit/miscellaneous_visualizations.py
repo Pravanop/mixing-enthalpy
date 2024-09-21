@@ -109,7 +109,7 @@ class MiscellaneousVisualizations:
 			ax.text(s=i, x=vert[idx][0], y=vert[idx][1], fontsize=12)
 		
 		if self.save_flag:
-			updated_folder_path = DirHandler.mkdir_recursrive(
+			updated_folder_path = DirHandler.mkdir_recursive(
 				folders=['convex_hull', f'{len(composition)}', f'{"".join(sorted(composition))}'],
 				folder_path='../plots'
 			)

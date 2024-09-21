@@ -167,14 +167,14 @@ class MatrixHeatmap:
 
 		if self.save_flag:
 			if self.type == 'transmutate':
-				updated_folder_path = DirHandler.mkdir_recursrive(
+				updated_folder_path = DirHandler.mkdir_recursive(
 					folders=['heatmap_plots', "transmutate"], folder_path="../plots")
 			
 				fig.savefig(
 					fname=f"{updated_folder_path}{''.join(self.composition)}_{''.join(self.end_composition)}.png",
 					dpi=100)
 			elif self.type == 'add':
-				updated_folder_path = DirHandler.mkdir_recursrive(
+				updated_folder_path = DirHandler.mkdir_recursive(
 					folders=['heatmap_plots', "add"], folder_path="../plots")
 				fig.savefig(
 					fname=f"{updated_folder_path}{''.join(self.total_composition)}_{''.join(self.composition)}.png",

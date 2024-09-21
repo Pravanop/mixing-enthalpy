@@ -253,7 +253,7 @@ class PolarVisualizations:
         
         self.set_ax_params(ax)
         if self.save_flag:
-            updated_folder_path = DirHandler.mkdir_recursrive(folders=['polar_plots', 'total'], folder_path="../plots")
+            updated_folder_path = DirHandler.mkdir_recursive(folders=['polar_plots', 'total'], folder_path="../plots")
             plt.savefig(f'{updated_folder_path}{"".join(sorted(self.composition))}.png', dpi=100)
         
         return ax, fig
@@ -315,7 +315,7 @@ class PolarVisualizations:
         self.set_ax_params(ax)
         
         if self.save_flag:
-            updated_folder_path = DirHandler.mkdir_recursrive(folders=['polar_plots', f'{N_ind}'],
+            updated_folder_path = DirHandler.mkdir_recursive(folders=['polar_plots', f'{N_ind}'],
                                                               folder_path="../plots")
             plt.savefig(f'{updated_folder_path}{"".join(sorted(self.composition))}.png', dpi=100)
         

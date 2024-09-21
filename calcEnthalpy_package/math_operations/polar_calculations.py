@@ -39,7 +39,7 @@ class PolarMaths:
 		return x, y
 	
 	@staticmethod
-	def cartesian_to_polar(x: float, y: float) -> Tuple[float, float]:
+	def cartesian_to_polar(x: float, y: float) -> Tuple[np.ndarray, np.ndarray]:
 		"""
 		Converts cartesian coordinates (x, y) to polar coordinates (radius, angle).
 
