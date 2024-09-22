@@ -394,7 +394,7 @@ class PolarVisualizations(Visualizations):
         if self.save_flag:
             self.save_figure(
                 folders=["polar_plots", "total"],
-                file_name='{"".join(sorted(self.composition))}',
+                file_name=f'{"".join(sorted(self.composition))}',
                 fig=fig,
             )
 
@@ -482,7 +482,7 @@ class PolarVisualizations(Visualizations):
         if self.save_flag:
             self.save_figure(
                 folders=["polar_plots", f"{N_ind}"],
-                file_name='{"".join(sorted(self.composition))}',
+                file_name=f'{"".join(sorted(self.composition))}',
                 fig=fig,
             )
 

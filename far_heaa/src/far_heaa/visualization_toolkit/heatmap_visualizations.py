@@ -119,7 +119,7 @@ class MatrixHeatmap(Visualizations):
             mol_grid = grid_creation.CompositionGrid.create_mol_grid_transmutation(
                 x=self.x, n=self.n, transmutation_indice=self.transmutation_indices
             )
-        mol_grid.reverse()
+        mol_grid = mol_grid[::-1]
 
         mol_grid, e_hulls, temp_grid = self.grid_iterator.e_hull_across_grid(
             composition=self.total_composition,

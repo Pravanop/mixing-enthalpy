@@ -29,6 +29,11 @@ FAR-HEAA documentation
    pathways_example
 
 .. toctree::
+   :maxdepth: 2
+
+   polar_example
+
+.. toctree::
    :maxdepth: 4
    :caption: Contents
 

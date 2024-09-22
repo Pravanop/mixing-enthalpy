@@ -5,14 +5,12 @@ from matplotlib.cm import ScalarMappable
 from matplotlib.colors import Normalize
 from typing import Tuple, Literal
 
-from far_heaa.io.dir_handler import DirHandler
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
 from far_heaa.phase_diagram.grid_iterators import GridIterator
-from far_heaa.io.json_handler import JSONHandler
 from far_heaa.visualization_toolkit.visualizations import Visualizations
 
 
-class TernaryVizualization(Visualizations):
+class TernaryVisualization(Visualizations):
     """
     A class for visualizing ternary phase diagrams and miscibility temperatures for a given alloy composition.
 

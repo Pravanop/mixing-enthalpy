@@ -75,7 +75,8 @@ class Visualizations:
         updated_folder_path = DirHandler.mkdir_recursive(
             folders=folders, folder_path=self.folder_path
         )
-        if self.flags["equi_flag"]:
+        
+        if self.flags["equi_flag"] == True:
             fig.savefig(fname=f"{updated_folder_path}{file_name}_equi.png", dpi=100)
 
         if not self.flags["im_flag"]:
@@ -85,3 +86,6 @@ class Visualizations:
             fig.savefig(
                 fname=f"{updated_folder_path}{file_name}_wo_correction.png", dpi=100
             )
+        
+        else:
+            fig.savefig(fname=f"{updated_folder_path}{file_name}.png", dpi=100)

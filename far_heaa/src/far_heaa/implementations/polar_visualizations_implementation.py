@@ -6,7 +6,7 @@ mH = MetadataHandler()
 meta_data = mH.get_metadata
 
 pD = PolarVisualizations(
-    composition=["Cr", "Ta", "W"], lattice="min", meta_data=meta_data, save_flag=True
+    composition=["Cr", "Ta", "W", "V"], lattice="min", meta_data=meta_data, save_flag=True
 )
 
 _, _ = pD.plot_total()

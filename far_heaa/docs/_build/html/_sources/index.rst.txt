@@ -8,12 +8,6 @@ FAR-HEAA documentation
 
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Contents
-
-   modules
-
-.. toctree::
    :maxdepth: 2
    :caption: Example Runs
 
@@ -33,4 +27,15 @@ FAR-HEAA documentation
    :maxdepth: 2
 
    pathways_example
+
+.. toctree::
+   :maxdepth: 2
+
+   polar_example
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Contents
+
+   modules
 

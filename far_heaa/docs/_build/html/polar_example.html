@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Plot Deposition Pathways &mdash; FAR-HEAA 0.0.1 documentation</title>
+  <title>Plot Polar Plots &mdash; FAR-HEAA 0.0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
 
@@ -21,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Plot Polar Plots" href="polar_example.html" />
-    <link rel="prev" title="Plot Ehull Diagrams of High Symmetry Paths" href="matrix_example.html" /> 
+    <link rel="next" title="FAR_HEAA" href="modules.html" />
+    <link rel="prev" title="Plot Deposition Pathways" href="pathways_example.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -54,11 +54,11 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="matrix_example.html">Plot Ehull Diagrams of High Symmetry Paths</a></li>
 </ul>
-<ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Plot Deposition Pathways</a></li>
-</ul>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="polar_example.html">Plot Polar Plots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pathways_example.html">Plot Deposition Pathways</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Plot Polar Plots</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
@@ -79,9 +79,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Plot Deposition Pathways</li>
+      <li class="breadcrumb-item active">Plot Polar Plots</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="_sources/pathways_example.rst.txt" rel="nofollow"> View page source</a>
+            <a href="_sources/polar_example.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -89,22 +89,22 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="plot-deposition-pathways">
-<h1>Plot Deposition Pathways<a class="headerlink" href="#plot-deposition-pathways" title="Link to this heading"></a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">far_heaa.visualization_toolkit.pathway_visualizations</span> <span class="kn">import</span> <span class="n">PathwayVisualizations</span>
-<span class="kn">from</span> <span class="nn">far_heaa.io.metadata_handler</span> <span class="kn">import</span> <span class="n">MetadataHandler</span>
+  <section id="plot-polar-plots">
+<h1>Plot Polar Plots<a class="headerlink" href="#plot-polar-plots" title="Link to this heading"></a></h1>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">far_heaa.io.metadata_handler</span> <span class="kn">import</span> <span class="n">MetadataHandler</span>
+<span class="kn">from</span> <span class="nn">far_heaa.visualization_toolkit.polar_visualizations</span> <span class="kn">import</span> <span class="n">PolarVisualizations</span>
+
 
 <span class="n">mH</span> <span class="o">=</span> <span class="n">MetadataHandler</span><span class="p">()</span>
 <span class="n">meta_data</span> <span class="o">=</span> <span class="n">mH</span><span class="o">.</span><span class="n">get_metadata</span>
 
-<span class="n">rP</span> <span class="o">=</span> <span class="n">PathwayVisualizations</span><span class="p">(</span>
-    <span class="n">meta_data</span><span class="o">=</span><span class="n">meta_data</span><span class="p">,</span>
-    <span class="n">lattice</span><span class="o">=</span><span class="s1">&#39;BCC&#39;</span><span class="p">,</span>
-    <span class="n">composition</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;Cr&#39;</span><span class="p">,</span> <span class="s1">&#39;V&#39;</span><span class="p">,</span> <span class="s1">&#39;Ti&#39;</span><span class="p">,</span> <span class="s1">&#39;Ta&#39;</span><span class="p">],</span>
-    <span class="n">save_flag</span><span class="o">=</span><span class="kc">True</span>
+<span class="n">pD</span> <span class="o">=</span> <span class="n">PolarVisualizations</span><span class="p">(</span>
+    <span class="n">composition</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Cr&quot;</span><span class="p">,</span> <span class="s2">&quot;Ta&quot;</span><span class="p">,</span> <span class="s2">&quot;W&quot;</span><span class="p">],</span> <span class="n">lattice</span><span class="o">=</span><span class="s2">&quot;min&quot;</span><span class="p">,</span> <span class="n">meta_data</span><span class="o">=</span><span class="n">meta_data</span><span class="p">,</span> <span class="n">save_flag</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span>
 
-<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">rP</span><span class="o">.</span><span class="n">plot_rP</span><span class="p">()</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pD</span><span class="o">.</span><span class="n">plot_total</span><span class="p">()</span>
+
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">pD</span><span class="o">.</span><span class="n">plot_subset</span><span class="p">(</span><span class="n">N_ind</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">transmute_indices</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
 </pre></div>
 </div>
 </section>
@@ -113,8 +113,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="matrix_example.html" class="btn btn-neutral float-left" title="Plot Ehull Diagrams of High Symmetry Paths" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="polar_example.html" class="btn btn-neutral float-right" title="Plot Polar Plots" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="pathways_example.html" class="btn btn-neutral float-left" title="Plot Deposition Pathways" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules.html" class="btn btn-neutral float-right" title="FAR_HEAA" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

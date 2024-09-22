@@ -21,7 +21,6 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Plot a Binary Phase Diagram" href="binary_example.html" />
     <link rel="prev" title="far_heaa.phase_diagram package" href="far_heaa.phase_diagram.html" /> 
 </head>
 
@@ -44,7 +43,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="binary_example.html">Plot a Binary Phase Diagram</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ternary_example.html">Plot Ternary Phase Features</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="matrix_example.html">Plot Ehull Diagrams of High Symmetry Paths</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="pathways_example.html">Plot Deposition Pathways</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="polar_example.html">Plot Polar Plots</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">FAR_HEAA</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="far_heaa.html">far_heaa package</a></li>
@@ -79,19 +94,6 @@
 <li class="toctree-l2"><a class="reference internal" href="far_heaa.phase_diagram.html">far_heaa.phase_diagram package</a></li>
 </ul>
 </li>
-</ul>
-<p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="binary_example.html">Plot a Binary Phase Diagram</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="ternary_example.html">Plot Ternary Phase Features</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="matrix_example.html">Plot Ehull Diagrams of High Symmetry Paths</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="pathways_example.html">Plot Deposition Pathways</a></li>
 </ul>
 
         </div>
@@ -130,7 +132,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="far_heaa.visualization_toolkit.binary_visualizations.binaryVizualization">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.binary_visualizations.</span></span><span class="sig-name descname"><span class="pre">binaryVizualization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.binary_visualizations.binaryVizualization" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class to visualize the binary phase diagram of a given alloy system. It calculates and plots
 the miscibility temperatures across a mole fraction grid for a binary composition.</p>
 <dl class="field-list simple">
@@ -200,7 +202,7 @@ the miscibility temperatures across a mole fraction grid for a binary compositio
 <dl class="py class">
 <dt class="sig sig-object py" id="far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.heatmap_visualizations.</span></span><span class="sig-name descname"><span class="pre">MatrixHeatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_ele</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'transmutate'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class to generate heatmaps for the energy hull (E_hull) based on the composition of a given alloy system.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap.find_indices">
@@ -377,7 +379,7 @@ and heatmaps for binary mixing enthalpies.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.pathway_visualizations.</span></span><span class="sig-name descname"><span class="pre">PathwayVisualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class for visualizing reaction pathways for a given alloy composition and lattice structure.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -553,7 +555,7 @@ miscibility temperatures along each pathway.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.polar_visualizations.</span></span><span class="sig-name descname"><span class="pre">PolarVisualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class for generating polar visualizations of miscibility temperatures and related properties for a given alloy system.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.misc_temp">
@@ -825,7 +827,7 @@ miscibility temperatures along each pathway.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.ternary_visualizations.</span></span><span class="sig-name descname"><span class="pre">TernaryVizualization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization" title="Link to this definition"></a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class for visualizing ternary phase diagrams and miscibility temperatures for a given alloy composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1011,7 +1013,6 @@ for a given temperature range and gradation. (both contours and scatters</p>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="far_heaa.phase_diagram.html" class="btn btn-neutral float-left" title="far_heaa.phase_diagram package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="binary_example.html" class="btn btn-neutral float-right" title="Plot a Binary Phase Diagram" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

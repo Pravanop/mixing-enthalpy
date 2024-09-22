@@ -109,7 +109,7 @@ class ConvexHull:
                     if len(mol_ratio.keys()) == 1:
                         continue
 
-                    mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(
+                    mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_enthalpy(
                         mol_ratio=mol_ratio,
                         binary_dict=self.data,
                         end_member_dict=self.end_member,
@@ -118,7 +118,7 @@ class ConvexHull:
                         transition_temperatures=self.transition_temperatures,
                         model="regular",
                     )
-                    config_entropy = self.tm.calc_configEntropy(mol_ratio)
+                    config_entropy = self.tm.calc_config_entropy(mol_ratio)
 
                     if isinstance(mix_enthalpy, dict):
                         for key, enthalpy in mix_enthalpy.items():
@@ -269,7 +269,7 @@ class ConvexHull:
         if len(mol_ratio) == 1:
             mix_enthalpy = 0
         else:
-            mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(
+            mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_enthalpy(
                 mol_ratio=mol_ratio,
                 binary_dict=self.data,
                 end_member_dict=self.end_member,
@@ -284,7 +284,7 @@ class ConvexHull:
                 else mix_enthalpy[lattice]
             )
 
-        entropy = self.tm.calc_configEntropy(mol_ratio)
+        entropy = self.tm.calc_config_entropy(mol_ratio)
         return mix_enthalpy, entropy, mol_ratio
 
     @staticmethod

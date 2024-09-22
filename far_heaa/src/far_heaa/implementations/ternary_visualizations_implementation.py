@@ -1,10 +1,10 @@
-from far_heaa.visualization_toolkit.ternary_visualizations import TernaryVizualization
+from far_heaa.visualization_toolkit.ternary_visualizations import TernaryVisualization
 from far_heaa.io.metadata_handler import MetadataHandler
 
 mH = MetadataHandler()
 meta_data = mH.get_metadata
 
-tD = TernaryVizualization(
+tD = TernaryVisualization(
     composition=["Cr", "V", "Ta"],
     lattice="min",
     meta_data=meta_data,
@@ -15,7 +15,7 @@ tD = TernaryVizualization(
 """Two options"""
 
 # Plot Miscible Temperatures
-# _, _ = tD.plot_misc_temperatures()
+_, _ = tD.plot_misc_temperatures()
 # Plot Isotherms
 _, _ = tD.plot_isotherm(1300)
 

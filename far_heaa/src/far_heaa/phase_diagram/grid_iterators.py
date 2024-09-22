@@ -175,7 +175,6 @@ class GridIterator:
                     np.arange(0, max(temp_ele) + 100, 100, dtype=np.float64)
                 )
 
-            print(temp_grid)
             # Generate the convex hull at each temperature
             conv_hull_dict = self.temp_iterator(
                 composition=composition, temp_grid=temp_grid
