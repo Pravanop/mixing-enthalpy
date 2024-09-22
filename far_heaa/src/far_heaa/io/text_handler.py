@@ -2,17 +2,17 @@ from typing import List
 
 
 class TextHandler:
-	"""
+    """
     A class to handle text file operations, such as extracting an element list from a text file.
 
     Methods:
         extract_ele_list(folder_path, lattice, source):
             Extracts the element list from a text file in the input data folder.
     """
-	
-	@staticmethod
-	def extract_ele_list(folder_path: str, lattice: str, source: str) -> List[str]:
-		"""
+
+    @staticmethod
+    def extract_ele_list(folder_path: str, lattice: str, source: str) -> List[str]:
+        """
         Extracts the element list from a text file in the specified folder.
 
         Args:
@@ -28,7 +28,9 @@ class TextHandler:
             # This will read the file '/data/thermo_data/element_list_FCC_thermo_data.txt'
             # and return the elements as a list of strings.
         """
-		with open(f"{folder_path}/{source}/element_list_{lattice}_{source}.txt", 'r') as f:
-			ele_list = f.read()
-		
-		return ele_list.split(',')
+        with open(
+            f"{folder_path}/{source}/element_list_{lattice}_{source}.txt", "r"
+        ) as f:
+            ele_list = f.read()
+
+        return ele_list.split(",")

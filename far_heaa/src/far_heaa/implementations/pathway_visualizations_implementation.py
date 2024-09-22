@@ -5,10 +5,10 @@ mH = MetadataHandler()
 meta_data = mH.get_metadata
 
 rP = PathwayVisualizations(
-	meta_data=meta_data,
-	lattice='BCC',
-	composition=['Cr', 'V', 'Ti', 'Ta'],
-	save_flag=True
+    meta_data=meta_data,
+    lattice="BCC",
+    composition=["Cr", "V", "Ti", "Ta"],
+    save_flag=True,
 )
 
 _, _ = rP.plot_rP()

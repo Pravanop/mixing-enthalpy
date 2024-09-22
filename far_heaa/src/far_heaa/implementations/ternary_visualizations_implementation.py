@@ -5,11 +5,12 @@ mH = MetadataHandler()
 meta_data = mH.get_metadata
 
 tD = TernaryVizualization(
-	composition=['Cr', 'V', 'Ta'],
-	lattice='min',
-	meta_data=meta_data,
-	save_flag=True,
-	contour_flag=False)
+    composition=["Cr", "V", "Ta"],
+    lattice="min",
+    meta_data=meta_data,
+    save_flag=True,
+    contour_flag=False,
+)
 
 """Two options"""
 
@@ -18,5 +19,5 @@ tD = TernaryVizualization(
 # Plot Isotherms
 _, _ = tD.plot_isotherm(1300)
 
-#Plot everything
+# Plot everything
 # tD.plot_ternary_visualizations(T_min=300, T_max=3000, T_gradation=500)

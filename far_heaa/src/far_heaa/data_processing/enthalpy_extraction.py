@@ -1,5 +1,5 @@
 class EnthalpyExtractions:
-	"""
+    """
     A class to handle the extraction of binary enthalpy values.
 
     This class provides methods to extract enthalpy values or interaction parameters (e.g., omega)
@@ -9,10 +9,10 @@ class EnthalpyExtractions:
         extract_binary_enthalpy(binary_dict, ele_pair):
             Extracts the enthalpy value for a specific element pair from the provided dictionary.
     """
-	
-	@staticmethod
-	def extract_binary_enthalpy(binary_dict: dict[str, float], ele_pair: str) -> float:
-		"""
+
+    @staticmethod
+    def extract_binary_enthalpy(binary_dict: dict[str, float], ele_pair: str) -> float:
+        """
         Extract the binary enthalpy value from a given dictionary.
 
         Args:
@@ -28,7 +28,7 @@ class EnthalpyExtractions:
             KeyError: If the element pair is not found in the binary dictionary.
 
         Example::
-        
+
             binary_dict = {'Fe-Ni': -1.5, 'Ni-Cu': -0.8}
             ele_pair = 'Fe-Ni'
 
@@ -36,4 +36,4 @@ class EnthalpyExtractions:
             enthalpy = EnthalpyExtractions.extract_binary_enthalpy(binary_dict, ele_pair)
             # enthalpy = -1.5
         """
-		return binary_dict[ele_pair]
+        return binary_dict[ele_pair]
