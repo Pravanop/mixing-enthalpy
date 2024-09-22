@@ -6,9 +6,10 @@ from ..math_operations.thermo_calculations import ThermoMaths
 from ..phase_diagram.grid_iterators import GridIterator
 from ..io.json_handler import JSONHandler
 from typing import Tuple, Literal
+from far_heaa.visualization_toolkit.visualizations import Visualizations
 
 
-class binaryVizualization:
+class binaryVizualization(Visualizations):
 	"""
 	A class to visualize the binary phase diagram of a given alloy system. It calculates and plots
 	the miscibility temperatures across a mole fraction grid for a binary composition.
@@ -23,7 +24,8 @@ class binaryVizualization:
 		ValueError: If other than two elements are provided for the composition.
 	"""
 	
-	def __init__(self, composition: list[str], lattice: Literal['FCC', 'BCC', 'HCP', 'min'], meta_data: dict, save_flag: bool):
+	def __init__(self, composition: list[str], lattice: Literal['FCC', 'BCC', 'HCP', 'min'], meta_data: dict,
+				 save_flag: bool):
 		"""
 		Initialize the binaryVizualization class with the binary composition, lattice type, and metadata.
 
@@ -36,32 +38,13 @@ class binaryVizualization:
 		Raises:
 			ValueError: If the composition does not contain exactly two elements.
 		"""
+		
+		super().__init__(lattice, meta_data)
+		
 		self.composition = composition
 		
 		if len(self.composition) != 2:
 			raise ValueError("Only provide binary compositions!")
-		
-		self.lattice = lattice
-		self.mol_grid_size = 40
-		
-		self.tm = ThermoMaths()
-		grid_size = meta_data['grid_size']
-		
-		if meta_data['flags']['correction']:
-			data = JSONHandler.load_json(folder_path=meta_data['folder_path'],
-										 file_name=meta_data['file_name']['biased'])
-		else:
-			data = JSONHandler.load_json(folder_path=meta_data['folder_path'],
-										 file_name=meta_data['file_name']['unbiased'])
-		
-		end_member = JSONHandler.load_json(folder_path=meta_data['folder_path'], file_name=meta_data['end_member'])
-		
-		self.grid_iterator = GridIterator(grid_size=grid_size,
-										  tm=self.tm,
-										  data=data,
-										  end_member=end_member,
-										  api_key=meta_data['api_key'],
-										  flags=meta_data['flags'])
 		
 		self.save_flag = save_flag
 	
@@ -83,7 +66,6 @@ class binaryVizualization:
 			lattice=self.lattice,
 			phase_flag=True
 		)
-		print(misc_temp)
 		return mol_grid[:-1], misc_temp[:-1]
 	
 	def plot_misc_temperatures(self) -> Tuple[plt.Axes, plt.Figure]:
@@ -131,12 +113,8 @@ class binaryVizualization:
 		
 		# Save the plot if save_flag is True
 		if self.save_flag:
-			updated_folder_path = DirHandler.mkdir_recursive(
-				folders=['binary_phase_diagram'], folder_path="../plots"
-			)
-			fig.savefig(
-				fname=f"{updated_folder_path}{'-'.join(sorted(self.composition, reverse=True))}.png",
-				dpi=100
-			)
+			self.save_figure(folders=['binary_phase_diagram'],
+							 file_name='-'.join(sorted(self.composition, reverse=True)),
+							 fig=fig)
 		
 		return ax, fig

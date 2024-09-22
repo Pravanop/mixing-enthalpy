@@ -9,9 +9,10 @@ from far_heaa.io.dir_handler import DirHandler
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
 from far_heaa.phase_diagram.grid_iterators import GridIterator
 from far_heaa.io.json_handler import JSONHandler
+from far_heaa.visualization_toolkit.visualizations import Visualizations
 
 
-class TernaryVizualization:
+class TernaryVizualization(Visualizations):
 	"""
 	A class for visualizing ternary phase diagrams and miscibility temperatures for a given alloy composition.
 
@@ -50,36 +51,17 @@ class TernaryVizualization:
 		Raises:
 			ValueError: If the provided composition does not contain exactly three elements.
 		"""
+		super().__init__(lattice=lattice, meta_data=meta_data)
+		
 		self.cmap = 'plasma'
 		
 		self.composition = composition
 		if len(self.composition) != 3:
 			raise ValueError("Only provide ternary compositions!")
-		self.lattice = lattice
-		self.mol_grid_size = 40
-		
-		self.tm = ThermoMaths()
-		grid_size = meta_data['grid_size']
-		
-		if meta_data['flags']['correction']:
-			data = JSONHandler.load_json(folder_path=meta_data['folder_path'],
-										 file_name=meta_data['file_name']['biased'])
-		else:
-			data = JSONHandler.load_json(folder_path=meta_data['folder_path'],
-										 file_name=meta_data['file_name']['unbiased'])
-		
-		end_member = JSONHandler.load_json(folder_path=meta_data['folder_path'], file_name=meta_data['end_member'])
-		
-		self.grid_iterator = GridIterator(grid_size=grid_size,
-										  tm=self.tm,
-										  data=data,
-										  end_member=end_member,
-										  api_key=meta_data['api_key'],
-										  flags=meta_data['flags'])
 		
 		self.save_flag = save_flag
 		self.contour_flag = contour_flag
-		
+	
 	def find_misc_temperatures(self) -> Tuple[np.ndarray, np.ndarray]:
 		"""
 		Finds miscibility temperatures for the ternary alloy across a mole fraction grid.
@@ -157,15 +139,15 @@ class TernaryVizualization:
 		
 		if self.save_flag:
 			if self.contour_flag:
-				updated_folder_path = DirHandler.mkdir_recursive(
-					folders=['ternary_phase_diagram', "isotherms", "contours",
-							 f"{'-'.join(sorted(self.composition, reverse=True))}"], folder_path="../plots")
-				fig.savefig(fname=f"{updated_folder_path}{temperature}.png", dpi=100)
+				self.save_figure(folders=['ternary_phase_diagram', "isotherms", "contours",
+										  f"{'-'.join(sorted(self.composition, reverse=True))}"],
+								 file_name=f"{temperature}",
+								 fig=fig)
 			else:
-				updated_folder_path = DirHandler.mkdir_recursive(
-					folders=['ternary_phase_diagram', "isotherms", "scatters",
-							 f"{'-'.join(sorted(self.composition, reverse=True))}"], folder_path="../plots")
-				fig.savefig(fname=f"{updated_folder_path}{temperature}.png", dpi=100)
+				self.save_figure(folders=['ternary_phase_diagram', "isotherms", "scatters",
+										  f"{'-'.join(sorted(self.composition, reverse=True))}"],
+								 file_name=f"{temperature}",
+								 fig=fig)
 		
 		return ax, fig
 	
@@ -206,19 +188,19 @@ class TernaryVizualization:
 		
 		if self.save_flag:
 			if self.contour_flag:
-				updated_folder_path = DirHandler.mkdir_recursive(
-					folders=['ternary_phase_diagram', "misc_temp", "contours"], folder_path="../plots")
-				fig.savefig(fname=f"{updated_folder_path}{'-'.join(sorted(self.composition, reverse=True))}.png",
-							dpi=100)
+				self.save_figure(folders=['ternary_phase_diagram', "misc_temp", "contours"],
+								 file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
+								 fig=fig)
+			
 			else:
-				updated_folder_path = DirHandler.mkdir_recursive(
-					folders=['ternary_phase_diagram', "misc_temp", "scatter"], folder_path="../plots")
-				fig.savefig(fname=f"{updated_folder_path}{'-'.join(sorted(self.composition, reverse=True))}.png",
-							dpi=100)
+				self.save_figure(folders=['ternary_phase_diagram', "misc_temp", "scatter"],
+								 file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
+								 fig=fig)
 		
 		return ax, fig
 	
-	def plot_ternary_visualizations(self, T_min: float, T_max: float, T_gradation: float, switch_contour_off: bool =  False, switch_scatter_off: bool = False) -> None:
+	def plot_ternary_visualizations(self, T_min: float, T_max: float, T_gradation: float,
+									switch_contour_off: bool = False, switch_scatter_off: bool = False) -> None:
 		"""
 		Generates and saves ternary visualizations, including miscibility temperature plots and isotherms
 		for a given temperature range and gradation. (both contours and scatters
@@ -255,7 +237,7 @@ class TernaryVizualization:
 				_, _ = self.plot_isotherm(temperature=isotherm)
 		
 		if not switch_contour_off:
-		# Switch to contour plots
+			# Switch to contour plots
 			self.contour_flag = True
 			
 			# Plot miscibility temperatures with contour plots
@@ -264,8 +246,3 @@ class TernaryVizualization:
 			# Plot each isotherm using contour plot
 			for isotherm in isotherm_grid:
 				_, _ = self.plot_isotherm(temperature=isotherm)
-
-		
-		
-			
-		

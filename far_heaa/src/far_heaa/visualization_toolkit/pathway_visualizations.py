@@ -5,13 +5,11 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 from far_heaa.grids_and_combinations import grid_creation
-from far_heaa.io.dir_handler import DirHandler
-from far_heaa.io.json_handler import JSONHandler
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
-from far_heaa.phase_diagram.grid_iterators import GridIterator
+from far_heaa.visualization_toolkit.visualizations import Visualizations
 
 
-class PathwayVisualizations:
+class PathwayVisualizations(Visualizations):
 	"""
 	A class for visualizing reaction pathways for a given alloy composition and lattice structure.
 
@@ -44,29 +42,11 @@ class PathwayVisualizations:
 			meta_data (dict): A dictionary containing metadata such as grid size, file paths, and flags.
 			save_flag (bool): A flag indicating whether to save the visualizations.
 		"""
-		self.lattice = lattice
+		
+		super().__init__(lattice=lattice, meta_data=meta_data)
+		
+		self.x = None
 		self.composition = composition
-		
-		self.tm = ThermoMaths()
-		grid_size = meta_data['grid_size']
-		
-		# Load data based on the correction flag
-		if meta_data['flags']['correction']:
-			data = JSONHandler.load_json(folder_path=meta_data['folder_path'],
-										 file_name=meta_data['file_name']['biased'])
-		else:
-			data = JSONHandler.load_json(folder_path=meta_data['folder_path'],
-										 file_name=meta_data['file_name']['unbiased'])
-		
-		end_member = JSONHandler.load_json(folder_path=meta_data['folder_path'], file_name=meta_data['end_member'])
-		
-		self.grid_iterator = GridIterator(grid_size=grid_size,
-										  tm=self.tm,
-										  data=data,
-										  end_member=end_member,
-										  api_key=meta_data['api_key'],
-										  flags=meta_data['flags'])
-		
 		t_max = max([self.tm.avg_T_melt(i, mol_ratio=[]) for i in self.composition])
 		self.temp_grid = list(np.linspace(0, t_max, 30))
 		self.conv_hull = self.grid_iterator.temp_iterator(composition=self.composition,
@@ -247,8 +227,8 @@ class PathwayVisualizations:
 		ax.set_xlabel('Reaction Coordinate', fontsize=12)
 		
 		if self.save_flag:
-			updated_folder_path = DirHandler.mkdir_recursive(
-				folders=['pathways_plots'], folder_path="../plots")
-			fig.savefig(f"{updated_folder_path}{'-'.join(sorted(self.composition))}.png", dpi=100)
+			self.save_figure(folders=['pathways_plots'],
+							 file_name='-'.join(sorted(self.composition)),
+							 fig=fig)
 		
 		return ax, fig

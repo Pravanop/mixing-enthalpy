@@ -4,14 +4,11 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-from far_heaa.io.dir_handler import DirHandler
-from far_heaa.io.json_handler import JSONHandler
-from far_heaa.math_operations.thermo_calculations import ThermoMaths
-from far_heaa.phase_diagram.grid_iterators import GridIterator
 from far_heaa.grids_and_combinations import grid_creation
+from far_heaa.visualization_toolkit.visualizations import Visualizations
 
 
-class MatrixHeatmap:
+class MatrixHeatmap(Visualizations):
 	"""
 	A class to generate heatmaps for the energy hull (E_hull) based on the composition of a given alloy system.
 
@@ -44,6 +41,7 @@ class MatrixHeatmap:
 			save_flag (bool): Flag to determine if the plots should be saved.
 			path_type (Literal['add', 'transmutate']): The type of path to use ('add' or 'transmutate').
 		"""
+		super().__init__(lattice, meta_data)
 		self.x = None
 		self.composition = composition
 		if isinstance(add_ele, str):
@@ -66,31 +64,10 @@ class MatrixHeatmap:
 			self.n = len(self.total_composition)
 			self.n_alloy = len(self.composition)
 			self.transmutation_indices = self.find_indices(self.total_composition, self.add_ele)
-			self.end_composition = list(np.copy(self.total_composition))
-			self.end_composition.remove(self.add_ele[0])
+			self.end_composition = [ele for ele in self.total_composition if ele != self.add_ele[0]]
 		
 		self.type = path_type
-		self.lattice = lattice
 		self.mol_grid_size = 10
-		
-		self.tm = ThermoMaths()
-		grid_size = meta_data['grid_size']
-		
-		if meta_data['flags']['correction']:
-			data = JSONHandler.load_json(folder_path=meta_data['folder_path'],
-										 file_name=meta_data['file_name']['biased'])
-		else:
-			data = JSONHandler.load_json(folder_path=meta_data['folder_path'],
-										 file_name=meta_data['file_name']['unbiased'])
-		
-		end_member = JSONHandler.load_json(folder_path=meta_data['folder_path'], file_name=meta_data['end_member'])
-		
-		self.grid_iterator = GridIterator(grid_size=grid_size,
-										  tm=self.tm,
-										  data=data,
-										  end_member=end_member,
-										  api_key=meta_data['api_key'],
-										  flags=meta_data['flags'])
 		
 		self.save_flag = save_flag
 	
@@ -139,7 +116,7 @@ class MatrixHeatmap:
 				n=self.n,
 				transmutation_indice=self.transmutation_indices
 			)
-		mol_grid = mol_grid[::-1]
+		mol_grid.reverse()
 		
 		mol_grid, e_hulls, temp_grid = self.grid_iterator.e_hull_across_grid(
 			composition=self.total_composition,
@@ -207,16 +184,7 @@ class MatrixHeatmap:
 		plt.subplots_adjust(bottom=0.15, top=0.9, left=0.14, right=0.98)
 		
 		if self.save_flag:
-			if self.type == 'transmutate':
-				updated_folder_path = DirHandler.mkdir_recursive(
-					folders=['heatmap_plots', "transmutate"], folder_path="../plots")
-				fig.savefig(
-					fname=f"{updated_folder_path}{''.join(self.composition)}_{''.join(self.end_composition)}.png",
-					dpi=100)
-			elif self.type == 'add':
-				updated_folder_path = DirHandler.mkdir_recursive(
-					folders=['heatmap_plots', "add"], folder_path="../plots")
-				fig.savefig(
-					fname=f"{updated_folder_path}{''.join(self.total_composition)}_{''.join(self.composition)}.png",
-					dpi=100)
+			self.save_figure(folders=['heatmap_plots', self.type],
+							 file_name=f"{''.join(self.composition)}_{''.join(self.end_composition)}",
+							 fig=fig)
 		return ax, fig
