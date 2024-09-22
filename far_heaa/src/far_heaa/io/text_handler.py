@@ -11,25 +11,20 @@ class TextHandler:
     """
 
     @staticmethod
-    def extract_ele_list(folder_path: str, lattice: str, source: str) -> List[str]:
+    def extract_ele_list(folder_path: str, file_name: str) -> List[str]:
         """
         Extracts the element list from a text file in the specified folder.
 
         Args:
             folder_path (str): The path to the folder where the text file is located.
-            lattice (str): The lattice type (e.g., "FCC", "BCC") for the element list.
-            source (str): The source or name to distinguish between different datasets.
+            file_name (str): file name of the text file.
 
         Returns:
             List[str]: A list of elements extracted from the text file.
 
-        Example:
-            elements = TextHandler.extract_ele_list(folder_path='/data/', lattice='FCC', source='thermo_data')
-            # This will read the file '/data/thermo_data/element_list_FCC_thermo_data.txt'
-            # and return the elements as a list of strings.
         """
         with open(
-            f"{folder_path}/{source}/element_list_{lattice}_{source}.txt", "r"
+            f"{folder_path}/{file_name}.txt", "r"
         ) as f:
             ele_list = f.read()
 

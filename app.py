@@ -1,24 +1,6 @@
 import numpy as np
 import streamlit as st
-from pymatgen.core import Element
-
-from UI.search import search_composition
 from pymatgen.analysis.phase_diagram import PDPlotter
-import pandas as pd
-
-from calculateEnthalpy.UMAPS.use_umaps import use_umaps_Tmisc
-from calculateEnthalpy.binary_phase_diagram import binary_diagram
-from calculateEnthalpy.heatmap_plots import add_ele
-from calculateEnthalpy.helper_functions.grid_code import create_multinary
-from calculateEnthalpy.helper_functions.phase_diagram import phaseDiagram
-from calculateEnthalpy.higherOrderPhaseDiagrams.createTernaryDiagrams_function import ternary_diagram
-from calculateEnthalpy.reactionPathways.new_rP import new_rP
-from calculateEnthalpy.transmutation_plot import transmute_ele
-
-
-def convert_df(df):
-	# IMPORTANT: Cache the conversion to prevent computation on every rerun
-	return df.to_csv().encode('utf-8')
 
 
 def clicked(button):
@@ -42,16 +24,6 @@ def load_ele_list():
 	element_total_list = element_total_list.split(',')
 	return element_total_list
 
-@st.cache_data()
-def load_phase_diagram(binary_file_path, end_member_path, im_flag, correction, equi_flag):
-	pD = phaseDiagram(
-		processed_binary_file_path=binary_file_path,
-		end_member_file_path=end_member_path,
-		grid_size=15,
-		im_flag=im_flag,
-		correction=correction,
-		equi_flag=equi_flag)
-	return pD
 st.set_page_config(page_title="FAR-HEAA",
 				   initial_sidebar_state="expanded",
 				   layout="wide")
