@@ -8,14 +8,8 @@ FAR-HEAA documentation
 
 
 .. toctree::
-   :maxdepth: 4
-   :caption: Contents:
-
-   modules
-
-.. toctree::
    :maxdepth: 2
-   :caption: Example:
+   :caption: Example Runs
 
    binary_example
 
@@ -23,4 +17,20 @@ FAR-HEAA documentation
    :maxdepth: 2
 
    ternary_example
+
+.. toctree::
+   :maxdepth: 2
+
+   matrix_example
+
+.. toctree::
+   :maxdepth: 2
+
+   pathways_example
+
+.. toctree::
+   :maxdepth: 4
+   :caption: Contents
+
+   modules
 
