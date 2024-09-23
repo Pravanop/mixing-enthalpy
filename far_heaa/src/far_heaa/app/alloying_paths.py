@@ -2,6 +2,7 @@ import streamlit as st
 import sys
 import os
 from input_check import InputCheck
+
 sys.path.insert(0, os.path.abspath('../..'))
 
 from far_heaa.visualization_toolkit.heatmap_visualizations import MatrixHeatmap
@@ -9,8 +10,7 @@ from far_heaa.visualization_toolkit.heatmap_visualizations import MatrixHeatmap
 
 def alloying_paths(input_list, meta_data, lattice):
 	st.write("High Symmetry Paths")
-	path_type = st.radio('Select the type of path', ['add', 'transmutate'])
-	st.button("Plot")
+	path_type = st.radio('Select the type of path', ['add', 'transmutate'], index=False)
 	if path_type == 'add':
 		st.write("Add")
 		add_input = st.text_input('Add input', placeholder='For example: Al')
@@ -19,10 +19,12 @@ def alloying_paths(input_list, meta_data, lattice):
 			subset_all_flag, subset_database_flag = input_check.subset_all(), input_check.subset_database()
 			
 			if not subset_all_flag:
-				st.write(f"{', '.join(list(input_check.input_set.difference(input_check.all_element_set)))} not a valid element!")
+				st.write(
+					f"{', '.join(list(input_check.input_set.difference(input_check.all_element_set)))} not a valid element!")
 				return None
 			if not subset_database_flag:
-				st.write(f"{', '.join(list(input_check.input_set.difference(input_check.database_element_set)))} not a valid element!")
+				st.write(
+					f"{', '.join(list(input_check.input_set.difference(input_check.database_element_set)))} not a valid element!")
 				return None
 			if add_input in input_list:
 				st.write(f"{add_input} in the original input. Non-stoichiometric composition!")
@@ -46,17 +48,19 @@ def alloying_paths(input_list, meta_data, lattice):
 			transmutate_list = input_check.input_list
 			subset_all_flag, subset_database_flag = input_check.subset_all(), input_check.subset_database()
 			if not subset_all_flag:
-				st.write(f"{', '.join(list(input_check.input_set.difference(input_check.all_element_set)))} not a valid element!")
+				st.write(
+					f"{', '.join(list(input_check.input_set.difference(input_check.all_element_set)))} not a valid element!")
 				return None
 			if not subset_database_flag:
-				st.write(f"{', '.join(list(input_check.input_set.difference(input_check.database_element_set)))} not a valid element!")
+				st.write(
+					f"{', '.join(list(input_check.input_set.difference(input_check.database_element_set)))} not a valid element!")
 				return None
 			if transmutate_list[0] not in input_list:
 				st.write(f"{transmutate_list[1]} not in the original input")
 				return None
 			else:
 				mH = MatrixHeatmap(meta_data=meta_data,
-								   lattice = lattice,
+								   lattice=lattice,
 								   add_ele=transmutate_list,
 								   composition=input_list,
 								   save_flag=False,

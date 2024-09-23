@@ -9,6 +9,6 @@ pD = PolarVisualizations(
     composition=["Al", "Ru", "Cu", "Ni"], lattice="min", meta_data=meta_data, save_flag=True
 )
 
-_, _ = pD.plot_total()
+# _, _ = pD.plot_total()
 
-# _, _ = pD.plot_subset(N_ind=1, transmute_indices=[1, 2])
+_, _ = pD.plot_subset(N_ind=1, transmute_indices=[1, 2])
