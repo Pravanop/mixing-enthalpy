@@ -42,7 +42,6 @@ class GridIterator:
         self.end_member = end_member
         self.im_flag = flags["im_flag"]
         self.equi_flag = flags["equi_flag"]
-        print(type(grid_size))
         self.correction = flags["correction"]
         self.tm = tm
         self.api_key = api_key
@@ -354,7 +353,6 @@ class GridIterator:
                 )
                 # Returns the miscibility temperature for the alloy 'Fe-Ni' with a 50-50 mole ratio.
         """
-
         # Calculate the upper temperature limit based on the phase flag
         self.upper_limit(composition, mol_ratio, phase_flag)
 
@@ -384,7 +382,7 @@ class GridIterator:
         # Iterate over the temperature grid
         for idx, temperature in enumerate(self.temp_grid):
             # Calculate enthalpy and entropy for the current mole ratio and temperature
-            mix_enthalpy, entropy, mol_ratio = (
+            mix_enthalpy, entropy, mol_ratio_dict = (
                 self.convex_hull.find_enthalpy_entropy_composition(
                     mol_ratio=mol_ratio,
                     composition=composition,
@@ -400,7 +398,7 @@ class GridIterator:
 
             # Check if the composition is stable at this temperature
             is_stable = self.get_decomp_and_e_hull(
-                mol_ratio=mol_ratio,
+                mol_ratio=mol_ratio_dict,
                 temp=float(temperature),
                 conv_hull=conv_hull,
                 mix_enthalpy=mix_enthalpy,
@@ -474,10 +472,18 @@ class GridIterator:
         if batch_tag and self.im_flag:
             im_list = kwargs.get("im", [])
         else:
-            raise ValueError("Provide Intermetallics data for batch processing.")
+            n_alloy = len(composition)
+            all_combs = MultinaryCombinations.create_multinary(
+                element_list=composition, no_comb=list(range(2, n_alloy + 1))
+            )
+            im_list = []
+            for dimensionality, alloy_list in all_combs.items():
+                if self.im_flag:
+                    im_list += IntermetallicExtractions.get_MP_intermetallic(
+                        alloy_list, api_key=self.api_key)
 
         # Calculate configurational entropy
-        entropy = self.tm.calc_configEntropy(mol_ratio)
+        entropy = self.tm.calc_config_entropy(mol_ratio)
         composition = list(mol_ratio.keys())
 
         # Exclude certain intermetallic phases based on the full composition

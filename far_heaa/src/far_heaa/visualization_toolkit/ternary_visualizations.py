@@ -28,6 +28,9 @@ class TernaryVisualization(Visualizations):
             grid_iterator (GridIterator): An instance of the GridIterator class for grid-based iteration.
             save_flag (bool): A flag indicating whether to save the generated plots.
             contour_flag (bool): A flag indicating whether to generate contour plots.
+    
+    TODO:
+            - resolve colorbar issue with miscibility temperature plots
     """
 
     def __init__(

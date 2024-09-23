@@ -319,6 +319,7 @@ class PolarVisualizations(Visualizations):
         misc_temp_list = self.misc_temp(
             member_pos=member_pos, x=self.x, flag="add", N=N
         )
+        misc_temp_list = np.array([5000 if i == -1 else i for i in misc_temp_list])
         self.plot_line(
             angle_degrees=angle,
             x_values=self.x * pm.distance_calculator(n_alloy, N),

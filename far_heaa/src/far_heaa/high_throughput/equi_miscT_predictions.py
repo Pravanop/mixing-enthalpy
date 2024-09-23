@@ -2,11 +2,10 @@ import os
 import pandas as pd
 from matplotlib import pyplot as plt
 from tqdm import tqdm
-from typing import List, Dict, Literal
+from typing import List, Dict, Literal, Tuple
 
 from far_heaa.grids_and_combinations.combination_generation import MultinaryCombinations
 from far_heaa.visualization_toolkit.visualizations import Visualizations
-
 
 
 class EquiMiscTPredictions(Visualizations):
@@ -35,6 +34,8 @@ class EquiMiscTPredictions(Visualizations):
         element_list: List[str],
         lattice: Literal["FCC", "BCC", "HCP", "min"],
         meta_data: Dict,
+        save_flag: bool = False,
+        generate_plot: bool = False,
     ):
         """
         Args:
@@ -54,6 +55,8 @@ class EquiMiscTPredictions(Visualizations):
         )
 
         self.compositions = list(compositions.values())[0]
+        self.save_flag = save_flag
+        self.generate_plot = generate_plot
 
     def make_predictions(self) -> pd.DataFrame:
         """
@@ -79,7 +82,7 @@ class EquiMiscTPredictions(Visualizations):
                 mol_ratio=mol,
                 composition=composition,
                 lattice=self.lattice,
-                phase_flag=True,
+                phase_flag=False,
                 batch_tag=False,
             )
             if isinstance(misc_T, float):
@@ -92,19 +95,21 @@ class EquiMiscTPredictions(Visualizations):
         df = pd.DataFrame([alloys, temp_list, avg_tm])
         df = df.T
         df.columns = ["Alloys", "Misc_Temp", "Avg_Tm"]
-
-        if not os.path.exists("../output_data/predictions/"):
-            os.mkdir("../output_data/predictions")
-        df.to_csv(
-            f"../output_data/predictions/misc_T_{self.dim}_{self.lattice}.csv",
-            index=False,
-        )
+        
+        if self.save_flag:
+            
+            if not os.path.exists("../output_data/predictions/"):
+                os.mkdir("../output_data/predictions")
+            df.to_csv(
+                f"../output_data/predictions/misc_T_{self.dim}_{self.lattice}.csv",
+                index=False,
+            )
 
         return df
 
     def plot_predictions(
         self, Tm_constraint: float = None, alloy_constraint: str = None
-    ) -> None:
+    ) -> Tuple[plt.Figure, plt.Axes]:
         """
         Plot the miscible temperatures (Misc_T) and average melting temperatures (Avg_Tm)
         for the alloys based on the predictions.
@@ -117,16 +122,18 @@ class EquiMiscTPredictions(Visualizations):
                 EquiMiscTPredictions.plot_predictions(Tm_constraint=0.8, alloy_constraint='Fe')
                 # This will plot the temperatures for alloys containing 'Fe' with misc_T < 0.8*Tm.
         """
-        file_path = "../output_data/predictions/misc_T_{self.dim}_{self.lattice}.csv"
-
-        if not os.path.exists(file_path):
+        file_path = f"../output_data/predictions/misc_T_{self.dim}_{self.lattice}.csv"
+        
+        if self.generate_plot:
+            df = self.make_predictions()
+        elif not os.path.exists(file_path):
             df = self.make_predictions()
         else:
             df = pd.read_csv(f"./misc_T_{self.dim}_equi_{self.lattice}.csv")
 
         df_proc = None
         if Tm_constraint is not None:
-            df_proc = df.loc[df["Temp"] < Tm_constraint * df["Avg_Tm"]]
+            df_proc = df.loc[df["Misc_Temp"] < Tm_constraint * df["Avg_Tm"]]
         if alloy_constraint is not None:
             df_proc = df_proc[df["Alloys"].str.contains(alloy_constraint)]
 
@@ -134,7 +141,7 @@ class EquiMiscTPredictions(Visualizations):
             df_proc = df
 
         df_proc = df_proc.sort_values(["Avg_Tm"])
-        fig, ax = plt.subplots(figsize=(18, 8))
+        fig, ax = plt.subplots()
         ax.bar(
             x=df_proc["Alloys"],
             height=df_proc["Avg_Tm"],
@@ -146,7 +153,7 @@ class EquiMiscTPredictions(Visualizations):
         )
         ax.bar(
             x=df_proc["Alloys"],
-            height=df_proc["Temp"],
+            height=df_proc["Misc_Temp"],
             color="#D6604D",
             edgecolor="black",
             width=0.5,
@@ -170,10 +177,12 @@ class EquiMiscTPredictions(Visualizations):
         )
         ax.set_ylabel("T (K)")
         ax.tick_params(axis="x", labelrotation=90)
-        plt.subplots_adjust(bottom=0.32, top=0.99, left=0.1, right=0.99)
-
-        self.save_figure(
-            folders=["predictions"],
-            file_name=f"misc_T_{self.dim}_{self.lattice}_{Tm_constraint}_{alloy_constraint}",
-            fig=fig,
-        )
+        # plt.subplots_adjust(bottom=0.32, top=0.99, left=0.1, right=0.99)
+        plt.tight_layout()
+        if self.save_flag:
+            self.save_figure(
+                folders=["predictions"],
+                file_name=f"misc_T_{self.dim}_{self.lattice}_{Tm_constraint}_{alloy_constraint}",
+                fig=fig,
+            )
+        return fig, ax

@@ -172,7 +172,7 @@ class ConvexHull:
                 }
 
                 if len(mol_ratio) > 1:
-                    mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_Enthalpy(
+                    mix_enthalpy = self.tm.calc_mutinary_multilattice_mix_enthalpy(
                         mol_ratio=mol_ratio,
                         binary_dict=self.data,
                         end_member_dict=self.end_member,
@@ -181,7 +181,7 @@ class ConvexHull:
                         transition_temperatures=self.transition_temperatures,
                         model="regular",
                     )
-                    config_entropy = self.tm.calc_configEntropy(mol_ratio)
+                    config_entropy = self.tm.calc_config_entropy(mol_ratio)
 
                     if isinstance(mix_enthalpy, dict):
                         entry.update_energy(
@@ -263,6 +263,7 @@ class ConvexHull:
         Returns:
                 Union[float, float, Dict[str, float]]: The enthalpy, entropy, and mole ratio for the alloy composition.
         """
+        
         mol_ratio = dict(zip(composition, mol_ratio))
         mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
 
