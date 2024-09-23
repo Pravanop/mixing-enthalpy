@@ -71,4 +71,4 @@ class InputCheck:
 def get_metadata():
 	mH = MetadataHandler()
 	meta_data = mH.get_metadata
-	return meta_data
+	return meta_data, mH
