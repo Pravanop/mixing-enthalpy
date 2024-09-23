@@ -106,11 +106,10 @@ class MiscellaneousVisualizations:
 
         if len(composition) == 3:
             plt.subplots_adjust(top=0.95)
-
-        vert = [(0.5, 0.9), (-0.05, 0), (1.02, 0)]
-        composition.reverse()
-        for idx, i in enumerate(composition):
-            ax.text(s=i, x=vert[idx][0], y=vert[idx][1], fontsize=12)
+            vert = [(0.5, 0.9), (-0.05, 0), (1.02, 0)]
+            composition.reverse()
+            for idx, i in enumerate(composition):
+                ax.text(s=i, x=vert[idx][0], y=vert[idx][1], fontsize=12)
 
         if self.save_flag:
             updated_folder_path = DirHandler.mkdir_recursive(

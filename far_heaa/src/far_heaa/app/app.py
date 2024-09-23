@@ -66,7 +66,7 @@ if not invalid_flag:
 	
 	elif analysis_type == 'Convex Hulls':
 		try:
-			ax, fig = convex_hull(input_list, meta_data)
+			ax, fig = convex_hull(input_list, meta_data, lattice='min')
 			st.pyplot(fig)
 		except TypeError:
 			pass

@@ -55,6 +55,7 @@ class PolarVisualizations(Visualizations):
             lattice: Literal["FCC", "BCC", "HCP", "min"],
             meta_data: dict,
             save_flag: bool,
+            type_flag: Literal["misc_T", "e_hull"],
             **kwargs,
     ):
         """
@@ -75,13 +76,19 @@ class PolarVisualizations(Visualizations):
         
         self.cmap = cm.get_cmap("plasma")
         self.save_flag = save_flag
-        t_max = max([self.tm.avg_T_melt(i, mol_ratio=[]) for i in self.composition])
-        self.temp_gradation = kwargs.get("temp_gradation", 25)
-        self.temp_grid = list(np.linspace(0, t_max, self.temp_gradation))
-        self.norm = Normalize(vmin=0, vmax=t_max)
-        self.conv_hull = self.grid_iterator.temp_iterator(
-            composition=self.composition, temp_grid=self.temp_grid
-        )
+        
+        self.type_flag = type_flag
+        if self.type_flag == "misc_T":
+            t_max = max([self.tm.avg_T_melt(i, mol_ratio=[]) for i in self.composition])
+            self.temp_gradation = kwargs.get("temp_gradation", 25)
+            self.temp_grid = list(np.linspace(0, t_max, self.temp_gradation))
+            self.conv_hull = self.grid_iterator.temp_iterator(
+                composition=self.composition, temp_grid=self.temp_grid
+            )
+            self.norm = Normalize(vmin=0, vmax=t_max)
+            
+        elif self.type_flag == "e_hull":
+            self.norm = Normalize(vmin=0, vmax=0.25)
         
         self.mol_gradation = kwargs.get("mol_gradation", 15)
         self.x = np.linspace(0, 1, self.mol_gradation)
@@ -129,6 +136,37 @@ class PolarVisualizations(Visualizations):
             temp_grid=self.temp_grid,
         )
         return misc_temp
+    
+    def e_hull(self,
+               temperature: float,
+               member_pos: List[int],
+               x: np.ndarray,
+               N: int,
+               flag: Literal["add", "transmutate"],
+               ):
+        
+        n = len(self.composition)
+        
+        mol_grid = (
+            CompositionGrid.create_high_sym_mol_grid(
+                x=x, n=n, N=N, change_idx=member_pos
+            )
+            if flag == "add"
+            else CompositionGrid.create_mol_grid_transmutation(
+                x=x, n=n, transmutation_indice=member_pos
+            )
+        )
+        
+        mol_grid, e_hull, _ = self.grid_iterator.e_hull_across_grid(
+            composition=self.composition,
+            mol_grid_size=mol_grid,
+            lattice=self.lattice,
+            single_temp_flag=True,
+            temp_gradation=temperature,
+        )
+        return e_hull
+        
+        
     
     def draw_circle_in_polar(self, radius: float, ax: plt.Axes) -> None:
         """
@@ -198,7 +236,7 @@ class PolarVisualizations(Visualizations):
         # self.draw_circle_in_polar(radius=self.y_bias, ax=ax)
         ax.plot(
             theta,
-            [self.y_bias-0.05] * len(theta),
+            [self.y_bias - 0.05] * len(theta),
             linewidth=1.5,
             zorder=100,
             color='black',
@@ -207,7 +245,7 @@ class PolarVisualizations(Visualizations):
         )
         ax.fill(
             theta,
-            [self.y_bias-0.05] * len(theta),
+            [self.y_bias - 0.05] * len(theta),
             zorder=100,
             color=self.cmap(self.norm(scatter)),
             alpha=1,
@@ -307,7 +345,18 @@ class PolarVisualizations(Visualizations):
         cbar = plt.colorbar(
             sm, ax=ax, aspect=30, fraction=0.05, orientation="horizontal"
         )  # Unified colorbar
-        cbar.set_label("$T_{misc}$", fontsize=12)
+        if self.type_flag == "misc_T":
+            cbar.set_label("$T_{misc}$ (K)", fontsize=12)
+        else:
+            cbar.set_label("$E_{hull}$ (eV/atom)", fontsize=12)
+        
+    
+    def find_misc_temperatures(self, member_pos: List[int], N: int, flag: Literal['add', 'transmutate']) -> np.ndarray:
+        misc_temp_list = self.misc_temp(
+            member_pos=member_pos, x=self.x, flag=flag, N=N
+        )
+        misc_temp_list = np.array([5000 if i == -1 else i for i in misc_temp_list])
+        return misc_temp_list
     
     def make_one_bar(
             self,
@@ -318,6 +367,7 @@ class PolarVisualizations(Visualizations):
             N: int,
             angle: float,
             idx2: int,
+            **kwargs
     ) -> float:
         """
         Plots a single bar representing miscibility temperature on a polar plot.
@@ -335,10 +385,13 @@ class PolarVisualizations(Visualizations):
             float: The first miscibility temperature value for this bar.
         """
         line_colors = self.get_n_colors_from_cmap("Dark2", len(self.composition) - 1)
-        misc_temp_list = self.misc_temp(
-            member_pos=member_pos, x=self.x, flag="add", N=N
-        )
-        misc_temp_list = np.array([5000 if i == -1 else i for i in misc_temp_list])
+        temperature = kwargs.get('temperature', None)
+        if self.type_flag == "e_hull" and not temperature:
+            raise ValueError("Temperature should be provided for e_hull plot.")
+        if temperature:
+            misc_temp_list = self.e_hull(temperature=temperature, member_pos=member_pos, x=self.x, N=N, flag='add')
+        else:
+            misc_temp_list = self.find_misc_temperatures(member_pos, N, flag='add')
         self.plot_line(
             angle_degrees=angle,
             x_values=self.x * pm.distance_calculator(n_alloy, N),
@@ -371,7 +424,7 @@ class PolarVisualizations(Visualizations):
         )
         return float(misc_temp_list[0])
     
-    def plot_total(self) -> Tuple[plt.Axes, plt.Figure]:
+    def plot_total(self, **kwargs) -> Tuple[plt.Axes, plt.Figure]:
         """
         Generates a full polar plot for all compositions in the alloy system.
 
@@ -384,6 +437,10 @@ class PolarVisualizations(Visualizations):
         angles = pm.divide_circle_degrees(pm.total_num_bars(n_alloy))
         count = 0
         scatter = 0
+        temperature = kwargs.get('temperature', None)
+        print(temperature)
+        if self.type_flag == "e_hull" and temperature is None:
+            raise ValueError("Temperature should be provided for e_hull plot.")
         for idx2, N in enumerate(range(1, len(self.composition))):
             
             combs = (
@@ -400,9 +457,15 @@ class PolarVisualizations(Visualizations):
                 angle = angles[count]
                 temp_i = i.split("-")
                 member_pos = fLE.find_indices(self.composition, temp_i)
-                scatter = self.make_one_bar(
-                    ax, n_alloy, member_pos, i, N, float(angle), idx2
-                )
+                if temperature:
+                    scatter = self.make_one_bar(
+                        ax, n_alloy, member_pos, i, N, float(angle), idx2, temperature = temperature
+                    )
+                else:
+                    scatter = self.make_one_bar(
+                        ax, n_alloy, member_pos, i, N, float(angle), idx2
+                    )
+                    
                 count += 1
         
         for N in range(1, len(self.composition)):
@@ -413,7 +476,7 @@ class PolarVisualizations(Visualizations):
         
         if self.save_flag:
             self.save_figure(
-                folders=["polar_plots", "total"],
+                folders=["polar_plots", self.type_flag, "total"],
                 file_name=f'{"".join(sorted(self.composition))}',
                 fig=fig,
             )
@@ -421,7 +484,8 @@ class PolarVisualizations(Visualizations):
         return ax, fig
     
     def plot_subset(
-            self, N_ind: int, transmute_indices: List[int]
+            self, N_ind: int, transmute_indices: List[int], **kwargs
+    
     ) -> Tuple[plt.Axes, plt.Figure]:
         """
         Plots polar diagrams for a specific N-index with optional transmutation lines.
@@ -457,6 +521,9 @@ class PolarVisualizations(Visualizations):
         ]
         
         scatter = 0
+        temperature = kwargs.get('temperature', None)
+        if self.type_flag == "e_hull" and not temperature:
+            raise ValueError("Temperature should be provided for e_hull plot.")
         for idx2, comb in enumerate([combs, combs_n_N]):
             angles = pm().angle_assigner(length=len(comb))
             
@@ -465,20 +532,23 @@ class PolarVisualizations(Visualizations):
                 temp_i = i.split("-")
                 member_pos = fLE.find_indices(self.composition, temp_i)
                 N = len(temp_i)
-                scatter = self.make_one_bar(
-                    ax, n_alloy, member_pos, i, N, float(angle), idx2
-                )
+                if temperature:
+                    scatter = self.make_one_bar(
+                        ax, n_alloy, member_pos, i, N, float(angle), idx2, temperature=temperature
+                    )
+                else:
+                    scatter = self.make_one_bar(
+                        ax, n_alloy, member_pos, i, N, float(angle), idx2
+                    )
                 
                 angle_radians = np.radians(angle)
-                if transmute_indices:
+                if transmute_indices and self.type_flag == "misc_T":
                     if idx2 != 0 and idx == min(transmute_indices):
-                        misc_temp_list_sec = self.misc_temp(
-                            member_pos=transmute_indices,
-                            x=self.x,
-                            flag="transmutate",
-                            N=N,
+                        misc_temp_list_sec = self.find_misc_temperatures(
+                            transmute_indices,
+                            N,
+                            flag="transmutate"
                         )
-                        misc_temp_list_sec = np.array([5000 if i == -1 else i for i in misc_temp_list_sec])
                         self.plot_colored_secant(
                             ax,
                             float(
@@ -500,7 +570,7 @@ class PolarVisualizations(Visualizations):
         
         if self.save_flag:
             self.save_figure(
-                folders=["polar_plots", f"{N_ind}"],
+                folders=["polar_plots",self.type_flag, f"{N_ind}"],
                 file_name=f'{"".join(sorted(self.composition))}',
                 fig=fig,
             )

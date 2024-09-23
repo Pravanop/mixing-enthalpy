@@ -29,8 +29,6 @@ class TernaryVisualization(Visualizations):
             save_flag (bool): A flag indicating whether to save the generated plots.
             contour_flag (bool): A flag indicating whether to generate contour plots.
     
-    TODO:
-            - resolve colorbar issue with miscibility temperature plots
     """
 
     def __init__(
@@ -127,7 +125,7 @@ class TernaryVisualization(Visualizations):
 
         ax = fig.add_subplot(projection="ternary")
         ax.grid()
-        norm = Normalize(vmin=0, vmax=1, clip=False)
+        norm = Normalize(vmin=0, vmax=0.25, clip=False)
         if not self.contour_flag:
             ax.scatter(t, l, r, c=stables, cmap=self.cmap, marker="h", s=60, norm=norm)
         else:
@@ -199,7 +197,7 @@ class TernaryVisualization(Visualizations):
         ax = fig.add_subplot(projection="ternary")
         ax.grid()
         cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
-
+        norm = Normalize(vmin=0, vmax=3600, clip=False)
         if not self.contour_flag:
             ax.scatter(t, l, r, c=misc_temp, cmap=self.cmap, marker="h", s=60)
         else:
@@ -213,10 +211,10 @@ class TernaryVisualization(Visualizations):
                 axis=1,
             )
             ax.tricontourf(
-                data[:, 0], data[:, 1], data[:, 2], data[:, 3], cmap=self.cmap
+                data[:, 0], data[:, 1], data[:, 2], data[:, 3], cmap=self.cmap, norm=norm
             )
 
-        sm = ScalarMappable(cmap=self.cmap)
+        sm = ScalarMappable(cmap=self.cmap, norm=norm)
         colorbar = fig.colorbar(sm, cax=cax)
         colorbar.set_label("$T_{misc}$ K", rotation=270, va="baseline")
         ax.grid(False)

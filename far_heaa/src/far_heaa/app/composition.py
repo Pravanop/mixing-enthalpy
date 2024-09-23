@@ -24,14 +24,15 @@ def composition_information(input_list, meta_data, lattice):
 	if sub_options == 'Miscible Temperature':
 		sum_check = sum(mol_inputs) == 1.0
 		if sum_check:
-			misc_T = gi.uni_molar_misc_temperature(mol_ratio=mol_inputs,
-												   composition=input_list,
-												   lattice=lattice,
-												   )
-			if isinstance(misc_T, tuple):
-				st.subheader(f'Not Miscible. Alloy melts at {int(misc_T[0])} K.')
-			else:
-				st.subheader(f'Miscible temperature: {int(misc_T)} K')
+			with st.spinner('Wait for it...'):
+				misc_T = gi.uni_molar_misc_temperature(mol_ratio=mol_inputs,
+													   composition=input_list,
+													   lattice=lattice,
+													   )
+				if isinstance(misc_T, tuple):
+					st.subheader(f'Not Miscible. Alloy melts at {int(misc_T[0])} K.')
+				else:
+					st.subheader(f'Miscible temperature: {int(misc_T)} K')
 		else:
 			st.write('Sum of mole fractions must equal 1.0')
 	
@@ -41,11 +42,12 @@ def composition_information(input_list, meta_data, lattice):
 		
 		if sum_check:
 			temperature = st.number_input('Temperature (K)', min_value=0, max_value=3800, value=0)
-			decomp, e_hull = gi.find_decomp_products(mol_ratio=mol_inputs,
-													 composition=input_list,
-													 lattice=lattice,
-													 temperature=temperature
-													 )
+			with st.spinner('Wait for it...'):
+				decomp, e_hull = gi.find_decomp_products(mol_ratio=mol_inputs,
+														 composition=input_list,
+														 lattice=lattice,
+														 temperature=temperature
+														 )
 			st.dataframe(decomp)
 			# st.write(decomp)
 			st.write(f'Energy above convex hull: {e_hull * 1000} meV/atom')

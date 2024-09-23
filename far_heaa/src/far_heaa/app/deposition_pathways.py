@@ -9,9 +9,10 @@ from far_heaa.visualization_toolkit.pathway_visualizations import PathwayVisuali
 
 
 def deposition_pathways(input_list, meta_data, lattice):
-	rP = PathwayVisualizations(meta_data=meta_data,
-							   lattice=lattice,
-							   composition=input_list,
-							   save_flag=False)
-	fig, ax = rP.plot_rP()
+	with st.spinner('Wait for it...'):
+		rP = PathwayVisualizations(meta_data=meta_data,
+								   lattice=lattice,
+								   composition=input_list,
+								   save_flag=False)
+		fig, ax = rP.plot_rP()
 	return fig, ax

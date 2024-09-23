@@ -30,14 +30,15 @@ def alloying_paths(input_list, meta_data, lattice):
 				st.write(f"{add_input} in the original input. Non-stoichiometric composition!")
 				return None
 			else:
-				mH = MatrixHeatmap(meta_data=meta_data,
-								   lattice=lattice,
-								   add_ele=[add_input],
-								   composition=input_list,
-								   save_flag=False,
-								   path_type=path_type,
-								   )
-				ax, fig = mH.plot_ehull_matrix()
+				with st.spinner('Wait for it...'):
+					mH = MatrixHeatmap(meta_data=meta_data,
+									   lattice=lattice,
+									   add_ele=[add_input],
+									   composition=input_list,
+									   save_flag=False,
+									   path_type=path_type,
+									   )
+					ax, fig = mH.plot_ehull_matrix()
 				return ax, fig
 	
 	elif path_type == 'transmutate':
@@ -59,14 +60,15 @@ def alloying_paths(input_list, meta_data, lattice):
 				st.write(f"{transmutate_list[1]} not in the original input")
 				return None
 			else:
-				mH = MatrixHeatmap(meta_data=meta_data,
-								   lattice=lattice,
-								   add_ele=transmutate_list,
-								   composition=input_list,
-								   save_flag=False,
-								   path_type=path_type
-								   )
-				ax, fig = mH.plot_ehull_matrix()
+				with st.spinner('Wait for it...'):
+					mH = MatrixHeatmap(meta_data=meta_data,
+									   lattice=lattice,
+									   add_ele=transmutate_list,
+									   composition=input_list,
+									   save_flag=False,
+									   path_type=path_type
+									   )
+					ax, fig = mH.plot_ehull_matrix()
 				return ax, fig
 		
 		else:
