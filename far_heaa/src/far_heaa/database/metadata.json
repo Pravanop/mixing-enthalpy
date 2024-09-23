@@ -1,5 +1,5 @@
 {
-	"grid_size": "15",
+	"grid_size": 15,
 	"folder_path": "../database",
 	"file_name": {
 		"unbiased": "all_lattices_binaries",

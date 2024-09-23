@@ -53,15 +53,16 @@ class MatrixHeatmap(Visualizations):
 
         self.total_composition = self.composition + self.add_ele
         self.total_composition = list(set(self.total_composition))
-
-        if path_type == "add":
+        self.type = path_type
+        
+        if self.type == "add":
             self.N = len(self.composition)
             self.n = len(self.total_composition)
             self.n_alloy = len(self.composition)
             self.starting_index = self.find_indices(
                 self.total_composition, self.composition
             )
-        elif path_type == "transmutate":
+        elif self.type == "transmutate":
             assert len(self.add_ele) == 2
             assert self.add_ele[0] in self.composition
             self.N = len(self.add_ele)
@@ -73,8 +74,9 @@ class MatrixHeatmap(Visualizations):
             self.end_composition = [
                 ele for ele in self.total_composition if ele != self.add_ele[0]
             ]
-
-        self.type = path_type
+        else:
+            raise ValueError("Invalid path type. Choose between 'add' or 'transmutate'.")
+        
         self.mol_grid_size = 10
 
         self.save_flag = save_flag
@@ -120,7 +122,6 @@ class MatrixHeatmap(Visualizations):
                 x=self.x, n=self.n, transmutation_indice=self.transmutation_indices
             )
         mol_grid = mol_grid[::-1]
-
         mol_grid, e_hulls, temp_grid = self.grid_iterator.e_hull_across_grid(
             composition=self.total_composition,
             lattice=self.lattice,
@@ -150,7 +151,7 @@ class MatrixHeatmap(Visualizations):
             except IndexError:
                 first_zero_index = df.index[-1]
             positions.append(first_zero_index)
-
+        
         cmap = sns.cubehelix_palette(
             start=0.5, rot=-0.61, light=0.98, dark=0.35, hue=1, as_cmap=True
         )

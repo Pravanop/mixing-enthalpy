@@ -6,6 +6,8 @@ sys.path.insert(0, os.path.abspath('../..'))
 
 from far_heaa.visualization_toolkit.binary_visualizations import binaryVizualization
 from far_heaa.visualization_toolkit.ternary_visualizations import TernaryVisualization
+from far_heaa.visualization_toolkit.polar_visualizations import PolarVisualizations
+
 
 def phase_diagram_visualizations(input_list, meta_data, lattice):
 	
@@ -34,6 +36,9 @@ def phase_diagram_visualizations(input_list, meta_data, lattice):
 		
 	elif n_alloy > 3:
 		st.write("Multi-component Phase Diagrams")
+		pV = PolarVisualizations(composition=input_list, lattice=lattice, meta_data=meta_data, save_flag=False)
+		ax, fig = pV.plot_total()
+		return ax, fig
 	else:
 		st.write("Please provide more elements!")
 	

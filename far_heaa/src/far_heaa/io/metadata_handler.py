@@ -24,6 +24,11 @@ class MetadataHandler:
         self.meta_data = JSONHandler.load_json(
             file_name=file_name, folder_path=folder_path
         )
+        for flag, value in self.meta_data["flags"].items():
+            if value == "True":
+                self.meta_data["flags"][flag] = True
+            elif value == "False":
+                self.meta_data["flags"][flag] = False
 
     @property
     def get_metadata(self) -> dict:

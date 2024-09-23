@@ -42,6 +42,7 @@ class GridIterator:
         self.end_member = end_member
         self.im_flag = flags["im_flag"]
         self.equi_flag = flags["equi_flag"]
+        print(type(grid_size))
         self.correction = flags["correction"]
         self.tm = tm
         self.api_key = api_key

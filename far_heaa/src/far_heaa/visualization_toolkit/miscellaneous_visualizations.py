@@ -40,7 +40,6 @@ class MiscellaneousVisualizations:
         self.flags = meta_data["flags"]
         self.tm = ThermoMaths()
         grid_size = meta_data["grid_size"]
-
         if meta_data["flags"]["correction"]:
             data = JSONHandler.load_json(
                 folder_path=meta_data["folder_path"],
@@ -85,7 +84,6 @@ class MiscellaneousVisualizations:
         conv_hull = self.grid_iterator.convex_hull.make_convex_hull(
             temperature=temperature, composition=composition, batch_tag=False
         )
-
         fig, ax = plt.subplots(figsize=(3.2, 3.2))
         mpl.rcParams.update({"font.size": 10})
 
