@@ -3,7 +3,9 @@ from pymatgen.entries import Entry
 
 
 class PDEntryLocal(Entry):
-
+    """
+    A local version of PDEntry that allows for additional attributes to be stored.
+    """
     def __init__(
         self,
         composition: Composition,

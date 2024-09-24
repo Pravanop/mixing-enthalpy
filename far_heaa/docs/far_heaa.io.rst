@@ -11,6 +11,7 @@ far\_heaa.io.csv\_handler module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.io.dir\_handler module
 --------------------------------
@@ -19,6 +20,7 @@ far\_heaa.io.dir\_handler module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.io.json\_handler module
 ---------------------------------
@@ -27,6 +29,7 @@ far\_heaa.io.json\_handler module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.io.metadata\_handler module
 -------------------------------------
@@ -35,6 +38,7 @@ far\_heaa.io.metadata\_handler module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.io.text\_handler module
 ---------------------------------
@@ -43,4 +47,5 @@ far\_heaa.io.text\_handler module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 

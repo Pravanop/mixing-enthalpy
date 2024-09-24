@@ -23,7 +23,8 @@ class JSONHandler:
         Returns:
             Dict: The contents of the JSON file as a dictionary.
 
-        Example:
+        Example::
+        
             data = JSONHandler.load_json(folder_path='/data/', file_name='mixing_enthalpy')
             # This will load the data from '/data/mixing_enthalpy.json' as a dictionary.
         """

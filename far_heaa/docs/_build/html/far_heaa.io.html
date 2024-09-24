@@ -44,7 +44,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Starting Instructions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ReadME.html">Fast and Robust High Entropy Alloy Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="binary_example.html">Plot a Binary Phase Diagram</a></li>
 </ul>
@@ -113,28 +117,28 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-far_heaa.io.csv_handler">
-<span id="far-heaa-io-csv-handler-module"></span><h2>far_heaa.io.csv_handler module<a class="headerlink" href="#module-far_heaa.io.csv_handler" title="Link to this heading"></a></h2>
+<section id="far-heaa-io-csv-handler-module">
+<h2>far_heaa.io.csv_handler module<a class="headerlink" href="#far-heaa-io-csv-handler-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.io.csv_handler.CSVHandler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.csv_handler.</span></span><span class="sig-name descname"><span class="pre">CSVHandler</span></span><a class="headerlink" href="#far_heaa.io.csv_handler.CSVHandler" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.csv_handler.</span></span><span class="sig-name descname"><span class="pre">CSVHandler</span></span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class for handling CSV file operations such as loading data from and saving data to CSV files.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.io.csv_handler.CSVHandler.load_csv">
-<span class="sig-name descname"><span class="pre">load_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.io.csv_handler.CSVHandler.load_csv" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">load_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Loads mixing enthalpy data from a CSV file.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.io.csv_handler.CSVHandler.dict_to_csv">
-<span class="sig-name descname"><span class="pre">dict_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_alloy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.io.csv_handler.CSVHandler.dict_to_csv" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">dict_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_alloy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Saves calculated mixing enthalpy values from a dictionary to a CSV file.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dict_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_alloy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dict_to_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">results_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_alloy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_folder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
 <dd><p>Saves calculated mixing enthalpy values to a CSV file in a specified folder.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -150,14 +154,16 @@
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>CSVHandler.dict_to_csv(results_dict, source=’thermo_data’, lattice=’FCC’, n_alloy=3, output_folder=’/results/’)
-# Saves the data to ‘/results/tertiary_FCC_thermo_data.csv’.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CSVHandler</span><span class="o">.</span><span class="n">dict_to_csv</span><span class="p">(</span><span class="n">results_dict</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;thermo_data&#39;</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="s1">&#39;FCC&#39;</span><span class="p">,</span> <span class="n">n_alloy</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">output_folder</span><span class="o">=</span><span class="s1">&#39;/results/&#39;</span><span class="p">)</span>
+<span class="c1"># Saves the data to &#39;/results/tertiary_FCC_thermo_data.csv&#39;.</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_data_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span></dt>
 <dd><p>Loads mixing enthalpy data from a CSV file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -174,30 +180,32 @@
 <dd class="field-odd"><p>pd.DataFrame</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>df = CSVHandler.load_csv(input_data_path=’/data/’, lattice=’FCC’, source=’thermo_data’)
-# Loads the data from ‘/data/FCC_thermo_data.csv’ into a DataFrame.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">CSVHandler</span><span class="o">.</span><span class="n">load_csv</span><span class="p">(</span><span class="n">input_data_path</span><span class="o">=</span><span class="s1">&#39;/data/&#39;</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="s1">&#39;FCC&#39;</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s1">&#39;thermo_data&#39;</span><span class="p">)</span>
+<span class="c1"># Loads the data from &#39;/data/FCC_thermo_data.csv&#39; into a DataFrame.</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.io.dir_handler">
-<span id="far-heaa-io-dir-handler-module"></span><h2>far_heaa.io.dir_handler module<a class="headerlink" href="#module-far_heaa.io.dir_handler" title="Link to this heading"></a></h2>
+<section id="far-heaa-io-dir-handler-module">
+<h2>far_heaa.io.dir_handler module<a class="headerlink" href="#far-heaa-io-dir-handler-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.io.dir_handler.DirHandler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.dir_handler.</span></span><span class="sig-name descname"><span class="pre">DirHandler</span></span><a class="headerlink" href="#far_heaa.io.dir_handler.DirHandler" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.dir_handler.</span></span><span class="sig-name descname"><span class="pre">DirHandler</span></span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to handle directory creation, including creating nested directories recursively.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.io.dir_handler.DirHandler.mkdir_recursive">
-<span class="sig-name descname"><span class="pre">mkdir_recursive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folders</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.io.dir_handler.DirHandler.mkdir_recursive" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">mkdir_recursive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folders</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Creates nested directories in the specified path if they do not already exist.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id2">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mkdir_recursive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folders</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mkdir_recursive</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folders</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span></dt>
 <dd><p>Recursively creates nested directories in the specified folder path.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -213,30 +221,32 @@
 <dd class="field-odd"><p>str</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>DirHandler.mkdir_recursive(folders=[‘data’, ‘results’, ‘plots’], folder_path=’/home/user/project/’)
-# This will create ‘/home/user/project/data/results/plots/’ if it does not exist.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DirHandler</span><span class="o">.</span><span class="n">mkdir_recursive</span><span class="p">(</span><span class="n">folders</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="s1">&#39;results&#39;</span><span class="p">,</span> <span class="s1">&#39;plots&#39;</span><span class="p">],</span> <span class="n">folder_path</span><span class="o">=</span><span class="s1">&#39;/home/user/project/&#39;</span><span class="p">)</span>
+<span class="c1"># This will create &#39;/home/user/project/data/results/plots/&#39; if it does not exist.</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.io.json_handler">
-<span id="far-heaa-io-json-handler-module"></span><h2>far_heaa.io.json_handler module<a class="headerlink" href="#module-far_heaa.io.json_handler" title="Link to this heading"></a></h2>
+<section id="far-heaa-io-json-handler-module">
+<h2>far_heaa.io.json_handler module<a class="headerlink" href="#far-heaa-io-json-handler-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.io.json_handler.JSONHandler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.json_handler.</span></span><span class="sig-name descname"><span class="pre">JSONHandler</span></span><a class="headerlink" href="#far_heaa.io.json_handler.JSONHandler" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.json_handler.</span></span><span class="sig-name descname"><span class="pre">JSONHandler</span></span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to handle reading and writing JSON files.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.io.json_handler.JSONHandler.load_json">
-<span class="sig-name descname"><span class="pre">load_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.io.json_handler.JSONHandler.load_json" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">load_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Loads data from a JSON file.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id3">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span></span></span></dt>
 <dd><p>Loads binary mixing enthalpies from a JSON file for a particular source and lattice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -252,19 +262,21 @@
 <dd class="field-odd"><p>Dict</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>data = JSONHandler.load_json(folder_path=’/data/’, file_name=’mixing_enthalpy’)
-# This will load the data from ‘/data/mixing_enthalpy.json’ as a dictionary.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">JSONHandler</span><span class="o">.</span><span class="n">load_json</span><span class="p">(</span><span class="n">folder_path</span><span class="o">=</span><span class="s1">&#39;/data/&#39;</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="s1">&#39;mixing_enthalpy&#39;</span><span class="p">)</span>
+<span class="c1"># This will load the data from &#39;/data/mixing_enthalpy.json&#39; as a dictionary.</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.io.metadata_handler">
-<span id="far-heaa-io-metadata-handler-module"></span><h2>far_heaa.io.metadata_handler module<a class="headerlink" href="#module-far_heaa.io.metadata_handler" title="Link to this heading"></a></h2>
+<section id="far-heaa-io-metadata-handler-module">
+<h2>far_heaa.io.metadata_handler module<a class="headerlink" href="#far-heaa-io-metadata-handler-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.io.metadata_handler.MetadataHandler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.metadata_handler.</span></span><span class="sig-name descname"><span class="pre">MetadataHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'../database/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'metadata'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.io.metadata_handler.MetadataHandler" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.metadata_handler.</span></span><span class="sig-name descname"><span class="pre">MetadataHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'../database/'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'metadata'</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to handle metadata operations, including loading, accessing, and updating metadata stored in a JSON file.
 It is recommended to use this class for everything. One can get all the keys from access_metadata_keys method
@@ -273,8 +285,8 @@ It is recommended to use this class for everything. One can get all the keys fro
 :param file_name: The name of the metadata JSON file (without extension). Defaults to ‘metadata’.
 :type file_name: str, optional</p>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.io.metadata_handler.MetadataHandler.meta_data">
-<span class="sig-name descname"><span class="pre">meta_data</span></span><a class="headerlink" href="#far_heaa.io.metadata_handler.MetadataHandler.meta_data" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">meta_data</span></span></dt>
 <dd><p>The loaded metadata from the JSON file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -284,8 +296,8 @@ It is recommended to use this class for everything. One can get all the keys fro
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.io.metadata_handler.MetadataHandler.access_metadata_keys">
-<span class="sig-name descname"><span class="pre">access_metadata_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">keys</span></span></span><a class="headerlink" href="#far_heaa.io.metadata_handler.MetadataHandler.access_metadata_keys" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">access_metadata_keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">keys</span></span></span></dt>
 <dd><p>Accesses the keys of the metadata dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -298,8 +310,8 @@ It is recommended to use this class for everything. One can get all the keys fro
 </dd></dl>
 
 <dl class="py property">
-<dt class="sig sig-object py" id="far_heaa.io.metadata_handler.MetadataHandler.get_metadata">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em><a class="headerlink" href="#far_heaa.io.metadata_handler.MetadataHandler.get_metadata" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">dict</span></em></dt>
 <dd><p>Retrieves the metadata as a dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -312,8 +324,8 @@ It is recommended to use this class for everything. One can get all the keys fro
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.io.metadata_handler.MetadataHandler.update_metadata">
-<span class="sig-name descname"><span class="pre">update_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#far_heaa.io.metadata_handler.MetadataHandler.update_metadata" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">update_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
 <dd><p>Updates the value of a specific key in the metadata.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -331,29 +343,28 @@ It is recommended to use this class for everything. One can get all the keys fro
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.io.text_handler">
-<span id="far-heaa-io-text-handler-module"></span><h2>far_heaa.io.text_handler module<a class="headerlink" href="#module-far_heaa.io.text_handler" title="Link to this heading"></a></h2>
+<section id="far-heaa-io-text-handler-module">
+<h2>far_heaa.io.text_handler module<a class="headerlink" href="#far-heaa-io-text-handler-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.io.text_handler.TextHandler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.text_handler.</span></span><span class="sig-name descname"><span class="pre">TextHandler</span></span><a class="headerlink" href="#far_heaa.io.text_handler.TextHandler" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.io.text_handler.</span></span><span class="sig-name descname"><span class="pre">TextHandler</span></span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to handle text file operations, such as extracting an element list from a text file.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.io.text_handler.TextHandler.extract_ele_list">
-<span class="sig-name descname"><span class="pre">extract_ele_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.io.text_handler.TextHandler.extract_ele_list" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">extract_ele_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Extracts the element list from a text file in the input data folder.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id4">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract_ele_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract_ele_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">folder_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Extracts the element list from a text file in the specified folder.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>folder_path</strong> (<em>str</em>) – The path to the folder where the text file is located.</p></li>
-<li><p><strong>lattice</strong> (<em>str</em>) – The lattice type (e.g., “FCC”, “BCC”) for the element list.</p></li>
-<li><p><strong>source</strong> (<em>str</em>) – The source or name to distinguish between different datasets.</p></li>
+<li><p><strong>file_name</strong> (<em>str</em>) – file name of the text file.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -363,10 +374,6 @@ It is recommended to use this class for everything. One can get all the keys fro
 <dd class="field-odd"><p>List[str]</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>elements = TextHandler.extract_ele_list(folder_path=’/data/’, lattice=’FCC’, source=’thermo_data’)
-# This will read the file ‘/data/thermo_data/element_list_FCC_thermo_data.txt’
-# and return the elements as a list of strings.</p>
 </dd></dl>
 
 </dd></dl>

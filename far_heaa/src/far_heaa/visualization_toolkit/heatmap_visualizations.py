@@ -21,6 +21,7 @@ class MatrixHeatmap(Visualizations):
 
             plot_ehull_matrix():
                     Plots a heatmap of energy hull values against the mole fraction and temperature grids.
+
     """
 
     def __init__(
@@ -54,7 +55,7 @@ class MatrixHeatmap(Visualizations):
         self.total_composition = self.composition + self.add_ele
         self.total_composition = list(set(self.total_composition))
         self.type = path_type
-        
+
         if self.type == "add":
             self.N = len(self.composition)
             self.n = len(self.total_composition)
@@ -75,8 +76,10 @@ class MatrixHeatmap(Visualizations):
                 ele for ele in self.total_composition if ele != self.add_ele[0]
             ]
         else:
-            raise ValueError("Invalid path type. Choose between 'add' or 'transmutate'.")
-        
+            raise ValueError(
+                "Invalid path type. Choose between 'add' or 'transmutate'."
+            )
+
         self.mol_grid_size = 10
 
         self.save_flag = save_flag
@@ -151,7 +154,7 @@ class MatrixHeatmap(Visualizations):
             except IndexError:
                 first_zero_index = df.index[-1]
             positions.append(first_zero_index)
-        
+
         cmap = sns.cubehelix_palette(
             start=0.5, rot=-0.61, light=0.98, dark=0.35, hue=1, as_cmap=True
         )

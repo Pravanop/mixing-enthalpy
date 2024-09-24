@@ -23,9 +23,7 @@ class TextHandler:
             List[str]: A list of elements extracted from the text file.
 
         """
-        with open(
-            f"{folder_path}/{file_name}.txt", "r"
-        ) as f:
+        with open(f"{folder_path}/{file_name}.txt", "r") as f:
             ele_list = f.read()
 
         return ele_list.split(",")

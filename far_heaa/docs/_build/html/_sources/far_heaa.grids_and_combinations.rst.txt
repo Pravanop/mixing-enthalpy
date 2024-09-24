@@ -11,6 +11,7 @@ far\_heaa.grids\_and\_combinations.combination\_generation module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.grids\_and\_combinations.grid\_creation module
 --------------------------------------------------------
@@ -19,4 +20,5 @@ far\_heaa.grids\_and\_combinations.grid\_creation module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 

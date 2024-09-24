@@ -26,6 +26,14 @@ class PathwayVisualizations(Visualizations):
             conv_hull (dict): A dictionary containing convex hull data for the alloy system.
             mol_grid_size (int): The size of the mole fraction grid.
             save_flag (bool): A flag indicating whether to save the generated plots.
+
+    Methods:
+            get_rP: Calculates reaction pathways for the alloy system and returns miscibility temperatures for each pathway.
+            get_n_colors_from_cmap: Generates N evenly spaced colors from a given colormap.
+            text_segregators: Groups text labels by their proximity and returns their adjusted positions for plotting.
+            find_indices_in_range: Finds groups of indices in the input list where values are within the specified threshold.
+            plot_rP: Plots the reaction pathways for the alloy system and the corresponding miscibility temperatures.
+
     """
 
     def __init__(
@@ -66,7 +74,8 @@ class PathwayVisualizations(Visualizations):
                 dict: A dictionary where the keys are reaction pathways (e.g., 'Fe-Ni') and the values are lists of
                 miscibility temperatures along each pathway.
 
-        Example:
+        Example::
+        
                 path_dict = self.get_rP()
         """
         all_pathways = list(
@@ -200,7 +209,8 @@ class PathwayVisualizations(Visualizations):
         Returns:
                 Tuple[plt.Axes, plt.Figure]: A tuple containing the matplotlib axes and figure objects for the plot.
 
-        Example:
+        Example::
+        
                 ax, fig = self.plot_rP()
         """
         path_dict = self.get_rP()

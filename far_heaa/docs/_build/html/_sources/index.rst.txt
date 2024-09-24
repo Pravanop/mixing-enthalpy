@@ -6,6 +6,11 @@
 FAR-HEAA documentation
 ======================
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Starting Instructions
+
+   ReadME.md
 
 .. toctree::
    :maxdepth: 2

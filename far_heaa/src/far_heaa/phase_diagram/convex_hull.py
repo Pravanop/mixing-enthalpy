@@ -72,7 +72,8 @@ class ConvexHull:
         Returns:
                 PhaseDiagram: A PhaseDiagram object representing the convex hull.
 
-        Example:
+        Example::
+        
                 convex_hull = ConvexHull.make_convex_hull(composition=['Fe', 'Ni'], temperature=1200.0)
         """
         pd_entries_list = []
@@ -263,7 +264,7 @@ class ConvexHull:
         Returns:
                 Union[float, float, Dict[str, float]]: The enthalpy, entropy, and mole ratio for the alloy composition.
         """
-        
+
         mol_ratio = dict(zip(composition, mol_ratio))
         mol_ratio = {key: val for key, val in mol_ratio.items() if val != 0.0}
 

@@ -58,7 +58,8 @@ class MetadataHandler:
                 d (dict): The dictionary whose keys need to be printed.
                 indent (int, optional): The indentation level for nested keys. Defaults to 0.
 
-        Example:
+        Example::
+        
                 print_nested_keys(nested_dict)
         """
         for key, value in d.items():

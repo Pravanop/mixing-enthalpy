@@ -27,7 +27,8 @@ class CSVHandler:
         Returns:
             pd.DataFrame: A DataFrame containing the loaded mixing enthalpy data with elements as the index.
 
-        Example:
+        Example::
+        
             df = CSVHandler.load_csv(input_data_path='/data/', lattice='FCC', source='thermo_data')
             # Loads the data from '/data/FCC_thermo_data.csv' into a DataFrame.
         """
@@ -53,7 +54,8 @@ class CSVHandler:
         Returns:
             None
 
-        Example:
+        Example::
+        
             CSVHandler.dict_to_csv(results_dict, source='thermo_data', lattice='FCC', n_alloy=3, output_folder='/results/')
             # Saves the data to '/results/tertiary_FCC_thermo_data.csv'.
         """

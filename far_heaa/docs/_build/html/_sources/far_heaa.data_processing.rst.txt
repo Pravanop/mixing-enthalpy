@@ -11,6 +11,7 @@ far\_heaa.data\_processing.enthalpy\_extraction module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.data\_processing.fancy\_list\_extractions module
 ----------------------------------------------------------
@@ -19,6 +20,7 @@ far\_heaa.data\_processing.fancy\_list\_extractions module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.data\_processing.intermetallic\_extraction module
 -----------------------------------------------------------
@@ -27,4 +29,4 @@ far\_heaa.data\_processing.intermetallic\_extraction module
    :members:
    :undoc-members:
    :show-inheritance:
-
+   :noindex:

@@ -23,7 +23,8 @@ class DirHandler:
         Returns:
                 str: The final path after all directories have been created.
 
-        Example:
+        Example::
+        
                 DirHandler.mkdir_recursive(folders=['data', 'results', 'plots'], folder_path='/home/user/project/')
                 # This will create '/home/user/project/data/results/plots/' if it does not exist.
         """

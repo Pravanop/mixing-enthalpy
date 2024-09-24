@@ -8,6 +8,7 @@ from far_heaa.grids_and_combinations.combination_generation import MultinaryComb
 from far_heaa.visualization_toolkit.visualizations import Visualizations
 from far_heaa.io.dir_handler import DirHandler
 
+
 class EquiMiscTPredictions(Visualizations):
     """
     A class to predict miscible temperatures (Misc_T) and average melting temperatures (Avg_Tm)
@@ -66,7 +67,8 @@ class EquiMiscTPredictions(Visualizations):
         Returns:
                 pd.DataFrame: A DataFrame containing alloys, miscible temperatures, and average melting temperatures.
 
-        Example:
+        Example::
+        
                 predictions_df = EquiMiscTPredictions.make_predictions()
                 # predictions_df will contain the miscible and average melting temperatures for the alloys.
         """
@@ -95,9 +97,11 @@ class EquiMiscTPredictions(Visualizations):
         df = pd.DataFrame([alloys, temp_list, avg_tm])
         df = df.T
         df.columns = ["Alloys", "Misc_Temp", "Avg_Tm"]
-        
+
         if self.save_flag:
-            updated_folder_path = DirHandler.mkdir_recursive(folders = ["output_data", "predictions"], folder_path="../")
+            updated_folder_path = DirHandler.mkdir_recursive(
+                folders=["output_data", "predictions"], folder_path="../"
+            )
             df.to_csv(
                 f"{updated_folder_path}/misc_T_{self.dim}_{self.lattice}.csv",
                 index=False,
@@ -116,12 +120,13 @@ class EquiMiscTPredictions(Visualizations):
                 Tm_constraint (float, optional): A constraint on the maximum allowed temperature relative to Avg_Tm.
                 alloy_constraint (str, optional): A constraint to filter the alloys by a specific string.
 
-        Example:
+        Example::
+        
                 EquiMiscTPredictions.plot_predictions(Tm_constraint=0.8, alloy_constraint='Fe')
                 # This will plot the temperatures for alloys containing 'Fe' with misc_T < 0.8*Tm.
         """
         file_path = f"../output_data/predictions/misc_T_{self.dim}_{self.lattice}.csv"
-        
+
         if self.generate_plot:
             df = self.make_predictions()
         elif not os.path.exists(file_path):

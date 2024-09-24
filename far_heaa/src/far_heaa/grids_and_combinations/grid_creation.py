@@ -41,7 +41,8 @@ class CompositionGrid:
         Raises:
                 ValueError: If `n` or `grid_size` is less than 2.
 
-        Example:
+        Example::
+        
                 grid = CompositionGrid.create_mol_grid(3, 10)
                 # grid is a 2D numpy array of mole fractions for a ternary system.
         """

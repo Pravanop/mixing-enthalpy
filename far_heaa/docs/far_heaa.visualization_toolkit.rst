@@ -11,6 +11,7 @@ far\_heaa.visualization\_toolkit.binary\_visualizations module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.visualization\_toolkit.heatmap\_visualizations module
 ---------------------------------------------------------------
@@ -19,6 +20,7 @@ far\_heaa.visualization\_toolkit.heatmap\_visualizations module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.visualization\_toolkit.miscellaneous\_visualizations module
 ---------------------------------------------------------------------
@@ -27,6 +29,7 @@ far\_heaa.visualization\_toolkit.miscellaneous\_visualizations module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.visualization\_toolkit.pathway\_visualizations module
 ---------------------------------------------------------------
@@ -35,6 +38,7 @@ far\_heaa.visualization\_toolkit.pathway\_visualizations module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.visualization\_toolkit.polar\_visualizations module
 -------------------------------------------------------------
@@ -43,6 +47,7 @@ far\_heaa.visualization\_toolkit.polar\_visualizations module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.visualization\_toolkit.ternary\_visualizations module
 ---------------------------------------------------------------
@@ -51,4 +56,4 @@ far\_heaa.visualization\_toolkit.ternary\_visualizations module
    :members:
    :undoc-members:
    :show-inheritance:
-
+   :noindex:

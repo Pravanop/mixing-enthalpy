@@ -43,7 +43,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Starting Instructions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ReadME.html">Fast and Robust High Entropy Alloy Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="binary_example.html">Plot a Binary Phase Diagram</a></li>
 </ul>
@@ -65,30 +69,12 @@
 <li class="toctree-l2"><a class="reference internal" href="far_heaa.html">far_heaa package</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">far_heaa.visualization_toolkit package</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-far_heaa.visualization_toolkit.binary_visualizations">far_heaa.visualization_toolkit.binary_visualizations module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#far_heaa.visualization_toolkit.binary_visualizations.binaryVizualization"><code class="docutils literal notranslate"><span class="pre">binaryVizualization</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-far_heaa.visualization_toolkit.heatmap_visualizations">far_heaa.visualization_toolkit.heatmap_visualizations module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap"><code class="docutils literal notranslate"><span class="pre">MatrixHeatmap</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-far_heaa.visualization_toolkit.miscellaneous_visualizations">far_heaa.visualization_toolkit.miscellaneous_visualizations module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations"><code class="docutils literal notranslate"><span class="pre">MiscellaneousVisualizations</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-far_heaa.visualization_toolkit.pathway_visualizations">far_heaa.visualization_toolkit.pathway_visualizations module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations"><code class="docutils literal notranslate"><span class="pre">PathwayVisualizations</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-far_heaa.visualization_toolkit.polar_visualizations">far_heaa.visualization_toolkit.polar_visualizations module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations"><code class="docutils literal notranslate"><span class="pre">PolarVisualizations</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#module-far_heaa.visualization_toolkit.ternary_visualizations">far_heaa.visualization_toolkit.ternary_visualizations module</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization"><code class="docutils literal notranslate"><span class="pre">TernaryVizualization</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l3"><a class="reference internal" href="#far-heaa-visualization-toolkit-binary-visualizations-module">far_heaa.visualization_toolkit.binary_visualizations module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#far-heaa-visualization-toolkit-heatmap-visualizations-module">far_heaa.visualization_toolkit.heatmap_visualizations module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#far-heaa-visualization-toolkit-miscellaneous-visualizations-module">far_heaa.visualization_toolkit.miscellaneous_visualizations module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#far-heaa-visualization-toolkit-pathway-visualizations-module">far_heaa.visualization_toolkit.pathway_visualizations module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#far-heaa-visualization-toolkit-polar-visualizations-module">far_heaa.visualization_toolkit.polar_visualizations module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#far-heaa-visualization-toolkit-ternary-visualizations-module">far_heaa.visualization_toolkit.ternary_visualizations module</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="far_heaa.phase_diagram.html">far_heaa.phase_diagram package</a></li>
@@ -127,11 +113,11 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-far_heaa.visualization_toolkit.binary_visualizations">
-<span id="far-heaa-visualization-toolkit-binary-visualizations-module"></span><h2>far_heaa.visualization_toolkit.binary_visualizations module<a class="headerlink" href="#module-far_heaa.visualization_toolkit.binary_visualizations" title="Link to this heading"></a></h2>
+<section id="far-heaa-visualization-toolkit-binary-visualizations-module">
+<h2>far_heaa.visualization_toolkit.binary_visualizations module<a class="headerlink" href="#far-heaa-visualization-toolkit-binary-visualizations-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.binary_visualizations.binaryVizualization">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.binary_visualizations.</span></span><span class="sig-name descname"><span class="pre">binaryVizualization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.binary_visualizations.binaryVizualization" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.binary_visualizations.</span></span><span class="sig-name descname"><span class="pre">binaryVizualization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class to visualize the binary phase diagram of a given alloy system. It calculates and plots
 the miscibility temperatures across a mole fraction grid for a binary composition.</p>
@@ -149,8 +135,20 @@ the miscibility temperatures across a mole fraction grid for a binary compositio
 </dd>
 </dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.binary_visualizations.binaryVizualization.find_misc_temperatures">
-<span class="sig-name descname"><span class="pre">find_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.binary_visualizations.binaryVizualization.find_misc_temperatures" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Finds the miscibility temperatures for the binary alloy across a mole fraction grid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Plots the miscibility temperatures for the binary alloy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Finds the miscibility temperatures for the binary alloy across a mole fraction grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -167,13 +165,15 @@ the miscibility temperatures across a mole fraction grid for a binary compositio
 <dd class="field-even"><p>Tuple[np.ndarray, np.ndarray]</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>mol_grid, misc_temp = self.find_misc_temperatures()</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mol_grid</span><span class="p">,</span> <span class="n">misc_temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">find_misc_temperatures</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.binary_visualizations.binaryVizualization.plot_misc_temperatures">
-<span class="sig-name descname"><span class="pre">plot_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.binary_visualizations.binaryVizualization.plot_misc_temperatures" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Plots the miscibility temperatures for the binary alloy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -190,41 +190,43 @@ the miscibility temperatures across a mole fraction grid for a binary compositio
 <dd class="field-even"><p>Tuple[plt.Axes, plt.Figure]</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>ax, fig = self.plot_misc_temperatures()</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="p">,</span> <span class="n">fig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_misc_temperatures</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.visualization_toolkit.heatmap_visualizations">
-<span id="far-heaa-visualization-toolkit-heatmap-visualizations-module"></span><h2>far_heaa.visualization_toolkit.heatmap_visualizations module<a class="headerlink" href="#module-far_heaa.visualization_toolkit.heatmap_visualizations" title="Link to this heading"></a></h2>
+<section id="far-heaa-visualization-toolkit-heatmap-visualizations-module">
+<h2>far_heaa.visualization_toolkit.heatmap_visualizations module<a class="headerlink" href="#far-heaa-visualization-toolkit-heatmap-visualizations-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.heatmap_visualizations.</span></span><span class="sig-name descname"><span class="pre">MatrixHeatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_ele</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'transmutate'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.heatmap_visualizations.</span></span><span class="sig-name descname"><span class="pre">MatrixHeatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_ele</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'transmutate'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class to generate heatmaps for the energy hull (E_hull) based on the composition of a given alloy system.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap.find_indices">
-<span class="sig-name descname"><span class="pre">find_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap.find_indices" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Finds the indices of the elements in the subset within the main_list.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap.get_ehull_matrix">
-<span class="sig-name descname"><span class="pre">get_ehull_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap.get_ehull_matrix" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_ehull_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Calculates and returns the mole fraction grid, energy hull values, and temperature grid.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap.plot_ehull_matrix">
-<span class="sig-name descname"><span class="pre">plot_ehull_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.heatmap_visualizations.MatrixHeatmap.plot_ehull_matrix" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_ehull_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Plots a heatmap of energy hull values against the mole fraction and temperature grids.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Finds the indices of the elements in the subset within the main_list.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -247,8 +249,8 @@ the miscibility temperatures across a mole fraction grid for a binary compositio
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<span class="sig-name descname"><span class="pre">get_ehull_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_ehull_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Calculates and returns the mole fraction grid, energy hull values, and temperature grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -261,8 +263,8 @@ the miscibility temperatures across a mole fraction grid for a binary compositio
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id2">
-<span class="sig-name descname"><span class="pre">plot_ehull_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#id2" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_ehull_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Plots a heatmap of energy hull values against the mole fraction and temperature grids.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -277,11 +279,11 @@ the miscibility temperatures across a mole fraction grid for a binary compositio
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.visualization_toolkit.miscellaneous_visualizations">
-<span id="far-heaa-visualization-toolkit-miscellaneous-visualizations-module"></span><h2>far_heaa.visualization_toolkit.miscellaneous_visualizations module<a class="headerlink" href="#module-far_heaa.visualization_toolkit.miscellaneous_visualizations" title="Link to this heading"></a></h2>
+<section id="far-heaa-visualization-toolkit-miscellaneous-visualizations-module">
+<h2>far_heaa.visualization_toolkit.miscellaneous_visualizations module<a class="headerlink" href="#far-heaa-visualization-toolkit-miscellaneous-visualizations-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.miscellaneous_visualizations.</span></span><span class="sig-name descname"><span class="pre">MiscellaneousVisualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.miscellaneous_visualizations.</span></span><span class="sig-name descname"><span class="pre">MiscellaneousVisualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class for generating various visualizations related to alloy compositions, including convex hull plots
 and heatmaps for binary mixing enthalpies.</p>
@@ -294,30 +296,30 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.grid_iterator">
-<span class="sig-name descname"><span class="pre">grid_iterator</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.grid_iterator" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">grid_iterator</span></span></dt>
 <dd><p>An instance of the GridIterator for iterating through grid data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="far_heaa.phase_diagram.html#far_heaa.phase_diagram.grid_iterators.GridIterator" title="far_heaa.phase_diagram.grid_iterators.GridIterator">GridIterator</a></p>
+<dd class="field-odd"><p>GridIterator</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.tm">
-<span class="sig-name descname"><span class="pre">tm</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.tm" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">tm</span></span></dt>
 <dd><p>An instance of the ThermoMaths class for thermodynamic calculations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="far_heaa.math_operations.html#far_heaa.math_operations.thermo_calculations.ThermoMaths" title="far_heaa.math_operations.thermo_calculations.ThermoMaths">ThermoMaths</a></p>
+<dd class="field-odd"><p>ThermoMaths</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.save_flag">
-<span class="sig-name descname"><span class="pre">save_flag</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.save_flag" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">save_flag</span></span></dt>
 <dd><p>A flag indicating whether to save the generated plots.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -327,8 +329,20 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.heatmap">
-<span class="sig-name descname"><span class="pre">heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Figure</span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.heatmap" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_convex_hull</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Plots the convex hull for a given alloy composition at a specified temperature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">heatmap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Creates a heatmap of binary mixing enthalpy for a list of elements.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Figure</span></span></span></dt>
 <dd><p>Creates a heatmap of binary mixing enthalpy for a list of elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -350,8 +364,8 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.plot_convex_hull">
-<span class="sig-name descname"><span class="pre">plot_convex_hull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.miscellaneous_visualizations.MiscellaneousVisualizations.plot_convex_hull" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_convex_hull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Plots the convex hull for a given alloy composition at a specified temperature.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -374,11 +388,11 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.visualization_toolkit.pathway_visualizations">
-<span id="far-heaa-visualization-toolkit-pathway-visualizations-module"></span><h2>far_heaa.visualization_toolkit.pathway_visualizations module<a class="headerlink" href="#module-far_heaa.visualization_toolkit.pathway_visualizations" title="Link to this heading"></a></h2>
+<section id="far-heaa-visualization-toolkit-pathway-visualizations-module">
+<h2>far_heaa.visualization_toolkit.pathway_visualizations module<a class="headerlink" href="#far-heaa-visualization-toolkit-pathway-visualizations-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.pathway_visualizations.</span></span><span class="sig-name descname"><span class="pre">PathwayVisualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.pathway_visualizations.</span></span><span class="sig-name descname"><span class="pre">PathwayVisualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class for visualizing reaction pathways for a given alloy composition and lattice structure.</p>
 <dl class="field-list simple">
@@ -392,30 +406,30 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.tm">
-<span class="sig-name descname"><span class="pre">tm</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.tm" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">tm</span></span></dt>
 <dd><p>An instance of the ThermoMaths class for thermodynamic calculations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="far_heaa.math_operations.html#far_heaa.math_operations.thermo_calculations.ThermoMaths" title="far_heaa.math_operations.thermo_calculations.ThermoMaths">ThermoMaths</a></p>
+<dd class="field-odd"><p>ThermoMaths</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.grid_iterator">
-<span class="sig-name descname"><span class="pre">grid_iterator</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.grid_iterator" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">grid_iterator</span></span></dt>
 <dd><p>An instance of the GridIterator class for grid-based iteration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="far_heaa.phase_diagram.html#far_heaa.phase_diagram.grid_iterators.GridIterator" title="far_heaa.phase_diagram.grid_iterators.GridIterator">GridIterator</a></p>
+<dd class="field-odd"><p>GridIterator</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.temp_grid">
-<span class="sig-name descname"><span class="pre">temp_grid</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.temp_grid" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">temp_grid</span></span></dt>
 <dd><p>A list of temperature values for the convex hull calculations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -425,8 +439,8 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.conv_hull">
-<span class="sig-name descname"><span class="pre">conv_hull</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.conv_hull" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">conv_hull</span></span></dt>
 <dd><p>A dictionary containing convex hull data for the alloy system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -436,8 +450,8 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.mol_grid_size">
-<span class="sig-name descname"><span class="pre">mol_grid_size</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.mol_grid_size" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">mol_grid_size</span></span></dt>
 <dd><p>The size of the mole fraction grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -447,8 +461,8 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.save_flag">
-<span class="sig-name descname"><span class="pre">save_flag</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.save_flag" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">save_flag</span></span></dt>
 <dd><p>A flag indicating whether to save the generated plots.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -458,8 +472,38 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.find_indices_in_range">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_indices_in_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">float_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.find_indices_in_range" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_rP</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Calculates reaction pathways for the alloy system and returns miscibility temperatures for each pathway.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_n_colors_from_cmap</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Generates N evenly spaced colors from a given colormap.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">text_segregators</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Groups text labels by their proximity and returns their adjusted positions for plotting.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_indices_in_range</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Finds groups of indices in the input list where values are within the specified threshold.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_rP</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Plots the reaction pathways for the alloy system and the corresponding miscibility temperatures.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_indices_in_range</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">float_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">200</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Finds groups of indices in the input list where values are within the specified threshold.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -478,8 +522,8 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.get_n_colors_from_cmap">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_n_colors_from_cmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmap_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.get_n_colors_from_cmap" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_n_colors_from_cmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmap_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Generates N evenly spaced colors from a given colormap.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -498,8 +542,8 @@ and heatmaps for binary mixing enthalpies.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.get_rP">
-<span class="sig-name descname"><span class="pre">get_rP</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.get_rP" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_rP</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Calculates reaction pathways for the alloy system and returns miscibility temperatures for each pathway.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -510,13 +554,15 @@ miscibility temperatures along each pathway.</p>
 <dd class="field-even"><p>dict</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>path_dict = self.get_rP()</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">path_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_rP</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.plot_rP">
-<span class="sig-name descname"><span class="pre">plot_rP</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.plot_rP" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_rP</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Plots the reaction pathways for the alloy system and the corresponding miscibility temperatures.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -526,13 +572,15 @@ miscibility temperatures along each pathway.</p>
 <dd class="field-even"><p>Tuple[plt.Axes, plt.Figure]</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>ax, fig = self.plot_rP()</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ax</span><span class="p">,</span> <span class="n">fig</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot_rP</span><span class="p">()</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.text_segregators">
-<span class="sig-name descname"><span class="pre">text_segregators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">texts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.pathway_visualizations.PathwayVisualizations.text_segregators" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">text_segregators</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">texts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Groups text labels by their proximity and returns their adjusted positions for plotting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -550,82 +598,82 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.visualization_toolkit.polar_visualizations">
-<span id="far-heaa-visualization-toolkit-polar-visualizations-module"></span><h2>far_heaa.visualization_toolkit.polar_visualizations module<a class="headerlink" href="#module-far_heaa.visualization_toolkit.polar_visualizations" title="Link to this heading"></a></h2>
+<section id="far-heaa-visualization-toolkit-polar-visualizations-module">
+<h2>far_heaa.visualization_toolkit.polar_visualizations module<a class="headerlink" href="#far-heaa-visualization-toolkit-polar-visualizations-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.polar_visualizations.</span></span><span class="sig-name descname"><span class="pre">PolarVisualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.polar_visualizations.</span></span><span class="sig-name descname"><span class="pre">PolarVisualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'misc_T'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'e_hull'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class for generating polar visualizations of miscibility temperatures and related properties for a given alloy system.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.misc_temp">
-<span class="sig-name descname"><span class="pre">misc_temp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.misc_temp" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">misc_temp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Retrieves miscibility temperature data for the specified composition and lattice.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.draw_circle_in_polar">
-<span class="sig-name descname"><span class="pre">draw_circle_in_polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.draw_circle_in_polar" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">draw_circle_in_polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Draws a circle with the given radius on a polar plot.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.get_n_colors_from_cmap">
-<span class="sig-name descname"><span class="pre">get_n_colors_from_cmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmap_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.get_n_colors_from_cmap" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_n_colors_from_cmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmap_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Retrieves N equally spaced colors from the specified colormap.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.text_flipper">
-<span class="sig-name descname"><span class="pre">text_flipper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.text_flipper" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">text_flipper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Flips text orientation based on the angle in a polar plot.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.scatter_center">
-<span class="sig-name descname"><span class="pre">scatter_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scatter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.scatter_center" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">scatter_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scatter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plots the central scatter point in a polar plot.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_line">
-<span class="sig-name descname"><span class="pre">plot_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle_degrees</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_line" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle_degrees</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plots a line with varying color on a polar plot based on temperature values.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_colored_secant">
-<span class="sig-name descname"><span class="pre">plot_colored_secant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">misc_temp_list_sec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_colored_secant" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_colored_secant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_start</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_end</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">misc_temp_list_sec</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plots a colored secant line between two angles on a polar plot.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.set_ax_params">
-<span class="sig-name descname"><span class="pre">set_ax_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.set_ax_params" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_ax_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Sets up the polar plot with proper parameters like colorbars and labels.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.make_one_bar">
-<span class="sig-name descname"><span class="pre">make_one_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_alloy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.make_one_bar" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">make_one_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_alloy</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_pos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx2</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plots a single bar representing miscibility temperature on a polar plot.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.total_plot">
-<span class="sig-name descname"><span class="pre">total_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.total_plot" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">total_plot</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
 <dd><p>Generates a full polar plot for all compositions in the alloy system.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_N">
-<span class="sig-name descname"><span class="pre">plot_N</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transmute_indices</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_N" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_N</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_ind</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transmute_indices</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Plots polar diagrams for a specific N-index with optional transmutation lines.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id3">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">draw_circle_in_polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#id3" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">draw_circle_in_polar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
 <dd><p>Draws a circle with the given radius on a polar plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -638,8 +686,18 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id4">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_n_colors_from_cmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmap_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="headerlink" href="#id4" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">e_hull</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'transmutate'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_misc_temperatures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'transmutate'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_n_colors_from_cmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmap_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span></dt>
 <dd><p>Retrieves N equally spaced colors from the specified colormap.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -658,8 +716,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id5">
-<span class="sig-name descname"><span class="pre">make_one_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_alloy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#id5" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">make_one_bar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_alloy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">member_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">idx2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
 <dd><p>Plots a single bar representing miscibility temperature on a polar plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -683,8 +741,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id6">
-<span class="sig-name descname"><span class="pre">misc_temp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'transmutate'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#id6" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">misc_temp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">member_pos</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'add'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'transmutate'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span></dt>
 <dd><p>Retrieves miscibility temperature data for the specified composition and lattice.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -705,8 +763,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id7">
-<span class="sig-name descname"><span class="pre">plot_colored_secant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">misc_temp_list_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#id7" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_colored_secant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_end</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">misc_temp_list_sec</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">50</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
 <dd><p>Plots a colored secant line between two angles on a polar plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -725,8 +783,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id8">
-<span class="sig-name descname"><span class="pre">plot_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle_degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#id8" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle_degrees</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">norm</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
 <dd><p>Plots a line with varying color on a polar plot based on temperature values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -744,8 +802,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_subset">
-<span class="sig-name descname"><span class="pre">plot_subset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transmute_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_subset" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_subset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N_ind</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">transmute_indices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Plots polar diagrams for a specific N-index with optional transmutation lines.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -764,8 +822,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_total">
-<span class="sig-name descname"><span class="pre">plot_total</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.polar_visualizations.PolarVisualizations.plot_total" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_total</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Generates a full polar plot for all compositions in the alloy system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -778,8 +836,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id9">
-<span class="sig-name descname"><span class="pre">scatter_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#id9" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">scatter_center</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scatter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
 <dd><p>Plots the central scatter point in a polar plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -792,8 +850,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id10">
-<span class="sig-name descname"><span class="pre">set_ax_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#id10" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">set_ax_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Axes</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
 <dd><p>Sets up the polar plot with proper parameters like colorbars and labels.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -803,8 +861,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id11">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text_flipper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#id11" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">text_flipper</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
 <dd><p>Flips text orientation based on the angle in a polar plot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -822,18 +880,18 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.visualization_toolkit.ternary_visualizations">
-<span id="far-heaa-visualization-toolkit-ternary-visualizations-module"></span><h2>far_heaa.visualization_toolkit.ternary_visualizations module<a class="headerlink" href="#module-far_heaa.visualization_toolkit.ternary_visualizations" title="Link to this heading"></a></h2>
+<section id="far-heaa-visualization-toolkit-ternary-visualizations-module">
+<h2>far_heaa.visualization_toolkit.ternary_visualizations module<a class="headerlink" href="#far-heaa-visualization-toolkit-ternary-visualizations-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.ternary_visualizations.</span></span><span class="sig-name descname"><span class="pre">TernaryVizualization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.visualization_toolkit.ternary_visualizations.</span></span><span class="sig-name descname"><span class="pre">TernaryVisualization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contour_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class for visualizing ternary phase diagrams and miscibility temperatures for a given alloy composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>composition</strong> (<em>list</em><em>[</em><em>str</em><em>]</em>) – A list of three elements in the ternary alloy system.</p></li>
-<li><p><strong>lattice</strong> (<em>str</em>) – The lattice structure (e.g., ‘FCC’, ‘BCC’).</p></li>
+<li><p><strong>lattice</strong> (<em>Literal</em><em>[</em><em>'FCC'</em><em>, </em><em>'BCC'</em><em>, </em><em>'HCP'</em><em>, </em><em>'min'</em><em>]</em>) – The lattice structure. ‘min’ is whichever lattice gives minimum mixing enthalpy for that mole fraction.</p></li>
 <li><p><strong>meta_data</strong> (<em>dict</em>) – A dictionary containing metadata such as grid size, file paths, and flags.</p></li>
 <li><p><strong>save_flag</strong> (<em>bool</em>) – A flag indicating whether to save the visualizations.</p></li>
 <li><p><strong>contour_flag</strong> (<em>bool</em>) – A flag indicating whether to use contour plots or scatter plots.</p></li>
@@ -841,8 +899,8 @@ miscibility temperatures along each pathway.</p>
 </dd>
 </dl>
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.cmap">
-<span class="sig-name descname"><span class="pre">cmap</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.cmap" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">cmap</span></span></dt>
 <dd><p>The colormap to use for plotting.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -852,41 +910,30 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.norm">
-<span class="sig-name descname"><span class="pre">norm</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.norm" title="Link to this definition"></a></dt>
-<dd><p>Normalization for color mapping.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Normalize</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.tm">
-<span class="sig-name descname"><span class="pre">tm</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.tm" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">tm</span></span></dt>
 <dd><p>An instance of the ThermoMaths class for thermodynamic calculations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="far_heaa.math_operations.html#far_heaa.math_operations.thermo_calculations.ThermoMaths" title="far_heaa.math_operations.thermo_calculations.ThermoMaths">ThermoMaths</a></p>
+<dd class="field-odd"><p>ThermoMaths</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.grid_iterator">
-<span class="sig-name descname"><span class="pre">grid_iterator</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.grid_iterator" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">grid_iterator</span></span></dt>
 <dd><p>An instance of the GridIterator class for grid-based iteration.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="far_heaa.phase_diagram.html#far_heaa.phase_diagram.grid_iterators.GridIterator" title="far_heaa.phase_diagram.grid_iterators.GridIterator">GridIterator</a></p>
+<dd class="field-odd"><p>GridIterator</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.save_flag">
-<span class="sig-name descname"><span class="pre">save_flag</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.save_flag" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">save_flag</span></span></dt>
 <dd><p>A flag indicating whether to save the generated plots.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -896,8 +943,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.contour_flag">
-<span class="sig-name descname"><span class="pre">contour_flag</span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.contour_flag" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">contour_flag</span></span></dt>
 <dd><p>A flag indicating whether to generate contour plots.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
@@ -907,8 +954,38 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.find_isotherm">
-<span class="sig-name descname"><span class="pre">find_isotherm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.find_isotherm" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Finds the miscibility temperatures for the ternary alloy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_isotherm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Finds the isotherm (temperature slice) of the energy above the convex hull for the ternary alloy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_isotherm</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Plots the isotherm (temperature slice) of the energy above the convex hull for the ternary alloy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Plots the miscibility temperatures for the ternary alloy.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_ternary_visualizations</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span></dt>
+<dd><p>Generates and saves ternary visualizations, including miscibility temperature plots and isotherms for a given temperature range and gradation.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_isotherm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Finds the isotherm (temperature slice) of the energy above the convex hull for the ternary alloy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -931,8 +1008,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.find_misc_temperatures">
-<span class="sig-name descname"><span class="pre">find_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.find_misc_temperatures" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">find_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">ndarray</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Finds miscibility temperatures for the ternary alloy across a mole fraction grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -952,8 +1029,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.plot_isotherm">
-<span class="sig-name descname"><span class="pre">plot_isotherm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.plot_isotherm" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_isotherm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Plots the isotherm (temperature slice) of the energy above the convex hull for the ternary alloy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -969,8 +1046,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.plot_misc_temperatures">
-<span class="sig-name descname"><span class="pre">plot_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.plot_misc_temperatures" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_misc_temperatures</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Axes</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Figure</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Plots the miscibility temperatures for the ternary alloy.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -983,8 +1060,8 @@ miscibility temperatures along each pathway.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.plot_ternary_visualizations">
-<span class="sig-name descname"><span class="pre">plot_ternary_visualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_gradation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">switch_contour_off</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">switch_scatter_off</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#far_heaa.visualization_toolkit.ternary_visualizations.TernaryVizualization.plot_ternary_visualizations" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">plot_ternary_visualizations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">T_min</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_max</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T_gradation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">switch_contour_off</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">switch_scatter_off</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span></dt>
 <dd><p>Generates and saves ternary visualizations, including miscibility temperature plots and isotherms
 for a given temperature range and gradation. (both contours and scatters</p>
 <dl class="field-list simple">
@@ -999,8 +1076,10 @@ for a given temperature range and gradation. (both contours and scatters</p>
 </dd>
 </dl>
 <p>RaisesError: If switch_contour_off and switch_scatter_off is True.</p>
-<p class="rubric">Example</p>
-<p>self.plot_ternary_visualizations(T_min=300, T_max=1500, T_gradation=100)</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">plot_ternary_visualizations</span><span class="p">(</span><span class="n">T_min</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">T_max</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span> <span class="n">T_gradation</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>

@@ -33,7 +33,8 @@ class IntermetallicExtractions:
                 List[PDEntryLocal]: A list of phase diagram entries (PDEntryLocal objects)
                                                         containing compositions and formation energies.
 
-        Example:
+        Example::
+        
                 alloy_list = ['Fe-Ni', 'Cu-Al']
                 api_key = 'your_mp_api_key'
 

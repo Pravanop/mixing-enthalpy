@@ -18,7 +18,8 @@ class FancyListExtractions:
         Returns:
                 list: The modified list with the new values assigned.
 
-        Example:
+        Example::
+        
                 lst = [1, 2, 3, 4]
                 new_values = [9, 10]
                 result = FancyListExtractions.assign_rolling_slice(lst, start=3, new_values=new_values)
@@ -46,7 +47,8 @@ class FancyListExtractions:
         Returns:
                 list: A list of indices corresponding to the subset elements in the main list. If an element is not found, `None` is returned in its place.
 
-        Example:
+        Example::
+        
                 main_list = ['a', 'b', 'c', 'd']
                 subset = ['b', 'd', 'x']
                 result = FancyListExtractions.find_indices(main_list, subset)

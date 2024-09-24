@@ -215,7 +215,12 @@ class TernaryVisualization(Visualizations):
                 axis=1,
             )
             ax.tricontourf(
-                data[:, 0], data[:, 1], data[:, 2], data[:, 3], cmap=self.cmap, norm=norm
+                data[:, 0],
+                data[:, 1],
+                data[:, 2],
+                data[:, 3],
+                cmap=self.cmap,
+                norm=norm,
             )
 
         sm = ScalarMappable(cmap=self.cmap, norm=norm)
@@ -264,7 +269,8 @@ class TernaryVisualization(Visualizations):
 
         RaisesError: If switch_contour_off and switch_scatter_off is True.
 
-        Example:
+        Example::
+        
                 self.plot_ternary_visualizations(T_min=300, T_max=1500, T_gradation=100)
         """
         # Create a grid of temperatures for isotherms

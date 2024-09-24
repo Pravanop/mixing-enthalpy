@@ -48,15 +48,15 @@ class PolarVisualizations(Visualizations):
         plot_N(N_ind, transmute_indices):
             Plots polar diagrams for a specific N-index with optional transmutation lines.
     """
-    
+
     def __init__(
-            self,
-            composition: List[str],
-            lattice: Literal["FCC", "BCC", "HCP", "min"],
-            meta_data: dict,
-            save_flag: bool,
-            type_flag: Literal["misc_T", "e_hull"],
-            **kwargs,
+        self,
+        composition: List[str],
+        lattice: Literal["FCC", "BCC", "HCP", "min"],
+        meta_data: dict,
+        save_flag: bool,
+        type_flag: Literal["misc_T", "e_hull"],
+        **kwargs,
     ):
         """
         Initializes the PolarVisualizations class with composition, lattice, metadata, and save flag.
@@ -73,10 +73,10 @@ class PolarVisualizations(Visualizations):
             raise ValueError(
                 "Composition should have at least 3 elements. Maybe you are better off using other visualizations."
             )
-        
+
         self.cmap = cm.get_cmap("plasma")
         self.save_flag = save_flag
-        
+
         self.type_flag = type_flag
         if self.type_flag == "misc_T":
             t_max = max([self.tm.avg_T_melt(i, mol_ratio=[]) for i in self.composition])
@@ -86,22 +86,22 @@ class PolarVisualizations(Visualizations):
                 composition=self.composition, temp_grid=self.temp_grid
             )
             self.norm = Normalize(vmin=0, vmax=t_max)
-            
+
         elif self.type_flag == "e_hull":
             self.norm = Normalize(vmin=0, vmax=0.25)
-        
+
         self.mol_gradation = kwargs.get("mol_gradation", 15)
         self.x = np.linspace(0, 1, self.mol_gradation)
         self.figsize = (len(self.composition) + 1, len(self.composition) + 1)
         self.linewidth = 9.5 - (len(self.composition) - 3)
         self.y_bias = 0.4
-    
+
     def misc_temp(
-            self,
-            member_pos: List[int],
-            x: np.ndarray,
-            N: int,
-            flag: Literal["add", "transmutate"],
+        self,
+        member_pos: List[int],
+        x: np.ndarray,
+        N: int,
+        flag: Literal["add", "transmutate"],
     ) -> np.ndarray:
         """
         Retrieves miscibility temperature data for the specified composition and lattice.
@@ -116,7 +116,7 @@ class PolarVisualizations(Visualizations):
             np.ndarray: Miscibility temperatures for the given composition.
         """
         n = len(self.composition)
-        
+
         mol_grid = (
             CompositionGrid.create_high_sym_mol_grid(
                 x=x, n=n, N=N, change_idx=member_pos
@@ -126,7 +126,7 @@ class PolarVisualizations(Visualizations):
                 x=x, n=n, transmutation_indice=member_pos
             )
         )
-        
+
         mol_grid, misc_temp = self.grid_iterator.misc_temperature_across_grid(
             composition=self.composition,
             mol_grid_size=mol_grid,
@@ -136,17 +136,18 @@ class PolarVisualizations(Visualizations):
             temp_grid=self.temp_grid,
         )
         return misc_temp
-    
-    def e_hull(self,
-               temperature: float,
-               member_pos: List[int],
-               x: np.ndarray,
-               N: int,
-               flag: Literal["add", "transmutate"],
-               ):
-        
+
+    def e_hull(
+        self,
+        temperature: float,
+        member_pos: List[int],
+        x: np.ndarray,
+        N: int,
+        flag: Literal["add", "transmutate"],
+    ):
+
         n = len(self.composition)
-        
+
         mol_grid = (
             CompositionGrid.create_high_sym_mol_grid(
                 x=x, n=n, N=N, change_idx=member_pos
@@ -156,7 +157,7 @@ class PolarVisualizations(Visualizations):
                 x=x, n=n, transmutation_indice=member_pos
             )
         )
-        
+
         mol_grid, e_hull, _ = self.grid_iterator.e_hull_across_grid(
             composition=self.composition,
             mol_grid_size=mol_grid,
@@ -165,9 +166,7 @@ class PolarVisualizations(Visualizations):
             temp_gradation=temperature,
         )
         return e_hull
-        
-        
-    
+
     def draw_circle_in_polar(self, radius: float, ax: plt.Axes) -> None:
         """
         Draws a circle with the given radius on a polar plot.
@@ -186,7 +185,7 @@ class PolarVisualizations(Visualizations):
             linestyle="--",
             alpha=0.1,
         )
-    
+
     @staticmethod
     def get_n_colors_from_cmap(cmap_name: str, N: int) -> List:
         """
@@ -201,7 +200,7 @@ class PolarVisualizations(Visualizations):
         """
         cmap = plt.get_cmap(cmap_name)
         return [cmap(i) for i in np.linspace(0, 1, N)]
-    
+
     @staticmethod
     def text_flipper(angle: float) -> float:
         """
@@ -214,7 +213,7 @@ class PolarVisualizations(Visualizations):
             float: The adjusted angle for text orientation.
         """
         return angle + 180 if 90 < angle < 270 else angle
-    
+
     def scatter_center(self, scatter: float, ax: plt.Axes) -> None:
         """
         Plots the central scatter point in a polar plot.
@@ -223,15 +222,7 @@ class PolarVisualizations(Visualizations):
             scatter (float): The value to normalize the color of the scatter point.
             ax (plt.Axes): The polar plot axes.
         """
-        # ax.scatter(
-        #     0,
-        #     0,
-        #     color=self.cmap(self.norm(scatter)),
-        #     marker="o",
-        #     s=160,
-        #     zorder=100,
-        #     edgecolor="black",
-        # )
+        
         theta = np.linspace(0, 2 * np.pi, 100)
         # self.draw_circle_in_polar(radius=self.y_bias, ax=ax)
         ax.plot(
@@ -239,7 +230,7 @@ class PolarVisualizations(Visualizations):
             [self.y_bias - 0.05] * len(theta),
             linewidth=1.5,
             zorder=100,
-            color='black',
+            color="black",
             linestyle="-",
             alpha=1,
         )
@@ -250,16 +241,16 @@ class PolarVisualizations(Visualizations):
             color=self.cmap(self.norm(scatter)),
             alpha=1,
         )
-    
+
     def plot_line(
-            self,
-            angle_degrees: float,
-            x_values: np.ndarray,
-            temp_list: np.ndarray,
-            ax: plt.Axes,
-            cmap,
-            norm,
-            zorder: int,
+        self,
+        angle_degrees: float,
+        x_values: np.ndarray,
+        temp_list: np.ndarray,
+        ax: plt.Axes,
+        cmap,
+        norm,
+        zorder: int,
     ) -> None:
         """
         Plots a line with varying color on a polar plot based on temperature values.
@@ -273,7 +264,7 @@ class PolarVisualizations(Visualizations):
             norm: Normalization for the colormap.
             zorder (int): The drawing order.
         """
-        
+
         angle_radians = np.radians(angle_degrees)
         for i in range(len(x_values)):
             ax.vlines(
@@ -284,17 +275,17 @@ class PolarVisualizations(Visualizations):
                 linewidth=self.linewidth,
                 zorder=zorder + len(x_values) - i,
             )
-    
+
     def plot_colored_secant(
-            self,
-            ax: plt.Axes,
-            radius: float,
-            angle_start: float,
-            angle_end: float,
-            misc_temp_list_sec: np.ndarray,
-            cmap,
-            norm,
-            zorder: int = 50,
+        self,
+        ax: plt.Axes,
+        radius: float,
+        angle_start: float,
+        angle_end: float,
+        misc_temp_list_sec: np.ndarray,
+        cmap,
+        norm,
+        zorder: int = 50,
     ) -> None:
         """
         Plots a colored secant line between two angles on a polar plot.
@@ -316,7 +307,7 @@ class PolarVisualizations(Visualizations):
         slope = (y_end - y_start) / (x_end - x_start)
         y = slope * (total_x - x_start) + y_start
         radius, theta = pm.cartesian_to_polar(total_x, y)
-        
+
         for idx in range(len(misc_temp_list_sec)):
             if idx + 1 < len(misc_temp_list_sec):
                 x_coord = [theta[idx], theta[idx + 1]]
@@ -328,7 +319,7 @@ class PolarVisualizations(Visualizations):
                     linewidth=self.linewidth,
                     zorder=zorder + len(misc_temp_list_sec) - idx,
                 )
-    
+
     def set_ax_params(self, ax: plt.Axes) -> None:
         """
         Sets up the polar plot with proper parameters like colorbars and labels.
@@ -349,25 +340,24 @@ class PolarVisualizations(Visualizations):
             cbar.set_label("$T_{misc}$ (K)", fontsize=12)
         else:
             cbar.set_label("$E_{hull}$ (eV/atom)", fontsize=12)
-        
-    
-    def find_misc_temperatures(self, member_pos: List[int], N: int, flag: Literal['add', 'transmutate']) -> np.ndarray:
-        misc_temp_list = self.misc_temp(
-            member_pos=member_pos, x=self.x, flag=flag, N=N
-        )
+
+    def find_misc_temperatures(
+        self, member_pos: List[int], N: int, flag: Literal["add", "transmutate"]
+    ) -> np.ndarray:
+        misc_temp_list = self.misc_temp(member_pos=member_pos, x=self.x, flag=flag, N=N)
         misc_temp_list = np.array([5000 if i == -1 else i for i in misc_temp_list])
         return misc_temp_list
-    
+
     def make_one_bar(
-            self,
-            ax: plt.Axes,
-            n_alloy: int,
-            member_pos: List[int],
-            i: str,
-            N: int,
-            angle: float,
-            idx2: int,
-            **kwargs
+        self,
+        ax: plt.Axes,
+        n_alloy: int,
+        member_pos: List[int],
+        i: str,
+        N: int,
+        angle: float,
+        idx2: int,
+        **kwargs,
     ) -> float:
         """
         Plots a single bar representing miscibility temperature on a polar plot.
@@ -385,13 +375,19 @@ class PolarVisualizations(Visualizations):
             float: The first miscibility temperature value for this bar.
         """
         line_colors = self.get_n_colors_from_cmap("Dark2", len(self.composition) - 1)
-        temperature = kwargs.get('temperature', None)
+        temperature = kwargs.get("temperature", None)
         if self.type_flag == "e_hull" and not temperature:
             raise ValueError("Temperature should be provided for e_hull plot.")
         if temperature:
-            misc_temp_list = self.e_hull(temperature=temperature, member_pos=member_pos, x=self.x, N=N, flag='add')
+            misc_temp_list = self.e_hull(
+                temperature=temperature,
+                member_pos=member_pos,
+                x=self.x,
+                N=N,
+                flag="add",
+            )
         else:
-            misc_temp_list = self.find_misc_temperatures(member_pos, N, flag='add')
+            misc_temp_list = self.find_misc_temperatures(member_pos, N, flag="add")
         self.plot_line(
             angle_degrees=angle,
             x_values=self.x * pm.distance_calculator(n_alloy, N),
@@ -405,7 +401,8 @@ class PolarVisualizations(Visualizations):
         ax.vlines(
             angle_radians,
             ymin=self.y_bias,
-            ymax=(self.x * pm.distance_calculator(n_alloy, n_alloy - 1))[-1] + self.y_bias,
+            ymax=(self.x * pm.distance_calculator(n_alloy, n_alloy - 1))[-1]
+            + self.y_bias,
             linestyles="-",
             color=line_colors[idx2],
             zorder=0,
@@ -415,7 +412,10 @@ class PolarVisualizations(Visualizations):
         rotation = self.text_flipper(angle=angle)
         ax.text(
             angle_radians,
-            pm.distance_calculator(n_alloy, n_alloy - 1) + N * 0.2 - 0.01 * n_alloy + self.y_bias,
+            pm.distance_calculator(n_alloy, n_alloy - 1)
+            + N * 0.2
+            - 0.01 * n_alloy
+            + self.y_bias,
             i,
             ha="center",
             va="center",
@@ -423,7 +423,7 @@ class PolarVisualizations(Visualizations):
             rotation=rotation,
         )
         return float(misc_temp_list[0])
-    
+
     def plot_total(self, **kwargs) -> Tuple[plt.Axes, plt.Figure]:
         """
         Generates a full polar plot for all compositions in the alloy system.
@@ -433,16 +433,16 @@ class PolarVisualizations(Visualizations):
         """
         n_alloy = len(self.composition)
         fig, ax = plt.subplots(subplot_kw={"projection": "polar"}, figsize=self.figsize)
-        
+
         angles = pm.divide_circle_degrees(pm.total_num_bars(n_alloy))
         count = 0
         scatter = 0
-        temperature = kwargs.get('temperature', None)
+        temperature = kwargs.get("temperature", None)
         print(temperature)
         if self.type_flag == "e_hull" and temperature is None:
             raise ValueError("Temperature should be provided for e_hull plot.")
         for idx2, N in enumerate(range(1, len(self.composition))):
-            
+
             combs = (
                 self.composition
                 if N == 1
@@ -452,40 +452,46 @@ class PolarVisualizations(Visualizations):
                     ).values()
                 )[0]
             )
-            
+
             for idx, i in enumerate(combs):
                 angle = angles[count]
                 temp_i = i.split("-")
                 member_pos = fLE.find_indices(self.composition, temp_i)
                 if temperature:
                     scatter = self.make_one_bar(
-                        ax, n_alloy, member_pos, i, N, float(angle), idx2, temperature = temperature
+                        ax,
+                        n_alloy,
+                        member_pos,
+                        i,
+                        N,
+                        float(angle),
+                        idx2,
+                        temperature=temperature,
                     )
                 else:
                     scatter = self.make_one_bar(
                         ax, n_alloy, member_pos, i, N, float(angle), idx2
                     )
-                    
+
                 count += 1
-        
+
         for N in range(1, len(self.composition)):
             self.draw_circle_in_polar(radius=pm.distance_calculator(n_alloy, N), ax=ax)
-        
+
         self.scatter_center(scatter, ax)
         self.set_ax_params(ax)
-        
+
         if self.save_flag:
             self.save_figure(
                 folders=["polar_plots", self.type_flag, "total"],
                 file_name=f'{"".join(sorted(self.composition))}',
                 fig=fig,
             )
-        
+
         return ax, fig
-    
+
     def plot_subset(
-            self, N_ind: int, transmute_indices: List[int], **kwargs
-    
+        self, N_ind: int, transmute_indices: List[int], **kwargs
     ) -> Tuple[plt.Axes, plt.Figure]:
         """
         Plots polar diagrams for a specific N-index with optional transmutation lines.
@@ -499,12 +505,12 @@ class PolarVisualizations(Visualizations):
         """
         n_alloy = len(self.composition)
         fig, ax = plt.subplots(subplot_kw={"projection": "polar"}, figsize=self.figsize)
-        
+
         melt_T = []
         for idx, i in enumerate(self.composition):
             mol_ratio = [1 if idx == i else 0 for i in range(n_alloy)]
             melt_T.append(self.tm.avg_T_melt(composition=[i], mol_ratio=mol_ratio))
-        
+
         count = 0
         if N_ind == 1:
             combs = self.composition
@@ -514,19 +520,19 @@ class PolarVisualizations(Visualizations):
                     element_list=self.composition, no_comb=[N_ind], sort=False
                 ).values()
             )[0]
-        
+
         combs_n_N = [
             "-".join(list(set(self.composition).difference(set(i.split("-")))))
             for i in combs
         ]
-        
+
         scatter = 0
-        temperature = kwargs.get('temperature', None)
+        temperature = kwargs.get("temperature", None)
         if self.type_flag == "e_hull" and not temperature:
             raise ValueError("Temperature should be provided for e_hull plot.")
         for idx2, comb in enumerate([combs, combs_n_N]):
             angles = pm().angle_assigner(length=len(comb))
-            
+
             for idx, i in enumerate(comb):
                 angle = angles[idx] + idx2 * 180
                 temp_i = i.split("-")
@@ -534,25 +540,33 @@ class PolarVisualizations(Visualizations):
                 N = len(temp_i)
                 if temperature:
                     scatter = self.make_one_bar(
-                        ax, n_alloy, member_pos, i, N, float(angle), idx2, temperature=temperature
+                        ax,
+                        n_alloy,
+                        member_pos,
+                        i,
+                        N,
+                        float(angle),
+                        idx2,
+                        temperature=temperature,
                     )
                 else:
                     scatter = self.make_one_bar(
                         ax, n_alloy, member_pos, i, N, float(angle), idx2
                     )
-                
+
                 angle_radians = np.radians(angle)
                 if transmute_indices and self.type_flag == "misc_T":
                     if idx2 != 0 and idx == min(transmute_indices):
                         misc_temp_list_sec = self.find_misc_temperatures(
-                            transmute_indices,
-                            N,
-                            flag="transmutate"
+                            transmute_indices, N, flag="transmutate"
                         )
                         self.plot_colored_secant(
                             ax,
                             float(
-                                (self.x * pm.distance_calculator(n_alloy, n_alloy - 1))[-1] + self.y_bias
+                                (self.x * pm.distance_calculator(n_alloy, n_alloy - 1))[
+                                    -1
+                                ]
+                                + self.y_bias
                             ),
                             angle_radians,
                             np.radians(angles[transmute_indices[1]] + idx2 * 180),
@@ -564,15 +578,15 @@ class PolarVisualizations(Visualizations):
                     radius=pm.distance_calculator(n_alloy, N), ax=ax
                 )
                 count += 1
-        
+
         self.scatter_center(scatter, ax)
         self.set_ax_params(ax)
-        
+
         if self.save_flag:
             self.save_figure(
-                folders=["polar_plots",self.type_flag, f"{N_ind}"],
+                folders=["polar_plots", self.type_flag, f"{N_ind}"],
                 file_name=f'{"".join(sorted(self.composition))}',
                 fig=fig,
             )
-        
+
         return ax, fig

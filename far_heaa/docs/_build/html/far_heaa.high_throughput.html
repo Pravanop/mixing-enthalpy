@@ -44,7 +44,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Starting Instructions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ReadME.html">Fast and Robust High Entropy Alloy Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="binary_example.html">Plot a Binary Phase Diagram</a></li>
 </ul>
@@ -117,7 +121,7 @@
 <span id="far-heaa-high-throughput-equi-misct-predictions-module"></span><h2>far_heaa.high_throughput.equi_miscT_predictions module<a class="headerlink" href="#module-far_heaa.high_throughput.equi_miscT_predictions" title="Link to this heading"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="far_heaa.high_throughput.equi_miscT_predictions.EquiMiscTPredictions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.high_throughput.equi_miscT_predictions.</span></span><span class="sig-name descname"><span class="pre">EquiMiscTPredictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.high_throughput.equi_miscT_predictions.EquiMiscTPredictions" title="Link to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.high_throughput.equi_miscT_predictions.</span></span><span class="sig-name descname"><span class="pre">EquiMiscTPredictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lattice</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'FCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'BCC'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'HCP'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'min'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_flag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">generate_plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.high_throughput.equi_miscT_predictions.EquiMiscTPredictions" title="Link to this definition"></a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Visualizations</span></code></p>
 <p>A class to predict miscible temperatures (Misc_T) and average melting temperatures (Avg_Tm)
 for multinary alloys based on a thermodynamic model.</p>
@@ -160,7 +164,7 @@ including flags, file paths, and API keys.</p></li>
 <dd><p>An instance of the ThermoMaths class for thermodynamic calculations.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="far_heaa.math_operations.html#far_heaa.math_operations.thermo_calculations.ThermoMaths" title="far_heaa.math_operations.thermo_calculations.ThermoMaths">ThermoMaths</a></p>
+<dd class="field-odd"><p>ThermoMaths</p>
 </dd>
 </dl>
 </dd></dl>
@@ -171,7 +175,7 @@ including flags, file paths, and API keys.</p></li>
 <dd><p>An iterator for navigating the thermodynamic grid.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="far_heaa.phase_diagram.html#far_heaa.phase_diagram.grid_iterators.GridIterator" title="far_heaa.phase_diagram.grid_iterators.GridIterator">GridIterator</a></p>
+<dd class="field-odd"><p>GridIterator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -200,14 +204,16 @@ for the multinary alloys.</p>
 <dd class="field-even"><p>pd.DataFrame</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>predictions_df = EquiMiscTPredictions.make_predictions()
-# predictions_df will contain the miscible and average melting temperatures for the alloys.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">predictions_df</span> <span class="o">=</span> <span class="n">EquiMiscTPredictions</span><span class="o">.</span><span class="n">make_predictions</span><span class="p">()</span>
+<span class="c1"># predictions_df will contain the miscible and average melting temperatures for the alloys.</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="far_heaa.high_throughput.equi_miscT_predictions.EquiMiscTPredictions.plot_predictions">
-<span class="sig-name descname"><span class="pre">plot_predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Tm_constraint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alloy_constraint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#far_heaa.high_throughput.equi_miscT_predictions.EquiMiscTPredictions.plot_predictions" title="Link to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">plot_predictions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">Tm_constraint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alloy_constraint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Figure</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Axes</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#far_heaa.high_throughput.equi_miscT_predictions.EquiMiscTPredictions.plot_predictions" title="Link to this definition"></a></dt>
 <dd><p>Plot the miscible temperatures (Misc_T) and average melting temperatures (Avg_Tm)
 for the alloys based on the predictions.</p>
 <dl class="field-list simple">
@@ -218,9 +224,11 @@ for the alloys based on the predictions.</p>
 </ul>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>EquiMiscTPredictions.plot_predictions(Tm_constraint=0.8, alloy_constraint=’Fe’)
-# This will plot the temperatures for alloys containing ‘Fe’ with misc_T &lt; 0.8*Tm.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">EquiMiscTPredictions</span><span class="o">.</span><span class="n">plot_predictions</span><span class="p">(</span><span class="n">Tm_constraint</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">alloy_constraint</span><span class="o">=</span><span class="s1">&#39;Fe&#39;</span><span class="p">)</span>
+<span class="c1"># This will plot the temperatures for alloys containing &#39;Fe&#39; with misc_T &lt; 0.8*Tm.</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>

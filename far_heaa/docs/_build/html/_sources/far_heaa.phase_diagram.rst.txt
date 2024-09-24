@@ -11,6 +11,7 @@ far\_heaa.phase\_diagram.convex\_hull module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.phase\_diagram.grid\_iterators module
 -----------------------------------------------
@@ -19,6 +20,7 @@ far\_heaa.phase\_diagram.grid\_iterators module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.phase\_diagram.pdEntry\_local module
 ----------------------------------------------
@@ -27,4 +29,4 @@ far\_heaa.phase\_diagram.pdEntry\_local module
    :members:
    :undoc-members:
    :show-inheritance:
-
+   :noindex:

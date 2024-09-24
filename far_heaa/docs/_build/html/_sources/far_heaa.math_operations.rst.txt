@@ -11,6 +11,7 @@ far\_heaa.math\_operations.polar\_calculations module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 
 far\_heaa.math\_operations.thermo\_calculations module
 ------------------------------------------------------
@@ -19,4 +20,5 @@ far\_heaa.math\_operations.thermo\_calculations module
    :members:
    :undoc-members:
    :show-inheritance:
+   :noindex:
 

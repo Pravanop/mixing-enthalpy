@@ -25,6 +25,9 @@ class MiscellaneousVisualizations:
             grid_iterator (GridIterator): An instance of the GridIterator for iterating through grid data.
             tm (ThermoMaths): An instance of the ThermoMaths class for thermodynamic calculations.
             save_flag (bool): A flag indicating whether to save the generated plots.
+    Methods:
+            plot_convex_hull: Plots the convex hull for a given alloy composition at a specified temperature.
+            heatmap: Creates a heatmap of binary mixing enthalpy for a list of elements.
     """
 
     def __init__(self, meta_data: dict, save_flag: bool):

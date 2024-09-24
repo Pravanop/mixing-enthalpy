@@ -1,10 +1,6 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from ..io.dir_handler import DirHandler
-from ..math_operations.thermo_calculations import ThermoMaths
-from ..phase_diagram.grid_iterators import GridIterator
-from ..io.json_handler import JSONHandler
 from typing import Tuple, Literal
 from far_heaa.visualization_toolkit.visualizations import Visualizations
 
@@ -22,6 +18,9 @@ class binaryVizualization(Visualizations):
 
     Raises:
             ValueError: If other than two elements are provided for the composition.
+    Methods:
+            find_misc_temperatures: Finds the miscibility temperatures for the binary alloy across a mole fraction grid.
+            plot_misc_temperatures: Plots the miscibility temperatures for the binary alloy.
     """
 
     def __init__(
@@ -62,7 +61,8 @@ class binaryVizualization(Visualizations):
                         - mol_grid (np.ndarray): The mole fraction grid for the binary alloy.
                         - misc_temp (np.ndarray): The miscibility temperatures corresponding to each composition.
 
-        Example:
+        Example::
+        
                 mol_grid, misc_temp = self.find_misc_temperatures()
         """
         mol_grid, misc_temp = self.grid_iterator.misc_temperature_across_grid(
@@ -82,7 +82,8 @@ class binaryVizualization(Visualizations):
                         - ax (plt.Axes): The matplotlib axes object for the plot.
                         - fig (plt.Figure): The matplotlib figure object for the plot.
 
-        Example:
+        Example::
+        
                 ax, fig = self.plot_misc_temperatures()
         """
         mol_grid, misc_temp = self.find_misc_temperatures()

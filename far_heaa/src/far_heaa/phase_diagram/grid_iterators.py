@@ -90,7 +90,8 @@ class GridIterator:
         Returns:
                 Dict[float, PhaseDiagram]: A dictionary mapping each temperature to its corresponding PhaseDiagram.
 
-        Example:
+        Example::
+
                 results = self.temp_iterator(composition=['Fe', 'Ni'], temp_grid=[300, 500, 700])
                 # Returns a dictionary with PhaseDiagram objects for each temperature.
         """
@@ -123,6 +124,7 @@ class GridIterator:
         **kwargs
     ) -> Tuple[ndarray, ndarray]:
         """
+
         Computes the miscibility temperature across a mole fraction grid for a given composition.
 
         Args:
@@ -137,7 +139,7 @@ class GridIterator:
                         - mol_grid (ndarray): The mole fraction grid for the alloy.
                         - stables (ndarray): The miscibility temperature for each composition in the grid.
 
-        Example:
+        Example::
                 mol_grid, stable_temps = self.misc_temperature_across_grid(
                         composition=['Fe', 'Ni'],
                         mol_grid_size=20,
@@ -231,6 +233,7 @@ class GridIterator:
         temp_gradation: int = 300,
     ) -> Tuple[ndarray, ndarray, ndarray]:
         """
+
         Computes the energy above the convex hull (E_hull) across a mole fraction grid for a given alloy composition.
 
         Args:
@@ -246,7 +249,8 @@ class GridIterator:
                         - stables (ndarray): The energy above the convex hull for each composition and temperature.
                         - temp_grid (ndarray): The grid of temperatures considered.
 
-        Example:
+        Example::
+
                 mol_grid, e_hull_values, temp_grid = self.e_hull_across_grid(
                         composition=['Fe', 'Ni'],
                         mol_grid_size=20,
@@ -427,6 +431,7 @@ class GridIterator:
         **kwargs
     ) -> Union[tuple[DataFrame, float], tuple[None, int]]:
         """
+
         Finds the decomposition products and energy above the convex hull for a given alloy composition
         and mole ratio at a specific temperature.
 
@@ -480,7 +485,8 @@ class GridIterator:
             for dimensionality, alloy_list in all_combs.items():
                 if self.im_flag:
                     im_list += IntermetallicExtractions.get_MP_intermetallic(
-                        alloy_list, api_key=self.api_key)
+                        alloy_list, api_key=self.api_key
+                    )
 
         # Calculate configurational entropy
         entropy = self.tm.calc_config_entropy(mol_ratio)

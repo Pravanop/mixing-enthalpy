@@ -8,17 +8,21 @@ import matplotlib.pyplot as plt
 
 class Visualizations:
     """
-       A class used to represent visualizations for HEA.
+    A class used to represent visualizations for HEA.
 
-       Attributes:
-           lattice (Literal['FCC', 'BCC', 'HCP', 'min']): The lattice structure.
-           mol_grid_size (int): The size of the mole fraction grid.
-           tm (ThermoMaths): An instance of ThermoMaths for thermodynamic calculations.
-           grid_size (int): The size of the grid.
-           flags (dict): A dictionary of flags for various options.
-           folder_path (str): The path to the folder where plots will be saved.
-           grid_iterator (GridIterator): An instance of GridIterator for iterating over the grid.
-       """
+    Attributes:
+        lattice (Literal['FCC', 'BCC', 'HCP', 'min']): The lattice structure.
+        mol_grid_size (int): The size of the mole fraction grid.
+        tm (ThermoMaths): An instance of ThermoMaths for thermodynamic calculations.
+        grid_size (int): The size of the grid.
+        flags (dict): A dictionary of flags for various options.
+        folder_path (str): The path to the folder where plots will be saved.
+        grid_iterator (GridIterator): An instance of GridIterator for iterating over the grid.
+     Methods:
+         save_figure(folders: List[str], file_name: str, fig: plt.Figure) -> None:
+         Saves the figure in the specified folders with different file name suffixes based on flags.
+    """
+
     def __init__(self, lattice: Literal["FCC", "BCC", "HCP", "min"], meta_data: dict):
         """
         Initialize the Vizualization class with the lattice type, and metadata.
@@ -75,7 +79,7 @@ class Visualizations:
         updated_folder_path = DirHandler.mkdir_recursive(
             folders=folders, folder_path=self.folder_path
         )
-        
+
         if self.flags["equi_flag"] == True:
             fig.savefig(fname=f"{updated_folder_path}{file_name}_equi.png", dpi=100)
 
@@ -86,6 +90,6 @@ class Visualizations:
             fig.savefig(
                 fname=f"{updated_folder_path}{file_name}_wo_correction.png", dpi=100
             )
-        
+
         else:
             fig.savefig(fname=f"{updated_folder_path}{file_name}.png", dpi=100)

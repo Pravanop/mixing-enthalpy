@@ -44,7 +44,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Starting Instructions</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ReadME.html">Fast and Robust High Entropy Alloy Analysis</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Example Runs</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="binary_example.html">Plot a Binary Phase Diagram</a></li>
 </ul>
@@ -113,24 +117,24 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
 </section>
-<section id="module-far_heaa.data_processing.enthalpy_extraction">
-<span id="far-heaa-data-processing-enthalpy-extraction-module"></span><h2>far_heaa.data_processing.enthalpy_extraction module<a class="headerlink" href="#module-far_heaa.data_processing.enthalpy_extraction" title="Link to this heading"></a></h2>
+<section id="far-heaa-data-processing-enthalpy-extraction-module">
+<h2>far_heaa.data_processing.enthalpy_extraction module<a class="headerlink" href="#far-heaa-data-processing-enthalpy-extraction-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.data_processing.enthalpy_extraction.EnthalpyExtractions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.data_processing.enthalpy_extraction.</span></span><span class="sig-name descname"><span class="pre">EnthalpyExtractions</span></span><a class="headerlink" href="#far_heaa.data_processing.enthalpy_extraction.EnthalpyExtractions" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.data_processing.enthalpy_extraction.</span></span><span class="sig-name descname"><span class="pre">EnthalpyExtractions</span></span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to handle the extraction of binary enthalpy values.</p>
 <p>This class provides methods to extract enthalpy values or interaction parameters (e.g., omega)
 from a dictionary that maps binary element pairs to their associated enthalpy values.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.data_processing.enthalpy_extraction.EnthalpyExtractions.extract_binary_enthalpy">
-<span class="sig-name descname"><span class="pre">extract_binary_enthalpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_pair</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.data_processing.enthalpy_extraction.EnthalpyExtractions.extract_binary_enthalpy" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">extract_binary_enthalpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_pair</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Extracts the enthalpy value for a specific element pair from the provided dictionary.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id0">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract_binary_enthalpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_pair</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="headerlink" href="#id0" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">extract_binary_enthalpy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">binary_dict</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ele_pair</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span></dt>
 <dd><p>Extract the binary enthalpy value from a given dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -165,17 +169,17 @@ Example format: ‘Fe-Ni’.</p></li>
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.data_processing.fancy_list_extractions">
-<span id="far-heaa-data-processing-fancy-list-extractions-module"></span><h2>far_heaa.data_processing.fancy_list_extractions module<a class="headerlink" href="#module-far_heaa.data_processing.fancy_list_extractions" title="Link to this heading"></a></h2>
+<section id="far-heaa-data-processing-fancy-list-extractions-module">
+<h2>far_heaa.data_processing.fancy_list_extractions module<a class="headerlink" href="#far-heaa-data-processing-fancy-list-extractions-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.data_processing.fancy_list_extractions.FancyListExtractions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.data_processing.fancy_list_extractions.</span></span><span class="sig-name descname"><span class="pre">FancyListExtractions</span></span><a class="headerlink" href="#far_heaa.data_processing.fancy_list_extractions.FancyListExtractions" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.data_processing.fancy_list_extractions.</span></span><span class="sig-name descname"><span class="pre">FancyListExtractions</span></span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A utility class that provides extractions and manipulations for lists, including rolling slice assignments
 and finding indices of a subset within a main list.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.data_processing.fancy_list_extractions.FancyListExtractions.assign_rolling_slice">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assign_rolling_slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#far_heaa.data_processing.fancy_list_extractions.FancyListExtractions.assign_rolling_slice" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">assign_rolling_slice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">new_values</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span></dt>
 <dd><p>Assigns values from <cite>new_values</cite> to the list <cite>lst</cite> starting from the <cite>start</cite> index and rolls over
 if the end of the list is reached.</p>
 <dl class="field-list simple">
@@ -193,16 +197,18 @@ if the end of the list is reached.</p>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>lst = [1, 2, 3, 4]
-new_values = [9, 10]
-result = FancyListExtractions.assign_rolling_slice(lst, start=3, new_values=new_values)
-# Output: [9, 2, 3, 10]</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">lst</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="n">new_values</span> <span class="o">=</span> <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">FancyListExtractions</span><span class="o">.</span><span class="n">assign_rolling_slice</span><span class="p">(</span><span class="n">lst</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">new_values</span><span class="o">=</span><span class="n">new_values</span><span class="p">)</span>
+<span class="c1"># Output: [9, 2, 3, 10]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.data_processing.fancy_list_extractions.FancyListExtractions.find_indices">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span><a class="headerlink" href="#far_heaa.data_processing.fancy_list_extractions.FancyListExtractions.find_indices" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">find_indices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">subset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span></span></span></dt>
 <dd><p>Finds the indices of the <cite>subset</cite> elements in the <cite>main_list</cite>. If a value in the subset is not found,
 returns <cite>None</cite> for that value’s index.</p>
 <dl class="field-list simple">
@@ -219,36 +225,38 @@ returns <cite>None</cite> for that value’s index.</p>
 <dd class="field-odd"><p>list</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>main_list = [‘a’, ‘b’, ‘c’, ‘d’]
-subset = [‘b’, ‘d’, ‘x’]
-result = FancyListExtractions.find_indices(main_list, subset)
-# Output: [1, 3, None]</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">main_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">]</span>
+<span class="n">subset</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">]</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">FancyListExtractions</span><span class="o">.</span><span class="n">find_indices</span><span class="p">(</span><span class="n">main_list</span><span class="p">,</span> <span class="n">subset</span><span class="p">)</span>
+<span class="c1"># Output: [1, 3, None]</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
 
 </section>
-<section id="module-far_heaa.data_processing.intermetallic_extraction">
-<span id="far-heaa-data-processing-intermetallic-extraction-module"></span><h2>far_heaa.data_processing.intermetallic_extraction module<a class="headerlink" href="#module-far_heaa.data_processing.intermetallic_extraction" title="Link to this heading"></a></h2>
+<section id="far-heaa-data-processing-intermetallic-extraction-module">
+<h2>far_heaa.data_processing.intermetallic_extraction module<a class="headerlink" href="#far-heaa-data-processing-intermetallic-extraction-module" title="Link to this heading"></a></h2>
 <dl class="py class">
-<dt class="sig sig-object py" id="far_heaa.data_processing.intermetallic_extraction.IntermetallicExtractions">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.data_processing.intermetallic_extraction.</span></span><span class="sig-name descname"><span class="pre">IntermetallicExtractions</span></span><a class="headerlink" href="#far_heaa.data_processing.intermetallic_extraction.IntermetallicExtractions" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">far_heaa.data_processing.intermetallic_extraction.</span></span><span class="sig-name descname"><span class="pre">IntermetallicExtractions</span></span></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>A class to extract intermetallic phase data from the Materials Project (MP) database.</p>
 <p>This class provides methods to retrieve thermodynamic data, such as formation energies,
 for intermetallic phases in a given alloy system using the Materials Project API. The data
 can be used to generate phase diagrams or perform further thermodynamic analysis.</p>
 <dl class="py method">
-<dt class="sig sig-object py" id="far_heaa.data_processing.intermetallic_extraction.IntermetallicExtractions.get_MP_intermetallic">
-<span class="sig-name descname"><span class="pre">get_MP_intermetallic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alloy_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#far_heaa.data_processing.intermetallic_extraction.IntermetallicExtractions.get_MP_intermetallic" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-name descname"><span class="pre">get_MP_intermetallic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alloy_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span></em><span class="sig-paren">)</span></dt>
 <dd><p>Retrieves formation energies and compositions for the specified alloy system
 from the Materials Project API.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt class="sig sig-object py" id="id1">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_MP_intermetallic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alloy_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="far_heaa.phase_diagram.html#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal" title="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal"><span class="pre">PDEntryLocal</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#id1" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_MP_intermetallic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alloy_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">PDEntryLocal</span><span class="p"><span class="pre">]</span></span></span></span></dt>
 <dd><p>Retrieve intermetallic phase data from the Materials Project (MP) API for a given alloy system.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -266,15 +274,18 @@ e.g., [‘Fe-Ni’, ‘Cu-Al’].</p></li>
 </p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List[<a class="reference internal" href="far_heaa.phase_diagram.html#far_heaa.phase_diagram.pdEntry_local.PDEntryLocal" title="far_heaa.phase_diagram.pdEntry_local.PDEntryLocal">PDEntryLocal</a>]</p>
+<dd class="field-odd"><p>List[PDEntryLocal]</p>
 </dd>
 </dl>
-<p class="rubric">Example</p>
-<p>alloy_list = [‘Fe-Ni’, ‘Cu-Al’]
-api_key = ‘your_mp_api_key’</p>
-<p># Retrieves intermetallic data for the Fe-Ni and Cu-Al systems
-entries = IntermetallicExtractions.get_MP_intermetallic(alloy_list, api_key)
-# entries will contain a list of PDEntryLocal objects with composition and formation energy.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">alloy_list</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;Fe-Ni&#39;</span><span class="p">,</span> <span class="s1">&#39;Cu-Al&#39;</span><span class="p">]</span>
+<span class="n">api_key</span> <span class="o">=</span> <span class="s1">&#39;your_mp_api_key&#39;</span>
+
+<span class="c1"># Retrieves intermetallic data for the Fe-Ni and Cu-Al systems</span>
+<span class="n">entries</span> <span class="o">=</span> <span class="n">IntermetallicExtractions</span><span class="o">.</span><span class="n">get_MP_intermetallic</span><span class="p">(</span><span class="n">alloy_list</span><span class="p">,</span> <span class="n">api_key</span><span class="p">)</span>
+<span class="c1"># entries will contain a list of PDEntryLocal objects with composition and formation energy.</span>
+</pre></div>
+</div>
 </dd></dl>
 
 </dd></dl>
