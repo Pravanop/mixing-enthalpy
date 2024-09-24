@@ -16,19 +16,23 @@ class TernaryVisualization(Visualizations):
 
     Args:
             composition (list[str]): A list of three elements in the ternary alloy system.
-            lattice (str): The lattice structure (e.g., 'FCC', 'BCC').
+            lattice (Literal['FCC', 'BCC', 'HCP', 'min']): The lattice structure. 'min' is whichever lattice gives minimum mixing enthalpy for that mole fraction.
             meta_data (dict): A dictionary containing metadata such as grid size, file paths, and flags.
             save_flag (bool): A flag indicating whether to save the visualizations.
             contour_flag (bool): A flag indicating whether to use contour plots or scatter plots.
 
     Attributes:
             cmap (str): The colormap to use for plotting.
-            norm (Normalize): Normalization for color mapping.
             tm (ThermoMaths): An instance of the ThermoMaths class for thermodynamic calculations.
             grid_iterator (GridIterator): An instance of the GridIterator class for grid-based iteration.
             save_flag (bool): A flag indicating whether to save the generated plots.
             contour_flag (bool): A flag indicating whether to generate contour plots.
-    
+    Methods:
+            find_misc_temperatures: Finds the miscibility temperatures for the ternary alloy.
+            find_isotherm: Finds the isotherm (temperature slice) of the energy above the convex hull for the ternary alloy.
+            plot_isotherm: Plots the isotherm (temperature slice) of the energy above the convex hull for the ternary alloy.
+            plot_misc_temperatures: Plots the miscibility temperatures for the ternary alloy.
+            plot_ternary_visualizations: Generates and saves ternary visualizations, including miscibility temperature plots and isotherms for a given temperature range and gradation.
     """
 
     def __init__(

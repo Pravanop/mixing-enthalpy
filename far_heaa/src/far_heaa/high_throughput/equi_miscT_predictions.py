@@ -6,7 +6,7 @@ from typing import List, Dict, Literal, Tuple
 
 from far_heaa.grids_and_combinations.combination_generation import MultinaryCombinations
 from far_heaa.visualization_toolkit.visualizations import Visualizations
-
+from far_heaa.io.dir_handler import DirHandler
 
 class EquiMiscTPredictions(Visualizations):
     """
@@ -97,11 +97,9 @@ class EquiMiscTPredictions(Visualizations):
         df.columns = ["Alloys", "Misc_Temp", "Avg_Tm"]
         
         if self.save_flag:
-            
-            if not os.path.exists("../output_data/predictions/"):
-                os.mkdir("../output_data/predictions")
+            updated_folder_path = DirHandler.mkdir_recursive(folders = ["output_data", "predictions"], folder_path="../")
             df.to_csv(
-                f"../output_data/predictions/misc_T_{self.dim}_{self.lattice}.csv",
+                f"{updated_folder_path}/misc_T_{self.dim}_{self.lattice}.csv",
                 index=False,
             )
 
