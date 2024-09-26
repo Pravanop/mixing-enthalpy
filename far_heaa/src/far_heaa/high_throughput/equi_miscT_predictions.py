@@ -1,4 +1,6 @@
 import os
+
+import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 from tqdm import tqdm
@@ -90,7 +92,7 @@ class EquiMiscTPredictions(Visualizations):
             if isinstance(misc_T, float):
                 temp_list.append(misc_T)
             else:
-                temp_list.append(misc_T[0])
+                temp_list.append(np.nan)
             alloys.append("-".join(composition))
             avg_tm.append(self.tm.avg_T_melt(composition=composition, mol_ratio=mol))
 
@@ -114,7 +116,7 @@ class EquiMiscTPredictions(Visualizations):
     ) -> Tuple[plt.Figure, plt.Axes]:
         """
         Plot the miscible temperatures (Misc_T) and average melting temperatures (Avg_Tm)
-        for the alloys based on the predictions.
+        for the alloys based on the predictions_offequi.
 
         Args:
                 Tm_constraint (float, optional): A constraint on the maximum allowed temperature relative to Avg_Tm.
@@ -125,7 +127,7 @@ class EquiMiscTPredictions(Visualizations):
                 EquiMiscTPredictions.plot_predictions(Tm_constraint=0.8, alloy_constraint='Fe')
                 # This will plot the temperatures for alloys containing 'Fe' with misc_T < 0.8*Tm.
         """
-        file_path = f"../output_data/predictions/misc_T_{self.dim}_{self.lattice}.csv"
+        file_path = f"../output_data/predictions_offequi/misc_T_{self.dim}_{self.lattice}.csv"
 
         if self.generate_plot:
             df = self.make_predictions()
@@ -184,7 +186,7 @@ class EquiMiscTPredictions(Visualizations):
         plt.tight_layout()
         if self.save_flag:
             self.save_figure(
-                folders=["predictions"],
+                folders=["predictions_offequi"],
                 file_name=f"misc_T_{self.dim}_{self.lattice}_{Tm_constraint}_{alloy_constraint}",
                 fig=fig,
             )

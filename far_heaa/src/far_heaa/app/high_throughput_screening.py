@@ -15,7 +15,7 @@ def high_throughput_screening(input_list, meta_data, lattice):
         len_check = len(input_list) <= dim_input
         if len_check:
             st.write(
-                "The dimensionality of the predictions should be lesser than the input."
+                "The dimensionality of the predictions_offequi should be lesser than the input."
             )
         else:
             with st.spinner("Wait for it..."):
