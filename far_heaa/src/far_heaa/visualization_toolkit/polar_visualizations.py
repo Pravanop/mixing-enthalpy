@@ -79,7 +79,8 @@ class PolarVisualizations(Visualizations):
 
         self.type_flag = type_flag
         if self.type_flag == "misc_T":
-            t_max = max([self.tm.avg_T_melt(i, mol_ratio=[]) for i in self.composition])
+            # t_max = max([self.tm.avg_T_melt(i, mol_ratio=[]) for i in self.composition])
+            t_max = self.tm.avg_T_melt(self.composition, mol_ratio=[1/len(self.composition)]*len(self.composition))
             self.temp_gradation = kwargs.get("temp_gradation", 25)
             self.temp_grid = list(np.linspace(0, t_max, self.temp_gradation))
             self.conv_hull = self.grid_iterator.temp_iterator(

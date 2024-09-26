@@ -1,5 +1,5 @@
 from far_heaa.io.json_handler import JSONHandler
-
+from flatten_dict import flatten, unflatten
 
 class MetadataHandler:
     """
@@ -69,6 +69,13 @@ class MetadataHandler:
             ):  # If the value is a dictionary, recursively print its keys
                 self._print_nested_keys(value, indent + 1)
 
+    def flatten_dict(self):
+        return flatten(self.meta_data, reducer='dot')
+
+    def unflatten_dict(self, d):
+        return unflatten(d, splitter='dot')
+
+
     def update_metadata(self, key: str, value) -> None:
         """
         Updates the value of a specific key in the metadata.
@@ -80,7 +87,12 @@ class MetadataHandler:
         Raises:
                 KeyError: If the provided key is not present in the metadata.
         """
-        if key in self.meta_data:
-            self.meta_data[key] = value
-        else:
+        flattened_dict = self.flatten_dict()
+        done_flag = 0
+        for keys in flattened_dict.keys():
+            if key in keys:
+                flattened_dict[keys] = value
+                done_flag = 1
+        self.meta_data = self.unflatten_dict(flattened_dict)
+        if not done_flag:
             raise KeyError(f"Metadata key {key} not present")
