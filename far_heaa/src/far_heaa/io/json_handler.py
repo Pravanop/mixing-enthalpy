@@ -3,17 +3,17 @@ from typing import Dict
 
 
 class JSONHandler:
-    """
+	"""
     A class to handle reading and writing JSON files.
 
     Methods:
         load_json(folder_path, file_name):
             Loads data from a JSON file.
     """
-
-    @staticmethod
-    def load_json(folder_path: str, file_name: str) -> Dict:
-        """
+	
+	@staticmethod
+	def load_json(folder_path: str, file_name: str) -> Dict:
+		"""
         Loads binary mixing enthalpies from a JSON file for a particular source and lattice.
 
         Args:
@@ -28,5 +28,10 @@ class JSONHandler:
             data = JSONHandler.load_json(folder_path='/data/', file_name='mixing_enthalpy')
             # This will load the data from '/data/mixing_enthalpy.json' as a dictionary.
         """
-        with open(f"{folder_path}/{file_name}.json", "r") as f:
-            return json.load(f)
+		with open(f"{folder_path}/{file_name}.json", "r") as f:
+			return json.load(f)
+	
+	@staticmethod
+	def save_json(data: dict, folder_path: str, file_name: str) -> None:
+		with open(f"{folder_path}/{file_name}.json", "w") as f:
+			json.dump(obj=data, ensure_ascii=True, fp=f, indent=4)
