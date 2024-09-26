@@ -66,6 +66,7 @@ class TernaryVisualization(Visualizations):
 
         self.save_flag = save_flag
         self.contour_flag = contour_flag
+        self.is_differential = True
 
     def find_misc_temperatures(self) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -81,6 +82,7 @@ class TernaryVisualization(Visualizations):
             mol_grid_size=self.mol_grid_size,
             lattice=self.lattice,
             phase_flag=True,
+            is_differential=self.is_differential
         )
 
         return mol_grid, misc_temp
@@ -190,10 +192,13 @@ class TernaryVisualization(Visualizations):
                 Tuple[plt.Axes, plt.Figure]: A tuple containing the matplotlib axes and figure objects for the plot.
         """
         mol_grid, misc_temp = self.find_misc_temperatures()
-
+        norm = Normalize(vmin=0, vmax=max(misc_temp), clip=False)
         for idx, temp in enumerate(misc_temp):
-            if temp == -1:
-                misc_temp[idx] = 5000
+            if temp == -1000:
+                if self.is_differential:
+                    misc_temp[idx] = -200
+                else:
+                    misc_temp[idx] = 5000
 
         t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
         fig = plt.figure()
@@ -201,7 +206,7 @@ class TernaryVisualization(Visualizations):
         ax = fig.add_subplot(projection="ternary")
         ax.grid()
         cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
-        norm = Normalize(vmin=0, vmax=3600, clip=False)
+        
         if not self.contour_flag:
             ax.scatter(t, l, r, c=misc_temp, cmap=self.cmap, marker="h", s=60)
         else:
