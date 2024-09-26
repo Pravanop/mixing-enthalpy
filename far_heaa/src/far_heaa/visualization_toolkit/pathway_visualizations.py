@@ -58,7 +58,7 @@ class PathwayVisualizations(Visualizations):
         self.x = None
         self.composition = composition
         t_max = max([self.tm.avg_T_melt(i, mol_ratio=[]) for i in self.composition])
-        self.temp_grid = list(np.linspace(0, t_max, 30))
+        self.temp_grid = list(np.linspace(0, t_max, 25))
         self.conv_hull = self.grid_iterator.temp_iterator(
             composition=self.composition, temp_grid=self.temp_grid
         )
@@ -108,9 +108,10 @@ class PathwayVisualizations(Visualizations):
                     phase_flag=True,
                     conv_hull=self.conv_hull,
                     temp_grid=self.temp_grid,
+                    is_differential=False
                 )
                 for idx, temp in enumerate(misc_temp):
-                    if temp == -1:
+                    if temp == -1000:
                         misc_temp[idx] = 5000
 
                 if count == 0:
@@ -201,6 +202,25 @@ class PathwayVisualizations(Visualizations):
             indices_groups.append(current_group)
 
         return indices_groups
+    
+    def metric(self, path_dict):
+        metrics = []
+        for key, value in path_dict.items():
+            path = key.split("-")
+            for idx, i in enumerate(value):
+                if idx == 0:
+                    y = np.array(i)
+                else:
+                    y = np.append(y, np.array(i))
+            
+            diff_y = np.diff(y)
+            metric = np.average(diff_y)
+            metrics.append(metric)
+        
+        metrics = np.array(metrics)*-1
+        arg_metric = np.argsort(metrics)
+        print(metrics)
+        return arg_metric
 
     def plot_rP(self) -> Tuple[plt.Axes, plt.Figure]:
         """
@@ -215,13 +235,16 @@ class PathwayVisualizations(Visualizations):
         """
         path_dict = self.get_rP()
         cmap = self.get_n_colors_from_cmap(
-            cmap_name="coolwarm", N=len(self.composition)
+            cmap_name="plasma", N=len(path_dict.keys())
         )
-        cmap_dict = dict(zip(self.composition, cmap))
+        # cmap_dict = dict(zip(self.composition, cmap))
 
         texts = []
         fig, ax = plt.subplots()
-
+        arg_metric = self.metric(path_dict)
+        opacities = np.linspace(0.1, 1, len(path_dict.keys()))
+        linewidths = np.linspace(0.5, 2, len(path_dict.keys()))**2
+        count = 0
         for key, value in path_dict.items():
             path = key.split("-")
             for idx, i in enumerate(value):
@@ -234,8 +257,12 @@ class PathwayVisualizations(Visualizations):
                 if idx == len(value) - 1:
                     texts.append(["".join(sorted(self.composition)), x[-1], y[-1]])
 
-                ax.plot(x, y, zorder=0, color=cmap_dict[path[0]])
-
+                ax.plot(x, y,
+                        color=cmap[arg_metric[count]],
+                        zorder=arg_metric[count],
+                        alpha=opacities[arg_metric[count]],
+                        linewidth=linewidths[arg_metric[count]],)
+            count += 1
         texts = np.unique(np.array(texts), axis=0)
         text_dict = self.text_segregators(texts)
 

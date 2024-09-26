@@ -6,7 +6,7 @@ meta_data = mH.get_metadata
 
 rP = PathwayVisualizations(
     meta_data=meta_data,
-    lattice="BCC",
+    lattice="min",
     composition=["Cr", "V", "Ti", "Ta"],
     save_flag=True,
 )
