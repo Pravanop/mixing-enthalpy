@@ -12,7 +12,7 @@ class ThermoMaths:
     Based on Zhang et al., "A Fast and Robust Method for Predicting the Phase Stability of Refractory Complex
     Concentrated Alloys Using Pairwise Mixing Enthalpy". http://dx.doi.org/10.2139/ssrn.4081906
     """
-
+    
     def __init__(self):
         """
         Initializes the ThermoMaths class, setting the Boltzmann constant and loading the melting temperature
@@ -21,10 +21,10 @@ class ThermoMaths:
         self.kb = 8.617e-05  # Boltzmann constant in eV/K
         melt_T_path = pd.read_csv("../database/PubChemElements_all.csv").to_numpy()
         self.melt_T = dict(zip(melt_T_path[:, 0], melt_T_path[:, 1]))
-
+    
     @staticmethod
     def calc_pairwise_interaction_parameter(
-        mix_enthalpy: float, mol_i: float, mol_j: float
+            mix_enthalpy: float, mol_i: float, mol_j: float
     ) -> float:
         """
         Calculates the pairwise interaction parameter (omega_ij) from the binary mixing enthalpy.
@@ -38,9 +38,9 @@ class ThermoMaths:
                 float: Pairwise interaction parameter in eV/atom.
         """
         return mix_enthalpy / (mol_i * mol_j)
-
+    
     def avg_T_melt(
-        self, composition: Union[str, List[str]], mol_ratio: List[float]
+            self, composition: Union[str, List[str]], mol_ratio: List[float]
     ) -> float:
         """
         Calculates the average melting temperature for a given alloy composition.
@@ -54,13 +54,13 @@ class ThermoMaths:
         """
         if isinstance(composition, str):
             return self.melt_T[composition]
-
+        
         tm = [self.melt_T[ind] * mol_ratio[i] for i, ind in enumerate(composition)]
         return int(sum(tm))
-
+    
     @staticmethod
     def calc_subregular_model_enthalpy(
-        mol_fraction: List[float], omega1: float, omega2: float
+            mol_fraction: List[float], omega1: float, omega2: float
     ) -> np.array:
         """
         Calculates the enthalpy using the subregular model.
@@ -75,10 +75,10 @@ class ThermoMaths:
         """
         x_i, x_j = mol_fraction
         return x_i * x_j * (omega1 * x_i + omega2 * x_j)
-
+    
     @staticmethod
     def calc_regular_model_enthalpy(
-        mol_fraction: List[float], omega: float
+            mol_fraction: List[float], omega: float
     ) -> np.array:
         """
         Calculates the enthalpy using the regular model.
@@ -92,7 +92,7 @@ class ThermoMaths:
         """
         x_i, x_j = mol_fraction
         return x_i * x_j * omega
-
+    
     def calc_config_entropy(self, mol_ratio: Dict[str, float]) -> float:
         """
         Calculates the configurational entropy for a given mole ratio.
@@ -108,7 +108,7 @@ class ThermoMaths:
         """
         assert round(sum(mol_ratio.values()), 3) == 1, "Mole fractions must sum to 1."
         return -self.kb * sum([value * np.log(value) for value in mol_ratio.values()])
-
+    
     @staticmethod
     def calc_gibbs_energy(enthalpy: float, entropy: float, temperature: float) -> float:
         """
@@ -123,16 +123,16 @@ class ThermoMaths:
                 float: The Gibbs free energy.
         """
         return enthalpy - temperature * entropy
-
+    
     def calc_mutinary_multilattice_mix_enthalpy(
-        self,
-        mol_ratio: Dict[str, float],
-        binary_dict: Dict[str, Dict[str, float]],
-        end_member_dict: Dict[str, Dict[str, float]],
-        transition_temperatures: Dict[str, List[Union[str, float]]],
-        correction: bool,
-        temperature: float,
-        model: str,
+            self,
+            mol_ratio: Dict[str, float],
+            binary_dict: Dict[str, Dict[str, float]],
+            end_member_dict: Dict[str, Dict[str, float]],
+            transition_temperatures: Dict[str, List[Union[str, float]]],
+            correction: bool,
+            temperature: float,
+            model: str,
     ) -> Union[Dict[str, float], int]:
         """
         Calculates the multinary multilattice mixing enthalpy for an alloy system.
@@ -153,20 +153,20 @@ class ThermoMaths:
         ele_list = list(mol_ratio.keys())
         if len(ele_list) <= 1:
             return 0
-
+        
         binaries = MultinaryCombinations.create_multinary(
             element_list=ele_list, no_comb=[2]
         )
         mix_enthalpy = {}
-
+        
         if binaries:
             for binary in binaries.values():
                 for ele_pair in binary:
                     two_el = ele_pair.split("-")
                     mix_enthalpy_values = binary_dict[ele_pair]
-
+                    
                     mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
-
+                    
                     for lattice, enthalpy in mix_enthalpy_values.items():
                         if not correction:
                             omega_ij = self.calc_pairwise_interaction_parameter(
@@ -174,11 +174,19 @@ class ThermoMaths:
                             )
                         else:
                             omega_ij = enthalpy  # biased values
-
-                        H_mix = self.calc_regular_model_enthalpy(
-                            mol_fraction=mol_fraction, omega=omega_ij
-                        )
-
+                        
+                        if isinstance(omega_ij, float):
+                            H_mix = self.calc_regular_model_enthalpy(
+                                mol_fraction=mol_fraction, omega=omega_ij
+                            )
+                        elif isinstance(omega_ij, list):
+                            H_mix = self.calc_subregular_model_enthalpy(
+                                mol_fraction=mol_fraction,
+                                omega1=omega_ij[1],
+                                omega2=omega_ij[0],
+                            )
+                            # print(H_mix)
+                        
                         if correction:
                             temp_energies = {}
                             for end_member in two_el:
@@ -188,29 +196,29 @@ class ThermoMaths:
                                     ]
                                     if lattice == transition_data[1]:
                                         temp_energy = end_member_dict[end_member][
-                                            lattice
-                                        ] - (
-                                            end_member_dict[end_member][lattice]
-                                            * float(temperature)
-                                            / transition_data[2]
-                                        )
+                                                          lattice
+                                                      ] - (
+                                                              end_member_dict[end_member][lattice]
+                                                              * float(temperature)
+                                                              / transition_data[2]
+                                                      )
                                     else:
                                         temp_energy = end_member_dict[end_member][
                                             lattice
                                         ]
                                 else:
                                     temp_energy = end_member_dict[end_member][lattice]
-
+                                
                                 temp_energies[end_member] = temp_energy
-
+                            
                             H_mix += (
-                                temp_energies[two_el[1]] * mol_fraction[1]
-                                + temp_energies[two_el[0]] * mol_fraction[0]
+                                    temp_energies[two_el[1]] * mol_fraction[1]
+                                    + temp_energies[two_el[0]] * mol_fraction[0]
                             )
-
+                        
                         if lattice not in mix_enthalpy:
                             mix_enthalpy[lattice] = H_mix
                         else:
                             mix_enthalpy[lattice] += H_mix
-
+            
             return mix_enthalpy

@@ -91,7 +91,7 @@ class MiscellaneousVisualizations:
         mpl.rcParams.update({"font.size": 10})
 
         PDPlotter(
-            phasediagram=conv_hull, show_unstable=0.02, backend="matplotlib"
+            phasediagram=conv_hull, show_unstable=0.2, backend="matplotlib"
         ).get_plot(
             label_unstable=False,
             label_stable=False,
@@ -102,6 +102,7 @@ class MiscellaneousVisualizations:
 
         if len(composition) == 2:
             ax.set_xlim([0, 1])
+            ax.set_ylim([-0.2, 0.2])
             ax.set_xlabel("x", fontsize=10)
             ax.set_ylabel("E hull (eV/atom)", fontsize=10)
             plt.subplots_adjust(bottom=0.12, left=0.15, right=0.95, top=0.85)

@@ -9,7 +9,7 @@ tD = TernaryVisualization(
     lattice="min",
     meta_data=meta_data,
     save_flag=True,
-    contour_flag=False,
+    contour_flag=True,
 )
 
 """Two options"""

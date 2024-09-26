@@ -20,7 +20,6 @@ input_str = st.text_input(
 
 def flag_setter(mH, flags):
     mH.update_metadata(key="flags", value=flags)
-
     return mH.get_metadata
 
 
@@ -36,7 +35,6 @@ else:
 if not invalid_flag:
 
     meta_data, mH = get_metadata()
-
     st.subheader("Lattice")
     lattice = st.radio(
         "Lattice",
@@ -53,6 +51,17 @@ if not invalid_flag:
         index=3,
         horizontal=True,
     )
+    modeloptions = st.radio(
+        "Model",
+        label_visibility="hidden",
+        options=["Regular", "Subregular"],
+        index=0,
+        horizontal=True,
+    )
+    if modeloptions == "Regular":
+        pass
+    elif modeloptions == "Subregular":
+        meta_data["file_name"]["biased"] = "bokas_omegas_processed_subregular"
     flags = {"im_flag": True, "correction": True, "equi_flag": False}
     if flagoptions == "Without IM":
         flags["im_flag"] = False
