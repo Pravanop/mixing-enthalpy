@@ -1,8 +1,14 @@
+import pickle
+
 from emmet.core.thermo import ThermoType
 from pymatgen.core.composition import Composition
-from ..phase_diagram.pdEntry_local import PDEntryLocal
+
+from far_heaa.grids_and_combinations.combination_generation import MultinaryCombinations
+from far_heaa.phase_diagram.pdEntry_local import PDEntryLocal
 from pymatgen.ext.matproj import MPRester
-from typing import List
+from typing import List, Dict
+from far_heaa.io.text_handler import TextHandler
+from far_heaa.io.json_handler import JSONHandler
 
 
 class IntermetallicExtractions:
@@ -65,5 +71,41 @@ class IntermetallicExtractions:
                         name=f"{name.alphabetical_formula}_MP",
                     )
                 )
+                # pd_entries_list.append(
+                #     {
+                #         'composition': name,
+                #         'energy': energy * name.num_atoms,
+                #         'name': f"{name.alphabetical_formula}_MP",
+                #     }
+                # )
 
         return pd_entries_list
+
+    def get_all_intermetallics_MP(self, element_list, api_key: str) -> Dict[str, PDEntryLocal]:
+
+        combs = MultinaryCombinations.create_multinary(element_list, no_comb=list(range(2, 5)))
+        flatten_combs = []
+        for key, value in combs.items():
+            for idx, alloy in enumerate(value):
+                flatten_combs.append(alloy)
+        print("Total Compositions: ", len(flatten_combs))
+        pd_entries_list = self.get_MP_intermetallic(flatten_combs, api_key=api_key)
+        print("Extracted IMs: " , len(pd_entries_list))
+        IM_dict = {}
+        for i in pd_entries_list:
+            key = i.composition.chemical_system
+            if key in IM_dict:
+                IM_dict[key].append(i)
+            else:
+                IM_dict[key] = [i]
+        print('Compositions for which IMs exist: ' , len(list(IM_dict.keys())))
+        return IM_dict
+
+# if __name__ == '__main__':
+#     database_list = TextHandler.extract_ele_list(
+#                 folder_path='../database', file_name="database_element_list"
+#             )
+#
+#     im = IntermetallicExtractions().get_all_intermetallics_MP(element_list=database_list, api_key='u1TjwfwfTnpF8IolXF9PBY9RT9YauL84')
+#     with open('../database/intermetallic_database.pickle', 'wb') as f:
+#         pickle.dump(im, f, protocol=pickle.HIGHEST_PROTOCOL)

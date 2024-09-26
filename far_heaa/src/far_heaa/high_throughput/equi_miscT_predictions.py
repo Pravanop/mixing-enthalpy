@@ -104,8 +104,14 @@ class EquiMiscTPredictions(Visualizations):
             updated_folder_path = DirHandler.mkdir_recursive(
                 folders=["output_data", "predictions"], folder_path="../"
             )
+            # tags = [key if value else None for key, value in self.flags.items()]
+            # tags.remove('correction')
+            file_path = f"{updated_folder_path}/misc_T_{self.dim}_{self.lattice}"
+            # for i in tags:
+            #     file_path += f"_{i}"
+            file_path += ".csv"
             df.to_csv(
-                f"{updated_folder_path}/misc_T_{self.dim}_{self.lattice}.csv",
+                file_path,
                 index=False,
             )
 

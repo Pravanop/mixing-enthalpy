@@ -1,3 +1,4 @@
+import pickle
 from typing import Union, Tuple, List, Dict, Iterable
 
 import numpy as np
@@ -54,7 +55,8 @@ class GridIterator:
 			api_key=api_key,
 			data=data,
 		)
-		
+		with open('../database/intermetallic_database.pickle', 'rb') as handle:
+			self.im_list = pickle.load(handle)
 		self.temp_grid = None
 	
 	def upper_limit(
@@ -106,6 +108,9 @@ class GridIterator:
 				im_list += IntermetallicExtractions.get_MP_intermetallic(
 					alloy_list, api_key=self.api_key
 				)
+				# for alloy in alloy_list:
+				# 	if alloy in self.im_list:
+				# 		im_list += self.im_list[alloy]
 		
 		PD_temp_comp_dict = {}
 		for temp in tqdm(temp_grid, desc="Running Temperature"):
@@ -379,9 +384,12 @@ class GridIterator:
 			im_list = []
 			for dimensionality, alloy_list in all_combs.items():
 				if self.im_flag:
-					im_list += IntermetallicExtractions.get_MP_intermetallic(
-						alloy_list, api_key=self.api_key
-					)
+					# im_list += IntermetallicExtractions.get_MP_intermetallic(
+					# 	alloy_list, api_key=self.api_key
+					# )
+					for alloy in alloy_list:
+						if alloy in self.im_list:
+							im_list += self.im_list[alloy]
 		else:
 			im_list = kwargs.get("im", [])
 		
