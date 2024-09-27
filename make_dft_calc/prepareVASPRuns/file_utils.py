@@ -62,7 +62,7 @@ def create_directory(directory_path) :
 	if not os.path.exists(directory_path) :
 		os.makedirs(directory_path)
 	else :
-		print(f"Directory already exists: {directory_path}")
+		pass
 
 def string_to_file(text , file_path) :
 	with open(file_path , 'w') as file :

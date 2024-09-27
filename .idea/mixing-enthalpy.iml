@@ -7,6 +7,8 @@
       <excludeFolder url="file://$MODULE_DIR$/mixing_enthalpy" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
       <excludeFolder url="file://$MODULE_DIR$/env" />
+      <excludeFolder url="file://$MODULE_DIR$/far_heaa/src/far_heaa/plots" />
+      <excludeFolder url="file://$MODULE_DIR$/make_dft_calc/prepareVASPRuns/PP" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.9 (Projects)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
