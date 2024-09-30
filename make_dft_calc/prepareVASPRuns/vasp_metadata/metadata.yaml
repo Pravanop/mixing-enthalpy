@@ -15,8 +15,8 @@ kpoint:
 runjob:
   supercomputer: "stampede" #expanse, RIS, stampede. Only expanse available as of now.
   comp_name: "skx" #depends on supercomputer, shared is best
-  nodes: 1
-  cores: 48
+  nodes: 2
+  cores: 96
   hours: 3
   vasp_type: std
 published: True
