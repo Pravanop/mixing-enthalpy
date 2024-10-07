@@ -76,7 +76,7 @@ def obtainSQS_off_equimolar(
 		out_file_path = f"{out_folder_path}{project_name}"
 		
 		obtainSQS(
-			supercell=[3, 2, 2],
+			supercell=[3, 2, 1],
 			inp_file_path=file_path,
 			output_path=out_file_path,
 			dopant_percentage=doping_percent,
@@ -117,23 +117,30 @@ element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
 combs = list(itertools.combinations(element_list, 2))
 combs = ['-'.join(sorted(list(i))) for i in combs]
 print(combs)
-abs_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy"
+abs_path = "/Users/mcube/Desktop/Projects"
+problems = []
 for i in combs:
 	start, end = i.split('-')
-	lattice = "BCC"
+	lattice = "FCC"
 	file_path = f"{abs_path}/elements/{lattice}/{start}.vasp"
-	out_file_path = f"{abs_path}/make_dft_calc/Outputs/new_outputs_{lattice}/"
+	out_file_path = f"{abs_path}/make_dft_calc/Outputs_{lattice}/"
 	if not os.path.exists(out_file_path):
 		os.mkdir(out_file_path)
 	if not os.path.exists(f"{out_file_path}{i}"):
 		os.mkdir(f"{out_file_path}{i}")
 	element_list = [start, end]
-	obtainSQS_off_equimolar(
-		file_path=file_path,
-		out_folder_path=f"{out_file_path}{i}/",
-		system=i,
-		elements=element_list,
-	)
+	try:
+		obtainSQS_off_equimolar(
+			file_path=file_path,
+			out_folder_path=f"{out_file_path}{i}/",
+			system=i,
+			elements=element_list,
+		)
+	except:
+		problems.append(i)
+		continue
+
+print(problems)
 # start = "Ti"
 # end = "Hf"
 # lattice = "BCC"

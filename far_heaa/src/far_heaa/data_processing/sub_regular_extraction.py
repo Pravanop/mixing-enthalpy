@@ -16,12 +16,12 @@ class SubRegularExtraction:
 	"""
 
 	def __init__(self):
-		self.df = pd.read_csv('../database/Outputs_BCC_runs.csv')
+		self.df = pd.read_csv('../database/binary_bcc.csv')
 		self.lattice = 'BCC'
 		self.end_member_data = JSONHandler.load_json(
 			folder_path='/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calcEnthalpy_old/new_phase_diagram/',
 			file_name='bokas_omegas')
-		# self.temporary_corrections()
+
 	@staticmethod
 	def sub_regular_model(x_i, omega1, omega2):
 		return x_i * (1 - x_i) * (omega1 * x_i + omega2 * (1 - x_i))
@@ -44,7 +44,7 @@ class SubRegularExtraction:
 		x = np.linspace(0, 1, 100)
 		for idx, row in self.df.iterrows():
 			h_dft = row[1:].to_numpy().astype(float)
-			# h_dft = h_dft / 24
+			h_dft = h_dft / 24
 
 			end_members = row[0].split('-')
 			end_members.reverse()

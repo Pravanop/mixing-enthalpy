@@ -178,3 +178,4 @@ cython_debug/
 /calculateEnthalpy/plotting/
 /make_dft_calc/prepareVASPRuns/vasp_metadata/PP/
 /elements/
+/make_dft_calc/prepareVASPRuns/potpaw_PBE.54/

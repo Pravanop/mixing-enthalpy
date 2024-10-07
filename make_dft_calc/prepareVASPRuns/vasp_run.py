@@ -1,5 +1,7 @@
 from pymatgen.core.structure import Structure
 
+from make_dft_calc.prepareVASPRuns.file_utils import get_element_symbols, string_to_file, load_json_to_dict, load_yaml_to_dict, concatenate_files
+
 
 def POSCAR(inp_file_path , named_output_folder_path) :
 	s = Structure.from_file(inp_file_path)
