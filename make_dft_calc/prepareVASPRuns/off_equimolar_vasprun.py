@@ -2,9 +2,9 @@ from make_dft_calc.prepareVASPRuns.main import create_vasprun
 import os
 from tqdm import tqdm
 
-lattice = "FCC"
-# sqs_results_path = f"../Outputs_{lattice}"
-sqs_results_path = f"../../elements/{lattice}"
+lattice = "BCC"
+sqs_results_path = f"../Outputs_{lattice}"
+# sqs_results_path = f"../../elements/{lattice}"
 
 lfolder = os.listdir(sqs_results_path)
 vasp_runs_path = f"../Outputs_{lattice}_runs/"

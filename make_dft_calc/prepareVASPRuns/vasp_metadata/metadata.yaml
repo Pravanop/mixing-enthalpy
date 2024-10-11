@@ -10,7 +10,7 @@ potcar:
   base_path: "/Users/mcube/Desktop/Projects/make_dft_calc/prepareVASPRuns/vasp_metadata/base.yaml"
 kpoint:
   static_mult: 1 #Increasing the kpoint grid by an int value. For ex, ionic step: (4, 4 ,4) -> static step: (8, 8, 8)
-  grid: [6, 6, 6] #Should be a list
+  grid: [6, 6, 4] #Should be a list
   type: "Gamma" # Gamma and Monkhorst options available
 runjob:
   supercomputer: "stampede" #expanse, RIS, stampede. Only expanse available as of now.

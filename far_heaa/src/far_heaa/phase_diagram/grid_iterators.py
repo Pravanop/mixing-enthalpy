@@ -105,15 +105,15 @@ class GridIterator:
 		im_list = []
 		if self.im_flag:
 			for dimensionality, alloy_list in all_combs.items():
-				im_list += IntermetallicExtractions.get_MP_intermetallic(
-					alloy_list, api_key=self.api_key
-				)
-				# for alloy in alloy_list:
-				# 	if alloy in self.im_list:
-				# 		im_list += self.im_list[alloy]
+				# im_list += IntermetallicExtractions.get_MP_intermetallic(
+				# 	alloy_list, api_key=self.api_key
+				# )
+				for alloy in alloy_list:
+					if alloy in self.im_list:
+						im_list += self.im_list[alloy]
 		
 		PD_temp_comp_dict = {}
-		for temp in tqdm(temp_grid, desc="Running Temperature"):
+		for temp in temp_grid:
 			PD_temp_comp_dict[temp] = self.convex_hull.make_convex_hull(
 				temperature=temp, composition=composition, batch_tag=True, im=im_list
 			)
