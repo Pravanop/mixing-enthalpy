@@ -33,7 +33,7 @@ mol_ratios = np.append(0, mol_ratios)
 mol_ratios = np.append(mol_ratios, 1)
 popts = {}
 h_mix = []
-binary_dict = JSONHandler.load_json(folder_path='../database/', file_name='bokas_omegas_processed')
+# binary_dict = JSONHandler.load_json(folder_path='../database/', file_name='bokas_omegas_processed')
 regular_popts = {}
 for idx, row in df.iterrows():
 	h_dft = row[1:].to_numpy().astype(float)
@@ -53,42 +53,63 @@ for idx, row in df.iterrows():
 	h_mix.append(y_data)
 	
 	popt, pcov = curve_fit(sub_regular_model, x_data, y_data)
-	assert np.log10(np.linalg.cond(pcov)) < 10
+
+	# assert np.log10(np.linalg.cond(pcov)) < 10
 	popt = np.round(popt, 8)
 	popts[row[0]] = popt
 
-	try:
-		reg_mix = y_data[np.where(x_data == 0.5)[0][0]]
-	except:
-		reg_mix = sub_regular_model(0.5, *popt)
-		print(0)
+	popt, pcov = curve_fit(regular_model, x_data, y_data)
+	regular_popts[row[0]] = popt
+	# try:
+	# 	reg_mix = y_data[np.where(x_data == 0.5)[0][0]]
+	# except:
+	# 	reg_mix = sub_regular_model(0.5, *popt)
+		# print(0)
 
-	regular_popts[row[0]] = reg_mix*4
+
 
 
 x = np.linspace(0, 1, 100)
 x_real = [0, 0.125, 0.25, 0.5, 0.75, 0.875, 1]
+
+# y_many = np.array(list(popts.values())).flatten()
+# y_one = np.array(list(regular_popts.values())).flatten()
+# # print(y_many)
+# # plt.scatter(list(popts.values()), list(regular_popts.values()))
+# print(np.mean(abs(y_one-y_many)))
+# sns.histplot(abs(y_one-y_many))
+# plt.show()
 asymmetric_list = []
 diff_omega = []
 for idx, key in enumerate(popts.keys()):
-	sub_reg_y = sub_regular_model(x, *popts[key])
-	# plt.plot(x, sub_reg_y, label=key)
-	# plt.scatter(x_real, h_mix[idx])
-	# plt.title(key)
-	# plt.show()
-	reg_y = regular_popts[key]*x*(1-x)
-	diff_omega.append(popts[key][1] - popts[key][0])
-	extremum_reg = np.max(np.abs(reg_y))
-	extremum_reg_x = x[np.argmax(np.abs(reg_y))]
-	extremum_sub_reg = np.max(np.abs(sub_reg_y))
-	extremum_sub_reg_x = x[np.argmax(np.abs(sub_reg_y))]
-	asymmetric_dist = np.sqrt((extremum_reg_x - extremum_sub_reg_x)**2 + (extremum_reg - extremum_sub_reg)**2)
-	asymmetric_list.append(np.round(asymmetric_dist,2))
+	try:
+		sub_reg_y = sub_regular_model(x, *popts[key])
+		# reg_y = reg_y / np.max(reg_y)
+
+		reg_y = regular_model(x, *regular_popts[key])
+		# reg_y = reg_y/np.max(reg_y)
+		diff_curves = np.sum((sub_reg_y - reg_y)**2)
+		# print(diff_curves)
+		diff_omega.append(popts[key][1] - popts[key][0])
+		# plt.plot(x, sub_reg_y, label=key)
+		plt.scatter(x_real, h_mix[idx])
+		# plt.plot(x, reg_y)
+		plt.title(f"{key}-{diff_curves}")
+		plt.show()
+		extremum_reg = np.max(np.abs(reg_y))
+		extremum_reg_x = x[np.argmax(np.abs(reg_y))]
+		extremum_sub_reg = np.max(np.abs(sub_reg_y))
+		extremum_sub_reg_x = x[np.argmax(np.abs(sub_reg_y))]
+		asymmetric_dist = np.sqrt((extremum_reg_x - extremum_sub_reg_x)**2 + (extremum_reg - extremum_sub_reg)**2)
+		# asymmetric_list.append(np.round(asymmetric_dist,2))
+		asymmetric_list.append(np.round(diff_curves,5))
+	except:
+		continue
 
 asymmetric_list = np.array(asymmetric_list)
 diff_omega = np.array(diff_omega)
 #normalize asymmetric distances
-asymmetric_list = np.round((asymmetric_list - np.min(asymmetric_list))/(np.max(asymmetric_list) - np.min(asymmetric_list)),2)
+# asymmetric_list = np.round((asymmetric_list - np.min(asymmetric_list))/(np.max(asymmetric_list) - np.min(asymmetric_list)),2)
 # diff_omega = np.round((diff_omega - np.min(diff_omega))/(np.max(diff_omega) - np.min(diff_omega)),2)
 
 element_list = np.unique(np.array([key.split('-') for key in popts.keys()]).flatten())
@@ -97,20 +118,25 @@ element_list = np.array(['Mo','Nb','Ta','V','W','Zr','Ti'])
 #make a heatmap of the asymmetric distances
 asymmetric_matrix = np.zeros((len(element_list), len(element_list)))
 for idx, key in enumerate(popts.keys()):
+	if key == 'Ti-V':
+		continue
 	elements = key.split('-')
 	element_idx = [np.where(element_list == element)[0][0] for element in elements]
-	asymmetric_matrix[element_idx[0], element_idx[1]] = diff_omega[idx]
-	# asymmetric_matrix[element_idx[0], element_idx[1]] = asymmetric_list[idx]
-	asymmetric_matrix[element_idx[1], element_idx[0]] = diff_omega[idx]
-	# asymmetric_matrix[element_idx[1], element_idx[0]] = asymmetric_list[idx]
+	# asymmetric_matrix[element_idx[0], element_idx[1]] = diff_omega[idx]
+	asymmetric_matrix[element_idx[0], element_idx[1]] = asymmetric_list[idx]
+	# asymmetric_matrix[element_idx[1], element_idx[0]] = diff_omega[idx]
+	asymmetric_matrix[element_idx[1], element_idx[0]] = asymmetric_list[idx]
 
-sns.heatmap(asymmetric_matrix, annot=True,
+sns.heatmap(asymmetric_matrix,
+			annot=True,
 			cmap='plasma',
 			xticklabels=element_list,
 			yticklabels=element_list,
 			cbar_kws={'label': 'Asymmetric Distance'},)
 
+plt.show()
+plt.savefig('../plots/asymmetric_distances_least_squares.png', dpi=100)
 
-plt.savefig('../plots/asymmetric_distances_omega.png', dpi=100)
-
-	
+sns.histplot(asymmetric_list, bins = 50)
+plt.show()
+#

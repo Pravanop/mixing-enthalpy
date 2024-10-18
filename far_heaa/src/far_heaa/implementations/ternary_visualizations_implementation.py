@@ -5,9 +5,8 @@ from far_heaa.io.metadata_handler import MetadataHandler
 
 mH = MetadataHandler()
 meta_data = mH.get_metadata
-
 tD = TernaryVisualization(
-    composition=["Cr", "V", "Ta"],
+    composition=["Ti", "W", "V"],
     lattice="min",
     meta_data=meta_data,
     save_flag=True,

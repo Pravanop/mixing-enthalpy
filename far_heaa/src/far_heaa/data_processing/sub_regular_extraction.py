@@ -16,11 +16,25 @@ class SubRegularExtraction:
 	"""
 
 	def __init__(self):
-		self.df = pd.read_csv('../database/binary_bcc.csv')
+		self.df = pd.read_csv('../database/Outputs_BCC_runs.csv')
 		self.lattice = 'BCC'
-		self.end_member_data = JSONHandler.load_json(
-			folder_path='/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calcEnthalpy_old/new_phase_diagram/',
-			file_name='bokas_omegas')
+		# self.end_member_data = JSONHandler.load_json(
+		# 	folder_path='/Users/pravanomprakash/Documents/Projects/mixing-enthalpy/calcEnthalpy_old/new_phase_diagram/',
+		# 	file_name='bokas_omegas')
+		self.end_member_data = {
+
+	"Cr": "-9.52005384",
+	"Fe": "-8.25682767",
+	"Hf": "-9.74533769",
+	"Mo": "-10.93282547",
+	"Nb": "-10.10322176",
+	"Ta": "-11.81975660",
+	"Ti": "-7.69671714",
+	"V": "-8.96529006",
+	"W": "-12.95591411",
+	"Zr": "-8.43952352"
+
+}
 
 	@staticmethod
 	def sub_regular_model(x_i, omega1, omega2):
@@ -48,7 +62,7 @@ class SubRegularExtraction:
 
 			end_members = row[0].split('-')
 			end_members.reverse()
-			end_member_energies = np.array([self.end_member_data[end_member] for end_member in end_members])
+			end_member_energies = np.array([float(self.end_member_data[end_member]) for end_member in end_members])
 			# print()
 			h_dft = np.pad(h_dft, (1, 1), 'constant')
 			is_nan = np.isnan(h_dft)

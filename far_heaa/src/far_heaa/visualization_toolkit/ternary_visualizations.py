@@ -194,14 +194,14 @@ class TernaryVisualization(Visualizations):
         mol_grid, misc_temp = self.find_misc_temperatures()
         norm = Normalize(vmin=0, vmax=max(misc_temp), clip=False)
         for idx, temp in enumerate(misc_temp):
-            if temp == -1000:
+            if temp == np.nan:
                 if self.is_differential:
-                    misc_temp[idx] = -200
+                    misc_temp[idx] = -2000
                 else:
                     misc_temp[idx] = 5000
 
         t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
-        fig = plt.figure()
+        fig = plt.figure(figsize=(6, 6))
 
         ax = fig.add_subplot(projection="ternary")
         ax.grid()
@@ -230,12 +230,12 @@ class TernaryVisualization(Visualizations):
 
         sm = ScalarMappable(cmap=self.cmap, norm=norm)
         colorbar = fig.colorbar(sm, cax=cax)
-        colorbar.set_label("$T_{misc}$ K", rotation=270, va="baseline")
+        colorbar.set_label("$T_{melt}$ - $T_{misc}$ (K)", rotation=270, va="baseline", fontsize=12)
         ax.grid(False)
         ax.set_tlabel(f"{self.composition[0]}")
         ax.set_llabel(f"{self.composition[1]}")
         ax.set_rlabel(f"{self.composition[2]}")
-
+        plt.subplots_adjust(left=0.1, right = 0.8)
         if self.save_flag:
             if self.contour_flag:
                 self.save_figure(

@@ -108,11 +108,11 @@ class PathwayVisualizations(Visualizations):
                     phase_flag=True,
                     conv_hull=self.conv_hull,
                     temp_grid=self.temp_grid,
-                    is_differential=False
+                    is_differential=True
                 )
                 for idx, temp in enumerate(misc_temp):
-                    if temp == -1000:
-                        misc_temp[idx] = 5000
+                    if temp == np.nan:
+                        misc_temp[idx] = -3000
 
                 if count == 0:
                     misc_temp[0] = self.tm.avg_T_melt(
@@ -206,20 +206,20 @@ class PathwayVisualizations(Visualizations):
     def metric(self, path_dict):
         metrics = []
         for key, value in path_dict.items():
-            path = key.split("-")
             for idx, i in enumerate(value):
                 if idx == 0:
                     y = np.array(i)
                 else:
                     y = np.append(y, np.array(i))
             
-            diff_y = np.diff(y)
-            metric = np.average(diff_y)
+            metric = np.mean(y)
+            print(key, metric)
             metrics.append(metric)
         
-        metrics = np.array(metrics)*-1
+        metrics = np.array(metrics)
         arg_metric = np.argsort(metrics)
-        print(metrics)
+        # print(metrics, arg_metric)
+        # print(arg_metric)
         return arg_metric
 
     def plot_rP(self) -> Tuple[plt.Axes, plt.Figure]:
@@ -241,12 +241,13 @@ class PathwayVisualizations(Visualizations):
 
         texts = []
         fig, ax = plt.subplots()
-        arg_metric = self.metric(path_dict)
+        arg_metric = list(self.metric(path_dict)[::-1])
         opacities = np.linspace(0.1, 1, len(path_dict.keys()))
-        linewidths = np.linspace(0.5, 2, len(path_dict.keys()))**2
+        linewidths = 1/np.linspace(0.5, 0.9, len(path_dict.keys()))**2
         count = 0
         for key, value in path_dict.items():
-            path = key.split("-")
+            print(key, arg_metric.index(count))
+            rank = arg_metric.index(count)
             for idx, i in enumerate(value):
                 x = np.array(self.x) + idx
                 y = np.array(i)
@@ -257,11 +258,16 @@ class PathwayVisualizations(Visualizations):
                 if idx == len(value) - 1:
                     texts.append(["".join(sorted(self.composition)), x[-1], y[-1]])
 
+                # ax.plot(x, y,
+                #         color=cmap[arg_metric[count]],
+                #         zorder=arg_metric[count],
+                #         alpha=opacities[arg_metric[count]],
+                #         linewidth=linewidths[arg_metric[count]],)
                 ax.plot(x, y,
-                        color=cmap[arg_metric[count]],
-                        zorder=arg_metric[count],
-                        alpha=opacities[arg_metric[count]],
-                        linewidth=linewidths[arg_metric[count]],)
+                        color=cmap[rank],
+                        zorder=len(list(path_dict.keys())) - rank,
+                        alpha=1,
+                        linewidth=linewidths[rank], )
             count += 1
         texts = np.unique(np.array(texts), axis=0)
         text_dict = self.text_segregators(texts)
@@ -282,7 +288,7 @@ class PathwayVisualizations(Visualizations):
         ax.spines["top"].set_visible(False)
         ax.set_ylim(-100, 4000)
         ax.set_xticks([])
-        ax.set_ylabel("Temperature (K)", fontsize=12)
+        ax.set_ylabel("$T_{melt}$ - $T_{misc}$ (K)", fontsize=12)
         ax.set_xlabel("Reaction Coordinate", fontsize=12)
 
         if self.save_flag:

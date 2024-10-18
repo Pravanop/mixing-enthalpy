@@ -7,7 +7,7 @@ meta_data = mH.get_metadata
 
 
 bD = binaryVizualization(
-    composition=["Cr", "W"], lattice="min", meta_data=meta_data, save_flag=True
+    composition=["V", "W"], lattice="BCC", meta_data=meta_data, save_flag=True
 )
 
 ax, fig = bD.plot_misc_temperatures()

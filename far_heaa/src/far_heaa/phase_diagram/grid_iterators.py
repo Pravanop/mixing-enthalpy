@@ -190,7 +190,7 @@ class GridIterator:
 			)
 		
 		# Initialize stables array to store miscibility temperature
-		stables = np.ones_like(mol_grid[:, 0]) * -1000 # remember this number
+		stables = np.ones_like(mol_grid[:, 0]) * np.nan # remember this number
 		
 		done_idx = []
 		for idx_temp, temp in enumerate(temp_grid):

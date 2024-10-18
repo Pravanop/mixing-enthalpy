@@ -135,6 +135,7 @@ class PolarVisualizations(Visualizations):
             phase_flag=False,
             conv_hull=self.conv_hull,
             temp_grid=self.temp_grid,
+            is_differential=True
         )
         return misc_temp
 
@@ -338,7 +339,7 @@ class PolarVisualizations(Visualizations):
             sm, ax=ax, aspect=30, fraction=0.05, orientation="horizontal"
         )  # Unified colorbar
         if self.type_flag == "misc_T":
-            cbar.set_label("$T_{misc}$ (K)", fontsize=12)
+            cbar.set_label("$T_{melt}$ - $T_{misc}$ (K)", fontsize=12)
         else:
             cbar.set_label("$E_{hull}$ (eV/atom)", fontsize=12)
 
@@ -346,7 +347,7 @@ class PolarVisualizations(Visualizations):
         self, member_pos: List[int], N: int, flag: Literal["add", "transmutate"]
     ) -> np.ndarray:
         misc_temp_list = self.misc_temp(member_pos=member_pos, x=self.x, flag=flag, N=N)
-        misc_temp_list = np.array([5000 if i == -1 else i for i in misc_temp_list])
+        misc_temp_list = np.array([-5000 if i == np.nan else i for i in misc_temp_list])
         return misc_temp_list
 
     def make_one_bar(

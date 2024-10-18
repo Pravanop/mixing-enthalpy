@@ -192,7 +192,7 @@ class EquiMiscTPredictions(Visualizations):
         plt.tight_layout()
         if self.save_flag:
             self.save_figure(
-                folders=["predictions_offequi"],
+                folders=["predictions_equi_subregular"],
                 file_name=f"misc_T_{self.dim}_{self.lattice}_{Tm_constraint}_{alloy_constraint}",
                 fig=fig,
             )
