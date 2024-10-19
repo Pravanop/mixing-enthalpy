@@ -36,11 +36,11 @@ for system in [2, 3, 4]:
     alloys = list(MultinaryCombinations.create_multinary(element_list=element_list,
                                                            no_comb=[system]).values())[0]
 
-
-
     mH = MetadataHandler()
     meta_data = mH.get_metadata
     meta_data['flags']['im_flag'] = False
+    meta_data['flags']['equi_flag'] = True
+    
     viz = Visualizations(lattice = 'BCC',
                          meta_data=meta_data)
 
@@ -81,7 +81,7 @@ for system in [2, 3, 4]:
             data_file[alloy][ele] = list(misc_temp[::-1])
 
     #dump the json file
-    with open(f'./{system}_add_ele_paths_total_{len(element_list)}_wo_im.json', 'w') as f:
+    with open(f'./{system}_add_ele_paths_total_{len(element_list)}_wo_im_equi.json', 'w') as f:
         json.dump(data_file, f, indent=4, ensure_ascii=True)
 
 
