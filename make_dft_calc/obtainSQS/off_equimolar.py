@@ -117,11 +117,11 @@ element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
 combs = list(itertools.combinations(element_list, 2))
 combs = ['-'.join(sorted(list(i))) for i in combs]
 print(combs)
-abs_path = "/Users/mcube/Desktop/Projects"
+abs_path = "/Users/pravanomprakash/Documents/Projects/mixing-enthalpy"
 problems = []
 for i in combs:
 	start, end = i.split('-')
-	lattice = "FCC"
+	lattice = "BCC"
 	file_path = f"{abs_path}/elements/{lattice}/{start}.vasp"
 	out_file_path = f"{abs_path}/make_dft_calc/Outputs_{lattice}/"
 	if not os.path.exists(out_file_path):

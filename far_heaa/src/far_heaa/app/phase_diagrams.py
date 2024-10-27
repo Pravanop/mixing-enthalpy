@@ -20,6 +20,7 @@ def phase_diagram_visualizations(input_list, meta_data, lattice):
     n_alloy = len(input_list)
     if n_alloy == 2:
         st.write("Binary Phase Diagrams")
+        print(meta_data['flags'])
         bD = binaryVizualization(
             composition=input_list,
             lattice=lattice,
