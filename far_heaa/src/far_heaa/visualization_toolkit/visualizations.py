@@ -52,7 +52,7 @@ class Visualizations:
         end_member = JSONHandler.load_json(
             folder_path=meta_data["folder_path"], file_name=meta_data["end_member"]
         )
-
+        self.dpi = 200
         self.grid_iterator = GridIterator(
             grid_size=self.grid_size,
             tm=self.tm,
@@ -81,15 +81,15 @@ class Visualizations:
         )
 
         if self.flags["equi_flag"] == True:
-            fig.savefig(fname=f"{updated_folder_path}{file_name}_equi.png", dpi=100)
+            fig.savefig(fname=f"{updated_folder_path}{file_name}_equi.png", dpi=self.dpi)
 
         if not self.flags["im_flag"]:
-            fig.savefig(fname=f"{updated_folder_path}{file_name}_wo_im.png", dpi=100)
+            fig.savefig(fname=f"{updated_folder_path}{file_name}_wo_im.png", dpi=self.dpi)
 
         if not self.flags["correction"]:
             fig.savefig(
-                fname=f"{updated_folder_path}{file_name}_wo_correction.png", dpi=100
+                fname=f"{updated_folder_path}{file_name}_wo_correction.png", dpi=self.dpi
             )
 
         else:
-            fig.savefig(fname=f"{updated_folder_path}{file_name}.png", dpi=100)
+            fig.savefig(fname=f"{updated_folder_path}{file_name}.png", dpi=self.dpi)

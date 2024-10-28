@@ -107,7 +107,8 @@ class ThermoMaths:
                 AssertionError: If the mole fractions do not sum to 1.
         """
         assert round(sum(mol_ratio.values()), 3) == 1, "Mole fractions must sum to 1."
-        return -self.kb * sum([value * np.log(value) for value in mol_ratio.values()])
+
+        return -self.kb * sum([value * np.log(value+1e-7) for value in mol_ratio.values()])
     
     @staticmethod
     def calc_gibbs_energy(enthalpy: float, entropy: float, temperature: float) -> float:

@@ -21,6 +21,7 @@ temp_diff = []
 for key, value in file.items():
     for add_ele, temp_list in value.items():
         temp_array = np.array(temp_list)
+        temp_array[temp_array == -1000.0] = np.nan
         is_immiscible = temp_list[0] <= 0  # is immiscible
 
         if is_immiscible:
@@ -30,13 +31,13 @@ for key, value in file.items():
                 temp_diff.append(tm.avg_T_melt(add_ele, [1]) - tm.avg_T_melt(composition=key.split('-'),
                               mol_ratio=[1/system]*system))
 
-sns.histplot(temp_diff, bins=20, color = '#999933', kde = True, zorder = 0)
+sns.histplot(temp_diff, bins=20, color = '#BB5566', zorder = 0, alpha = 1)
 plt.xlabel('Melting Temp diff between alloying element and alloy (K)')
 plt.ylabel('# paths')
 plt.show()
 
 ele_stats = dict(sorted(ele_stats.items(), key=lambda item: item[1]))
-plt.bar(x = list(ele_stats.keys()), height=list(ele_stats.values()), width = 0.3, color = '#999933', edgecolor = 'black',
+plt.bar(x = list(ele_stats.keys()), height=list(ele_stats.values()), width = 0.3, color = '#BB5566', edgecolor = 'black',
         align = 'center')
 plt.ylabel('# Alloys made miscible')
 plt.xlabel('Alloying element')
@@ -54,7 +55,7 @@ for key, value in file.items():
 
 counter_stats.pop(0.0, None)
 
-plt.bar(x = list(counter_stats.keys()), height=list(counter_stats.values()), width = 0.1, color = '#999933', edgecolor = 'black',
+plt.bar(x = list(counter_stats.keys()), height=list(counter_stats.values()), width = 0.1, color = '#BB5566', edgecolor = 'black',
         align = 'center')
 plt.ylabel('# Alloys made miscible')
 plt.xlabel('Mole Fraction of alloying element')

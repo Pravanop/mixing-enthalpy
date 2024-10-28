@@ -31,6 +31,7 @@ def find_indices(main_list: List[str], subset: List[str]) -> List[Union[int, Non
 
 element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
 mol_grid_size = 5
+lattice = 'HCP'
 for system in [2, 3, 4]:
 
     alloys = list(MultinaryCombinations.create_multinary(element_list=element_list,
@@ -39,9 +40,8 @@ for system in [2, 3, 4]:
     mH = MetadataHandler()
     meta_data = mH.get_metadata
     meta_data['flags']['im_flag'] = False
-    meta_data['flags']['equi_flag'] = True
-    
-    viz = Visualizations(lattice = 'BCC',
+
+    viz = Visualizations(lattice = lattice,
                          meta_data=meta_data)
 
     x = list(np.linspace(0, 1, mol_grid_size))
@@ -72,7 +72,7 @@ for system in [2, 3, 4]:
             mol_grid, misc_temp = viz.grid_iterator.misc_temperature_across_grid(
                 composition=total_composition,
                 mol_grid_size=mol_grid,
-                lattice='BCC',
+                lattice=lattice,
                 phase_flag=False,
                 conv_hull=conv_hull,
                 temp_grid=temp_grid,
@@ -81,7 +81,7 @@ for system in [2, 3, 4]:
             data_file[alloy][ele] = list(misc_temp[::-1])
 
     #dump the json file
-    with open(f'./{system}_add_ele_paths_total_{len(element_list)}_wo_im_equi.json', 'w') as f:
+    with open(f'./{system}_add_ele_paths_total_{len(element_list)}_{lattice}_wo_im.json', 'w') as f:
         json.dump(data_file, f, indent=4, ensure_ascii=True)
 
 

@@ -11,11 +11,11 @@ matplotlib.rcParams.update({'font.size': 14})
 
 system = 3
 element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
-file = JSONHandler.load_json(folder_path = './', file_name=f'{system}_add_ele_paths_total_10_wo_im_equi')
+file = JSONHandler.load_json(folder_path = './', file_name=f'{system}_add_ele_paths_total_10')
 data = JSONHandler.load_json(folder_path='../database', file_name='bokas_omegas_processed')
 mol_grid_size = 5
 x = np.linspace(0, 1, mol_grid_size)
-
+print(x)
 tm = ThermoMaths()
 ele_temp = [tm.avg_T_melt(composition=i, mol_ratio = [0.25, 0.25]) for i in element_list]
 alloy_temp = [tm.avg_T_melt(composition=i.split('-'), mol_ratio = [0.33, 0.33, 0.34]) for i in list(file.keys())]
@@ -87,7 +87,8 @@ for i, ele1 in enumerate(element_list):
 				continue
 				
 			if ele1 in comp:
-				temp_array = value[ele2]
+				temp_array = np.array(value[ele2])
+				temp_array[temp_array == -1000.0] = np.nan
 				if np.all(np.isnan(temp_array)):
 					continue
 				temp_array = np.array(temp_array)
