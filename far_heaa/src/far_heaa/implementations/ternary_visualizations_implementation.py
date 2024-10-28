@@ -5,12 +5,13 @@ from far_heaa.io.metadata_handler import MetadataHandler
 
 mH = MetadataHandler()
 meta_data = mH.get_metadata
+meta_data["flags"]["equi_flag"] = True
 tD = TernaryVisualization(
-    composition=["Ti", "W", "V"],
+    composition=["Ta", "W", "V"],
     lattice="min",
     meta_data=meta_data,
     save_flag=True,
-    contour_flag=True,
+    contour_flag=False,
 )
 
 """Two options"""

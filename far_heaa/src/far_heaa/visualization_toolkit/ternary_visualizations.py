@@ -2,6 +2,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import mpltern
 from matplotlib.cm import ScalarMappable
+from matplotlib import colors as mcolors
 from matplotlib.colors import Normalize
 from typing import Tuple, Literal
 
@@ -11,7 +12,7 @@ from far_heaa.visualization_toolkit.visualizations import Visualizations
 
 
 class TernaryVisualization(Visualizations):
-    """
+	"""
     A class for visualizing ternary phase diagrams and miscibility temperatures for a given alloy composition.
 
     Args:
@@ -34,16 +35,16 @@ class TernaryVisualization(Visualizations):
             plot_misc_temperatures: Plots the miscibility temperatures for the ternary alloy.
             plot_ternary_visualizations: Generates and saves ternary visualizations, including miscibility temperature plots and isotherms for a given temperature range and gradation.
     """
-
-    def __init__(
-        self,
-        composition: list[str],
-        lattice: Literal["FCC", "BCC", "HCP", "min"],
-        meta_data: dict,
-        save_flag: bool,
-        contour_flag: bool,
-    ):
-        """
+	
+	def __init__(
+			self,
+			composition: list[str],
+			lattice: Literal["FCC", "BCC", "HCP", "min"],
+			meta_data: dict,
+			save_flag: bool,
+			contour_flag: bool,
+	):
+		"""
         Initializes the TernaryVizualization class with the ternary alloy composition, lattice type, and metadata.
 
         Args:
@@ -56,20 +57,32 @@ class TernaryVisualization(Visualizations):
         Raises:
                 ValueError: If the provided composition does not contain exactly three elements.
         """
-        super().__init__(lattice=lattice, meta_data=meta_data)
-
-        self.cmap = "plasma"
-
-        self.composition = composition
-        if len(self.composition) != 3:
-            raise ValueError("Only provide ternary compositions!")
-
-        self.save_flag = save_flag
-        self.contour_flag = contour_flag
-        self.is_differential = True
-
-    def find_misc_temperatures(self) -> Tuple[np.ndarray, np.ndarray]:
-        """
+		super().__init__(lattice=lattice, meta_data=meta_data)
+		
+		base_cmap = plt.get_cmap('plasma_r')
+		
+		# Create a list of colors for our custom colormap
+		colors = [
+			("darkgrey"),  # Color for values below 200
+			*base_cmap(np.linspace(0, 1, 256))  # Colormap for values 200 and above
+		]
+		
+		# Create a custom colormap using LinearSegmentedColormap
+		self.cmap = mcolors.ListedColormap(colors)
+		
+		boundaries = [-3000, 200] + list(np.linspace(200, 3750, 20))
+		self.norm = mcolors.BoundaryNorm(boundaries, self.cmap.N)
+		
+		self.composition = composition
+		if len(self.composition) != 3:
+			raise ValueError("Only provide ternary compositions!")
+		
+		self.save_flag = save_flag
+		self.contour_flag = contour_flag
+		self.is_differential = True
+	
+	def find_misc_temperatures(self) -> Tuple[np.ndarray, np.ndarray]:
+		"""
         Finds miscibility temperatures for the ternary alloy across a mole fraction grid.
 
         Returns:
@@ -77,18 +90,18 @@ class TernaryVisualization(Visualizations):
                         - mol_grid (np.ndarray): The mole fraction grid for the ternary alloy.
                         - misc_temp (np.ndarray): The miscibility temperatures corresponding to each composition.
         """
-        mol_grid, misc_temp = self.grid_iterator.misc_temperature_across_grid(
-            composition=self.composition,
-            mol_grid_size=self.mol_grid_size,
-            lattice=self.lattice,
-            phase_flag=True,
-            is_differential=self.is_differential
-        )
-
-        return mol_grid, misc_temp
-
-    def find_isotherm(self, temperature: float) -> Tuple[np.ndarray, np.ndarray]:
-        """
+		mol_grid, misc_temp = self.grid_iterator.misc_temperature_across_grid(
+			composition=self.composition,
+			mol_grid_size=self.mol_grid_size,
+			lattice=self.lattice,
+			phase_flag=True,
+			is_differential=self.is_differential
+		)
+		
+		return mol_grid, misc_temp
+	
+	def find_isotherm(self, temperature: float) -> Tuple[np.ndarray, np.ndarray]:
+		"""
         Finds the isotherm (temperature slice) of the energy above the convex hull for the ternary alloy.
 
         Args:
@@ -99,17 +112,17 @@ class TernaryVisualization(Visualizations):
                         - mol_grid (np.ndarray): The mole fraction grid for the ternary alloy.
                         - stables (np.ndarray): The stability of the alloy compositions at the given temperature.
         """
-        mol_grid, stables, _ = self.grid_iterator.e_hull_across_grid(
-            composition=self.composition,
-            mol_grid_size=self.mol_grid_size,
-            lattice=self.lattice,
-            single_temp_flag=True,
-            temp_gradation=temperature,
-        )
-        return mol_grid, stables
-
-    def plot_isotherm(self, temperature: float) -> Tuple[plt.Axes, plt.Figure]:
-        """
+		mol_grid, stables, _ = self.grid_iterator.e_hull_across_grid(
+			composition=self.composition,
+			mol_grid_size=self.mol_grid_size,
+			lattice=self.lattice,
+			single_temp_flag=True,
+			temp_gradation=temperature,
+		)
+		return mol_grid, stables
+	
+	def plot_isotherm(self, temperature: float) -> Tuple[plt.Axes, plt.Figure]:
+		"""
         Plots the isotherm (temperature slice) of the energy above the convex hull for the ternary alloy.
 
         Args:
@@ -118,150 +131,168 @@ class TernaryVisualization(Visualizations):
         Returns:
                 Tuple[plt.Axes, plt.Figure]: A tuple containing the matplotlib axes and figure objects for the plot.
         """
-        mol_grid, stables = self.find_isotherm(temperature)
-
-        for idx, stable in enumerate(stables):
-            if np.isclose(stable, 0.0, atol=1e-3):
-                stables[idx] = 0
-            else:
-                stables[idx] = 1
-
-        t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
-        fig = plt.figure()
-
-        ax = fig.add_subplot(projection="ternary")
-        ax.grid()
-        norm = Normalize(vmin=0, vmax=0.25, clip=False)
-        if not self.contour_flag:
-            ax.scatter(t, l, r, c=stables, cmap=self.cmap, marker="h", s=60, norm=norm)
-        else:
-            data = np.concatenate(
-                [
-                    t.reshape(-1, 1),
-                    l.reshape(-1, 1),
-                    r.reshape(-1, 1),
-                    stables.reshape(-1, 1),
-                ],
-                axis=1,
-            )
-            ax.tricontourf(
-                data[:, 0],
-                data[:, 1],
-                data[:, 2],
-                data[:, 3],
-                cmap=self.cmap,
-                norm=norm,
-            )
-
-        ax.grid(False)
-        ax.set_tlabel(f"{self.composition[0]}")
-        ax.set_llabel(f"{self.composition[1]}")
-        ax.set_rlabel(f"{self.composition[2]}")
-
-        if self.save_flag:
-            if self.contour_flag:
-                self.save_figure(
-                    folders=[
-                        "ternary_phase_diagram",
-                        "isotherms",
-                        "contours",
-                        f"{'-'.join(sorted(self.composition, reverse=True))}",
-                    ],
-                    file_name=f"{temperature}",
-                    fig=fig,
-                )
-            else:
-                self.save_figure(
-                    folders=[
-                        "ternary_phase_diagram",
-                        "isotherms",
-                        "scatters",
-                        f"{'-'.join(sorted(self.composition, reverse=True))}",
-                    ],
-                    file_name=f"{temperature}",
-                    fig=fig,
-                )
-
-        return ax, fig
-
-    def plot_misc_temperatures(self) -> Tuple[plt.Axes, plt.Figure]:
-        """
+		mol_grid, stables = self.find_isotherm(temperature)
+		
+		for idx, stable in enumerate(stables):
+			if np.isclose(stable, 0.0, atol=1e-3):
+				stables[idx] = 0
+			else:
+				stables[idx] = 1
+		
+		t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
+		fig = plt.figure()
+		
+		ax = fig.add_subplot(projection="ternary")
+		ax.grid()
+		if not self.contour_flag:
+			ax.scatter(t, l, r, c=stables, cmap=self.cmap, marker="h", s=60, norm=self.norm)
+		else:
+			data = np.concatenate(
+				[
+					t.reshape(-1, 1),
+					l.reshape(-1, 1),
+					r.reshape(-1, 1),
+					stables.reshape(-1, 1),
+				],
+				axis=1,
+			)
+			ax.tricontourf(
+				data[:, 0],
+				data[:, 1],
+				data[:, 2],
+				data[:, 3],
+				cmap=self.cmap,
+				norm=self.norm,
+			)
+		
+		ax.grid(False)
+		ax.set_tlabel(f"{self.composition[0]}")
+		ax.set_llabel(f"{self.composition[1]}")
+		ax.set_rlabel(f"{self.composition[2]}")
+		
+		if self.save_flag:
+			if self.contour_flag:
+				self.save_figure(
+					folders=[
+						"ternary_phase_diagram",
+						"isotherms",
+						"contours",
+						f"{'-'.join(sorted(self.composition, reverse=True))}",
+					],
+					file_name=f"{temperature}",
+					fig=fig,
+				)
+			else:
+				self.save_figure(
+					folders=[
+						"ternary_phase_diagram",
+						"isotherms",
+						"scatters",
+						f"{'-'.join(sorted(self.composition, reverse=True))}",
+					],
+					file_name=f"{temperature}",
+					fig=fig,
+				)
+		
+		return ax, fig
+	
+	def plot_misc_temperatures(self,
+							   contraint: str = None) -> Tuple[plt.Axes, plt.Figure]:
+		"""
         Plots the miscibility temperatures for the ternary alloy.
 
         Returns:
                 Tuple[plt.Axes, plt.Figure]: A tuple containing the matplotlib axes and figure objects for the plot.
         """
-        mol_grid, misc_temp = self.find_misc_temperatures()
-        norm = Normalize(vmin=0, vmax=max(misc_temp), clip=False)
-        for idx, temp in enumerate(misc_temp):
-            if temp == np.nan:
-                if self.is_differential:
-                    misc_temp[idx] = -2000
-                else:
-                    misc_temp[idx] = 5000
-
-        t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
-        fig = plt.figure(figsize=(6, 6))
-
-        ax = fig.add_subplot(projection="ternary")
-        ax.grid()
-        cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
-        
-        if not self.contour_flag:
-            ax.scatter(t, l, r, c=misc_temp, cmap=self.cmap, marker="h", s=60)
-        else:
-            data = np.concatenate(
-                [
-                    t.reshape(-1, 1),
-                    l.reshape(-1, 1),
-                    r.reshape(-1, 1),
-                    misc_temp.reshape(-1, 1),
-                ],
-                axis=1,
-            )
-            ax.tricontourf(
-                data[:, 0],
-                data[:, 1],
-                data[:, 2],
-                data[:, 3],
-                cmap=self.cmap,
-                norm=norm,
-            )
-
-        sm = ScalarMappable(cmap=self.cmap, norm=norm)
-        colorbar = fig.colorbar(sm, cax=cax)
-        colorbar.set_label("$T_{melt}$ - $T_{misc}$ (K)", rotation=270, va="baseline", fontsize=12)
-        ax.grid(False)
-        ax.set_tlabel(f"{self.composition[0]}")
-        ax.set_llabel(f"{self.composition[1]}")
-        ax.set_rlabel(f"{self.composition[2]}")
-        plt.subplots_adjust(left=0.1, right = 0.8)
-        if self.save_flag:
-            if self.contour_flag:
-                self.save_figure(
-                    folders=["ternary_phase_diagram", "misc_temp", "contours"],
-                    file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
-                    fig=fig,
-                )
-
-            else:
-                self.save_figure(
-                    folders=["ternary_phase_diagram", "misc_temp", "scatter"],
-                    file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
-                    fig=fig,
-                )
-
-        return ax, fig
-
-    def plot_ternary_visualizations(
-        self,
-        T_min: float,
-        T_max: float,
-        T_gradation: float,
-        switch_contour_off: bool = False,
-        switch_scatter_off: bool = False,
-    ) -> None:
-        """
+		
+		mol_grid, misc_temp = self.find_misc_temperatures()
+		norm = Normalize(vmin=0, vmax=max(misc_temp), clip=False)
+		for idx, temp in enumerate(misc_temp):
+			if temp == np.nan:
+				if self.is_differential:
+					misc_temp[idx] = -2000
+				else:
+					misc_temp[idx] = 5000
+		
+		if contraint:
+			contraint_mol_grid = []
+			contraint_misc_temp = []
+			#constraint should always be given as a string of the form "Ru=0.2" or "Cu-Ru=0.2-0.2"
+			eles = contraint.split("=")[0].split("-")
+			mol_frac = np.array(contraint.split("=")[1].split("-")).astype(float)
+			ind_eles = [self.composition.index(ele) for ele in eles]
+			# print(mol_frac)
+			indices = np.where(mol_grid[:, ind_eles].flatten() <= mol_frac[0])[0]
+			# print(mol_grid[:, ind_eles].flatten())
+			# print(indices)
+			contraint_mol_grid = mol_grid[indices]
+			
+			t_con, l_con, r_con = contraint_mol_grid[:, 0], contraint_mol_grid[:, 1], contraint_mol_grid[:, 2]
+		
+		t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
+		fig = plt.figure(figsize=(6, 6))
+		
+		ax = fig.add_subplot(projection="ternary")
+		ax.grid()
+		cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
+		
+		if not self.contour_flag:
+			ax.scatter(t, l, r, c=misc_temp, cmap=self.cmap, marker="h", s=60, norm = self.norm)
+			if contraint:
+				ax.scatter(t_con, l_con, r_con, c='black', marker="h", s=60)
+		else:
+			data = np.concatenate(
+				[
+					t.reshape(-1, 1),
+					l.reshape(-1, 1),
+					r.reshape(-1, 1),
+					misc_temp.reshape(-1, 1),
+				],
+				axis=1,
+			)
+			ax.tricontourf(
+				data[:, 0],
+				data[:, 1],
+				data[:, 2],
+				data[:, 3],
+				cmap=self.cmap,
+				norm=norm,
+			)
+		
+		sm = ScalarMappable(cmap=self.cmap, norm=self.norm)
+		colorbar = fig.colorbar(sm, cax=cax)
+		colorbar.set_label("$T_{melt}$ - $T_{misc}$ (K)", rotation=270, va="baseline", fontsize=12)
+		ax.grid(False)
+		ax.set_tlabel(f"{self.composition[0]}")
+		ax.set_llabel(f"{self.composition[1]}")
+		ax.set_rlabel(f"{self.composition[2]}")
+		plt.subplots_adjust(left=0.1, right=0.8)
+		if self.save_flag:
+			if self.contour_flag:
+				self.save_figure(
+					folders=["ternary_phase_diagram", "misc_temp", "contours"],
+					file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
+					fig=fig,
+				)
+			
+			else:
+				self.save_figure(
+					folders=["ternary_phase_diagram", "misc_temp", "scatter"],
+					file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
+					fig=fig,
+				)
+		
+		return ax, fig
+	
+	def plot_ternary_visualizations(
+			self,
+			T_min: float,
+			T_max: float,
+			T_gradation: float,
+			switch_contour_off: bool = False,
+			switch_scatter_off: bool = False,
+	) -> None:
+		"""
         Generates and saves ternary visualizations, including miscibility temperature plots and isotherms
         for a given temperature range and gradation. (both contours and scatters
 
@@ -278,32 +309,32 @@ class TernaryVisualization(Visualizations):
         
                 self.plot_ternary_visualizations(T_min=300, T_max=1500, T_gradation=100)
         """
-        # Create a grid of temperatures for isotherms
-        isotherm_grid = np.arange(T_min, T_max + 100, T_gradation)
-
-        # Set flags for saving and for scatter plots
-        self.save_flag = True
-
-        if switch_scatter_off and switch_contour_off:
-            raise "Why do you want to waste your time with this function?"
-
-        if not switch_scatter_off:
-            self.contour_flag = False
-
-            # Plot miscibility temperatures with scatter plots
-            _, _ = self.plot_misc_temperatures()
-
-            # Plot each isotherm using scatter plot
-            for isotherm in isotherm_grid:
-                _, _ = self.plot_isotherm(temperature=isotherm)
-
-        if not switch_contour_off:
-            # Switch to contour plots
-            self.contour_flag = True
-
-            # Plot miscibility temperatures with contour plots
-            _, _ = self.plot_misc_temperatures()
-
-            # Plot each isotherm using contour plot
-            for isotherm in isotherm_grid:
-                _, _ = self.plot_isotherm(temperature=isotherm)
+		# Create a grid of temperatures for isotherms
+		isotherm_grid = np.arange(T_min, T_max + 100, T_gradation)
+		
+		# Set flags for saving and for scatter plots
+		self.save_flag = True
+		
+		if switch_scatter_off and switch_contour_off:
+			raise "Why do you want to waste your time with this function?"
+		
+		if not switch_scatter_off:
+			self.contour_flag = False
+			
+			# Plot miscibility temperatures with scatter plots
+			_, _ = self.plot_misc_temperatures()
+			
+			# Plot each isotherm using scatter plot
+			for isotherm in isotherm_grid:
+				_, _ = self.plot_isotherm(temperature=isotherm)
+		
+		if not switch_contour_off:
+			# Switch to contour plots
+			self.contour_flag = True
+			
+			# Plot miscibility temperatures with contour plots
+			_, _ = self.plot_misc_temperatures()
+			
+			# Plot each isotherm using contour plot
+			for isotherm in isotherm_grid:
+				_, _ = self.plot_isotherm(temperature=isotherm)
