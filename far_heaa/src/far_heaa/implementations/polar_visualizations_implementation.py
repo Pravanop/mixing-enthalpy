@@ -14,11 +14,11 @@ pD = PolarVisualizations(
     type_flag="misc_T",
 )
 
-# _, _ = pD.plot_total()
+_, _ = pD.plot_total()
 #
 # _, _ = pD.plot_subset(N_ind=1,
 #                       transmute_indices=[])
 
-_, _ = pD.plot_subset(N_ind=1,
-                      transmute_indices=[1, 2])
+# _, _ = pD.plot_subset(N_ind=1,
+#                       transmute_indices=[1, 2])
 

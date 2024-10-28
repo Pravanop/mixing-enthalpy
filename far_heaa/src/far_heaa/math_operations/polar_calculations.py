@@ -95,7 +95,8 @@ class PolarMaths:
         """
         if n == N:
             raise ValueError("N must be smaller than n")
-        return 2 * 1 / np.sqrt(n - N)
+        # return 2 * 1 / np.sqrt(n - N)
+        return np.sqrt(n - N)
 
     @staticmethod
     def total_num_bars(n: int) -> int:

@@ -617,7 +617,7 @@ class PolarVisualizations(Visualizations):
         ax.vlines(
             angle_radians,
             ymin=self.y_bias,
-            ymax=(self.x * pm.distance_calculator(n_alloy, n_alloy - 1))[-1]
+            ymax=(self.x * pm.distance_calculator(n_alloy, 1))[-1]
             + self.y_bias,
             linestyles="-",
             color=line_colors[idx2],
@@ -626,13 +626,15 @@ class PolarVisualizations(Visualizations):
             linewidth=2,
         )
         rotation = self.text_flipper(angle=angle)
+
         if '-' not in i:
+
             ax.text(
                 angle_radians,
-                pm.distance_calculator(n_alloy, n_alloy - 1)
-                + N * 0.2
-                - 0.01 * n_alloy
-                + self.y_bias,
+                pm.distance_calculator(n_alloy, 1) +
+            N * 0.15
+            - 0.005 * n_alloy
+            + self.y_bias,
                 i,
                 ha="center",
                 va="center",
@@ -641,18 +643,32 @@ class PolarVisualizations(Visualizations):
                 weight = 'bold'
             )
         else:
-            ax.text(
-                angle_radians,
-                pm.distance_calculator(n_alloy, n_alloy - 1)
-                + N * 0.2
-                - 0.01 * n_alloy
-                + self.y_bias,
-                i,
-                ha="center",
-                va="center",
-                color="black",
-                rotation=rotation,
-            )
+            if rotation > 360:
+                ax.text(
+                    angle_radians,
+                    pm.distance_calculator(n_alloy, 1)
+                    + N * 0.12
+                    - 0.005 * n_alloy
+                    + self.y_bias,
+                    i,
+                    ha="center",
+                    va="center",
+                    color="black",
+                    rotation=rotation,
+                )
+            else:
+                ax.text(
+                    angle_radians,
+                    pm.distance_calculator(n_alloy, 1)
+                    + N * 0.12
+                    - 0.005 * n_alloy
+                    + self.y_bias,
+                    i,
+                    ha="center",
+                    va="center",
+                    color="black",
+                    rotation=rotation,
+                )
         return float(misc_temp_list[0])
 
     def plot_total(self, **kwargs) -> Tuple[plt.Axes, plt.Figure]:
