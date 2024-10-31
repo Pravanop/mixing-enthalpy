@@ -210,24 +210,24 @@ class TernaryVisualization(Visualizations):
 		for idx, temp in enumerate(misc_temp):
 			if temp == np.nan:
 				if self.is_differential:
-					misc_temp[idx] = -2000
+					misc_temp[idx] = -1000
 				else:
 					misc_temp[idx] = 5000
 		
-		if contraint:
-			contraint_mol_grid = []
-			contraint_misc_temp = []
-			#constraint should always be given as a string of the form "Ru=0.2" or "Cu-Ru=0.2-0.2"
-			eles = contraint.split("=")[0].split("-")
-			mol_frac = np.array(contraint.split("=")[1].split("-")).astype(float)
-			ind_eles = [self.composition.index(ele) for ele in eles]
-			# print(mol_frac)
-			indices = np.where(mol_grid[:, ind_eles].flatten() <= mol_frac[0])[0]
-			# print(mol_grid[:, ind_eles].flatten())
-			# print(indices)
-			contraint_mol_grid = mol_grid[indices]
-			
-			t_con, l_con, r_con = contraint_mol_grid[:, 0], contraint_mol_grid[:, 1], contraint_mol_grid[:, 2]
+		# if contraint:
+		# 	contraint_mol_grid = []
+		# 	contraint_misc_temp = []
+		# 	#constraint should always be given as a string of the form "Ru=0.2" or "Cu-Ru=0.2-0.2"
+		# 	eles = contraint.split("=")[0].split("-")
+		# 	mol_frac = np.array(contraint.split("=")[1].split("-")).astype(float)
+		# 	ind_eles = [self.composition.index(ele) for ele in eles]
+		# 	# print(mol_frac)
+		# 	indices = np.where(mol_grid[:, ind_eles].flatten() <= mol_frac[0])[0]
+		# 	# print(mol_grid[:, ind_eles].flatten())
+		# 	# print(indices)
+		# 	contraint_mol_grid = mol_grid[indices]
+		#
+		# 	t_con, l_con, r_con = contraint_mol_grid[:, 0], contraint_mol_grid[:, 1], contraint_mol_grid[:, 2]
 		
 		t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
 		fig = plt.figure(figsize=(6, 6))
@@ -237,9 +237,10 @@ class TernaryVisualization(Visualizations):
 		cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
 		
 		if not self.contour_flag:
+			ax.scatter(t, l, r, c='darkgrey', marker="h", s=60, norm=self.norm)
 			ax.scatter(t, l, r, c=misc_temp, cmap=self.cmap, marker="h", s=60, norm = self.norm)
-			if contraint:
-				ax.scatter(t_con, l_con, r_con, c='black', marker="h", s=60)
+			# if contraint:
+			# 	ax.scatter(t_con, l_con, r_con, c='black', marker="h", s=60)
 		else:
 			data = np.concatenate(
 				[

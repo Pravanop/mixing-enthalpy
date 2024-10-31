@@ -1,9 +1,8 @@
 import pandas as pd
 import plotly.graph_objects as go
+
 from far_heaa.grids_and_combinations.combination_generation import MultinaryCombinations
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
-from sklearn.linear_model import LinearRegression, LogisticRegression
-from sklearn.metrics import accuracy_score
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -31,12 +30,15 @@ def plot_everything(file, data, cases, case, element_list):
     for i in cases[case]:
         keys = i.split('.')
         temp_array = np.array(file[keys[0]][keys[1]])
-        temp_array[temp_array == -1000.0] = np.nan
-        alloy_temp = tm.avg_T_melt(composition=keys[0].split('-'), mol_ratio=[0.33, 0.33, 0.34])
-        element_temp = tm.avg_T_melt(composition=keys[0].split('-') + [keys[1]], mol_ratio=[0.25, 0.25, 0.25, 0.25])
+        composition = keys[0].split('-')
+        composition.remove(keys[1])
+        # temp_array[temp_array == -1000.0] = np.nan
+        print(composition)
+        alloy_temp = tm.avg_T_melt(composition=composition, mol_ratio=[0.25, 0.25, 0.25, 0.25])
+        element_temp = tm.avg_T_melt(composition=keys[0].split('-'), mol_ratio=[0.2, 0.2, 0.2, 0.2, 0.2])
 
         h_alloy = 0
-        for j in keys[0].split('-'):
+        for j in composition:
             h_alloy += data['-'.join(sorted([j, keys[1]]))]['BCC']
         h_alloy_list.append(h_alloy)
         if h_alloy >= 0:
@@ -45,7 +47,7 @@ def plot_everything(file, data, cases, case, element_list):
             h_alloy_reduction.append(keys[1])
 
         h_comp = 0
-        for j in list(MultinaryCombinations.create_multinary(keys[0].split('-'), no_comb=[2]).values())[0]:
+        for j in list(MultinaryCombinations.create_multinary(composition, no_comb=[2]).values())[0]:
             h_comp += data[j]['BCC']
         h_comp_list.append(h_comp)
         if h_comp >= 0:

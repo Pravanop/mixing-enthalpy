@@ -10,9 +10,9 @@ import seaborn as sns
 
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
 
-system = 3
+system = 4
 element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
-file = JSONHandler.load_json(folder_path = './', file_name=f'{system}_add_ele_paths_total_10_HCP_wo_im')
+file = JSONHandler.load_json(folder_path = './', file_name=f'{system}_add_ele_paths_total_10_BCC_wo_im')
 data = JSONHandler.load_json(folder_path='../database', file_name='bokas_omegas_processed')
 mol_grid_size = 5
 x = np.linspace(0, 1, mol_grid_size)
@@ -28,7 +28,7 @@ error_count = 0
 for key, value in file.items():
     for add_ele, temp_list in value.items():
         temp_array = np.array(temp_list)
-        temp_array[temp_array == -1000.0] = np.nan
+        # temp_array[temp_array == -1000.0] = np.nan
 
         if np.isnan(temp_array[0]) and np.isnan(temp_array[-1]):
             throw_away.append('.'.join([key, add_ele]))
@@ -55,17 +55,17 @@ for key, value in file.items():
 
 
 
-print("Total Cases: ", len(list(file.keys()))*7)
+print("Total Cases: ", len(list(file.keys()))*5)
 print("Miscible to Miscible: ", len(cases['m-m']))
 print('Immiscible to Immiscible: ', len(cases['im-im']) , ' Never immisible:', len(throw_away))
 print('Miscible to immiscible: ', len(cases['m-im']))
 print('Immiscible to miscible: ', len(cases['im-m']))
 
-assert len(list(file.keys()))*(10-system) == len(cases['m-m']) + len(cases['im-im']) + len(cases['m-im']) + len(cases['im-m']) + len(throw_away)
+# assert len(list(file.keys()))*(10-system) == len(cases['m-m']) + len(cases['im-im']) + len(cases['m-im']) + len(cases['im-m']) + len(throw_away)
 
 
 plot_everything(file=file,
                 data=data,
                 cases=cases,
-                case = 'm-im',
+                case = 'im-m',
                 element_list=element_list)

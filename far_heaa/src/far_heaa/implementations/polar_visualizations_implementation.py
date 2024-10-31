@@ -7,14 +7,16 @@ mH = MetadataHandler()
 meta_data = mH.get_metadata
 meta_data['flags']['equi_flag'] = True
 pD = PolarVisualizations(
-    composition=["V", "Ta", "W", "Ti"],
-    lattice="BCC",
+    composition=["A", "B", "C", "D"],
+    lattice="min",
     meta_data=meta_data,
     save_flag=True,
-    type_flag="misc_T",
+    type_flag="gibbs",
 )
 
 _, _ = pD.plot_total()
+
+
 #
 # _, _ = pD.plot_subset(N_ind=1,
 #                       transmute_indices=[])

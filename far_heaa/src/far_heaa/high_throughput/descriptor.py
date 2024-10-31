@@ -10,9 +10,9 @@ import seaborn as sns
 
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
 
-system = 3
+system = 4
 element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
-file = JSONHandler.load_json(folder_path = './', file_name=f'{system}_add_ele_paths_total_10_wo_im')
+file = JSONHandler.load_json(folder_path = './', file_name=f'{system}_add_ele_paths_total_10_BCC_wo_im')
 data = JSONHandler.load_json(folder_path='../database', file_name='bokas_omegas_processed')
 mol_grid_size = 5
 x = np.linspace(0, 1, mol_grid_size)
@@ -32,7 +32,8 @@ temperature_list = []
 reduction = []
 for key, value in file.items():
     for add_ele, temp_list in value.items():
-
+        composition = key.split('-')
+        composition.remove(add_ele)
         temp_array = np.array(temp_list)
         temp_array[temp_array == -1000.0] = np.nan
 
@@ -40,17 +41,17 @@ for key, value in file.items():
             continue
 
         h_alloy = 0
-        for j in key.split('-'):
+        for j in composition:
             h_alloy += data['-'.join(sorted([j, add_ele]))]['BCC']
         h_alloy_list.append(h_alloy)
 
         h_comp = 0
-        for j in list(MultinaryCombinations.create_multinary(key.split('-'), no_comb=[2]).values())[0]:
+        for j in list(MultinaryCombinations.create_multinary(composition, no_comb=[2]).values())[0]:
             h_comp += data[j]['BCC']
         h_comp_list.append(h_comp)
 
-        alloy_temp = tm.avg_T_melt(composition=key.split('-'), mol_ratio=[0.33, 0.33, 0.34])
-        element_temp = tm.avg_T_melt(composition=key.split('-') + [add_ele], mol_ratio=[0.25, 0.25, 0.25, 0.25])
+        alloy_temp = tm.avg_T_melt(composition=composition, mol_ratio=[1/len(composition)]*len(composition))
+        element_temp = tm.avg_T_melt(composition=key.split('-'), mol_ratio=[1/len(key.split('-'))]*len(key.split('-')))
         temperature_list.append(float(alloy_temp - element_temp))
         if np.isnan(temp_array[-1]):
             reduction.append(-5000 - temp_array[0])

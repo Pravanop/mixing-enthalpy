@@ -7,6 +7,7 @@ from matplotlib.patches import Rectangle, Wedge
 import matplotlib.colors as mcolors
 from matplotlib.pyplot import get_cmap
 from pybtex.textutils import width
+from pymatgen.core import Element
 
 from far_heaa.grids_and_combinations.combination_generation import MultinaryCombinations
 from far_heaa.grids_and_combinations.grid_creation import CompositionGrid
@@ -103,7 +104,7 @@ class PolarVisualizations(Visualizations):
 
 
         elif self.type_flag == "e_hull":
-            base_cmap = plt.get_cmap('cool')
+            base_cmap = plt.get_cmap('OrRd')
             n = 10
             colors = [
                 *base_cmap(np.linspace(0, 1, n)),
@@ -114,8 +115,20 @@ class PolarVisualizations(Visualizations):
             boundaries = list(np.round(np.linspace(0.0, 0.1, n),2)) + [0.1, 0.4]
             self.norm = mcolors.BoundaryNorm(boundaries, self.cmap.N)
 
+        elif self.type_flag == "gibbs":
+            base_cmap = plt.get_cmap('coolwarm')
+            n = 10
+            colors = [
+                *base_cmap(np.linspace(0, 1, n))
+            ]
+            custom_cmap = mcolors.ListedColormap(colors)
+            self.cmap = custom_cmap
+            boundaries = list(np.round(np.linspace(-0.3, 0.3, n),2))
+            self.norm = mcolors.BoundaryNorm(boundaries, self.cmap.N)
+
         elif self.type_flag == "entropy":
-            self.cmap = plt.get_cmap('plasma_r')
+            self.cmap = plt.get_cmap('terrain', 8)
+            self.cmap = mcolors.ListedColormap(self.cmap(np.linspace(0, 1, 7))[:-1])
             limit = -(1/len(self.composition))*np.log(1/len(self.composition))*len(self.composition)
             self.norm = Normalize(vmin=0, vmax=limit)
 
@@ -127,6 +140,12 @@ class PolarVisualizations(Visualizations):
                     t_min = t_min_temp
             self.cmap = plt.get_cmap('plasma')
             self.norm = Normalize(vmin=t_min, vmax=3700)
+        elif self.type_flag == "density":
+            self.cmap = plt.get_cmap('jet')
+            self.norm = Normalize(vmin = 7, vmax= 9)
+        elif self.type_flag == "elastic":
+            self.cmap = plt.get_cmap('jet')
+            self.norm = Normalize(vmin = 100, vmax = 300)
 
         self.mol_gradation = kwargs.get("mol_gradation", 15)
         self.x = np.linspace(0, 1, self.mol_gradation)
@@ -176,6 +195,57 @@ class PolarVisualizations(Visualizations):
             is_differential=True
         )
         return misc_temp
+
+
+    def elastic(self,
+                member_pos: List[int],
+                x: np.ndarray,
+                N: int,
+                flag: Literal["add", "transmutate"],
+                ):
+
+        n = len(self.composition)
+
+        mol_grid = (
+            CompositionGrid.create_high_sym_mol_grid(
+                x=x, n=n, N=N, change_idx=member_pos
+            )
+            if flag == "add"
+            else CompositionGrid.create_mol_grid_transmutation(
+                x=x, n=n, transmutation_indice=member_pos
+            )
+        )
+
+        elastic = []
+        for j in mol_grid:
+            modulus = np.array([Element(i).youngs_modulus for i in self.composition])
+            elastic.append(np.dot(modulus, np.array(j)))
+        return elastic
+
+    def density(self,
+                member_pos: List[int],
+                x: np.ndarray,
+                N: int,
+                flag: Literal["add", "transmutate"],
+                ):
+
+        n = len(self.composition)
+
+        mol_grid = (
+            CompositionGrid.create_high_sym_mol_grid(
+                x=x, n=n, N=N, change_idx=member_pos
+            )
+            if flag == "add"
+            else CompositionGrid.create_mol_grid_transmutation(
+                x=x, n=n, transmutation_indice=member_pos
+            )
+        )
+
+        density = []
+        for j in mol_grid:
+            modulus = np.array([Element(i).atomic_mass/Element(i).molar_volume for i in self.composition])
+            density.append(np.dot(modulus, np.array(j)))
+        return density
 
     def melt_T(self,
         member_pos: List[int],
@@ -231,6 +301,34 @@ class PolarVisualizations(Visualizations):
 
         return entropy
 
+    def gibbs(self,
+              member_pos: List[int],
+              x: np.ndarray,
+              N: int,
+              flag: Literal["add", "transmutate"],
+              ):
+
+        n = len(self.composition)
+
+        mol_grid = (
+            CompositionGrid.create_high_sym_mol_grid(
+                x=x, n=n, N=N, change_idx=member_pos
+            )
+            if flag == "add"
+            else CompositionGrid.create_mol_grid_transmutation(
+                x=x, n=n, transmutation_indice=member_pos
+            )
+        )
+
+        gibbs = []
+        omega1, omega2, omega3, omega4 = 0.420, 0.420, 0.420, 0.420
+        for i in mol_grid:
+            entropy = self.grid_iterator.tm.calc_config_entropy(mol_ratio=dict(zip(self.composition, list(i))))
+            hmix = sum([omega1*i[0]*i[1], omega2/2*i[0]*i[2], omega3/4*i[0]*i[3], omega4*i[1]*i[2], omega1*i[1]*i[3], omega3*i[2]*i[3]])
+            gibbs.append(hmix - 100*entropy)
+
+        print(mol_grid[-1], gibbs)
+        return gibbs
 
     def e_hull(
         self,
@@ -396,19 +494,30 @@ class PolarVisualizations(Visualizations):
         """
 
         angle_radians = np.radians(angle_degrees)
-        bar_width = np.radians(10)  # Adjust width as needed, here it's 1 degree
+        bar_width = np.radians(10) - np.radians(len(self.composition)*1.1)  # Adjust width as needed, here it's 1 degree
 
         for i in range(len(x_values)):
             # Define the position and dimensions of the rectangle
-            rect = Rectangle(
-                (angle_radians - bar_width / 2, self.y_bias),  # (theta, r) starting point
-                width=bar_width,
-                height=x_values[i],  # Height is based on the x_values
-                facecolor=cmap(norm(temp_list[i])),
-                zorder=zorder + len(x_values) - i,
-                edgecolor='black',
-                linewidth=0.5
-            )
+            if self.type_flag != 'entropy':
+                rect = Rectangle(
+                    (angle_radians - bar_width / 2, self.y_bias),  # (theta, r) starting point
+                    width=bar_width,
+                    height=x_values[i],  # Height is based on the x_values
+                    facecolor=cmap(norm(temp_list[i])),
+                    zorder=zorder + len(x_values) - i,
+                    edgecolor='black',
+                    linewidth=0.5
+                )
+            else:
+                rect = Rectangle(
+                    (angle_radians - bar_width / 2, self.y_bias),  # (theta, r) starting point
+                    width=bar_width,
+                    height=x_values[i],  # Height is based on the x_values
+                    facecolor=cmap(norm(temp_list[i])),
+                    zorder=zorder + len(x_values) - i,
+                    edgecolor='black',
+                    linewidth=0.5
+                )
             ax.add_patch(rect)
 
     def plot_colored_secant(
@@ -527,7 +636,13 @@ class PolarVisualizations(Visualizations):
         elif self.type_flag == 'melt':
             cbar.set_label("$T_{melt}$ (K)", fontsize=12)
         elif self.type_flag == 'entropy':
-            cbar.set_label("$Entropy/kb$", fontsize=12)
+            cbar.set_label("$-Entropy*k_b$", fontsize=12)
+        elif self.type_flag == 'elastic':
+            cbar.set_label("$E (GPa)$", fontsize=12)
+        elif self.type_flag == 'density':
+            cbar.set_label("$\\rho (g/cc)$", fontsize=12)
+        elif self.type_flag == 'gibbs':
+            cbar.set_label("$G_{mix} (eV/atom)$", fontsize=12)
 
     def find_misc_temperatures(
         self, member_pos: List[int], N: int, flag: Literal["add", "transmutate"]
@@ -573,8 +688,32 @@ class PolarVisualizations(Visualizations):
                 flag="add",
             )
 
+        if self.type_flag == "elastic":
+            misc_temp_list = self.elastic(
+                member_pos=member_pos,
+                x=self.x,
+                N=N,
+                flag="add",
+            )
+
         if self.type_flag == "melt":
             misc_temp_list = self.melt_T(
+                member_pos=member_pos,
+                x=self.x,
+                N=N,
+                flag="add",
+            )
+
+        if self.type_flag == "density":
+            misc_temp_list = self.density(
+                member_pos=member_pos,
+                x=self.x,
+                N=N,
+                flag="add",
+            )
+
+        if self.type_flag == "gibbs":
+            misc_temp_list = self.gibbs(
                 member_pos=member_pos,
                 x=self.x,
                 N=N,
@@ -623,51 +762,54 @@ class PolarVisualizations(Visualizations):
             color=line_colors[idx2],
             zorder=0,
             alpha=0.7,
-            linewidth=2,
+            linewidth=1,
         )
         rotation = self.text_flipper(angle=angle)
-
+        fontsize = 12
         if '-' not in i:
 
             ax.text(
                 angle_radians,
                 pm.distance_calculator(n_alloy, 1) +
-            N * 0.15
-            - 0.005 * n_alloy
+            N * 0.17
+            # - 0.01 * n_alloy
             + self.y_bias,
                 i,
                 ha="center",
                 va="center",
                 color="black",
                 rotation=rotation,
-                weight = 'bold'
+                weight = 'bold',
+                fontsize = fontsize
             )
         else:
             if rotation > 360:
                 ax.text(
                     angle_radians,
                     pm.distance_calculator(n_alloy, 1)
-                    + N * 0.12
-                    - 0.005 * n_alloy
-                    + self.y_bias,
+                +N * 0.15
+                # - 0.02 * n_alloy
+                + self.y_bias,
                     i,
                     ha="center",
                     va="center",
                     color="black",
                     rotation=rotation,
+                    fontsize=fontsize
                 )
             else:
                 ax.text(
                     angle_radians,
                     pm.distance_calculator(n_alloy, 1)
-                    + N * 0.12
-                    - 0.005 * n_alloy
-                    + self.y_bias,
+                +N * 0.15
+                # - 0.02 * n_alloy
+                + self.y_bias,
                     i,
                     ha="center",
                     va="center",
                     color="black",
                     rotation=rotation,
+                    fontsize=fontsize
                 )
         return float(misc_temp_list[0])
 
@@ -685,44 +827,74 @@ class PolarVisualizations(Visualizations):
         count = 0
         scatter = 0
         temperature = kwargs.get("temperature", None)
-        print(temperature)
 
         if self.type_flag == "e_hull" and temperature is None:
             raise ValueError("Temperature should be provided for e_hull plot.")
+        total = []
+        for i in MultinaryCombinations.create_multinary(element_list=self.composition, no_comb=list(range(1, len(self.composition)))).values():
+            total += list(i)
 
-        for idx2, N in enumerate(range(1, len(self.composition))):
+        total = [i for i in total if self.composition[0] in i]
+        comp_str = '-'.join(sorted(self.composition))
+        # print(comp_str, total)
+        total_mirror = ['-'.join(list(set(self.composition).difference(set(i.split('-'))))) for i in total]
 
-            combs = (
-                self.composition
-                if N == 1
-                else list(
-                    MultinaryCombinations.create_multinary(
-                        element_list=self.composition, no_comb=[N]
-                    ).values()
-                )[0]
-            )
+        total += total_mirror
+        print(total)
+        for idx2, comp in enumerate(total):
+            angle = angles[count]
+            temp_i = comp.split("-")
+            member_pos = fLE.find_indices(self.composition, temp_i)
+            if temperature:
+                scatter = self.make_one_bar(
+                    ax,
+                    n_alloy,
+                    member_pos,
+                    comp,
+                    len(temp_i),
+                    float(angle),
+                    len(temp_i)-1,
+                    temperature=temperature,
+                )
+            else:
+                scatter = self.make_one_bar(
+                    ax, n_alloy, member_pos, comp, len(temp_i), float(angle), len(temp_i)-1
+                )
 
-            for idx, i in enumerate(combs):
-                angle = angles[count]
-                temp_i = i.split("-")
-                member_pos = fLE.find_indices(self.composition, temp_i)
-                if temperature:
-                    scatter = self.make_one_bar(
-                        ax,
-                        n_alloy,
-                        member_pos,
-                        i,
-                        N,
-                        float(angle),
-                        idx2,
-                        temperature=temperature,
-                    )
-                else:
-                    scatter = self.make_one_bar(
-                        ax, n_alloy, member_pos, i, N, float(angle), idx2
-                    )
-
-                count += 1
+            count += 1
+        # for idx2, N in enumerate(range(1, len(self.composition))):
+        #
+        #     combs = (
+        #         self.composition
+        #         if N == 1
+        #         else list(
+        #             MultinaryCombinations.create_multinary(
+        #                 element_list=self.composition, no_comb=[N]
+        #             ).values()
+        #         )[0]
+        #     )
+        #
+        #     for idx, i in enumerate(combs):
+        #         angle = angles[count]
+        #         temp_i = i.split("-")
+        #         member_pos = fLE.find_indices(self.composition, temp_i)
+        #         if temperature:
+        #             scatter = self.make_one_bar(
+        #                 ax,
+        #                 n_alloy,
+        #                 member_pos,
+        #                 i,
+        #                 N,
+        #                 float(angle),
+        #                 idx2,
+        #                 temperature=temperature,
+        #             )
+        #         else:
+        #             scatter = self.make_one_bar(
+        #                 ax, n_alloy, member_pos, i, N, float(angle), idx2
+        #             )
+        #
+        #         count += 1
 
         for N in range(1, len(self.composition)):
             self.draw_circle_in_polar(radius=pm.distance_calculator(n_alloy, N), ax=ax)

@@ -5,9 +5,9 @@ from far_heaa.io.metadata_handler import MetadataHandler
 
 mH = MetadataHandler()
 meta_data = mH.get_metadata
-meta_data["flags"]["equi_flag"] = True
+# meta_data["flags"]["equi_flag"] = True
 tD = TernaryVisualization(
-    composition=["Ta", "W", "V"],
+    composition=["Nb", "Zr", "V"],
     lattice="min",
     meta_data=meta_data,
     save_flag=True,

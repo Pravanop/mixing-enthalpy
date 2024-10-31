@@ -91,10 +91,10 @@ class ConvexHull:
 
         for dimensionality, alloy_list in all_combs.items():
             if not batch_tag and self.im_flag:
-                # pd_entries_list += IntermetallicExtractions.get_MP_intermetallic(
-                #     alloy_list=alloy_list, api_key=self.api_key
-                # )
-                pd_entries_list += self.im_list[alloy_list]
+                pd_entries_list += IntermetallicExtractions.get_MP_intermetallic(
+                    alloy_list=alloy_list, api_key=self.api_key
+                )
+                # pd_entries_list += self.im_list[alloy_list]
 
             if self.equi_flag:
                 mol_grid = [[1 / dimensionality] * dimensionality]
