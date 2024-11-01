@@ -31,7 +31,7 @@ def find_indices(main_list: List[str], subset: List[str]) -> List[Union[int, Non
 
 element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
 mol_grid_size = 5
-lattice = 'HCP'
+lattice = 'BCC'
 for system in [2, 3, 4]:
 
     alloys = list(MultinaryCombinations.create_multinary(element_list=element_list,

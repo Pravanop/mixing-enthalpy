@@ -107,12 +107,12 @@ class PolarVisualizations(Visualizations):
             base_cmap = plt.get_cmap('OrRd')
             n = 10
             colors = [
-                *base_cmap(np.linspace(0, 1, n)),
+                *base_cmap(np.linspace(0.2, 1, n)),
                 'darkgrey'
             ]
             custom_cmap = mcolors.ListedColormap(colors)
             self.cmap = custom_cmap
-            boundaries = list(np.round(np.linspace(0.0, 0.1, n),2)) + [0.1, 0.4]
+            boundaries = list(np.round(np.linspace(0.0, 0.05, n),2)) + [0.05, 0.4]
             self.norm = mcolors.BoundaryNorm(boundaries, self.cmap.N)
 
         elif self.type_flag == "gibbs":
@@ -123,12 +123,12 @@ class PolarVisualizations(Visualizations):
             ]
             custom_cmap = mcolors.ListedColormap(colors)
             self.cmap = custom_cmap
-            boundaries = list(np.round(np.linspace(-0.3, 0.3, n),2))
+            boundaries = list(np.round(np.linspace(-0.2, 0.2, n),2))
             self.norm = mcolors.BoundaryNorm(boundaries, self.cmap.N)
 
         elif self.type_flag == "entropy":
-            self.cmap = plt.get_cmap('terrain', 8)
-            self.cmap = mcolors.ListedColormap(self.cmap(np.linspace(0, 1, 7))[:-1])
+            self.cmap = plt.get_cmap('cubehelix', 8)
+            self.cmap = mcolors.ListedColormap(self.cmap(np.linspace(0.2, 1, 7))[:-1])
             limit = -(1/len(self.composition))*np.log(1/len(self.composition))*len(self.composition)
             self.norm = Normalize(vmin=0, vmax=limit)
 
@@ -141,7 +141,8 @@ class PolarVisualizations(Visualizations):
             self.cmap = plt.get_cmap('plasma')
             self.norm = Normalize(vmin=t_min, vmax=3700)
         elif self.type_flag == "density":
-            self.cmap = plt.get_cmap('jet')
+            self.cmap = plt.get_cmap('jet', 8)
+            self.cmap = mcolors.ListedColormap(self.cmap(np.linspace(0.2, 1, 7))[:-1])
             self.norm = Normalize(vmin = 7, vmax= 9)
         elif self.type_flag == "elastic":
             self.cmap = plt.get_cmap('jet')
@@ -677,7 +678,7 @@ class PolarVisualizations(Visualizations):
         Returns:
             float: The first miscibility temperature value for this bar.
         """
-        line_colors = self.get_n_colors_from_cmap("Dark2", len(self.composition) - 1)
+        line_colors = ["#009988", "#EE7733", "#0077BB", "#CC3311", "#EE3377", "#BBBBBB"]
         temperature = kwargs.get("temperature", None)
 
         if self.type_flag == "entropy":
@@ -762,7 +763,7 @@ class PolarVisualizations(Visualizations):
             color=line_colors[idx2],
             zorder=0,
             alpha=0.7,
-            linewidth=1,
+            linewidth=1.75,
         )
         rotation = self.text_flipper(angle=angle)
         fontsize = 12
@@ -930,7 +931,7 @@ class PolarVisualizations(Visualizations):
         melt_T = []
         for idx, i in enumerate(self.composition):
             mol_ratio = [1 if idx == i else 0 for i in range(n_alloy)]
-            melt_T.append(self.tm.avg_T_melt(composition=[i], mol_ratio=mol_ratio))
+            # melt_T.append(self.tm.avg_T_melt(composition=[i], mol_ratio=mol_ratio))
 
         count = 0
         if N_ind == 1:
@@ -976,11 +977,14 @@ class PolarVisualizations(Visualizations):
                     )
 
                 angle_radians = np.radians(angle)
-                if transmute_indices and self.type_flag == "misc_T":
+                if transmute_indices:
                     if idx2 != 0 and idx == min(transmute_indices):
-                        misc_temp_list_sec = self.find_misc_temperatures(
-                            transmute_indices, N, flag="transmutate"
-                        )
+                        misc_temp_list_sec = self.gibbs(
+                                                member_pos=member_pos,
+                                                x=self.x,
+                                                N=N,
+                                                flag="transmutate",
+                                            )
                         self.plot_colored_secant_rectangle(
                             ax = ax,
                             radius=float(

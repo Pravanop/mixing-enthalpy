@@ -1,6 +1,3 @@
-import pandas as pd
-import plotly.graph_objects as go
-
 from far_heaa.grids_and_combinations.combination_generation import MultinaryCombinations
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
 import numpy as np
@@ -10,7 +7,7 @@ from collections import Counter
 import matplotlib.patches as mpatches
 
 
-def plot_everything(file, data, cases, case, element_list):
+def plot_everything(file, data, cases, case, element_list, system):
     tm = ThermoMaths()
     print(f'\n{case}')
     reduction = []
@@ -31,11 +28,11 @@ def plot_everything(file, data, cases, case, element_list):
         keys = i.split('.')
         temp_array = np.array(file[keys[0]][keys[1]])
         composition = keys[0].split('-')
-        composition.remove(keys[1])
+        if keys[1] in composition:
+            composition.remove(keys[1])
         # temp_array[temp_array == -1000.0] = np.nan
-        print(composition)
-        alloy_temp = tm.avg_T_melt(composition=composition, mol_ratio=[0.25, 0.25, 0.25, 0.25])
-        element_temp = tm.avg_T_melt(composition=keys[0].split('-'), mol_ratio=[0.2, 0.2, 0.2, 0.2, 0.2])
+        alloy_temp = tm.avg_T_melt(composition=composition, mol_ratio=[1/system]*system)
+        element_temp = tm.avg_T_melt(composition=composition + [keys[1]], mol_ratio=[1/(system+1)]*(system+1))
 
         h_alloy = 0
         for j in composition:
@@ -71,22 +68,15 @@ def plot_everything(file, data, cases, case, element_list):
         else:
             temp_addition.append(keys[1])
 
-
-    # # plt.show()
-    # #
-    # #
-    # #
     fig, ax = plt.subplots(4, 1, sharex=True)
-
-
     count_reduction = {key: Counter(reduction).get(key, 0) for key in element_list}
     count_addition = {key: Counter(addition).get(key, 0) for key in element_list}
-
-    sns.barplot(y=np.array(list(count_reduction.values())), x=element_list, color='#009988', linewidth=2,
+    colors_main = ['#999933', '#CC6677']
+    sns.barplot(y=np.array(list(count_reduction.values())), x=element_list, color=colors_main[0], linewidth=2,
                 edgecolor='black', ax=ax[0])
-    sns.barplot(y=-np.array(list(count_addition.values())), x=element_list, color='#BB5566', linewidth=2,
+    sns.barplot(y=-np.array(list(count_addition.values())), x=element_list, color=colors_main[1], linewidth=2,
                 edgecolor='black', ax=ax[0])
-    colors = ['#009988', '#BB5566']  # Colors matching those in the colormap
+    colors = colors_main  # Colors matching those in the colormap
     labels = ['Increase', 'Decrease']
 
     # Create custom patches for the legend
@@ -98,56 +88,56 @@ def plot_everything(file, data, cases, case, element_list):
     count_reduction_temp = {key: Counter(temp_reduction).get(key, 0) for key in element_list}
     count_addition_temp = {key: Counter(temp_addition).get(key, 0) for key in element_list}
 
-    sns.barplot(y=-np.array(list(count_reduction_temp.values())), x=element_list, color='#BB5566', linewidth=2,
+    sns.barplot(y=-np.array(list(count_reduction_temp.values())), x=element_list, color=colors_main[1], linewidth=2,
                 edgecolor='black', ax=ax[1])
-    sns.barplot(y=np.array(list(count_addition_temp.values())), x=element_list, color='#009988', linewidth=2,
+    sns.barplot(y=np.array(list(count_addition_temp.values())), x=element_list, color=colors_main[0], linewidth=2,
                 edgecolor='black', ax=ax[1])
 
-    colors = ['#009988', '#BB5566']  # Colors matching those in the colormap
+    colors = colors_main  # Colors matching those in the colormap
     labels = ['Increase', 'Decrease']
 
     # Create custom patches for the legend
     patches = [mpatches.Patch(color=color, label=label) for color, label in zip(colors, labels)]
 
     # Add the legend to the plot
-    ax[1].legend(handles=patches, title="Melt T", bbox_to_anchor=(1.0, 0.8), frameon=False)
+    ax[1].legend(handles=patches, title="Melt T", bbox_to_anchor=(1.3, 0.8), frameon=False)
 
     count_reduction_h_alloy = {key: Counter(h_alloy_reduction).get(key, 0) for key in element_list}
     count_addition_h_alloy = {key: Counter(h_alloy_addition).get(key, 0) for key in element_list}
-    sns.barplot(y=np.array(list(count_reduction_h_alloy.values())), x=element_list, color='#009988', linewidth=2,
+    sns.barplot(y=np.array(list(count_reduction_h_alloy.values())), x=element_list, color=colors_main[1], linewidth=2,
                 edgecolor='black', ax=ax[2])
-    sns.barplot(y=-np.array(list(count_addition_h_alloy.values())), x=element_list, color='#BB5566', linewidth=2,
+    sns.barplot(y=-np.array(list(count_addition_h_alloy.values())), x=element_list, color=colors_main[0], linewidth=2,
                 edgecolor='black', ax=ax[2])
-    colors = ['#009988', '#BB5566']  # Colors matching those in the colormap
-    labels = ['Negative', 'Positive']
+    colors = colors_main[::-1]  # Colors matching those in the colormap
+    labels = ['Negative', 'Positive'][::-1]
 
     # Create custom patches for the legend
     patches = [mpatches.Patch(color=color, label=label) for color, label in zip(colors, labels)]
 
     # Add the legend to the plot
-    ax[2].legend(handles=patches, title="$H_a$", bbox_to_anchor=(1.0, 0.8), frameon=False)
+    ax[2].legend(handles=patches, title="$H_a$", bbox_to_anchor=(1.01, 0.8), frameon=False)
     count_reduction_h_comp = {key: Counter(h_comp_reduction).get(key, 0) for key in element_list}
     count_addition_h_comp = {key: Counter(h_comp_addition).get(key, 0) for key in element_list}
-    sns.barplot(y=-np.array(list(count_reduction_h_comp.values())), x=element_list, color='#BB5566', linewidth=2,
+    sns.barplot(y=-np.array(list(count_reduction_h_comp.values())), x=element_list, color=colors_main[1], linewidth=2,
                 edgecolor='black', ax=ax[3])
-    sns.barplot(y=np.array(list(count_addition_h_comp.values())), x=element_list, color='#009988', linewidth=2,
+    sns.barplot(y=np.array(list(count_addition_h_comp.values())), x=element_list, color=colors_main[0], linewidth=2,
                 edgecolor='black', ax=ax[3])
 
-    colors = ['#009988', '#BB5566']  # Colors matching those in the colormap
-    labels = ['Positive', 'Negative']
+    colors = colors_main[::-1]  # Colors matching those in the colormap
+    labels = ['Positive', 'Negative'][::-1]
 
     # Create custom patches for the legend
     patches = [mpatches.Patch(color=color, label=label) for color, label in zip(colors, labels)]
 
     # Add the legend to the plot
-    ax[3].legend(handles=patches, title="$H_c$", bbox_to_anchor=(1.0, 0.8), frameon=False)
+    ax[3].legend(handles=patches, title="$H_c$", bbox_to_anchor=(1.01, 0.8), frameon=False)
 
     ax[1].set_ylabel('# Samples')
     ax[0].set_ylabel('# Samples')
     ax[2].set_ylabel('# Samples')
     ax[3].set_ylabel('# Samples')
-    plt.subplots_adjust(hspace=0, wspace=0, right = 0.80, top = 0.95, bottom=0.1)
-    plt.show()
+    plt.subplots_adjust(hspace=0.15, wspace=0, right = 0.80, top = 0.95, bottom=0.1)
+    plt.savefig(f'../plots/high_throughput/{case}_{system}.png', dpi = 150)
 
     print('# Paths that increase miscibility: ', len(reduction))
     print('# Paths that decrease miscibility: ', len(addition))

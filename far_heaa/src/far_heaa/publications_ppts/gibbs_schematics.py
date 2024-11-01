@@ -9,17 +9,18 @@ AD = [0.1127418049370292, 0.10964996652472257, 0.10599967791085314, 0.1017916332
 BC = [0.1127418049370292, 0.11527496652472255, 0.11724967791085313, 0.11866663324131269, 0.11952703933286085, 0.11983269937888526, 0.11958615086136065, 0.11879088725073376, 0.11745172043241198, 0.11557540030653536, 0.11317175330579375, 0.11025601402939736, 0.10685448232348901, 0.10302314112086239, 0.09902715246851478]
 
 AD_BC = AD[::-1][:-1] + BC
-
+trans = [0.1127418049370292, 0.11299850963203988, 0.11314415328210803, 0.11317964409654054, 0.11310607451010819, 0.1129247754496303, 0.11263739505371963, 0.11224601730389767, 0.11175334951215267, 0.11116303723361957, 0.11048023773155012, 0.10971278928437408, 0.10887404264470678, 0.10799217241784961, 0.10719992716031317]
 ABC_D = ABC[::-1][:-1] + D
-x = np.linspace(0, 1, len(ABC_D))
+x = np.linspace(0, 1, len(trans))
 x1 = np.linspace(0, 1, len(ABC))/3
 x2 = np.linspace(0.333, 1, len(D))
-fig, ax = plt.subplots(2, 1)
+fig, ax = plt.subplots(1, 1)
 # ax[0].plot(x, ABC_D, linewidth = 2, color = '#225555', alpha = 0.8, marker = 'o', markeredgecolor = 'black')
-ax[0].plot(x1[:-1], ABC[::-1][:-1], linewidth = 2, color = '#225555', alpha = 0.8, marker = 'o', markeredgecolor = 'black')
-ax[0].plot(x2, D, linewidth = 2, color = '#225555', alpha = 0.8, marker = 'o', markeredgecolor = 'black')
-ax[1].plot(x, AD_BC, linewidth = 2, color = '#225555', alpha = 0.8, marker = 'o', markeredgecolor = 'black')
-fig.supylabel('$G_{mix} (eV/atom)$')
-ax[0].set_xticks(ticks=[0, 0.33, 1], labels = ['ACD', 'ABCD', 'B'])
-ax[1].set_xticks(ticks=[0, 0.5, 1], labels = ['AD', 'ABCD', 'BC'])
+# ax[0].plot(x1[:-1], ABC[::-1][:-1], linewidth = 2, color = '#225555', alpha = 0.8, marker = 'o', markeredgecolor = 'black')
+# ax[0].plot(x2, D, linewidth = 2, color = '#225555', alpha = 0.8, marker = 'o', markeredgecolor = 'black')
+# ax[1].plot(x, AD_BC, linewidth = 2, color = '#225555', alpha = 0.8, marker = 'o', markeredgecolor = 'black')
+ax.plot(x, trans, linewidth = 2, color = '#225555', alpha = 0.8, marker = 'o', markeredgecolor = 'black')
+ax. set_ylabel('$G_{mix} (eV/atom)$')
+# ax.set_xticks(ticks=[0, 0.33, 1], labels = ['ACD', 'ABCD', 'B'])
+ax.set_xticks(ticks=[0, 1], labels = ['ACD', 'ABD'])
 plt.show()

@@ -22,8 +22,8 @@ plt.scatter(df['umap0'],df['umap1'],c='grey')
 dfp = df
 
 
-cmap = plt.get_cmap('terrain', 8)
-cmap = ListedColormap(cmap(np.linspace(0, 1, 7))[:-1])
+cmap = plt.get_cmap('cubehelix', 8)
+cmap = ListedColormap(cmap(np.linspace(0.2, 1, 7))[:-1])
 plt.scatter(dfp['umap0'],dfp['umap1'],c=dfp[prop],cmap=cmap, edgecolor='black')
 plt.colorbar()
 plt.axis('off')

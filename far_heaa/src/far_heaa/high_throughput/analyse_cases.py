@@ -1,18 +1,11 @@
 import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
-import plotly.graph_objects as go
 from analyse_cases_functions import plot_everything
-from calculateEnthalpy.helper_functions.grid_code import create_multinary
-from far_heaa.grids_and_combinations.combination_generation import MultinaryCombinations
 from far_heaa.io.json_handler import JSONHandler
-import seaborn as sns
-
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
 
-system = 4
+system = 3
 element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
-file = JSONHandler.load_json(folder_path = './', file_name=f'{system}_add_ele_paths_total_10_BCC_wo_im')
+file = JSONHandler.load_json(folder_path = './done_data/', file_name=f'{system}_add_ele_paths_total_10_BCC_wo_im')
 data = JSONHandler.load_json(folder_path='../database', file_name='bokas_omegas_processed')
 mol_grid_size = 5
 x = np.linspace(0, 1, mol_grid_size)
@@ -55,7 +48,7 @@ for key, value in file.items():
 
 
 
-print("Total Cases: ", len(list(file.keys()))*5)
+print("Total Cases: ", len(list(file.keys()))*(10-system))
 print("Miscible to Miscible: ", len(cases['m-m']))
 print('Immiscible to Immiscible: ', len(cases['im-im']) , ' Never immisible:', len(throw_away))
 print('Miscible to immiscible: ', len(cases['m-im']))
@@ -67,5 +60,6 @@ print('Immiscible to miscible: ', len(cases['im-m']))
 plot_everything(file=file,
                 data=data,
                 cases=cases,
-                case = 'im-m',
-                element_list=element_list)
+                case = 'm-im',
+                element_list=element_list,
+                system=4)
