@@ -3,9 +3,9 @@ from analyse_cases_functions import plot_everything
 from far_heaa.io.json_handler import JSONHandler
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
 
-system = 3
+system = 4
 element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
-file = JSONHandler.load_json(folder_path = './done_data/', file_name=f'{system}_add_ele_paths_total_10_BCC_wo_im')
+file = JSONHandler.load_json(folder_path = './done_data/', file_name=f'{system}_add_ele_paths_total_10_BCC_wo_correction')
 data = JSONHandler.load_json(folder_path='../database', file_name='bokas_omegas_processed')
 mol_grid_size = 5
 x = np.linspace(0, 1, mol_grid_size)
@@ -57,9 +57,10 @@ print('Immiscible to miscible: ', len(cases['im-m']))
 # assert len(list(file.keys()))*(10-system) == len(cases['m-m']) + len(cases['im-im']) + len(cases['m-im']) + len(cases['im-m']) + len(throw_away)
 
 
-plot_everything(file=file,
-                data=data,
-                cases=cases,
-                case = 'm-im',
-                element_list=element_list,
-                system=4)
+for j in ['m-m', 'im-im', 'm-im', 'im-m']:
+    plot_everything(file=file,
+                    data=data,
+                    cases=cases,
+                    case = j,
+                    element_list=element_list,
+                    system=system)

@@ -27,14 +27,15 @@ def find_indices(main_list: List[str], subset: List[str]) -> List[Union[int, Non
 element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
 mol_grid_size = 5
 lattice = 'BCC'
-for system in [2, 3, 4]:
+# for system in [2, 3, 4]:
+for system in [4]:
 # system = 2
     alloys = list(MultinaryCombinations.create_multinary(element_list=element_list,
                                                          no_comb=[system+1]).values())[0]
 
     mH = MetadataHandler()
     meta_data = mH.get_metadata
-    meta_data['flags']['correction'] = False
+    # meta_data['flags']['correction'] = False
     viz = Visualizations(lattice = lattice,
                              meta_data=meta_data)
     x = list(np.linspace(0, 1, mol_grid_size))

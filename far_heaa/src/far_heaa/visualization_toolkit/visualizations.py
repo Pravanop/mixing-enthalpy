@@ -39,12 +39,12 @@ class Visualizations:
         self.grid_size = meta_data["grid_size"]
         self.flags = meta_data["flags"]
         if meta_data["flags"]["correction"]:
-            data = JSONHandler.load_json(
+            self.data = JSONHandler.load_json(
                 folder_path=meta_data["folder_path"],
                 file_name=meta_data["file_name"]["biased"],
             )
         else:
-            data = JSONHandler.load_json(
+            self.data = JSONHandler.load_json(
                 folder_path=meta_data["folder_path"],
                 file_name=meta_data["file_name"]["unbiased"],
             )
@@ -56,7 +56,7 @@ class Visualizations:
         self.grid_iterator = GridIterator(
             grid_size=self.grid_size,
             tm=self.tm,
-            data=data,
+            data=self.data,
             end_member=end_member,
             api_key=meta_data["api_key"],
             flags=meta_data["flags"],

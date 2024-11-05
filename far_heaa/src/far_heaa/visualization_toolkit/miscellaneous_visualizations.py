@@ -4,6 +4,7 @@ import pandas as pd
 from pymatgen.analysis.phase_diagram import PDPlotter
 import matplotlib as mpl
 from typing import List, Tuple, Literal
+import seaborn as sns
 
 from far_heaa.grids_and_combinations.combination_generation import MultinaryCombinations
 from far_heaa.io.dir_handler import DirHandler
@@ -134,7 +135,7 @@ class MiscellaneousVisualizations:
         return ax, fig
 
     def heatmap(
-        self, element_list: List[str], lattice: Literal["FCC", "BCC", "HCP"], sns=None
+        self, element_list: List[str], lattice: Literal["FCC", "BCC", "HCP"]
     ) -> plt.Figure:
         """
         Creates a heatmap of binary mixing enthalpy for a list of elements.
