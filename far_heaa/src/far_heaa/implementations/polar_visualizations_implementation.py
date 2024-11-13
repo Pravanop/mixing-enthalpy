@@ -15,12 +15,12 @@ pD = PolarVisualizations(
     type_flag="gibbs",
 )
 
-# _, _ = pD.plot_total()
+_, _ = pD.plot_total()
 
 
-# #
-_, _ = pD.plot_subset(N_ind=2,
-                      transmute_indices=[])
+# # #
+# _, _ = pD.plot_subset(N_ind=2,
+#                       transmute_indices=[])
 #
 _, _ = pD.plot_subset(N_ind=1,
                       transmute_indices=[1, 2])

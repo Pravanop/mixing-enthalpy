@@ -123,7 +123,7 @@ class PolarVisualizations(Visualizations):
             ]
             custom_cmap = mcolors.ListedColormap(colors)
             self.cmap = custom_cmap
-            boundaries = list(np.round(np.linspace(-0.2, 0.2, n),2))
+            boundaries = list(np.round(np.linspace(-0.05, 0.05, n),2))
             self.norm = mcolors.BoundaryNorm(boundaries, self.cmap.N)
 
         elif self.type_flag == "entropy":
@@ -326,7 +326,7 @@ class PolarVisualizations(Visualizations):
         for i in mol_grid:
             entropy = self.grid_iterator.tm.calc_config_entropy(mol_ratio=dict(zip(self.composition, list(i))))
             hmix = sum([omega1*i[0]*i[1], omega2/2*i[0]*i[2], omega3/4*i[0]*i[3], omega4*i[1]*i[2], omega1*i[1]*i[3], omega3*i[2]*i[3]])
-            gibbs.append(hmix - 100*entropy)
+            gibbs.append(np.round(hmix - 1000*entropy, 4))
 
         print(mol_grid[-1], gibbs)
         return gibbs
