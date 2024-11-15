@@ -53,7 +53,7 @@ class MatrixHeatmap(Visualizations):
             self.add_ele = add_ele
 
         self.total_composition = self.composition + self.add_ele
-        self.total_composition = list(set(self.total_composition))
+        self.total_composition = sorted(list(set(self.total_composition)))
         self.type = path_type
 
         if self.type == "add":
@@ -125,12 +125,13 @@ class MatrixHeatmap(Visualizations):
                 x=self.x, n=self.n, transmutation_indice=self.transmutation_indices
             )
         mol_grid = mol_grid[::-1]
+        print(mol_grid)
         mol_grid, e_hulls, temp_grid = self.grid_iterator.e_hull_across_grid(
             composition=self.total_composition,
             lattice=self.lattice,
             mol_grid_size=mol_grid,
             single_temp_flag=False,
-            temp_gradation=400,
+            temp_gradation=50,
         )
         return mol_grid, e_hulls, temp_grid
 
@@ -142,7 +143,7 @@ class MatrixHeatmap(Visualizations):
                 Tuple[plt.Axes, plt.Figure]: The matplotlib axes and figure objects for the plot.
         """
         mol_grid, e_hulls, temp_grid = self.get_ehull_matrix()
-
+        print(e_hulls)
         df = pd.DataFrame(e_hulls)
         df.columns = temp_grid
         df = df.T
@@ -161,6 +162,7 @@ class MatrixHeatmap(Visualizations):
         sns.set_theme(rc={"figure.figsize": (6.4, 6.4)})
         sns.set(font_scale=1.2)
         fig, ax = plt.subplots()
+
         g = sns.heatmap(
             df,
             yticklabels=np.array(temp_grid).astype(int),
@@ -169,6 +171,8 @@ class MatrixHeatmap(Visualizations):
             cbar_kws={"label": "$E_{hull}$ (meV/atom)", "shrink": 0.8},
             ax=ax,
         )
+        y_labels = [label.get_text() if i % 4 == 0 else '' for i, label in enumerate(g.get_yticklabels())]
+        g.set_yticklabels(y_labels)
         g.set_yticklabels(g.get_yticklabels(), rotation=0)
         g.set_xticklabels(g.get_xticklabels(), rotation=0)
         ax.axes.invert_yaxis()
@@ -185,19 +189,26 @@ class MatrixHeatmap(Visualizations):
                 count_prev = idx2
             ax.plot([idx, idx + 1], [idx2, idx2], color="black", linestyle="--")
 
-        ax.text(s="-".join(self.composition), y=-1, x=-1)
+        ax.text(s="-".join(self.composition), y=-5, x=-1)
         if self.type == "transmutate":
             ax.text(s="-".join(self.end_composition), y=-1, x=len(mol_grid) - 0.3)
         if self.type == "add":
-            ax.text(s="-".join(self.total_composition), y=-1, x=len(mol_grid) - 0.3)
+            ax.text(s="-".join(self.total_composition), y=-5, x=len(mol_grid) - 0.3)
         ax.set_xlabel("X")
         ax.set_ylabel("T (K)")
         plt.subplots_adjust(bottom=0.15, top=0.9, left=0.14, right=0.98)
 
         if self.save_flag:
-            self.save_figure(
-                folders=["heatmap_plots", self.type],
-                file_name=f"{''.join(self.composition)}_{''.join(self.end_composition)}",
-                fig=fig,
-            )
+            if self.type == "transmutate":
+                self.save_figure(
+                    folders=["heatmap_plots", self.type],
+                    file_name=f"{''.join(self.composition)}_{''.join(self.end_composition)}",
+                    fig=fig,
+                )
+            if self.type == "add":
+                self.save_figure(
+                    folders=["heatmap_plots", self.type],
+                    file_name=f"{''.join(self.composition)}_{''.join(self.total_composition)}",
+                    fig=fig,
+                )
         return ax, fig

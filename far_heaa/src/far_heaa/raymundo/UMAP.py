@@ -22,25 +22,25 @@ plt.scatter(df['umap0'],df['umap1'],c='grey')
 dfp = df
 
 
-cmap = plt.get_cmap('cubehelix', 8)
-cmap = ListedColormap(cmap(np.linspace(0.2, 1, 7))[:-1])
-plt.scatter(dfp['umap0'],dfp['umap1'],c=dfp[prop],cmap=cmap, edgecolor='black')
-plt.colorbar()
-plt.axis('off')
-plt.savefig('results/1_UMAP_RT_YS.png',dpi=500,transparent=True)
-plt.show()
-
-# prop = 'Density Avg'
-# plt.figure(figsize=(5,4))
-# df = df.sort_values(by=[prop],ascending=False)
-# plt.scatter(df['umap0'],df['umap1'],c='grey')
-# # dfp = df[df[prop] < dfc[prop].values[0]]
-# dfp = df
-# plt.scatter(dfp['umap0'],dfp['umap1'],c=dfp[prop],cmap='jet',alpha=.7)
+# cmap = plt.get_cmap('cubehelix', 8)
+# cmap = ListedColormap(cmap(np.linspace(0.2, 1, 7))[:-1])
+# plt.scatter(dfp['umap0'],dfp['umap1'],c=dfp[prop],cmap=cmap, edgecolor='black')
 # plt.colorbar()
 # plt.axis('off')
-# plt.savefig('results/1_UMAP_Density.png',dpi=500,transparent=True)
+# plt.savefig('results/1_UMAP_RT_YS.png',dpi=500,transparent=True)
 # plt.show()
+
+prop = 'Density Avg'
+plt.figure(figsize=(5,4))
+df = df.sort_values(by=[prop],ascending=False)
+plt.scatter(df['umap0'],df['umap1'],c='grey')
+# dfp = df[df[prop] < dfc[prop].values[0]]
+dfp = df
+plt.scatter(dfp['umap0'],dfp['umap1'],c=dfp[prop],cmap='jet',alpha=.7)
+plt.colorbar()
+plt.axis('off')
+plt.savefig('results/1_UMAP_Density.png',dpi=500,transparent=True)
+plt.show()
 #
 #
 #

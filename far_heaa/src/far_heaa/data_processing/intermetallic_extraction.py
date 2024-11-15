@@ -101,11 +101,49 @@ class IntermetallicExtractions:
         print('Compositions for which IMs exist: ' , len(list(IM_dict.keys())))
         return IM_dict
 
-# if __name__ == '__main__':
-#     database_list = TextHandler.extract_ele_list(
-#                 folder_path='../database', file_name="database_element_list"
-#             )
-#
-#     im = IntermetallicExtractions().get_all_intermetallics_MP(element_list=database_list, api_key='u1TjwfwfTnpF8IolXF9PBY9RT9YauL84')
-#     with open('../database/intermetallic_database.pickle', 'wb') as f:
-#         pickle.dump(im, f, protocol=pickle.HIGHEST_PROTOCOL)
+    def get_IM_from_bokas(self, element_list):
+        combs = MultinaryCombinations.create_multinary(element_list, no_comb=list(range(2, 5)))
+        flatten_combs = []
+        for key, value in combs.items():
+            for idx, alloy in enumerate(value):
+                flatten_combs.append(alloy)
+        im_aflow = JSONHandler().load_json(folder_path="../database", file_name="im_aflow_lib")
+        im_icsd = JSONHandler().load_json(folder_path="../database", file_name="im_aflow_icsd")
+        im_list = []
+        count = 0
+        for alloy in flatten_combs:
+            if alloy in im_aflow:
+                count += 1
+                deets = im_aflow[alloy]
+                for deet in deets:
+                    im_name = Composition(deet['unit_cell_formula']).reduced_formula + "_" + deet["type_im"] + '_MP'
+                    im_list.append(
+                        PDEntryLocal(
+                            composition=deet['unit_cell_formula'],
+                            energy=deet['total_energy'],
+                            name=im_name,
+                        ))
+
+            elif alloy in im_icsd:
+                count += 1
+                deets = im_icsd[alloy]
+                for deet in deets:
+                    im_name = Composition(deet['unit_cell_formula']).reduced_formula + "_" + deet["type_im"] + '_MP'
+                    im_list.append(
+                        PDEntryLocal(
+                            composition=deet['unit_cell_formula'],
+                            energy=deet['total_energy'],
+                            name=im_name,
+                        ))
+
+        print("Total IM: ", count)
+        return im_list
+
+if __name__ == '__main__':
+    database_list = TextHandler.extract_ele_list(
+                folder_path='../database', file_name="database_element_list"
+            )
+
+    im = IntermetallicExtractions().get_IM_from_bokas(element_list=database_list)
+    with open('../database/intermetallic_database_bokas.pickle', 'wb') as f:
+        pickle.dump(im, f, protocol=pickle.HIGHEST_PROTOCOL)

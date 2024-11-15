@@ -49,15 +49,15 @@ class Visualizations:
                 file_name=meta_data["file_name"]["unbiased"],
             )
 
-        end_member = JSONHandler.load_json(
+        self.end_member = JSONHandler.load_json(
             folder_path=meta_data["folder_path"], file_name=meta_data["end_member"]
         )
-        self.dpi = 200
+        self.dpi = 300
         self.grid_iterator = GridIterator(
             grid_size=self.grid_size,
             tm=self.tm,
             data=self.data,
-            end_member=end_member,
+            end_member=self.end_member,
             api_key=meta_data["api_key"],
             flags=meta_data["flags"],
         )

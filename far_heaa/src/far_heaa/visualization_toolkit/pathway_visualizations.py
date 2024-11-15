@@ -211,13 +211,13 @@ class PathwayVisualizations(Visualizations):
                     y = np.array(i)
                 else:
                     y = np.append(y, np.array(i))
-            
+            y = np.nan_to_num(y, nan=-1000)
             metric = np.mean(y)
             print(key, metric)
             metrics.append(metric)
         
         metrics = np.array(metrics)
-        arg_metric = np.argsort(metrics)
+        arg_metric = np.argsort(metrics)[::-1]
         # print(metrics, arg_metric)
         # print(arg_metric)
         return arg_metric
@@ -241,11 +241,18 @@ class PathwayVisualizations(Visualizations):
 
         texts = []
         fig, ax = plt.subplots()
-        arg_metric = list(self.metric(path_dict)[::-1])
+        arg_metric = list(self.metric(path_dict))
         opacities = np.linspace(0.1, 1, len(path_dict.keys()))
         linewidths = 1/np.linspace(0.5, 0.9, len(path_dict.keys()))**2
         count = 0
         for key, value in path_dict.items():
+
+
+            first = key.split('-')[0]
+            if first != 'V':
+                count += 1
+                continue
+
             print(key, arg_metric.index(count))
             rank = arg_metric.index(count)
             for idx, i in enumerate(value):

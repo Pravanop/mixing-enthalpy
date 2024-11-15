@@ -90,7 +90,7 @@ class binaryVizualization(Visualizations):
 
         # Replace -1 values with 5000 for visualization
         for idx, temp in enumerate(misc_temp):
-            if temp == -1:
+            if np.isnan(temp):
                 misc_temp[idx] = 5000
 
         fig, ax = plt.subplots(figsize=(3.2, 3.2))

@@ -66,7 +66,7 @@ def find_eigenvalue(H_num):
 mH = MetadataHandler()
 meta_data = mH.get_metadata
 viz = Visualizations(lattice= "BCC", meta_data = meta_data)
-composition = ['Cr', 'V', 'Ti']
+composition = ['Nb', 'V', 'Zr']
 
 
 xsym = list(create_xsyms(len(composition)))
@@ -100,12 +100,25 @@ hess = hessian(G, xsym)
 # plt.axhline(y = 0)
 # plt.show()
 
-temperature = 100
-mol_grid = CompositionGrid.create_mol_grid(len(composition), 40)
+temperature = 2000
+conv_hull = viz.grid_iterator.convex_hull.make_convex_hull(
+            temperature=temperature, composition=composition, batch_tag=False
+        )
+
+mol_grid, e_hull, temp_fgrid = viz.grid_iterator.e_hull_across_grid(
+            composition=composition,
+            lattice='BCC',
+            mol_grid_size=40,
+            single_temp_flag=True,
+            temp_gradation=temperature,
+        )
+
+# mol_grid = CompositionGrid.create_mol_grid(len(composition), 40)
 
 unstable = []
 meta_stable = []
-for mol in mol_grid:
+stable = []
+for idx, mol in enumerate(mol_grid):
     mol = list(mol[:len(composition)-1])
     H_num = hess.subs(list(zip(xsym + [T], mol + [temperature])))
     eigen = find_eigenvalue(H_num)
@@ -119,7 +132,10 @@ for mol in mol_grid:
             is_metastable = False
 
     if is_metastable:
-        meta_stable.append(mol)
+        if np.isclose(e_hull[idx], 0, atol=1e-4):
+            stable.append(mol)
+        else:
+            meta_stable.append(mol)
     if is_unstable:
         unstable.append(mol)
 
@@ -129,11 +145,18 @@ ax = fig.add_subplot(projection="ternary")
 ax.grid()
 
 for i in unstable:
-    ax.scatter(i[0], i[1],1 - i[0] - i[1], c = 'red')
+    ax.scatter(i[0], i[1],1 - i[0] - i[1], c = '#BB5566')
 
 for i in meta_stable:
-    ax.scatter(i[0],  i[1],  1 - i[0] - i[1], c = 'blue')
+    ax.scatter(i[0],  i[1],  1 - i[0] - i[1], c = '#004488')
 
+for i in stable:
+    ax.scatter(i[0],  i[1],  1 - i[0] - i[1], c = '#DDAA33')
+
+ax.grid(False)
+ax.set_tlabel(f"{composition[0]}")
+ax.set_llabel(f"{composition[1]}")
+ax.set_rlabel(f"{composition[2]}")
 plt.show()
 
 

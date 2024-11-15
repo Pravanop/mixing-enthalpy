@@ -73,16 +73,16 @@ net = Network(notebook=True, width="100%", height="750px", bgcolor="#ffffff", fo
 
 # Add nodes for elements and alloys
 for ele in y_ele:
-    net.add_node(ele, label=ele, color='lightgreen')
+    net.add_node(ele, label=ele, color='lightgreen', shape = 'circle')
 
 for alloy in y_alloy:
-    net.add_node(alloy, label=alloy, color='lightblue')
+    net.add_node(alloy, label=alloy, color='lightblue', shape = 'circle')
 
 connections = [(i[0], i[1], i[2]) for i in np.array(cases['im-m'])]
 # connections = sorted(connections, key=lambda x: x[2], reverse=True)
 # Add edges with a fixed length but allow dynamic adjustment
 for alloy, element, rank in connections:
-    net.add_edge(alloy, element, length=200)  # Set a default length (adjust as needed)
+    net.add_edge(alloy, element, length=100, value= 0.00000001, color = '#EE7733')  # Set a default length (adjust as needed)
 
 # Configure physics for edge length adjustment only
 net.toggle_physics(False)

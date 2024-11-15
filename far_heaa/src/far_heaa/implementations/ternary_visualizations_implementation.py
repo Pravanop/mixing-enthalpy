@@ -7,11 +7,11 @@ mH = MetadataHandler()
 meta_data = mH.get_metadata
 # meta_data["flags"]["equi_flag"] = True
 tD = TernaryVisualization(
-    composition=["Nb", "Zr", "V"],
-    lattice="min",
+    composition=["V", "Ti", "Nb"],
+    lattice="BCC",
     meta_data=meta_data,
     save_flag=True,
-    contour_flag=False,
+    contour_flag=True,
 )
 
 """Two options"""

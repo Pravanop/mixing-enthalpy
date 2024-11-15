@@ -39,10 +39,10 @@ class ConvexHull:
         Initialize the ConvexHull class with the necessary parameters and data.
         """
         self.transition_temperatures = {
-            "Fe": ["BCC", "FCC", 1180],
-            "Ti": ["HCP", "BCC", 1155],
-            "Hf": ["HCP", "BCC", 2016],
-            "Zr": ["HCP", "BCC", 1136],
+            # "Fe": ["BCC", "FCC", 1180],
+            # "Ti": ["HCP", "BCC", 1155],
+            # "Hf": ["HCP", "BCC", 2016],
+            # "Zr": ["HCP", "BCC", 1136],
             "Mn": ["BCC", "FCC", 1370],
         }
         self.end_member = end_member
@@ -53,8 +53,8 @@ class ConvexHull:
         self.equi_flag = flags["equi_flag"]
         self.api_key = api_key
         self.grid_size = grid_size
-        with open('../database/intermetallic_database.pickle', 'rb') as handle:
-            self.im_list = pickle.load(handle)
+        # with open('../database/intermetallic_database.pickle', 'rb') as handle:
+        #     self.im_list = pickle.load(handle)
 
     def make_convex_hull(
         self,
@@ -221,7 +221,7 @@ class ConvexHull:
                 List[PDEntryLocal]: An updated list of PDEntryLocal objects.
         """
         for ele in composition:
-            if ele in ["Fe", "Ti", "Mn", "Hf", "Zr"] and self.correction:
+            if ele in list(self.transition_temperatures.keys()) and self.correction:
                 for key, value in self.end_member[ele].items():
                     name = Composition(ele)
                     temp_energy = (

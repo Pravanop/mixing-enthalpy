@@ -2,6 +2,10 @@ from typing import Union, List, Dict
 import numpy as np
 import pandas as pd
 from far_heaa.grids_and_combinations.combination_generation import MultinaryCombinations
+from sympy import symbols
+from sympy.functions.elementary.exponential import log
+from sympy.parsing.sympy_parser import parse_expr
+from sympy.matrices.dense import Matrix
 
 
 class ThermoMaths:
@@ -38,7 +42,54 @@ class ThermoMaths:
                 float: Pairwise interaction parameter in eV/atom.
         """
         return mix_enthalpy / (mol_i * mol_j)
+    
+    def create_xsyms(self, n):
+        '''returns a string of symbols: (x1,x2,...,xn-1)
+        Contributor: John Cavin'''
+        s = ''
+        for i in range(n - 1):
+            s = s + 'x{} '.format(int(i + 1))
 
+        ans = symbols(s)
+        if isinstance(ans, tuple):
+            return ans
+        else:
+            return [ans]
+    
+    def x_N(self, syms):
+        '''input: n-1 syms
+        returns 1-x1-x2-...x_(n-1)
+        Contributor: John Cavin'''
+        xn = parse_expr('1')
+        # print(syms)
+        for s in syms:
+            xn = xn - s
+        return xn
+    
+    def create_Ssym(self, composition):
+        out = parse_expr('0')
+        xsym = list(self.create_xsyms(len(composition)))
+        xsyms = xsym + [self.x_N(self.create_xsyms(len(composition)))]
+        for i in xsyms:
+            out += - self.kb * i * log(i + 1e-4)
+        
+        return out
+    
+    def hessian(self, f, composition):
+        '''compute the hessian of a matrix of symbols
+        Contributor: John Cavin'''
+        syms = list(self.create_xsyms(len(composition)))
+        out = Matrix([[f.diff(x).diff(y) for x in syms] for y in syms])
+        return out, syms
+    
+    def G_sym(self, H_sym, S_sym, T):
+        return H_sym - T * S_sym
+    
+    def find_eigenvalue(self, H_num):
+        H_num = np.array(H_num).astype(np.float64)
+        w, _ = np.linalg.eig(H_num)
+        return w
+    
     def avg_T_melt(
             self, composition: Union[str, List[str]], mol_ratio: List[float]
     ) -> float:
@@ -107,7 +158,8 @@ class ThermoMaths:
                 AssertionError: If the mole fractions do not sum to 1.
         """
         assert round(sum(mol_ratio.values()), 3) == 1, "Mole fractions must sum to 1."
-        return -self.kb * sum([value * np.log(value) for value in mol_ratio.values()])
+        
+        return -self.kb * sum([value * np.log(value + 1e-7) for value in mol_ratio.values()])
     
     @staticmethod
     def calc_gibbs_energy(enthalpy: float, entropy: float, temperature: float) -> float:
@@ -154,72 +206,84 @@ class ThermoMaths:
         if len(ele_list) <= 1:
             return 0
         
-        binaries = MultinaryCombinations.create_multinary(
+        binaries = list(MultinaryCombinations.create_multinary(
             element_list=ele_list, no_comb=[2]
-        )
+        ).values())[0]
         mix_enthalpy = {}
         
-        if binaries:
-            for binary in binaries.values():
-                for ele_pair in binary:
-                    two_el = ele_pair.split("-")
-                    mix_enthalpy_values = binary_dict[ele_pair]
-
-                    mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
-
-                    for lattice, enthalpy in mix_enthalpy_values.items():
-                        if not correction:
-                            omega_ij = self.calc_pairwise_interaction_parameter(
-                                mix_enthalpy=enthalpy, mol_i=0.5, mol_j=0.5
-                            )
-                            # omega_ij = enthalpy
-                        else:
-                            omega_ij = enthalpy  # biased values
-
-                        if isinstance(omega_ij, float):
-                            H_mix = self.calc_regular_model_enthalpy(
-                                mol_fraction=mol_fraction, omega=omega_ij
-                            )
-                        elif isinstance(omega_ij, list):
-                            H_mix = self.calc_subregular_model_enthalpy(
-                                mol_fraction=mol_fraction,
-                                omega1=omega_ij[1],
-                                omega2=omega_ij[0],
-                            )
-                            # print(H_mix)
-
-                        if correction:
-                            temp_energies = {}
-                            for end_member in two_el:
-                                if end_member in transition_temperatures:
-                                    transition_data = transition_temperatures[
-                                        end_member
-                                    ]
-                                    if lattice == transition_data[1]:
-                                        temp_energy = end_member_dict[end_member][
-                                                          lattice
-                                                      ] - (
-                                                              end_member_dict[end_member][lattice]
-                                                              * float(temperature)
-                                                              / transition_data[2]
-                                                      )
-                                    else:
-                                        temp_energy = end_member_dict[end_member][
-                                            lattice
-                                        ]
-                                else:
-                                    temp_energy = end_member_dict[end_member][lattice]
-
-                                temp_energies[end_member] = temp_energy
-
-                            H_mix += (
-                                    temp_energies[two_el[1]] * mol_fraction[1]
-                                    + temp_energies[two_el[0]] * mol_fraction[0]
-                            )
-
-                        if lattice not in mix_enthalpy:
-                            mix_enthalpy[lattice] = H_mix
-                        else:
-                            mix_enthalpy[lattice] += H_mix
-
+        for ele_pair in binaries:
+            two_el = ele_pair.split("-")
+            mix_enthalpy_values = binary_dict[ele_pair]
+            
+            mol_fraction = [mol_ratio[two_el[0]], mol_ratio[two_el[1]]]
+            
+            for lattice, enthalpy in mix_enthalpy_values.items():
+                omega_ij = enthalpy if correction else self.calc_pairwise_interaction_parameter(enthalpy, 0.5,
+                                                                                                0.5)
+                
+                H_mix = (self.calc_regular_model_enthalpy(mol_fraction, omega_ij)
+                         if isinstance(omega_ij, float)
+                         else self.calc_subregular_model_enthalpy(mol_fraction, omega_ij[1], omega_ij[0]))
+                
+                if correction:
+                    temp_energies = self.temp_correction(end_member_dict,
+                                                         two_el,
+                                                         lattice,
+                                                         transition_temperatures,
+                                                         temperature)
+                    
+                    H_mix += sum(temp_energies[el] * mol_fraction[i] for i, el in enumerate(two_el))
+                
+                mix_enthalpy[lattice] = mix_enthalpy.get(lattice, 0) + H_mix
+            
             return mix_enthalpy
+    
+    def temp_correction(self,
+                        end_member_dict: Dict[str, Dict[str, float]],
+                        two_el: List[str],
+                        lattice: str,
+                        transition_temperatures: Dict[str, List[Union[str, float]]],
+                        temperature: float) -> Dict[str, float]:
+        temp_energies = {}
+        for end_member in two_el:
+            temp_energy = end_member_dict[end_member][lattice]
+            if end_member in transition_temperatures:
+                transition_data = transition_temperatures[end_member]
+                if lattice == transition_data[1]:
+                    temp_energy -= temp_energy * float(temperature) / transition_data[2]
+            
+            temp_energies[end_member] = temp_energy
+
+        return temp_energies
+    
+    def calc_multinary_multilattice_mix_enthalpy_sym(self,
+                                                     composition: List[str],
+                                                     data: Dict[str, Dict[str, float]],
+                                                     correction: bool,
+                                                     end_member_dict,
+                                                     transition_temperatures,
+                                                     temperature) -> Union[Dict[str, float], int]:
+        
+        xsym = list(self.create_xsyms(len(composition)))
+        xsyms = xsym + [self.x_N(self.create_xsyms(len(composition)))]
+        mix_enthalpy_sym = {}
+        binaries = list(MultinaryCombinations.create_multinary(
+            element_list=composition, no_comb=[2]
+        ).values())[0]
+        for binary in binaries:
+            omega_pair = data[binary]
+            for lattice in omega_pair:
+                omega = omega_pair[lattice]
+                two_eles = binary.split('-')
+                out = omega * xsyms[composition.index(two_eles[0])] * xsyms[composition.index(two_eles[1])]
+                if correction:
+                    temp_energies = self.temp_correction(end_member_dict,
+                                                         two_eles,
+                                                         lattice,
+                                                         transition_temperatures,
+                                                         temperature)
+                    out += parse_expr(str(sum(temp_energies[el] * xsyms[i] for i, el in enumerate(two_eles))))
+                
+                mix_enthalpy_sym[lattice] = mix_enthalpy_sym.get(lattice, parse_expr('0')) + out
+        
+        return mix_enthalpy_sym
