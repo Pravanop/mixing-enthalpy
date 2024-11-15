@@ -480,6 +480,7 @@ class PolarVisualizations(Visualizations):
             cmap,
             norm,
             zorder: int,
+            bar_width: float
     ) -> None:
         """
         Plots rectangles with varying color on a polar plot based on temperature values.
@@ -492,33 +493,49 @@ class PolarVisualizations(Visualizations):
             cmap: Colormap to use for coloring the rectangles.
             norm: Normalization for the colormap.
             zorder (int): The drawing order.
+            bar_width (float): The width of the bars.
         """
 
+        # angle_radians = np.round(np.radians(angle_degrees), decimals=2)
+        # bar_width = np.radians(10) - np.radians(len(self.composition)*1.1)  # Adjust width as needed, here it's 1 degree
+        #
+        # for i in range(len(x_values)):
+        #     # Define the position and dimensions of the rectangle
+        #     rect = Rectangle(
+        #         (angle_radians - bar_width / 2, self.y_bias),  # (theta, r) starting point
+        #         width=bar_width,
+        #         height=x_values[i],  # Height is based on the x_values
+        #         facecolor=cmap(norm(temp_list[i])),
+        #         zorder=zorder + len(x_values) - i,
+        #         edgecolor=(0, 0, 0, 0.5),
+        #         linewidth=0.5,
+        #         antialiased=True
+        #     )
+        #     ax.add_patch(rect)
         angle_radians = np.radians(angle_degrees)
-        bar_width = np.radians(10) - np.radians(len(self.composition)*1.1)  # Adjust width as needed, here it's 1 degree
-
-        for i in range(len(x_values)):
-            # Define the position and dimensions of the rectangle
-            if self.type_flag != 'entropy':
-                rect = Rectangle(
-                    (angle_radians - bar_width / 2, self.y_bias),  # (theta, r) starting point
-                    width=bar_width,
-                    height=x_values[i],  # Height is based on the x_values
-                    facecolor=cmap(norm(temp_list[i])),
-                    zorder=zorder + len(x_values) - i,
-                    edgecolor='black',
-                    linewidth=0.5
-                )
+        
+        bar_width = np.radians(360/bar_width - 2)
+        for i in range(len(x_values) - 1):
+            # Define the start and end of each radial segment
+            if i == 0:
+                inner_radius = x_values[i] + self.y_bias
             else:
-                rect = Rectangle(
-                    (angle_radians - bar_width / 2, self.y_bias),  # (theta, r) starting point
-                    width=bar_width,
-                    height=x_values[i],  # Height is based on the x_values
-                    facecolor=cmap(norm(temp_list[i])),
-                    zorder=zorder + len(x_values) - i,
-                    edgecolor='black',
-                    linewidth=0.5
-                )
+                inner_radius = x_values[i] + self.y_bias
+                
+            outer_radius = x_values[i + 1] + self.y_bias
+            
+            # Create a rectangle to represent each segment in the bar
+            rect = Rectangle(
+                (angle_radians - bar_width/2, inner_radius),  # (theta, r) starting point
+                width=bar_width,  # Width in radians (angle)
+                height=outer_radius - inner_radius,  # Radial height of each segment
+                facecolor=cmap(norm(temp_list[i])),
+                edgecolor="black",
+                linewidth=0.5,# No edge for a smooth gradient effect
+                zorder=zorder
+            )
+            
+            # Add the rectangle to the polar plot
             ax.add_patch(rect)
 
     def plot_colored_secant(
@@ -752,6 +769,7 @@ class PolarVisualizations(Visualizations):
             cmap=self.cmap,
             norm=self.norm,
             zorder=1,
+            bar_width = kwargs.get("bar_width", None)
         )
         angle_radians = np.radians(angle)
         ax.vlines(
@@ -856,10 +874,11 @@ class PolarVisualizations(Visualizations):
                     float(angle),
                     len(temp_i)-1,
                     temperature=temperature,
+                    bar_width=len(total)
                 )
             else:
                 scatter = self.make_one_bar(
-                    ax, n_alloy, member_pos, comp, len(temp_i), float(angle), len(temp_i)-1
+                    ax, n_alloy, member_pos, comp, len(temp_i), float(angle), len(temp_i)-1, bar_width=len(total)
                 )
 
             count += 1
@@ -970,10 +989,11 @@ class PolarVisualizations(Visualizations):
                         float(angle),
                         idx2,
                         temperature=temperature,
+                        bar_width=len(comb)
                     )
                 else:
                     scatter = self.make_one_bar(
-                        ax, n_alloy, member_pos, i, N, float(angle), idx2
+                        ax, n_alloy, member_pos, i, N, float(angle), idx2, bar_width=len(comb)
                     )
 
                 angle_radians = np.radians(angle)
