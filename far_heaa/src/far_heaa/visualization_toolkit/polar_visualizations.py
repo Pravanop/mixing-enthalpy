@@ -1,3 +1,5 @@
+import pickle
+
 import numpy as np
 from matplotlib import pyplot as plt, cm
 from matplotlib.colors import Normalize
@@ -86,6 +88,7 @@ class PolarVisualizations(Visualizations):
         self.save_flag = save_flag
         self.fontsize = 10
         self.type_flag = type_flag
+        self.mol_dict = []
         if self.type_flag == "misc_T":
             n = 10
             base_cmap = plt.get_cmap('plasma_r')
@@ -111,13 +114,23 @@ class PolarVisualizations(Visualizations):
             base_cmap = plt.get_cmap('OrRd')
             n = 10
             colors = [
-                *base_cmap(np.linspace(0.2, 1, n)),
-                'darkgrey'
+                'cornflowerblue',  # Dark blue for 0
+                *base_cmap(np.linspace(0.2, 0.6, n)),  # OrRd for values between 0.0 (exclusive) and 0.05
+                'darkred'  # Darkest red for values above 0.05
             ]
+
+            # Create a custom colormap
             custom_cmap = mcolors.ListedColormap(colors)
+
+            # Define boundaries
+            boundaries = [0.0, 0.005] + list(np.round(np.linspace(0.0051, 0.05, n), 3)) + [0.4]
+
+            # Create a BoundaryNorm for normalization
+            norm = mcolors.BoundaryNorm(boundaries, custom_cmap.N)
+
+            # Assign colormap and norm to your object
             self.cmap = custom_cmap
-            boundaries = list(np.round(np.linspace(0.0, 0.05, n),2)) + [0.05, 0.4]
-            self.norm = mcolors.BoundaryNorm(boundaries, self.cmap.N)
+            self.norm = norm
 
         elif self.type_flag == "gibbs":
             base_cmap = plt.get_cmap('coolwarm')
@@ -357,15 +370,15 @@ class PolarVisualizations(Visualizations):
                 x=x, n=n, transmutation_indice=member_pos
             )
         )
-
-        mol_grid, e_hull, _ = self.grid_iterator.e_hull_across_grid(
-            composition=self.composition,
-            mol_grid_size=mol_grid,
-            lattice=self.lattice,
-            single_temp_flag=True,
-            temp_gradation=temperature,
-        )
-        return e_hull
+        self.mol_dict.append(mol_grid)
+        # mol_grid, e_hull, _ = self.grid_iterator.e_hull_across_grid(
+        #     composition=self.composition,
+        #     mol_grid_size=mol_grid,
+        #     lattice=self.lattice,
+        #     single_temp_flag=True,
+        #     temp_gradation=temperature,
+        # )
+        return mol_grid
 
     def draw_circle_in_polar(self, radius: float, ax: plt.Axes) -> None:
         """
@@ -758,6 +771,13 @@ class PolarVisualizations(Visualizations):
                 N=N,
                 flag="add",
             )
+            with open("/Users/mcube/Desktop/Projects/far_heaa/src/far_heaa/wenhao/InverseHullWeb-main/InverseHullWeb/tutorial/mol_dict_done.pkl",
+                      "rb") as resultFile:
+                result = pickle.load(resultFile)
+
+            # misc_temp_list = [result [str]]
+            misc_temp_list = [result[str(mol)] for mol in misc_temp_list]
+            print(misc_temp_list)
         elif self.type_flag == "misc_T":
             misc_temp_list = self.find_misc_temperatures(member_pos, N, flag="add")
 
@@ -935,7 +955,8 @@ class PolarVisualizations(Visualizations):
                 file_name=f'{"".join(sorted(self.composition))}',
                 fig=fig,
             )
-
+        with open("./mol_dict.pkl", "wb") as resultFile:
+            pickle.dump(self.mol_dict, resultFile)
         return ax, fig
 
     def plot_subset(

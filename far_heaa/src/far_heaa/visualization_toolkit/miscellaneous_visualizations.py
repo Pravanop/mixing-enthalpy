@@ -90,49 +90,52 @@ class MiscellaneousVisualizations:
         )
         fig, ax = plt.subplots(figsize=(3.2, 3.2))
         mpl.rcParams.update({"font.size": 10})
+        pdp = PDPlotter(
+            phasediagram=conv_hull, show_unstable=0.2, backend="matplotlib")
 
-        PDPlotter(
-            phasediagram=conv_hull, show_unstable=0.2, backend="matplotlib"
-        ).get_plot(
-            label_unstable=False,
-            label_stable=False,
-            process_attributes=True,
-            ax=ax,
-            fill=False,
-        )
+        # PDPlotter(
+        #     phasediagram=conv_hull, show_unstable=0.2, backend="matplotlib"
+        # ).get_plot(
+        #     label_unstable=False,
+        #     label_stable=False,
+        #     process_attributes=True,
+        #     ax=ax,
+        #     fill=False,
+        # )
+        #
+        # if len(composition) == 2:
+        #     ax.set_xlim([0, 1])
+        #     ax.set_ylim([-0.5, 0.2])
+        #     ax.set_xlabel("x", fontsize=10)
+        #     ax.set_ylabel("E hull (eV/atom)", fontsize=10)
+        #     plt.subplots_adjust(bottom=0.12, left=0.15, right=0.95, top=0.85)
+        #     ax.set_title(f'{"".join(sorted(composition, reverse=True))}')
+        #
+        # if len(composition) == 3:
+        #     plt.subplots_adjust(top=0.95)
+        #     vert = [(0.5, 0.9), (-0.05, 0), (1.02, 0)]
+        #     composition.reverse()
+        #     for idx, i in enumerate(composition):
+        #         ax.text(s=i, x=vert[idx][0], y=vert[idx][1], fontsize=12)
+        #
+        # if self.save_flag:
+        #     updated_folder_path = DirHandler.mkdir_recursive(
+        #         folders=[
+        #             "convex_hull",
+        #             f"{len(composition)}",
+        #             f'{"".join(sorted(composition))}',
+        #         ],
+        #         folder_path="../plots",
+        #     )
+        #     save_path = (
+        #         f"{updated_folder_path}/convex_hull_{temperature}_equi.png"
+        #         if self.flags["equi_flag"]
+        #         else f"{updated_folder_path}/convex_hull_{temperature}.png"
+        #     )
+        #     fig.savefig(fname=save_path, dpi=100)
 
-        if len(composition) == 2:
-            ax.set_xlim([0, 1])
-            ax.set_ylim([-0.2, 0.2])
-            ax.set_xlabel("x", fontsize=10)
-            ax.set_ylabel("E hull (eV/atom)", fontsize=10)
-            plt.subplots_adjust(bottom=0.12, left=0.15, right=0.95, top=0.85)
-            ax.set_title(f'{"".join(sorted(composition, reverse=True))}')
-
-        if len(composition) == 3:
-            plt.subplots_adjust(top=0.95)
-            vert = [(0.5, 0.9), (-0.05, 0), (1.02, 0)]
-            composition.reverse()
-            for idx, i in enumerate(composition):
-                ax.text(s=i, x=vert[idx][0], y=vert[idx][1], fontsize=12)
-
-        if self.save_flag:
-            updated_folder_path = DirHandler.mkdir_recursive(
-                folders=[
-                    "convex_hull",
-                    f"{len(composition)}",
-                    f'{"".join(sorted(composition))}',
-                ],
-                folder_path="../plots",
-            )
-            save_path = (
-                f"{updated_folder_path}/convex_hull_{temperature}_equi.png"
-                if self.flags["equi_flag"]
-                else f"{updated_folder_path}/convex_hull_{temperature}.png"
-            )
-            fig.savefig(fname=save_path, dpi=100)
-
-        return ax, fig
+        # return ax, fig
+        return pdp
 
     def heatmap(
         self, element_list: List[str], lattice: Literal["FCC", "BCC", "HCP"]
