@@ -13,9 +13,10 @@ import seaborn as sns
 
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
 
-system = 2
+system = 3
 element_list = ['Cr', 'V', 'W', 'Ti', 'Ta', 'Fe', 'Mo', 'Nb', 'Zr', 'Hf']
-file = JSONHandler.load_json(folder_path='./done_data/', file_name=f'{system}_add_ele_paths_total_10_BCC_wo_im_equi')
+file = JSONHandler.load_json(folder_path='/Users/pravanomprakash/Library/CloudStorage/Box-Box/HEA_alloys/done_data/', file_name=f'{system}_add_ele_paths_total_10_BCC_wo_correction')
+
 data = JSONHandler.load_json(folder_path='../database', file_name='bokas_omegas_processed')
 mol_grid_size = 5
 x = np.linspace(0, 1, mol_grid_size)
@@ -62,7 +63,7 @@ for key, value in file.items():
 		h_comp = 0
 		for j in list(MultinaryCombinations.create_multinary(composition, no_comb=[2]).values())[0]:
 			h_comp += data[j]['BCC']
-			im_formation += [k.energy / k.composition.num_atoms for k in im_list[j] if j in im_list]
+			# im_formation += [k.energy / k.composition.num_atoms for k in im_list[j] if j in im_list]
 		if '-'.join(sorted(composition + [add_ele])) in im_list:
 			im_formation += [k.energy / k.composition.num_atoms for k in
 							 im_list['-'.join(sorted(composition + [add_ele]))]]
