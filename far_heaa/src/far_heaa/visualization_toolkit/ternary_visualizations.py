@@ -69,7 +69,8 @@ class TernaryVisualization(Visualizations):
 
         # Create a custom colormap using LinearSegmentedColormap
         self.cmap = mcolors.ListedColormap(colors)
-
+        
+        
         boundaries = [-3000, 200] + list(np.linspace(200, 3750, 20))
         self.norm = mcolors.BoundaryNorm(boundaries, self.cmap.N)
 
@@ -132,20 +133,20 @@ class TernaryVisualization(Visualizations):
                 Tuple[plt.Axes, plt.Figure]: A tuple containing the matplotlib axes and figure objects for the plot.
         """
         mol_grid, stables = self.find_isotherm(temperature)
-
+       
         for idx, stable in enumerate(stables):
             if np.isclose(stable, 0.0, atol=1e-3):
                 stables[idx] = 0
             else:
                 stables[idx] = 1
-
+        
         t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
         fig = plt.figure()
 
         ax = fig.add_subplot(projection="ternary")
         ax.grid()
         if not self.contour_flag:
-            ax.scatter(t, l, r, c=stables, cmap=self.cmap, marker="h", s=60, norm=self.norm)
+            ax.scatter(t, l, r, c=stables,marker="h", s=60, cmap = 'viridis')
         else:
             data = np.concatenate(
                 [

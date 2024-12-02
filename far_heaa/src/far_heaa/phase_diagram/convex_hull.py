@@ -39,10 +39,10 @@ class ConvexHull:
         Initialize the ConvexHull class with the necessary parameters and data.
         """
         self.transition_temperatures = {
-            # "Fe": ["BCC", "FCC", 1180],
-            # "Ti": ["HCP", "BCC", 1155],
-            # "Hf": ["HCP", "BCC", 2016],
-            # "Zr": ["HCP", "BCC", 1136],
+            "Fe": ["BCC", "FCC", 1180],
+            "Ti": ["HCP", "BCC", 1155],
+            "Hf": ["HCP", "BCC", 2016],
+            "Zr": ["HCP", "BCC", 1136],
             "Mn": ["BCC", "FCC", 1370],
         }
         self.end_member = end_member

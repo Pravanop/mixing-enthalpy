@@ -5,7 +5,7 @@ mH = MetadataHandler()
 # mH.update_metadata(key="flags", value={"im_flag": True, "correction": True, "equi_flag": True})
 meta_data = mH.get_metadata
 bD = binaryVizualization(
-    composition=["Cr", "W"], lattice="BCC", meta_data=meta_data, save_flag=True
+    composition=["W", "Ti"], lattice="BCC", meta_data=meta_data, save_flag=True
 )
 
 ax, fig = bD.plot_misc_temperatures()
