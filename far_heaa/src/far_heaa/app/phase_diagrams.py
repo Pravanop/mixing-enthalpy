@@ -43,7 +43,7 @@ def phase_diagram_visualizations(input_list, meta_data, lattice):
                 lattice=lattice,
                 meta_data=meta_data,
                 save_flag=False,
-                contour_flag=True,
+                contour_flag=False,
             )
             if plot_options == "Miscible T contours":
                 with st.spinner("Wait for it..."):

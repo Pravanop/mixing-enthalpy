@@ -11,7 +11,6 @@ from far_heaa.visualization_toolkit.polar_visualizations import PolarVisualizati
 
 
 def convex_hull(input_list, meta_data, lattice):
-    print(5)
     if len(input_list) > 3:
         T = st.slider("Temperature", 0, 3000, step=200, value=200)
         with st.spinner("Wait for it..."):
@@ -25,9 +24,8 @@ def convex_hull(input_list, meta_data, lattice):
             ax, fig = pV.plot_total(temperature=T)
         return ax, fig
     elif len(input_list) <= 3:
-        print(3)
         with st.spinner("Wait for it..."):
             T = st.slider("Temperature", 0, 3000, step=200)
             mV = MiscellaneousVisualizations(meta_data=meta_data, save_flag=False)
-            ax, fig = mV.plot_convex_hull(input_list, T)
-        return ax, fig
+            pdp = mV.plot_convex_hull(input_list, T)
+        return pdp

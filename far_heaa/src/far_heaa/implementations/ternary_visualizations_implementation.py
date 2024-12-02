@@ -6,13 +6,13 @@ from far_heaa.io.metadata_handler import MetadataHandler
 mH = MetadataHandler()
 meta_data = mH.get_metadata
 tD = TernaryVisualization(
-    composition=["Cr", "Ti", "V"],
+    composition=["Nb", "V", "Zr"],
     lattice="BCC",
     meta_data=meta_data,
     save_flag=True,
     contour_flag=False,
 )
-
+print(meta_data)
 """Two options"""
 
 # Plot Miscible Temperatures

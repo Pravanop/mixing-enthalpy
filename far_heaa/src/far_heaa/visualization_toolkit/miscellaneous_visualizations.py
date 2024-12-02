@@ -71,7 +71,7 @@ class MiscellaneousVisualizations:
 
     def plot_convex_hull(
         self, composition: List[str], temperature: float
-    ) -> Tuple[plt.Axes, plt.Figure]:
+    ) -> PDPlotter:
         """
         Plots the convex hull for a given alloy composition at a specified temperature.
 
@@ -91,7 +91,8 @@ class MiscellaneousVisualizations:
         fig, ax = plt.subplots(figsize=(3.2, 3.2))
         mpl.rcParams.update({"font.size": 10})
         pdp = PDPlotter(
-            phasediagram=conv_hull, show_unstable=0.2, backend="matplotlib")
+            phasediagram=conv_hull,
+            show_unstable=0.1)
 
         # PDPlotter(
         #     phasediagram=conv_hull, show_unstable=0.2, backend="matplotlib"

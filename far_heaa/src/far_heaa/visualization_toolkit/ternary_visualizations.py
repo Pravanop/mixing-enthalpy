@@ -98,7 +98,6 @@ class TernaryVisualization(Visualizations):
             phase_flag=True,
             is_differential=self.is_differential
         )
-        print(misc_temp)
         return mol_grid, misc_temp
 
     def find_isotherm(self, temperature: float) -> Tuple[np.ndarray, np.ndarray]:
@@ -162,8 +161,7 @@ class TernaryVisualization(Visualizations):
                 data[:, 1],
                 data[:, 2],
                 data[:, 3],
-                cmap=self.cmap,
-                norm=self.norm,
+                cmap=viridis
             )
 
         ax.grid(False)
@@ -211,7 +209,6 @@ class TernaryVisualization(Visualizations):
         for idx, temp in enumerate(misc_temp):
 
             if np.isnan(temp):
-                print(temp)
                 if self.is_differential:
                     misc_temp[idx] = -1000
                 else:

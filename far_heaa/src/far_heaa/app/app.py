@@ -6,7 +6,6 @@ from deposition_pathways import deposition_pathways
 from convex_hull import convex_hull
 from high_symmetry_paths import high_symmetry_paths
 from high_throughput_screening import high_throughput_screening
-from composition import composition_information
 
 # TODO: Add polar plots for convex hulls
 # TODO: Add flag management
@@ -18,9 +17,11 @@ input_str = st.text_input(
 )
 
 
-def flag_setter(mH, flags):
-    mH.update_metadata(key="flags", value=flags)
-    return mH.get_metadata
+def flag_setter(metadata, flags):
+    metadata["flags"]["im_flag"] = flags["im_flag"]
+    metadata["flags"]["correction"] = flags["correction"]
+    metadata["flags"]["equi_flag"] = flags["equi_flag"]
+    return metadata
 
 
 # perform sanity checks on the input
@@ -59,7 +60,7 @@ if not invalid_flag:
         horizontal=True,
     )
     if modeloptions == "Regular":
-        pass
+        meta_data["file_name"]["biased"] = "bokas_omegas_processed"
     elif modeloptions == "Subregular":
         meta_data["file_name"]["biased"] = "bokas_omegas_processed_subregular"
     flags = {"im_flag": True, "correction": True, "equi_flag": False}
@@ -70,9 +71,11 @@ if not invalid_flag:
     elif flagoptions == "Equimolar grid":
         flags["equi_flag"] = True
     elif flagoptions == "No Changes":
-        pass
+        flags["im_flag"] = True
+        flags["correction"] = True
+        flags["equi_flag"] = False
 
-    meta_data = flag_setter(mH, flags)
+    meta_data = flag_setter(meta_data, flags)
     st.header("Visualizations")
     analysis_type = st.selectbox(
         "Analysis type",
@@ -93,6 +96,7 @@ if not invalid_flag:
 
         elif analysis_type == "Phase Diagrams":
             try:
+                print(meta_data)
                 ax, fig = phase_diagram_visualizations(
                     input_list, meta_data, lattice=lattice
                 )
@@ -114,8 +118,17 @@ if not invalid_flag:
 
         elif analysis_type == "Convex Hulls":
             try:
-                ax, fig = convex_hull(input_list, meta_data, lattice=lattice)
-                st.pyplot(fig)
+                pdp = convex_hull(input_list, meta_data, lattice=lattice)
+                st.set_option('deprecation.showPyplotGlobalUse', False)
+                # fig, ax = plt.subplots()
+                # fig1= pdp.get_plot(
+                #     label_unstable=False,
+                #     label_stable=True,
+                #     process_attributes=True,
+                #     fill=True,
+                #     ax = ax
+                # )
+                st.plotly_chart(pdp.get_plot(process_attributes=True, fill=True))
             except TypeError:
                 pass
 

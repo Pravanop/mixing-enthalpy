@@ -55,8 +55,8 @@ class GridIterator:
 			api_key=api_key,
 			data=data,
 		)
-		# with open('../database/intermetallic_database.pickle', 'rb') as handle:
-		# 	self.im_list = pickle.load(handle)
+		with open('../database/intermetallic_database_bokas.pickle', 'rb') as handle:
+			self.im_list = pickle.load(handle)
 		self.temp_grid = None
 	
 	def upper_limit(
@@ -105,12 +105,12 @@ class GridIterator:
 		im_list = []
 		if self.im_flag:
 			for dimensionality, alloy_list in all_combs.items():
-				im_list += IntermetallicExtractions.get_MP_intermetallic(
-					alloy_list, api_key=self.api_key
-				)
-				# for alloy in alloy_list:
-				# 	if alloy in self.im_list:
-				# 		im_list += self.im_list[alloy]
+				# im_list += IntermetallicExtractions.get_MP_intermetallic(
+				# 	alloy_list, api_key=self.api_key
+				# )
+				for alloy in alloy_list:
+					if alloy in self.im_list:
+						im_list += self.im_list[alloy]
 		
 		PD_temp_comp_dict = {}
 		for temp in temp_grid:
@@ -384,12 +384,12 @@ class GridIterator:
 			im_list = []
 			for dimensionality, alloy_list in all_combs.items():
 				if self.im_flag:
-					im_list += IntermetallicExtractions.get_MP_intermetallic(
-						alloy_list, api_key=self.api_key
-					)
-					# for alloy in alloy_list:
-					# 	if alloy in self.im_list:
-					# 		im_list += self.im_list[alloy]
+					# im_list += IntermetallicExtractions.get_MP_intermetallic(
+					# 	alloy_list, api_key=self.api_key
+					# )
+					for alloy in alloy_list:
+						if alloy in self.im_list:
+							im_list += self.im_list[alloy]
 		else:
 			im_list = kwargs.get("im", [])
 		
