@@ -120,7 +120,7 @@ class IntermetallicExtractions:
                     im_list.append(
                         PDEntryLocal(
                             composition=deet['unit_cell_formula'],
-                            energy=deet['total_energy'],
+                            energy=deet['total_energy']/Composition(deet['unit_cell_formula']).num_atoms,
                             name=im_name,
                         ))
 
@@ -132,7 +132,7 @@ class IntermetallicExtractions:
                     im_list.append(
                         PDEntryLocal(
                             composition=deet['unit_cell_formula'],
-                            energy=deet['total_energy'],
+                            energy=deet['total_energy']/Composition(deet['unit_cell_formula']).num_atoms,
                             name=im_name,
                         ))
 

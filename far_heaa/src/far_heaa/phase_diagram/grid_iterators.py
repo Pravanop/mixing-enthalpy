@@ -57,6 +57,11 @@ class GridIterator:
 		)
 		with open('../database/intermetallic_database_bokas.pickle', 'rb') as handle:
 			self.im_list = pickle.load(handle)
+
+		im_names = []
+		for j in self.im_list:
+			im_names.append('-'.join(sorted([str(i) for i in j.composition.elements])))
+		self.im_names = np.array(im_names)
 		self.temp_grid = None
 	
 	def upper_limit(
@@ -109,8 +114,10 @@ class GridIterator:
 				# 	alloy_list, api_key=self.api_key
 				# )
 				for alloy in alloy_list:
-					if alloy in self.im_list:
-						im_list += self.im_list[alloy]
+					indices = np.where(self.im_names == alloy)[0]
+					if len(indices) != 0:
+						for indice in indices:
+							im_list.append(self.im_list[indice])
 		
 		PD_temp_comp_dict = {}
 		for temp in temp_grid:
@@ -388,8 +395,10 @@ class GridIterator:
 					# 	alloy_list, api_key=self.api_key
 					# )
 					for alloy in alloy_list:
-						if alloy in self.im_list:
-							im_list += self.im_list[alloy]
+						indices = np.where(self.im_names == alloy)[0]
+						if len(indices) != 0:
+							for indice in indices:
+								im_list.append(self.im_list[indice])
 		else:
 			im_list = kwargs.get("im", [])
 		

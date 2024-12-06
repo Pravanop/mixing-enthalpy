@@ -56,6 +56,11 @@ class ConvexHull:
         with open('../database/intermetallic_database_bokas.pickle', 'rb') as handle:
             self.im_list = pickle.load(handle)
 
+        im_names = []
+        for j in self.im_list:
+            im_names.append('-'.join(sorted([str(i) for i in j.composition.elements])))
+        self.im_names = np.array(im_names)
+
     def make_convex_hull(
         self,
         composition: List[str],
@@ -95,8 +100,10 @@ class ConvexHull:
                 #     alloy_list=alloy_list, api_key=self.api_key
                 # )
                 for alloy in alloy_list:
-                    if alloy in self.im_list:
-                        pd_entries_list += self.im_list[alloy]
+                    indices = np.where(self.im_names == alloy)[0]
+                    if len(indices) != 0:
+                        for indice in indices:
+                            pd_entries_list.append(self.im_list[indice])
 
             if self.equi_flag:
                 mol_grid = [[1 / dimensionality] * dimensionality]
