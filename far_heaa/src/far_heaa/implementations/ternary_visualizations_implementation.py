@@ -16,10 +16,10 @@ print(meta_data)
 """Two options"""
 
 # Plot Miscible Temperatures
-_, _ = tD.plot_misc_temperatures()
+plot = tD.plot_misc_temperatures()
 
 # Plot Isotherms
-# _, _ = tD.plot_isotherm(1400)
-
+# plot = tD.plot_isotherm(1400)
+plot.show()
 # Plot everything
 # tD.plot_ternary_visualizations(T_min=300, T_max=3000, T_gradation=500)

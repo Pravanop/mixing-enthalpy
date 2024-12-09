@@ -7,6 +7,7 @@ from convex_hull import convex_hull
 from high_symmetry_paths import high_symmetry_paths
 from high_throughput_screening import high_throughput_screening
 from composition import composition_information
+import plotly.graph_objects as go
 # TODO: Add polar plots for convex hulls
 # TODO: Add flag management
 
@@ -97,10 +98,12 @@ if not invalid_flag:
         elif analysis_type == "Phase Diagrams":
             try:
                 print(meta_data)
-                ax, fig = phase_diagram_visualizations(
+                plot = phase_diagram_visualizations(
                     input_list, meta_data, lattice=lattice
                 )
-                st.pyplot(fig)
+                print(plot)
+                clicked_point = st.plotly_chart(plot, on_select = "rerun")
+
             except TypeError:
                 pass
         elif analysis_type == "High Symmetry Paths":

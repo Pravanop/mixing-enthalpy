@@ -1,10 +1,13 @@
 import numpy as np
+import pandas as pd
 from matplotlib import pyplot as plt
 import mpltern
 from matplotlib.cm import ScalarMappable
 from matplotlib import colors as mcolors
 from matplotlib.colors import Normalize
 from typing import Tuple, Literal
+import plotly.express as px
+from tqdm import tqdm
 
 from far_heaa.math_operations.thermo_calculations import ThermoMaths
 from far_heaa.phase_diagram.grid_iterators import GridIterator
@@ -132,68 +135,86 @@ class TernaryVisualization(Visualizations):
                 Tuple[plt.Axes, plt.Figure]: A tuple containing the matplotlib axes and figure objects for the plot.
         """
         mol_grid, stables = self.find_isotherm(temperature)
-       
+
         for idx, stable in enumerate(stables):
             if np.isclose(stable, 0.0, atol=1e-3):
                 stables[idx] = 0
             else:
                 stables[idx] = 1
-        
+
         t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
-        fig = plt.figure()
 
-        ax = fig.add_subplot(projection="ternary")
-        ax.grid()
-        if not self.contour_flag:
-            ax.scatter(t, l, r, c=stables,marker="h", s=60, cmap = 'viridis')
-        else:
-            data = np.concatenate(
-                [
-                    t.reshape(-1, 1),
-                    l.reshape(-1, 1),
-                    r.reshape(-1, 1),
-                    stables.reshape(-1, 1),
-                ],
-                axis=1,
-            )
-            ax.tricontourf(
-                data[:, 0],
-                data[:, 1],
-                data[:, 2],
-                data[:, 3],
-                cmap=viridis
-            )
+        plot_df = pd.DataFrame({f"{self.composition[0]}": t, f"{self.composition[1]}": l, f"{self.composition[2]}": r})
+        plot_df['Miscibility'] = stables
+        plot = px.scatter_ternary(
+            plot_df,
+            a=f"{self.composition[0]}",
+            b=f"{self.composition[1]}",
+            c=f"{self.composition[2]}",
+            color='Miscibility',
+            color_continuous_scale=None,  # Remove color scale for hiding the colorbar
+            symbol_sequence=['hexagon'],  # Use hexagon shape
+            size_max=15,  # Increase marker size
+        )
 
-        ax.grid(False)
-        ax.set_tlabel(f"{self.composition[0]}")
-        ax.set_llabel(f"{self.composition[1]}")
-        ax.set_rlabel(f"{self.composition[2]}")
+        # Customize layout
+        plot.update_traces(marker=dict(size=10))  # Customize size
+        plot.update_layout(coloraxis_showscale=False)  # Hide the colorbar
+        plot.update_layout(title=f"Temperature: {temperature} K")
+        # fig = plt.figure()
+        #
+        # ax = fig.add_subplot(projection="ternary")
+        # ax.grid()
+        # if not self.contour_flag:
+        #     ax.scatter(t, l, r, c=stables,marker="h", s=60, cmap = 'viridis')
+        # else:
+        #     data = np.concatenate(
+        #         [
+        #             t.reshape(-1, 1),
+        #             l.reshape(-1, 1),
+        #             r.reshape(-1, 1),
+        #             stables.reshape(-1, 1),
+        #         ],
+        #         axis=1,
+        #     )
+        #     ax.tricontourf(
+        #         data[:, 0],
+        #         data[:, 1],
+        #         data[:, 2],
+        #         data[:, 3],
+        #         cmap=viridis
+        #     )
+        #
+        # ax.grid(False)
+        # ax.set_tlabel(f"{self.composition[0]}")
+        # ax.set_llabel(f"{self.composition[1]}")
+        # ax.set_rlabel(f"{self.composition[2]}")
+        #
+        # if self.save_flag:
+        #     if self.contour_flag:
+        #         self.save_figure(
+        #             folders=[
+        #                 "ternary_phase_diagram",
+        #                 "isotherms",
+        #                 "contours",
+        #                 f"{'-'.join(sorted(self.composition, reverse=True))}",
+        #             ],
+        #             file_name=f"{temperature}",
+        #             fig=fig,
+        #         )
+        #     else:
+        #         self.save_figure(
+        #             folders=[
+        #                 "ternary_phase_diagram",
+        #                 "isotherms",
+        #                 "scatters",
+        #                 f"{'-'.join(sorted(self.composition, reverse=True))}",
+        #             ],
+        #             file_name=f"{temperature}",
+        #             fig=fig,
+        #         )
 
-        if self.save_flag:
-            if self.contour_flag:
-                self.save_figure(
-                    folders=[
-                        "ternary_phase_diagram",
-                        "isotherms",
-                        "contours",
-                        f"{'-'.join(sorted(self.composition, reverse=True))}",
-                    ],
-                    file_name=f"{temperature}",
-                    fig=fig,
-                )
-            else:
-                self.save_figure(
-                    folders=[
-                        "ternary_phase_diagram",
-                        "isotherms",
-                        "scatters",
-                        f"{'-'.join(sorted(self.composition, reverse=True))}",
-                    ],
-                    file_name=f"{temperature}",
-                    fig=fig,
-                )
-
-        return ax, fig
+        return plot
 
     def plot_misc_temperatures(self,
                                contraint: str = None) -> Tuple[plt.Axes, plt.Figure]:
@@ -235,55 +256,72 @@ class TernaryVisualization(Visualizations):
         ax = fig.add_subplot(projection="ternary")
         ax.grid()
         cax = ax.inset_axes((1.03, 0.1, 0.05, 0.9), transform=ax.transAxes)
+        t, l, r = mol_grid[:, 0], mol_grid[:, 1], mol_grid[:, 2]
 
-        if not self.contour_flag:
-            ax.scatter(t, l, r, c='darkgrey', marker="h", s=60, norm=self.norm)
-            ax.scatter(t, l, r, c=misc_temp, cmap=self.cmap, marker="h", s=60, norm=self.norm)
-        # if contraint:
-        # 	ax.scatter(t_con, l_con, r_con, c='black', marker="h", s=60)
-        else:
-            data = np.concatenate(
-                [
-                    t.reshape(-1, 1),
-                    l.reshape(-1, 1),
-                    r.reshape(-1, 1),
-                    misc_temp.reshape(-1, 1),
-                ],
-                axis=1,
-            )
-            ax.tricontourf(
-                data[:, 0],
-                data[:, 1],
-                data[:, 2],
-                data[:, 3],
-                cmap=self.cmap,
-                norm=norm,
-            )
+        plot_df = pd.DataFrame({f"{self.composition[0]}": t, f"{self.composition[1]}": l, f"{self.composition[2]}": r})
+        plot_df['Miscibility'] = misc_temp
+        plot = px.scatter_ternary(
+            plot_df,
+            a=f"{self.composition[0]}",
+            b=f"{self.composition[1]}",
+            c=f"{self.composition[2]}",
+            color='Miscibility',
+            color_continuous_scale=None,  # Remove color scale for hiding the colorbar
+            symbol_sequence=['hexagon'],  # Use hexagon shape
+            size_max=15,  # Increase marker size
+        )
 
-        sm = ScalarMappable(cmap=self.cmap, norm=self.norm)
-        colorbar = fig.colorbar(sm, cax=cax)
-        colorbar.set_label("$T_{melt}$ - $T_{misc}$ (K)", rotation=270, va="baseline", fontsize=12)
-        ax.grid(False)
-        ax.set_tlabel(f"{self.composition[0]}")
-        ax.set_llabel(f"{self.composition[1]}")
-        ax.set_rlabel(f"{self.composition[2]}")
-        plt.subplots_adjust(left=0.1, right=0.8)
-        if self.save_flag:
-            if self.contour_flag:
-                self.save_figure(
-                    folders=["ternary_phase_diagram", "misc_temp", "contours"],
-                    file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
-                    fig=fig,
-                )
+        # Customize layout
+        plot.update_traces(marker=dict(size=10))  # Customize size
+        plot.update_layout(coloraxis_showscale=True)  # Hide the colorbar
+        # if not self.contour_flag:
+        #     ax.scatter(t, l, r, c='darkgrey', marker="h", s=60, norm=self.norm)
+        #     ax.scatter(t, l, r, c=misc_temp, cmap=self.cmap, marker="h", s=60, norm=self.norm)
+        # # if contraint:
+        # # 	ax.scatter(t_con, l_con, r_con, c='black', marker="h", s=60)
+        # else:
+        #     data = np.concatenate(
+        #         [
+        #             t.reshape(-1, 1),
+        #             l.reshape(-1, 1),
+        #             r.reshape(-1, 1),
+        #             misc_temp.reshape(-1, 1),
+        #         ],
+        #         axis=1,
+        #     )
+        #     ax.tricontourf(
+        #         data[:, 0],
+        #         data[:, 1],
+        #         data[:, 2],
+        #         data[:, 3],
+        #         cmap=self.cmap,
+        #         norm=norm,
+        #     )
+        #
+        # sm = ScalarMappable(cmap=self.cmap, norm=self.norm)
+        # colorbar = fig.colorbar(sm, cax=cax)
+        # colorbar.set_label("$T_{melt}$ - $T_{misc}$ (K)", rotation=270, va="baseline", fontsize=12)
+        # ax.grid(False)
+        # ax.set_tlabel(f"{self.composition[0]}")
+        # ax.set_llabel(f"{self.composition[1]}")
+        # ax.set_rlabel(f"{self.composition[2]}")
+        # plt.subplots_adjust(left=0.1, right=0.8)
+        # if self.save_flag:
+        #     if self.contour_flag:
+        #         self.save_figure(
+        #             folders=["ternary_phase_diagram", "misc_temp", "contours"],
+        #             file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
+        #             fig=fig,
+        #         )
+        #
+        #     else:
+        #         self.save_figure(
+        #             folders=["ternary_phase_diagram", "misc_temp", "scatter"],
+        #             file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
+        #             fig=fig,
+        #         )
 
-            else:
-                self.save_figure(
-                    folders=["ternary_phase_diagram", "misc_temp", "scatter"],
-                    file_name=f"{'-'.join(sorted(self.composition, reverse=True))}",
-                    fig=fig,
-                )
-
-        return ax, fig
+        return plot
 
     def plot_ternary_visualizations(
             self,

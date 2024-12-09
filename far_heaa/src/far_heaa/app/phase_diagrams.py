@@ -47,7 +47,7 @@ def phase_diagram_visualizations(input_list, meta_data, lattice):
             )
             if plot_options == "Miscible T contours":
                 with st.spinner("Wait for it..."):
-                    ax, fig = tD.plot_misc_temperatures()
+                    plot = tD.plot_misc_temperatures()
             elif plot_options == "Isotherms":
                 T = st.slider(
                     "Select the temperature",
@@ -57,9 +57,9 @@ def phase_diagram_visualizations(input_list, meta_data, lattice):
                     step=300,
                 )
                 with st.spinner("Wait for it..."):
-                    ax, fig = tD.plot_isotherm(T)
+                    plot = tD.plot_isotherm(T)
 
-            return ax, fig
+            return plot
 
     elif n_alloy > 3:
         with st.spinner("Wait for it..."):
