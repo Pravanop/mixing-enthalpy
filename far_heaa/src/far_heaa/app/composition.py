@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 import sys
 import os
@@ -10,7 +11,7 @@ from far_heaa.visualization_toolkit.visualizations import Visualizations
 def composition_information(input_list, meta_data, lattice):
     sub_options = st.selectbox(
         "What would you like to do?",
-        options=["Miscible Temperature", "Decomposition Products"],
+        options=["Miscible Temperature", "Decomposition Products", "Stable Entries", "Unstable Entries"],
     )
 
     viz = Visualizations(lattice=lattice, meta_data=meta_data)
@@ -66,3 +67,27 @@ def composition_information(input_list, meta_data, lattice):
             st.write(f"Energy above convex hull: {e_hull * 1000} meV/atom")
         else:
             st.write("Sum of mole fractions must equal 1.0")
+    
+    if sub_options == "Stable Entries":
+        temperature = st.number_input(
+            "Temperature (K)", min_value=0, max_value=3800, value=0
+        )
+        conv_hull = gi.convex_hull.make_convex_hull(composition=input_list, lattice=lattice,
+                                                    temperature=temperature)
+        stable_entries = list(conv_hull.stable_entries)
+        print(stable_entries[0])
+        stable_entries = {str(k.name): float(k.energy_per_atom) for k in stable_entries}
+        print(stable_entries)
+        st.dataframe(pd.DataFrame().from_dict(stable_entries, orient='index', columns=['Energy per atom (eV)']))
+        
+    if sub_options == "Unstable Entries":
+        temperature = st.number_input(
+            "Temperature (K)", min_value=0, max_value=3000, value=0
+        )
+        conv_hull = gi.convex_hull.make_convex_hull(composition=input_list, lattice=lattice,
+                                                    temperature=temperature)
+        stable_entries = list(conv_hull.unstable_entries)
+        print(stable_entries[0])
+        stable_entries = {str(k.name): float(k.energy_per_atom) for k in stable_entries if lattice in str(k.name)}
+        print(stable_entries)
+        st.dataframe(pd.DataFrame().from_dict(stable_entries, orient='index', columns=['Energy per atom (eV)']))
