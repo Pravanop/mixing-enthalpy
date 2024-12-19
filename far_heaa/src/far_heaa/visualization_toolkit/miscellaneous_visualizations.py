@@ -92,7 +92,8 @@ class MiscellaneousVisualizations:
         mpl.rcParams.update({"font.size": 10})
         pdp = PDPlotter(
             phasediagram=conv_hull,
-            show_unstable=0.1)
+            show_unstable=0.1,
+            ternary_style = '3d')
 
         # PDPlotter(
         #     phasediagram=conv_hull, show_unstable=0.2, backend="matplotlib"

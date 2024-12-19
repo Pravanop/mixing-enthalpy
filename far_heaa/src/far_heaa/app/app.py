@@ -6,7 +6,7 @@ from deposition_pathways import deposition_pathways
 from convex_hull import convex_hull
 from high_symmetry_paths import high_symmetry_paths
 from high_throughput_screening import high_throughput_screening
-from composition import composition_information
+
 # TODO: Add polar plots for convex hulls
 # TODO: Add flag management
 
